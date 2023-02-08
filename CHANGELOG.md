@@ -1,0 +1,1 @@
+ - <ins>2023-02-08</ins> **[`b476fb3`](https://gitlab.dev.echo-company.ru/seleznev/template-v3/-/commit/b476fb3e60858e98d33f75c16a19d23d92d3b26a)** Initialize project using Create React App

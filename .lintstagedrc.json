@@ -1,0 +1,5 @@
+{
+  "*.{js,ts,jsx,tsx}": ["eslint --fix"],
+  "*.json": ["prettier --write"],
+  "*.{png,jpeg,jpg,gif,svg}": ["node ./scripts/imagemin.mjs", "git add"]
+}
