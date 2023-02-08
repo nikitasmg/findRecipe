@@ -1,0 +1,102 @@
+image: node:18-bullseye-slim
+
+cache:
+    key: $CI_COMMIT_REF_SLUG
+    policy: pull
+    untracked: true
+
+install:
+    stage: .pre
+    script:
+        - npm ci
+    cache:
+        key: $CI_COMMIT_REF_SLUG
+        policy: pull-push
+        paths:
+            - .npm
+            - node_modules
+            - "packages/*/node_modules"
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+.lint-template:
+    needs:
+        - install
+    cache:
+        key: $CI_COMMIT_REF_SLUG
+        policy: pull
+        paths:
+            - node_modules
+    script:
+        - npm run lint
+
+.test-template:
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    needs:
+        - install
+    cache:
+        key: $CI_COMMIT_REF_SLUG
+        policy: pull
+        paths:
+            - node_modules
+    script:
+        - yarn test:ci
+    artifacts:
+        expire_in: 1 day
+        reports:
+            junit:
+                - junit.xml
+            coverage_report:
+                coverage_format: cobertura
+                path: coverage/cobertura-coverage.xml
+
+.build-template:
+    needs:
+        - install
+    cache:
+        key: $CI_COMMIT_REF_SLUG
+        policy: pull
+        paths:
+            - node_modules
+    script:
+        - yarn build
+
+.deploy-template:
+    before_script:
+        - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
+        - eval $(ssh-agent -s)
+        - echo "$PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        - mkdir -p ~/.ssh
+        - chmod 700 ~/.ssh
+        - ssh-keyscan "$HOST" >> ~/.ssh/known_hosts
+        - chmod 644 ~/.ssh/known_hosts
+    script:
+        - echo "Deploy $BRANCH start"
+        - cat "./scripts/deploy/$BRANCH.sh" | ssh -o "StrictHostKeyChecking=no" "$USER"@"$HOST"
+        - echo "Deploy $BRANCH end"
+
+stages:
+    - performance
+    - build
+    - deploy
+
+lint:
+    stage: performance
+    extends: .lint-template
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+test:
+    stage: performance
+    extends: .test-template
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+build:
+    stage: build
+    extends: .build-template
+    needs:
+        job: lint
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
