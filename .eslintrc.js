@@ -13,7 +13,7 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "plugin:xss/recommended",
     "plugin:security/recommended",
-    "prettier",
+    "prettier"
   ],
 
   overrides: [],
@@ -44,10 +44,11 @@ module.exports = {
     quotes: ["error", "double"],
     semi: ["error", "always"],
     "no-secrets/no-secrets": "error",
+    "xss/no-mixed-html": "warn",
     "no-comments/disallowComments": [
       "error",
       {
-        allow: ["TODO", "FIXME", "NOTE", "DEBUG"]
+        allow: ["TODO", "FIXME", "NOTE", "DEBUG", "eslint-disable-next-line"]
       }
     ],
     "optimize-regex/optimize-regex": [

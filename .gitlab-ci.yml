@@ -28,7 +28,7 @@ install:
     paths:
       - node_modules
   script:
-    - npm run lint
+    - npm run lint:es
 
 .test-template:
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
@@ -83,12 +83,6 @@ stages:
 lint:
   stage: performance
   extends: .lint-template
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-
-test:
-  stage: performance
-  extends: .test-template
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 

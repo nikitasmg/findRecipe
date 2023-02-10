@@ -24,7 +24,10 @@
     "alwaysStrict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@generated": ["./src/api/generated/graphql.ts"],
+      "@stores": ["./src/shared/stores/*"]
     }
   },
   "include": ["src", "**/*.ts", "**/*.tsx"],
