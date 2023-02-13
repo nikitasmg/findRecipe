@@ -16,7 +16,14 @@ module.exports = {
     "prettier"
   ],
 
-  overrides: [],
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        "security/detect-object-injection": "off"
+      }
+    }
+  ],
 
   parser: "@typescript-eslint/parser",
 
@@ -39,7 +46,6 @@ module.exports = {
   ],
 
   rules: {
-    indent: ["warn", 2],
     "linebreak-style": ["error", "unix"],
     quotes: ["error", "double"],
     semi: ["error", "always"],
