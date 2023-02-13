@@ -86,6 +86,12 @@ lint:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
+test:
+  stage: performance
+  extends: .test-template
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
 build:
   stage: build
   extends: .build-template
@@ -95,7 +101,6 @@ build:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 deploy-dev:
-  image: ruby:2.7
   stage: deploy
   extends: .deploy-template
   only:

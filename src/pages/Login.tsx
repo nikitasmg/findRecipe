@@ -1,4 +1,4 @@
-import { LoginForm } from "@/modules/LoginForm";
+import { LoginForm } from "~/modules/LoginForm";
 import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
 

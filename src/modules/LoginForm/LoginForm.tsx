@@ -9,12 +9,12 @@ import {
   InputLabel,
   Paper
 } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { emailValidation } from "@/shared/lib/validation";
-import { useFetchLogin } from "@/api/auth";
-import { useAuthStore } from "@/shared/stores/auth";
 import { useNavigate } from "react-router-dom";
-import { HomePage } from "@/shared/routes";
+import { useForm } from "react-hook-form";
+import { useFetchLogin } from "~/api/auth";
+import { emailValidation } from "~shared/lib/validation";
+import { useAuthStore } from "~shared/stores/auth";
+import { HomePage } from "~shared/routes";
 
 type FormFields = {
   email: string;
