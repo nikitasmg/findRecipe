@@ -1,14 +1,15 @@
 #!/bin/bash
 # Go to project directory
 cd ~/projects/front-template/www
-echo "$PWD"
-whoami
 
 # Error if any command error
 set -e
 
 # Update node version
 echo "#### NVM ####"
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
+
 nvm use
 
 # Show install services
