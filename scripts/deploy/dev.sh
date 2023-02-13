@@ -38,3 +38,7 @@ npm run lint:es:fix
 echo "START BUILD"
 npm run build
 echo "END BUILD"
+
+# Serve
+echo "SERVE"
+npm run serve
