@@ -61,6 +61,20 @@ install:
   script:
     - yarn build
 
+.deploy-template:
+  before_script:
+    - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
+    - eval $(ssh-agent -s)
+    - echo "$PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan "$HOST" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - echo "Deploy $BRANCH start"
+    - cat "./scripts/deploy/$SCRIPT.sh" | ssh -o "StrictHostKeyChecking=no" "$USER"@"$HOST"
+    - echo "Deploy $BRANCH end"
+
 stages:
   - performance
   - build
@@ -88,17 +102,11 @@ build:
 
 deploy-dev:
   stage: deploy
-  before_script:
-    - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
-    - eval $(ssh-agent -s)
-    - echo "$PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan "188.186.186.6" >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-  script:
-    - echo "Deploy master start"
-    - cat "./scripts/deploy/dev.sh" | ssh -o "StrictHostKeyChecking=no" "template@188.186.186.6"
-    - echo "Deploy master end"
+  extends: .deploy-template
   only:
     - master
+  variables:
+    BRANCH: "master"
+    USER: "template"
+    SCRIPT: "dev"
+    HOST: "188.186.186.6"
