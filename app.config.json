@@ -1,0 +1,10 @@
+{
+  "apps": [
+    {
+      "name": "front-admin-v3",
+      "script": "npx",
+      "interpreter": "none",
+      "args": "serve -l 3363 -s build"
+    }
+  ]
+}
