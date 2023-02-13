@@ -101,6 +101,7 @@ build:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 deploy-dev:
+  image: ruby:2.7
   stage: deploy
   extends: .deploy-template
   only:
