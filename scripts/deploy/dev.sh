@@ -1,6 +1,8 @@
 #!/bin/bash
 # Go to project directory
 cd ~/projects/front-template/www
+echo "$PWD"
+whoami
 
 # Error if any command error
 set -e
