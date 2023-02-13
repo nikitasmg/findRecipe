@@ -11,18 +11,41 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { emailValidation } from "@/shared/lib/validation";
+import { useFetchLogin } from "@/api/auth";
+import { useAuthStore } from "@/shared/stores/auth";
+import { useNavigate } from "react-router-dom";
+import { HomePage } from "@/shared/routes";
+
+type FormFields = {
+  email: string;
+  password: string;
+};
 
 export const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<{ email: string; password: string }>({ mode: "all" });
+  } = useForm<FormFields>({ mode: "all" });
+
+  const { mutateAsync: login, isLoading } = useFetchLogin();
+
+  const auth = useAuthStore((state) => state.auth);
+
+  const history = useNavigate();
+
+  const onSubmit = (fields: FormFields) => {
+    login(fields)
+      .then(({ login }) => {
+        auth(login);
+      })
+      .then(() => history(HomePage));
+  };
 
   return (
     <Paper elevation={12}>
       <Container className='pb-4'>
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item columns={12} xs={12}>
               <FormControl fullWidth>
@@ -71,7 +94,7 @@ export const LoginForm: React.FC = () => {
             </Grid>
 
             <Grid item columns={12} xs={12}>
-              <Button type='submit' variant='contained'>
+              <Button type='submit' variant='contained' disabled={isLoading}>
                 Login
               </Button>
             </Grid>

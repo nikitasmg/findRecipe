@@ -1,16 +1,22 @@
 import { create } from "zustand";
 
 export type AuthState = {
-  isAuthorized: boolean;
+  token: string;
 
-  auth: () => void;
+  auth: (_token: string) => void;
   unAuth: () => void;
 };
 
+const storageKey = "__token";
+
 export const useAuthStore = create<AuthState>(
   (set): AuthState => ({
-    isAuthorized: false,
-    auth: () => set(() => ({ isAuthorized: true })),
-    unAuth: () => set(() => ({ isAuthorized: false }))
+    token: localStorage.getItem(storageKey) || "",
+    auth: (token: string) => set(() => ({ token })),
+    unAuth: () => set(() => ({ token: "" }))
   })
 );
+
+useAuthStore.subscribe((state) => {
+  localStorage.setItem(storageKey, state.token);
+});

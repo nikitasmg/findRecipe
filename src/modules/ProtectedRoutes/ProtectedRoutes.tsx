@@ -1,12 +1,13 @@
 import React, { Fragment, PropsWithChildren } from "react";
 import { Navigate } from "react-router-dom";
-import { useUserStore } from "@shared/stores/user";
+import { useAuthStore } from "@/shared/stores/auth";
+import { LoginPage } from "@/shared/routes";
 
 export const ProtectedRoutes: React.FC<PropsWithChildren> = ({ children }) => {
-  const user = useUserStore((state) => state.user);
+  const token = useAuthStore((state) => state.token);
 
-  if (!user) {
-    return <Navigate to='/login' replace />;
+  if (!token) {
+    return <Navigate to={LoginPage} replace />;
   }
 
   return <Fragment>{children}</Fragment>;

@@ -1,20 +1,35 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 
 import { BaseLayout } from "@/layouts/BaseLayout";
 
 import { NoMatch } from "@/pages/NoMatch";
 import { Login } from "@/pages/Login";
+import { News } from "@/pages/News";
 
-import { ProtectedRoutes } from "@/modules/ProtectedRoutes";
+import { HomePage, LoginPage, NewsPage } from "@/shared/routes";
+import { BaseProtectedLayout } from "@/layouts/BaseProtectedLayout";
 
 export const Router: React.FC = () => {
   return (
     <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route element={<ProtectedRoutes />}>
-        <Route path='/' element={<BaseLayout />}></Route>
-      </Route>
+      <Route path={LoginPage} element={<Login />} />
+      <Route
+        path={HomePage}
+        element={
+          <BaseProtectedLayout>
+            <Link to={NewsPage}>News</Link>
+          </BaseProtectedLayout>
+        }
+      />
+      <Route
+        path={NewsPage}
+        element={
+          <BaseProtectedLayout>
+            <News />
+          </BaseProtectedLayout>
+        }
+      />
 
       <Route
         path='*'

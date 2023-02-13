@@ -40,7 +40,7 @@ install:
     paths:
       - node_modules
   script:
-    - yarn test:ci
+    - npm run test:ci
   artifacts:
     expire_in: 1 day
     reports:
@@ -59,7 +59,7 @@ install:
     paths:
       - node_modules
   script:
-    - yarn build
+    - npm run build
 
 .deploy-template:
   before_script:
