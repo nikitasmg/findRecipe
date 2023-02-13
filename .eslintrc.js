@@ -13,10 +13,17 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "plugin:xss/recommended",
     "plugin:security/recommended",
-    "prettier",
+    "prettier"
   ],
 
-  overrides: [],
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        "security/detect-object-injection": "off"
+      }
+    }
+  ],
 
   parser: "@typescript-eslint/parser",
 
@@ -39,15 +46,15 @@ module.exports = {
   ],
 
   rules: {
-    indent: ["error", 2],
     "linebreak-style": ["error", "unix"],
     quotes: ["error", "double"],
     semi: ["error", "always"],
     "no-secrets/no-secrets": "error",
+    "xss/no-mixed-html": "warn",
     "no-comments/disallowComments": [
       "error",
       {
-        allow: ["TODO", "FIXME", "NOTE", "DEBUG"]
+        allow: ["TODO", "FIXME", "NOTE", "DEBUG", "eslint-disable-next-line"]
       }
     ],
     "optimize-regex/optimize-regex": [

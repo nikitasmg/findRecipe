@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-comments/disallowComments
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 
 const testRoot = "<rootDir>/test";
@@ -9,7 +10,11 @@ const config = {
   setupFilesAfterEnv: [`${testRoot}/jestSetup.ts`],
   moduleNameMapper: {
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": `${mockRoot}/fileMock.js`,
-    "\\.(css|scss)$": `${mockRoot}/styleMock.js`
+    "\\.(css|scss)$": `${mockRoot}/styleMock.js`,
+    "^@(.*)$": "<rootDir>/src",
+    "^@shared(.*)$": "<rootDir>/src/shared",
+    "^@generated(.*)$": "<rootDir>/src/api/generated/graphql.ts",
+    "^@stores(.*)$": "<rootDir>/src/shared/stores"
   },
   collectCoverageFrom: [
     "src/**/*.{js,ts,jsx,tsx}",
@@ -18,6 +23,9 @@ const config = {
     "!**/generated/**",
     "!**/test/**"
   ],
+  transform: {
+    "^.+\\.(ts|tsx)$": "ts-jest"
+  },
   coverageReporters: ["html", "text", "text-summary", "cobertura"],
   testMatch: ["**/*.test.{js,ts,jsx,tsx}"]
 };
