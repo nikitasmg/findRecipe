@@ -11,10 +11,10 @@ const config = {
   moduleNameMapper: {
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": `${mockRoot}/fileMock.js`,
     "\\.(css|scss)$": `${mockRoot}/styleMock.js`,
-    "^@(.*)$": "<rootDir>/src",
-    "^@shared(.*)$": "<rootDir>/src/shared",
-    "^@generated(.*)$": "<rootDir>/src/api/generated/graphql.ts",
-    "^@stores(.*)$": "<rootDir>/src/shared/stores"
+    "^~(.*)$": "<rootDir>/src/$1",
+    "^~shared(.*)$": "<rootDir>/src/shared/$1",
+    "^~generated$": "<rootDir>/src/api/generated/graphql.ts",
+    "^~stores(.*)$": "<rootDir>/src/shared/stores/$1"
   },
   collectCoverageFrom: [
     "src/**/*.{js,ts,jsx,tsx}",

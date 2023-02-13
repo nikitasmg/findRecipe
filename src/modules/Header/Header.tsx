@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Tab, Tabs } from "@mui/material";
-import { useHeaderTabsStore } from "@/shared/stores/headerTabs";
 import { useNavigate } from "react-router-dom";
+import { useHeaderTabsStore } from "~shared/stores/headerTabs";
 
 const tabs = [
   {
