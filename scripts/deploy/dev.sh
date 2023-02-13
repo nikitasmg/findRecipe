@@ -21,6 +21,7 @@ git pull origin master
 # Install deps
 echo "START INSTALL DEPS"
 rm -rf node_modules
+echo "INSTALL DEPS END REMOVE MODULES"
 npm ci
 echo "END INSTALL DEPS"
 
