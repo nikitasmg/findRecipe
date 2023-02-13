@@ -7,6 +7,10 @@ whoami
 # Error if any command error
 set -e
 
+# Update node version
+echo "#### NVM ####"
+nvm use
+
 # Show install services
 echo "#### NODE.js ####"
 node -v
