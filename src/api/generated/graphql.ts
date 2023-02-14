@@ -19,13 +19,49 @@ export type FilterByClause = {
   value: Scalars['String'];
 };
 
+/**
+ * адрес изображения (оригинал), для адаптивных изображений необходимо заменить разрешение на webp и
+ * использовать для различных разрешений испроьзовать суффикс у имени файла:
+ * url - http://.../file_name.png
+ * webp - http://.../file_name.webp
+ * thumb - http://.../file_name-thumb.webp
+ *
+ * получить список гененрируемых разрешений, запросом у родительско сущности поля imageThumbs
+ */
+export type Image = {
+  __typename?: 'Image';
+  id?: Maybe<Scalars['ID']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type ImageThumbs = {
+  __typename?: 'ImageThumbs';
+  height?: Maybe<Scalars['Int']>;
+  method?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Int']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteNews?: Maybe<News>;
+  deleteNewsCategory?: Maybe<NewsCategory>;
   login: Scalars['String'];
   logout?: Maybe<User>;
   /** Для тестирования, потом убрать */
   upload?: Maybe<Scalars['String']>;
   upsertNews?: Maybe<News>;
+  upsertNewsCategory?: Maybe<NewsCategory>;
+};
+
+
+export type MutationDeleteNewsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteNewsCategoryArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -41,7 +77,12 @@ export type MutationUploadArgs = {
 
 
 export type MutationUpsertNewsArgs = {
-  input?: InputMaybe<NewsInput>;
+  input: NewsInput;
+};
+
+
+export type MutationUpsertNewsCategoryArgs = {
+  input: NewsCategoryInput;
 };
 
 export type News = {
@@ -50,6 +91,8 @@ export type News = {
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  image?: Maybe<Image>;
+  imageThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   published_at?: Maybe<Scalars['DateTime']>;
@@ -57,15 +100,28 @@ export type News = {
   updated_at: Scalars['DateTime'];
 };
 
+export type NewsCategory = {
+  __typename?: 'NewsCategory';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  sort: Scalars['Int'];
+};
+
+export type NewsCategoryInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+};
+
 export type NewsInput = {
   content?: InputMaybe<Scalars['String']>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
-  image?: InputMaybe<Scalars['Upload']>;
   name: Scalars['String'];
   published_at?: InputMaybe<Scalars['DateTime']>;
   slug?: InputMaybe<Scalars['String']>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
 /** A paginated list of News items. */
@@ -147,47 +203,53 @@ export type PaginatorInfo = {
   total: Scalars['Int'];
 };
 
-/** Indicates what fields are available at the top level of a query operation. */
 export type Query = {
   __typename?: 'Query';
   me: User;
   news?: Maybe<NewsPaginator>;
   newsById?: Maybe<News>;
   newsBySlug?: Maybe<News>;
+  newsCategories: Array<NewsCategory>;
+  newsCategoryById?: Maybe<NewsCategory>;
   user?: Maybe<User>;
   users?: Maybe<UserPaginator>;
 };
 
 
-/** Indicates what fields are available at the top level of a query operation. */
 export type QueryNewsArgs = {
   filter?: InputMaybe<Array<FilterByClause>>;
   first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
   page?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Array<OrderByClause>>;
 };
 
 
-/** Indicates what fields are available at the top level of a query operation. */
 export type QueryNewsByIdArgs = {
   id: Scalars['ID'];
 };
 
 
-/** Indicates what fields are available at the top level of a query operation. */
 export type QueryNewsBySlugArgs = {
   slug: Scalars['String'];
 };
 
 
-/** Indicates what fields are available at the top level of a query operation. */
+export type QueryNewsCategoriesArgs = {
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryNewsCategoryByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryUserArgs = {
   email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
 };
 
 
-/** Indicates what fields are available at the top level of a query operation. */
 export type QueryUsersArgs = {
   first?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;

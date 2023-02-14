@@ -1,0 +1,21 @@
+{
+  "en": "Английский",
+  "ru": "Русский",
+  "Admin Panel": "Админ панель",
+  "News Page": "Страница новостей",
+  "News": "Новости",
+  "Home": "Главная",
+  "Email address": "Почта",
+  "Enter email": "Введите почту",
+  "This is required": "Обязательное поле",
+  "Invalid email": "Неверно введена почта",
+  "Min length of password is 6": "Минимальная длина пароля 6 символов",
+  "Enter password": "Введите пароль",
+  "Invalid credentials": "Неверные учетные данные",
+  "count news": "количество новостей",
+  "Name": "Название",
+  "Description": "Описание",
+  "Content": "Контент",
+  "Created at": "Дата публикации",
+  "Rows per page:": "Строк на странице:"
+}

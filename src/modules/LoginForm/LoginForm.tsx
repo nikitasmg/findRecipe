@@ -12,9 +12,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useFetchLogin } from "~/api/auth";
-import { emailValidation } from "~shared/lib/validation";
+import { getBaseEmailValidation, getBasePasswordValidation } from "~shared/lib/validation";
 import { useAuthStore } from "~shared/stores/auth";
-import { HomePage } from "~shared/routes";
+import { HomePageRoute } from "~shared/routes";
+import { Text } from "~/shared/components/Text";
 
 type FormFields = {
   email: string;
@@ -25,7 +26,7 @@ export const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm<FormFields>({ mode: "all" });
 
   const { mutateAsync: login, isLoading } = useFetchLogin();
@@ -39,7 +40,7 @@ export const LoginForm: React.FC = () => {
       .then(({ login }) => {
         auth(login);
       })
-      .then(() => history(HomePage));
+      .then(() => history(HomePageRoute));
   };
 
   return (
@@ -49,52 +50,58 @@ export const LoginForm: React.FC = () => {
           <Grid container spacing={2}>
             <Grid item columns={12} xs={12}>
               <FormControl fullWidth>
-                <InputLabel htmlFor='email'>Email address</InputLabel>
+                <InputLabel htmlFor='email'>
+                  <Text>Email address</Text>
+                </InputLabel>
                 <Input
                   id='email'
+                  defaultValue='dev@echo-company.ru'
                   inputMode='email'
-                  {...register("email", {
-                    required: "This is required.",
-                    validate: {
-                      validEmail: (v) => (!emailValidation(v) ? "Invalid email" : true)
-                    }
-                  })}
+                  {...register("email", getBaseEmailValidation({ required: true }))}
                 />
 
                 {errors.email ? (
                   <FormHelperText error id='email'>
-                    {errors.email.message}
+                    <Text component='span'>{errors.email.message}</Text>
                   </FormHelperText>
                 ) : (
-                  <FormHelperText id='password'>Enter email</FormHelperText>
+                  <FormHelperText id='password'>
+                    <Text component='span'>Enter email</Text>
+                  </FormHelperText>
                 )}
               </FormControl>
             </Grid>
 
             <Grid item columns={12} xs={12}>
               <FormControl fullWidth>
-                <InputLabel htmlFor='password'>Password</InputLabel>
+                <InputLabel htmlFor='password'>
+                  <Text>Password</Text>
+                </InputLabel>
                 <Input
                   id='password'
                   type='password'
-                  {...register("password", {
-                    required: "This is required.",
-                    minLength: { value: 6, message: "Min length of password is 6" }
-                  })}
+                  {...register("password", getBasePasswordValidation())}
                 />
 
                 {errors.password ? (
                   <FormHelperText error id='email'>
-                    {errors.password.message}
+                    <Text component='span'>{errors.password.message}</Text>
                   </FormHelperText>
                 ) : (
-                  <FormHelperText id='password'>Enter password</FormHelperText>
+                  <FormHelperText id='password'>
+                    <Text component='span'>Enter password</Text>
+                  </FormHelperText>
                 )}
               </FormControl>
             </Grid>
 
             <Grid item columns={12} xs={12}>
-              <Button type='submit' variant='contained' disabled={isLoading}>
+              <Button
+                className='w-full'
+                type='submit'
+                variant='contained'
+                disabled={isLoading || !isValid}
+              >
                 Login
               </Button>
             </Grid>

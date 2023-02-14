@@ -1,7 +1,7 @@
-export const Root = "/";
+export const RootRoute = "/";
 
-export const HomePage = "/";
+export const HomePageRoute = "/";
 
-export const NewsPage = "/news";
+export const NewsPageRoute = "/news";
 
-export const LoginPage = "/login";
+export const LoginPageRoute = "/login";
