@@ -9,130 +9,44 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow,
-  TableSortLabel
+  TableRow
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { News, NewsPaginator, SortOrder } from "~/api/generated/graphql";
+import { News } from "~/api/generated/graphql";
 import { useFetchNews } from "~/api/news";
 import { Text } from "~/shared/components/Text";
-
-interface Column {
-  id: keyof NewsPaginator["data"][0];
-  label: JSX.Element | string;
-  minWidth?: number;
-  align?: "right";
-  format?: (_value: string) => string;
-}
-
-type ActiveOrder = { name: string; direction: SortOrder } | null;
-
-const getColumns = (
-  activeOrder?: ActiveOrder,
-  handleOrderClick?: (_activeOrder: ActiveOrder) => void
-): Column[] => {
-  const getClickHandler = (name: string) => () => {
-    if (activeOrder?.name === name && activeOrder.direction === SortOrder.Desc) {
-      return handleOrderClick?.(null);
-    }
-
-    const direction = activeOrder?.name === name ? SortOrder.Desc : SortOrder.Asc;
-
-    return handleOrderClick?.({ name, direction });
-  };
-
-  const getActiveProps = (name: string) => ({
-    active: activeOrder?.name === name,
-    direction: (activeOrder?.name === name
-      ? activeOrder?.direction.toLocaleLowerCase()
-      : "desc") as never
-  });
-
-  return [
-    {
-      id: "id",
-      label: (
-        <Box className='flex'>
-          <Text>ID</Text>
-          <TableSortLabel onClick={getClickHandler("id")} {...getActiveProps("id")} />
-        </Box>
-      )
-    },
-    {
-      id: "name",
-      label: (
-        <Box className='flex'>
-          <Text>Name</Text>
-          <TableSortLabel onClick={getClickHandler("name")} {...getActiveProps("name")} />
-        </Box>
-      ),
-      minWidth: 100
-    },
-    {
-      id: "description",
-      label: (
-        <Box className='flex'>
-          <Text>Description</Text>
-          <TableSortLabel
-            onClick={getClickHandler("description")}
-            {...getActiveProps("description")}
-          />
-        </Box>
-      ),
-      minWidth: 170
-    },
-    {
-      id: "content",
-      label: (
-        <Box className='flex'>
-          <Text>Content</Text>
-          <TableSortLabel onClick={getClickHandler("content")} {...getActiveProps("content")} />
-        </Box>
-      ),
-      minWidth: 170
-    },
-    {
-      id: "created_at",
-      label: (
-        <Box className='flex'>
-          <Text>Created at</Text>
-          <TableSortLabel
-            onClick={getClickHandler("created_at")}
-            {...getActiveProps("created_at")}
-          />
-        </Box>
-      ),
-      minWidth: 170,
-      format: (value: string) => {
-        const date = new Date(value);
-
-        return `${date.getDate()}.${`${date.getMonth()}`.padStart(2, "0")}.${date.getFullYear()}`;
-      }
-    }
-  ];
-};
+import { useTablePagination } from "~/shared/hooks/useTablePagination";
+import { getColumns } from "./lib/getColumns";
+import { ActiveOrder } from "./types";
 
 export const NewsTable: React.FC = () => {
   const [activeOrder, setActiveOrder] = useState<ActiveOrder>(null);
-  const [pagination, setPagination] = useState<{ page: number; perPage: number }>({
-    page: 0,
-    perPage: 30
-  });
+
+  const { pagination, handleChangePage, handleChangeRowsPerPage, resetPagination } =
+    useTablePagination();
+
   const { mutateAsync: fetchNews, data, isLoading } = useFetchNews();
 
   const news = data?.news;
 
   useEffect(() => {
-    fetchNews({ page: pagination.page + 1, first: pagination.perPage });
-  }, [pagination, fetchNews]);
+    fetchNews({
+      page: pagination.page + 1,
+      first: pagination.perPage,
+      ...(activeOrder
+        ? {
+            orderBy: [{ column: activeOrder.name, order: activeOrder.direction }]
+          }
+        : {})
+    });
+  }, [pagination, fetchNews, activeOrder]);
 
-  const handleChangePage = (_event: unknown, newPage: number) => {
-    setPagination((state) => ({ ...state, page: newPage }));
+  const handleChangeOrder = (order: ActiveOrder) => {
+    setActiveOrder(order);
+    resetPagination();
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPagination({ perPage: +event.target.value, page: 0 });
-  };
+  const columns = getColumns(activeOrder, handleChangeOrder);
 
   return (
     <Grid container>
@@ -154,13 +68,14 @@ export const NewsTable: React.FC = () => {
             <CircularProgress />
           </Box>
         )}
+
         {!isLoading && (
           <Paper elevation={5} className='rounded'>
             <TableContainer className='max-h-[400px]'>
               <Table stickyHeader aria-label='sticky table'>
                 <TableHead>
                   <TableRow>
-                    {getColumns(activeOrder, setActiveOrder).map((column) => (
+                    {columns.map((column) => (
                       <TableCell
                         key={column.id}
                         align={column.align}
@@ -174,14 +89,12 @@ export const NewsTable: React.FC = () => {
                 <TableBody>
                   {news?.data?.map((row: News) => {
                     return (
-                      <TableRow hover role='checkbox' tabIndex={-1} key={row.id}>
-                        {getColumns(activeOrder, setActiveOrder).map((column) => {
+                      <TableRow hover role='row' tabIndex={-1} key={row.id}>
+                        {columns.map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "string"
-                                ? column.format(value)
-                                : value}
+                              {column.format?.(value) ?? value}
                             </TableCell>
                           );
                         })}
@@ -191,6 +104,7 @@ export const NewsTable: React.FC = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+
             <TablePagination
               labelRowsPerPage={<Text>Rows per page:</Text>}
               rowsPerPageOptions={[10, 30, 100]}
