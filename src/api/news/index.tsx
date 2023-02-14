@@ -1,5 +1,5 @@
 import { useApiMutation } from "~shared/hooks/useApiMutation";
-import { NewsPaginator, OrderByClause, FilterByClause } from "~generated";
+import { NewsPaginator, OrderByClause, FilterByClause } from "~/api/generated/graphql";
 import { News } from "./queries";
 
 type FetchNewsArgs = {

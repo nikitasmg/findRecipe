@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type Pagination = {
   page: number;
@@ -13,17 +13,17 @@ const defaultPagination: Pagination = {
 export const useTablePagination = (initialPagination = defaultPagination) => {
   const [pagination, setPagination] = useState<Pagination>(initialPagination);
 
-  const handleChangePage = (_event: unknown, newPage: number) => {
+  const handleChangePage = useCallback((_event: unknown, newPage: number) => {
     setPagination((state) => ({ ...state, page: newPage }));
-  };
+  }, []);
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setPagination({ perPage: +event.target.value, page: 0 });
-  };
+  }, []);
 
-  const resetPagination = () => {
+  const resetPagination = useCallback(() => {
     setPagination(defaultPagination);
-  };
+  }, []);
 
   return {
     pagination,
