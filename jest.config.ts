@@ -13,7 +13,6 @@ const config = {
     "\\.(css|scss)$": `${mockRoot}/styleMock.js`,
     "^~(.*)$": "<rootDir>/src/$1",
     "^~shared(.*)$": "<rootDir>/src/shared/$1",
-    "^~generated$": "<rootDir>/src/api/generated/graphql.ts",
     "^~stores(.*)$": "<rootDir>/src/shared/stores/$1"
   },
   collectCoverageFrom: [

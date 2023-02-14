@@ -63,12 +63,7 @@ module.exports = {
         blacklist: ["charClassClassrangesMerge"]
       }
     ],
-    "no-unused-vars": [
-      "warn",
-      {
-        argsIgnorePattern: "^_"
-      }
-    ],
+
     "import/newline-after-import": ["error", { count: 1 }]
   },
 

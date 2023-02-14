@@ -1,5 +1,5 @@
 import { useApiMutation } from "~shared/hooks/useApiMutation";
-import { Mutation, MutationLoginArgs } from "~generated";
+import { Mutation, MutationLoginArgs } from "~/api/generated/graphql";
 import { Login, Logout } from "./queries";
 
 export const useFetchLogin = () => {

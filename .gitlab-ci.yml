@@ -42,7 +42,7 @@ install:
   script:
     - npm run test:ci
   artifacts:
-    expire_in: 1 day
+    expire_in: 1 hour
     reports:
       junit:
         - junit.xml

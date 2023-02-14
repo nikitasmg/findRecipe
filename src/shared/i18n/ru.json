@@ -17,5 +17,7 @@
   "Description": "Описание",
   "Content": "Контент",
   "Created at": "Дата публикации",
-  "Rows per page:": "Строк на странице:"
+  "Rows per page:": "Строк на странице:",
+  "Fast search": "Быстрый поиск",
+  "Add": "добавить"
 }
