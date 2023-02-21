@@ -90,6 +90,7 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "serve": "pm2 start app.config.json",
+    "serve:build": "serve -l 3363 -s build",
     "test": "jest",
     "test:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
     "eject": "react-scripts eject",
@@ -103,7 +104,7 @@
     "generate:api": "graphql-codegen init",
     "license-checker:prod": "rimraf license-checker.json && license-checker --production --out license-checker.json --exclude 'MIT, MIT OR X11, BSD, ISC, Apache-2.0, CC0-1.0'",
     "codegen": "graphql-codegen --config codegen.ts",
-    "storybook": "start-storybook -p 6006 -s public",
+    "storybook": "start-storybook -p 3364 -s public",
     "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {

@@ -15,6 +15,7 @@ junit.xml
 .lighthouseci
 license-checker.json
 .env
+storybook-static
 
 # Editor directories and files
 .idea

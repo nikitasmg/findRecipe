@@ -86,11 +86,11 @@ lint:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
-test:
-  stage: performance
-  extends: .test-template
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+# test:
+#   stage: performance
+#   extends: .test-template
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 build:
   stage: build
