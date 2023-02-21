@@ -5,12 +5,6 @@
       "script": "npm",
       "interpreter": "none",
       "args": " -- run serve:build"
-    },
-    {
-      "name": "front-admin-v3-stories",
-      "script": "npm",
-      "interpreter": "none",
-      "args": " -- run storybook"
     }
   ]
 }
