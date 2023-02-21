@@ -1,177 +1,127 @@
 import {
   Box,
-  Button,
   CircularProgress,
-  Grid,
-  IconButton,
-  InputAdornment,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
-  TableRow,
-  TextField
+  TableRow
 } from "@mui/material";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import React, { Fragment, useCallback, useEffect, useState } from "react";
-import { News } from "~/api/generated/graphql";
-import { useFetchNews } from "~/api/news";
-import { Text } from "~/shared/components/Text";
-import { useTablePagination } from "~/shared/hooks/useTablePagination";
-import { getColumns } from "./lib/getColumns";
-import { ActiveOrder } from "./types";
+import React, { Fragment, useEffect } from "react";
+import { News, useNewsQuery } from "~/generated/graphql";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
-import { debounce } from "~/shared/lib/debounce";
+import { NewsPageEdit } from "~/shared/routes";
+import { useRequestState } from "~/shared/hooks/useRequestState";
+import { LinkButton } from "~/shared/components/LinkButton";
+import { Text } from "~/shared/components/Text";
+import { TablePagination } from "~/shared/components/TablePagination";
+import { SearchInput } from "~/shared/components/SearchInput";
+import { Panel } from "~shared/components/Panel/Panel";
+import { getColumns } from "./lib/getColumns";
 
-export const NewsTable: React.FC = () => {
-  const [activeOrder, setActiveOrder] = useState<ActiveOrder>(null);
-  const [filter, setFilter] = useState<Record<string, string> | null>(null);
-  const [title, setTitle] = useState<string>("");
+type Props = {
+  onNewsCountChange?: (count: number) => void;
+};
 
-  const { pagination, handleChangePage, handleChangeRowsPerPage, resetPagination } =
-    useTablePagination();
+export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
+  const {
+    variables,
+    title,
+    params,
+    activeOrder,
+    pagination,
+    handleTitleChange,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    handleChangeOrder,
+    handleFilterChange
+  } = useRequestState("name");
 
-  const { mutateAsync: fetchNews, data, isLoading } = useFetchNews();
+  const client = useGraphqlClient();
+
+  const { data, isLoading } = useNewsQuery(client, variables);
 
   const news = data?.news;
 
-  const handleChangeOrder = (order: ActiveOrder) => {
-    setActiveOrder(order);
-    resetPagination();
-  };
+  const total = news?.paginatorInfo.total ?? 0;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleSearchTitle = useCallback(
-    debounce<[string]>((newTitle: string) => {
-      setFilter((filter) => ({ ...filter, name: newTitle }));
-      resetPagination();
-    }, 300),
-    [resetPagination]
-  );
-
-  const handleTitleChange = (newTitle: string) => {
-    handleSearchTitle(newTitle);
-    setTitle(newTitle);
-  };
-
-  const columns = getColumns(activeOrder, handleChangeOrder);
+  const columns = getColumns(activeOrder, params, handleChangeOrder, handleFilterChange);
 
   useEffect(() => {
-    fetchNews({
-      page: pagination.page + 1,
-      first: pagination.perPage,
-      ...(activeOrder
-        ? {
-            orderBy: [{ column: activeOrder.name, order: activeOrder.direction }]
-          }
-        : {}),
-      ...(filter
-        ? {
-            filter: Object.entries(filter).map(([key, value]) => ({ column: key, value }))
-          }
-        : {})
-    });
-  }, [pagination, fetchNews, activeOrder, filter]);
+    onNewsCountChange?.(total);
+  }, [total, onNewsCountChange]);
 
   return (
-    <Grid container>
-      <Grid item columns={12} xs={12}>
-        <Box className='flex p-2 border drop-shadow-md'>
-          <Text className='px-4' component='p'>
-            News
-          </Text>
-          <Text className='text-gray-400' component='span'>
-            count news
-          </Text>
-          &nbsp;
-          <Text className='text-gray-400'>{`${news?.paginatorInfo.total ?? 0}`}</Text>
-        </Box>
-      </Grid>
-      <Grid item columns={12} xs={12} className='p-6'>
-        <Paper elevation={5} className='rounded'>
-          <Box className='flex items-stretch gap-2 p-4'>
-            <TextField
-              label={<Text>Fast search</Text>}
-              fullWidth
-              value={title}
-              onChange={getEventValueHandler(handleTitleChange)}
-              size='small'
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton>
-                      <SearchRoundedIcon />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            />
+    <Panel>
+      <Box className='flex items-stretch gap-2 p-4 flex-col sm:flex-row'>
+        <SearchInput
+          label={<Text>Fast search</Text>}
+          fullWidth
+          value={title}
+          onChange={getEventValueHandler(handleTitleChange)}
+          size='small'
+        />
 
-            <Button variant='outlined' className='!capitalize'>
-              <AddBoxRoundedIcon />
-              <Text>Add</Text>
-            </Button>
-          </Box>
+        <LinkButton variant='outlined' href={NewsPageEdit} className='!capitalize'>
+          <AddBoxRoundedIcon />
+          <Text>Add</Text>
+        </LinkButton>
+      </Box>
 
+      <Fragment>
+        <TableContainer>
+          <Table stickyHeader aria-label='sticky table'>
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+
+            {!isLoading && (
+              <TableBody>
+                {news?.data?.map((row: News) => {
+                  return (
+                    <TableRow hover role='row' tabIndex={-1} key={row.id}>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.render?.(value, row) ?? column.format?.(value) ?? value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            )}
+          </Table>
           {isLoading && (
             <Box className='flex h-[20vh] w-full justify-center items-center'>
               <CircularProgress />
             </Box>
           )}
-          {!isLoading && (
-            <Fragment>
-              <TableContainer className='max-h-[400px]'>
-                <Table stickyHeader aria-label='sticky table'>
-                  <TableHead>
-                    <TableRow>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{ minWidth: column.minWidth }}
-                        >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {news?.data?.map((row: News) => {
-                      return (
-                        <TableRow hover role='row' tabIndex={-1} key={row.id}>
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format?.(value) ?? value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+        </TableContainer>
 
-              <TablePagination
-                labelRowsPerPage={<Text>Rows per page:</Text>}
-                rowsPerPageOptions={[10, 30, 100]}
-                component='div'
-                count={news?.paginatorInfo.total ?? 0}
-                rowsPerPage={pagination.perPage}
-                page={pagination.page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Fragment>
-          )}
-        </Paper>
-      </Grid>
-    </Grid>
+        <TablePagination
+          totalPages={news?.paginatorInfo.lastPage ?? 1}
+          page={pagination.page || 1}
+          perPage={pagination.perPage}
+          onChangePagination={handleChangePage}
+          onChangePerPage={handleChangeRowsPerPage}
+        />
+      </Fragment>
+    </Panel>
   );
 };

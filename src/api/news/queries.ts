@@ -19,6 +19,14 @@ export const NewsFragment = gql`
     }
     created_at
     updated_at
+
+    category {
+      id
+      name
+      sort
+    }
+    published_at
+    on_index
   }
 `;
 
@@ -26,7 +34,7 @@ export const NewsById = gql`
   ${NewsFragment}
 
   query newsById($id: ID!) {
-    newsById(email: $email) {
+    newsById(id: $id) {
       ...allNewsFields
     }
   }
@@ -45,6 +53,14 @@ export const News = gql`
       data {
         ...allNewsFields
       }
+    }
+  }
+`;
+
+export const UpdateOnIndex = gql`
+  mutation UpdateOnIndex($id: ID!, $on_index: Boolean!) {
+    upsertNews(input: { id: $id, on_index: $on_index }) {
+      id
     }
   }
 `;

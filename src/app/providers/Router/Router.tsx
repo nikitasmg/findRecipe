@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { BaseLayout } from "~/layouts/BaseLayout";
 import { BaseProtectedLayout } from "~/layouts/BaseProtectedLayout";
@@ -7,8 +7,10 @@ import { BaseProtectedLayout } from "~/layouts/BaseProtectedLayout";
 import { NoMatch } from "~/pages/NoMatch";
 import { Login } from "~/pages/Login";
 import { News } from "~/pages/News";
+import { Home } from "~/pages/Home";
+import { Users } from "~/pages/Users";
 
-import { HomePageRoute, LoginPageRoute, NewsPageRoute } from "~shared/routes";
+import { HomePageRoute, LoginPageRoute, NewsPageRoute, UsersPageRoute } from "~shared/routes";
 
 export const Router: React.FC = () => {
   return (
@@ -18,7 +20,7 @@ export const Router: React.FC = () => {
         path={HomePageRoute}
         element={
           <BaseProtectedLayout>
-            <Link to={NewsPageRoute}>News</Link>
+            <Home />
           </BaseProtectedLayout>
         }
       />
@@ -27,6 +29,15 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <News />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={UsersPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Users />
           </BaseProtectedLayout>
         }
       />

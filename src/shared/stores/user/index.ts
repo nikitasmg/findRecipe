@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Maybe, User } from "~/api/generated/graphql";
+import { Maybe, User } from "~/generated/graphql";
 
 export type UserState = {
   user: Maybe<User>;

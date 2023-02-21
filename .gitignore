@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 .husky/*
 .husky
-.storybook
 .npm
 .yarn
 .npm/*
@@ -16,6 +15,7 @@ junit.xml
 .lighthouseci
 license-checker.json
 .env
+storybook-static
 
 # Editor directories and files
 .idea

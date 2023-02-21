@@ -17,8 +17,8 @@ export const useTablePagination = (initialPagination = defaultPagination) => {
     setPagination((state) => ({ ...state, page: newPage }));
   }, []);
 
-  const handleChangeRowsPerPage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setPagination({ perPage: +event.target.value, page: 0 });
+  const handleChangeRowsPerPage = useCallback((perPage: number | string) => {
+    setPagination({ perPage: +perPage, page: 0 });
   }, []);
 
   const resetPagination = useCallback(() => {

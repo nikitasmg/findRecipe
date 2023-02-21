@@ -7,10 +7,16 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.8",
+    "@mui/x-date-pickers": "^5.0.19",
     "@tanstack/react-query": "^4.24.4",
+    "clsx": "^1.2.1",
+    "country-flag-icons": "^1.5.5",
+    "dayjs": "^1.11.7",
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
     "i18next": "^22.4.9",
+    "material-ui-popup-state": "^5.0.4",
+    "rambda": "^7.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.1",
@@ -22,9 +28,20 @@
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
-    "@graphql-codegen/cli": "3.0.0",
-    "@graphql-codegen/introspection": "3.0.0",
+    "@graphql-codegen/cli": "^3.0.0",
     "@graphql-codegen/typescript": "3.0.0",
+    "@graphql-codegen/typescript-operations": "^3.0.0",
+    "@graphql-codegen/typescript-react-query": "^4.1.0",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/node-logger": "^6.5.16",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -34,6 +51,7 @@
     "@types/react-dom": "^18.0.10",
     "autoprefixer": "^10.4.13",
     "babel-plugin-module-resolver": "^5.0.0",
+    "babel-plugin-named-exports-order": "^0.0.2",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-no-comments": "^1.1.10",
     "eslint-plugin-no-secrets": "^0.8.9",
@@ -55,6 +73,7 @@
     "postcss": "^8.4.21",
     "postcss-import": "^15.1.0",
     "prettier": "^2.8.4",
+    "prop-types": "^15.8.1",
     "react-app-rewire-alias": "^1.1.7",
     "react-app-rewired": "^2.2.1",
     "rimraf": "^4.1.2",
@@ -62,13 +81,16 @@
     "tailwindcss": "^3.2.4",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.75.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "serve": "pm2 start app.config.json",
+    "serve:build": "serve -l 3363 -s build",
     "test": "jest",
     "test:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
     "eject": "react-scripts eject",
@@ -81,12 +103,24 @@
     "install:git-hooks": "husky install && ./scripts/husky-update.sh",
     "generate:api": "graphql-codegen init",
     "license-checker:prod": "rimraf license-checker.json && license-checker --production --out license-checker.json --exclude 'MIT, MIT OR X11, BSD, ISC, Apache-2.0, CC0-1.0'",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "storybook": "start-storybook -p 3364 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {

@@ -2,9 +2,9 @@
   "apps": [
     {
       "name": "front-admin-v3",
-      "script": "npx",
+      "script": "npm",
       "interpreter": "none",
-      "args": "serve -l 3363 -s build"
+      "args": " -- run serve:build"
     }
   ]
 }
