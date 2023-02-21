@@ -1,8 +1,8 @@
-import { NewsPaginator } from "~/generated/graphql";
+import { UserPaginator } from "~/generated/graphql";
 import { ReactNode } from "react";
 
 export interface Column {
-  id: keyof NewsPaginator["data"][0];
+  id: keyof UserPaginator["data"][0];
   label: JSX.Element | string;
   minWidth?: number;
   align?: "right" | "center";

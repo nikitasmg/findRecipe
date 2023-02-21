@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { LanguageSelect } from "~/shared/components/LanguageSelect/LanguageSelect";
+import { LanguageSelect } from "~/shared/components/LanguageSelect";
 
 export const Footer: React.FC = () => {
   return (

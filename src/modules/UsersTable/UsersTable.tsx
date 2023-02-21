@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import React, { Fragment, useEffect } from "react";
-import { News, useNewsQuery } from "~/generated/graphql";
+import { User, useUsersQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { NewsPageEdit } from "~/shared/routes";
@@ -23,36 +23,35 @@ import { Panel } from "~shared/components/Panel/Panel";
 import { getColumns } from "./lib/getColumns";
 
 type Props = {
-  onNewsCountChange?: (count: number) => void;
+  onUsersCountChange?: (count: number) => void;
 };
 
-export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
+export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
   const {
     variables,
     title,
-    params,
-    activeOrder,
     pagination,
     handleTitleChange,
     handleChangePage,
-    handleChangeRowsPerPage,
-    handleChangeOrder,
-    handleFilterChange
+    handleChangeRowsPerPage
   } = useRequestState("name");
 
   const client = useGraphqlClient();
 
-  const { data, isLoading } = useNewsQuery(client, variables);
+  const { data, isLoading } = useUsersQuery(client, {
+    ...variables,
+    name: variables.filter?.[0].value
+  });
 
-  const news = data?.news;
+  const users = data?.users;
 
-  const total = news?.paginatorInfo.total ?? 0;
+  const total = users?.paginatorInfo.total ?? 0;
 
-  const columns = getColumns(activeOrder, params, handleChangeOrder, handleFilterChange);
+  const columns = getColumns();
 
   useEffect(() => {
-    onNewsCountChange?.(total);
-  }, [total, onNewsCountChange]);
+    onUsersCountChange?.(total);
+  }, [total, onUsersCountChange]);
 
   return (
     <Panel>
@@ -65,7 +64,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
           size='small'
         />
 
-        <LinkButton variant='outlined' href={NewsPageEdit} className='!capitalize'>
+        <LinkButton disabled variant='outlined' href={NewsPageEdit} className='!capitalize'>
           <AddBoxRoundedIcon />
           <Text>Add</Text>
         </LinkButton>
@@ -90,7 +89,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
 
             {!isLoading && (
               <TableBody>
-                {news?.data?.map((row: News) => {
+                {users?.data?.map((row: Partial<User>) => {
                   return (
                     <TableRow hover role='row' tabIndex={-1} key={row.id}>
                       {columns.map((column) => {
@@ -115,7 +114,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
         </TableContainer>
 
         <TablePagination
-          totalPages={news?.paginatorInfo.lastPage ?? 1}
+          totalPages={users?.paginatorInfo.lastPage ?? 1}
           page={pagination.page || 1}
           perPage={pagination.perPage}
           onChangePagination={handleChangePage}
