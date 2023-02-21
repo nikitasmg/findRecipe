@@ -9,5 +9,5 @@ html {
 
 body,
 #root {
-  @apply min-h-[100%] h-[100%] flex flex-col;
+  @apply min-h-[100%] h-[100%] flex flex-col bg-gray-100;
 }

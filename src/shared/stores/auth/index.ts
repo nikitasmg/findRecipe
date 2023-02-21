@@ -12,11 +12,14 @@ const storageKey = "__token";
 export const useAuthStore = create<AuthState>(
   (set): AuthState => ({
     token: localStorage.getItem(storageKey) || "",
-    auth: (token: string) => set(() => ({ token })),
-    unAuth: () => set(() => ({ token: "" }))
+    auth: (token: string) => {
+      localStorage.setItem(storageKey, token);
+      set(() => ({ token }));
+    },
+    unAuth: () => {
+      localStorage.removeItem(storageKey);
+
+      set(() => ({ token: "" }));
+    }
   })
 );
-
-useAuthStore.subscribe((state) => {
-  localStorage.setItem(storageKey, state.token);
-});

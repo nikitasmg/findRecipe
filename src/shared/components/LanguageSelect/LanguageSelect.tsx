@@ -14,12 +14,15 @@ export const LanguageSelect: React.FC = () => {
 
   return (
     <FormControl className='w-fit'>
-      <InputLabel id='demo-simple-select-label'>Age</InputLabel>
+      <InputLabel id='select-language'>
+        <Text>Language</Text>
+      </InputLabel>
       <Select
-        labelId='demo-simple-select-label'
-        id='demo-simple-select'
+        labelId='select-language'
+        id='select-language'
+        className='flex'
         value={i18n.language}
-        label='Age'
+        label={<Text>Language</Text>}
         defaultValue={"en"}
         onChange={handleChange}
       >
