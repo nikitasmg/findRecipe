@@ -3,9 +3,13 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   overwrite: true,
   schema: "https://api-template.dev.echo-company.ru/graphql",
+  documents: ["src/api/**/queries.ts"],
   generates: {
-    "src/api/generated/graphql.ts": {
-      plugins: ["typescript"]
+    "src/generated/graphql.ts": {
+      plugins: ["typescript", "typescript-operations", "typescript-react-query"],
+      config: {
+        fetcher: "graphql-request"
+      }
     }
   }
 };

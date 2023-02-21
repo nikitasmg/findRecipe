@@ -5,5 +5,5 @@
 **/coverage/**
 **/docs/**
 **/node_modules
-**/generated
+**/generated/**
 *.d.ts
