@@ -17,12 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  NewsCategory,
-  SortOrder,
-  useNewsCategoriesQuery,
-  useUpdateOnIndexMutation
-} from "~/generated/graphql";
+import { SortOrder, useNewsCategoriesQuery, useUpdateOnIndexMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
@@ -32,6 +27,7 @@ import { useModal } from "~/shared/hooks/useModal";
 import { formatDate } from "~/shared/lib/formatDate";
 import { NewsPageEdit } from "~/shared/routes";
 import { Column } from "../types";
+import { prop } from "rambda";
 
 export const getColumns = (
   activeOrder?: ActiveOrder,
@@ -95,13 +91,15 @@ export const getColumns = (
           <TableSortLabel onClick={getClickHandler("content")} {...getActiveProps("content")} />
         </Box>
       ),
-      render: (value) => {
+      render: (value, row) => {
         if (typeof value !== "string") return null;
 
-        const handleClick = () => handleOpen(value);
+        const key = `${row.id}`;
+
+        const handleClick = () => handleOpen(key);
 
         return (
-          <Fragment key={value}>
+          <Fragment key={key}>
             <Button
               className='flex gap-2 items-center w-fit !capitalize p-4'
               variant='outlined'
@@ -111,7 +109,7 @@ export const getColumns = (
               <Text>Preview</Text>
             </Button>
             <Modal
-              open={open === value}
+              open={open === key}
               onClose={handleClose}
               aria-labelledby={value}
               aria-describedby={value}
@@ -192,9 +190,7 @@ export const getColumns = (
         </TableHeadCell>
       ),
       minWidth: 80,
-      render: (value) => {
-        return (value as NewsCategory).name;
-      }
+      render: prop("name")
     },
 
     {

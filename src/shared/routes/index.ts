@@ -4,7 +4,9 @@ export const HomePageRoute = "/";
 
 export const NewsPageRoute = "/news";
 
-export const NewsPageEdit = `${NewsPageRoute}/edit`;
+export const NewsPageEdit = `${NewsPageRoute}/edit/:id`;
+
+export const NewsPageCreate = `${NewsPageRoute}/create`;
 
 export const LoginPageRoute = "/login";
 
@@ -15,3 +17,7 @@ export const UsersPageEdit = `${UsersPageRoute}/edit`;
 export const ProfilePage = "/profile";
 
 export const SettingsPage = "/settings";
+
+export const CompilationsPage = "/compilation";
+
+export const CompilationEditPage = `${CompilationsPage}/edit/:id`;

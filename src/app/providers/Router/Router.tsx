@@ -9,8 +9,21 @@ import { Login } from "~/pages/Login";
 import { News } from "~/pages/News";
 import { Home } from "~/pages/Home";
 import { Users } from "~/pages/Users";
+import { NewsEdit } from "~/pages/NewsEdit";
+import { NewsCreate } from "~/pages/NewsCreate";
+import { Compilations } from "~/pages/Compilations";
 
-import { HomePageRoute, LoginPageRoute, NewsPageRoute, UsersPageRoute } from "~shared/routes";
+import {
+  HomePageRoute,
+  LoginPageRoute,
+  NewsPageCreate,
+  NewsPageEdit,
+  NewsPageRoute,
+  UsersPageRoute,
+  CompilationsPage
+} from "~shared/routes";
+import { CompilationsEdit } from "~/pages/CompilationsEdit";
+import { CompilationEditPage } from "~/shared/routes";
 
 export const Router: React.FC = () => {
   return (
@@ -34,10 +47,46 @@ export const Router: React.FC = () => {
       />
 
       <Route
+        path={NewsPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <NewsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={NewsPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <NewsCreate />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
         path={UsersPageRoute}
         element={
           <BaseProtectedLayout>
             <Users />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={CompilationsPage}
+        element={
+          <BaseProtectedLayout>
+            <Compilations />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={CompilationEditPage}
+        element={
+          <BaseProtectedLayout>
+            <CompilationsEdit />
           </BaseProtectedLayout>
         }
       />

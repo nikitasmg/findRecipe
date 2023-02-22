@@ -39,6 +39,45 @@ export type Document = {
   user_name?: Maybe<Scalars['String']>;
 };
 
+export type Event = {
+  __typename?: 'Event';
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  documents?: Maybe<Array<Maybe<Document>>>;
+  id: Scalars['ID'];
+  image?: Maybe<Image>;
+  imageThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  organizers?: Maybe<Array<Maybe<Organizer>>>;
+  partners?: Maybe<Array<Maybe<Partner>>>;
+  published?: Maybe<Scalars['Boolean']>;
+  updated_at: Scalars['DateTime'];
+};
+
+export type EventInput = {
+  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  organizers?: InputMaybe<OrganizerBelongsToMany>;
+  partners?: InputMaybe<PartnerBelongsToMany>;
+  published?: InputMaybe<Scalars['Boolean']>;
+  updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
+  uploadDocuments?: InputMaybe<Array<InputMaybe<UploadDocumentInput>>>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
+/** A paginated list of Event items. */
+export type EventPaginator = {
+  __typename?: 'EventPaginator';
+  /** A list of Event items. */
+  data: Array<Event>;
+  /** Pagination information about the list of items. */
+  paginatorInfo: PaginatorInfo;
+};
+
 export type FilterByClause = {
   column: Scalars['String'];
   value?: InputMaybe<Scalars['String']>;
@@ -84,9 +123,12 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteEvent?: Maybe<Event>;
   deleteNews?: Maybe<News>;
   deleteNewsCategory?: Maybe<NewsCategory>;
   deleteNewsTag?: Maybe<NewsTag>;
+  deleteOrganizer?: Maybe<Organizer>;
+  deletePartner?: Maybe<Partner>;
   deleteSetting?: Maybe<Setting>;
   login: Scalars['String'];
   logout?: Maybe<User>;
@@ -94,10 +136,18 @@ export type Mutation = {
   resetPassword: Scalars['String'];
   /** Для тестирования, потом убрать */
   upload?: Maybe<Scalars['String']>;
+  upsertEvent?: Maybe<Event>;
   upsertNews?: Maybe<News>;
   upsertNewsCategory?: Maybe<NewsCategory>;
   upsertNewsTag?: Maybe<NewsTag>;
+  upsertOrganizer?: Maybe<Organizer>;
+  upsertPartner?: Maybe<Partner>;
   upsertSetting?: Maybe<Setting>;
+};
+
+
+export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -112,6 +162,16 @@ export type MutationDeleteNewsCategoryArgs = {
 
 
 export type MutationDeleteNewsTagArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteOrganizerArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeletePartnerArgs = {
   id: Scalars['ID'];
 };
 
@@ -144,6 +204,11 @@ export type MutationUploadArgs = {
 };
 
 
+export type MutationUpsertEventArgs = {
+  input: EventInput;
+};
+
+
 export type MutationUpsertNewsArgs = {
   input: NewsInput;
 };
@@ -156,6 +221,16 @@ export type MutationUpsertNewsCategoryArgs = {
 
 export type MutationUpsertNewsTagArgs = {
   input: NewsTagInput;
+};
+
+
+export type MutationUpsertOrganizerArgs = {
+  input: OrganizerInput;
+};
+
+
+export type MutationUpsertPartnerArgs = {
+  input: PartnerInput;
 };
 
 
@@ -276,6 +351,29 @@ export enum OrderByRelationWithColumnAggregateFunction {
   Sum = 'SUM'
 }
 
+export type Organizer = {
+  __typename?: 'Organizer';
+  created_at: Scalars['DateTime'];
+  id?: Maybe<Scalars['ID']>;
+  image?: Maybe<Image>;
+  imageUrl?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updated_at: Scalars['DateTime'];
+};
+
+export type OrganizerBelongsToMany = {
+  connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  create?: InputMaybe<Array<InputMaybe<OrganizerInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+export type OrganizerInput = {
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
 /** Information about pagination using a Relay style cursor connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -318,8 +416,34 @@ export type PaginatorInfo = {
   total: Scalars['Int'];
 };
 
+export type Partner = {
+  __typename?: 'Partner';
+  created_at: Scalars['DateTime'];
+  id?: Maybe<Scalars['ID']>;
+  image?: Maybe<Image>;
+  imageUrl?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updated_at: Scalars['DateTime'];
+};
+
+export type PartnerBelongsToMany = {
+  connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  create?: InputMaybe<Array<InputMaybe<PartnerInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+export type PartnerInput = {
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  eventById?: Maybe<Event>;
+  eventBySlug?: Maybe<Event>;
+  events?: Maybe<EventPaginator>;
   me: User;
   news?: Maybe<NewsPaginator>;
   newsById?: Maybe<News>;
@@ -328,11 +452,33 @@ export type Query = {
   newsCategoryById?: Maybe<NewsCategory>;
   newsTagById?: Maybe<NewsTag>;
   newsTags: Array<NewsTag>;
+  organizerById?: Maybe<Organizer>;
+  organizers: Array<Organizer>;
+  partnerById?: Maybe<Partner>;
+  patners: Array<Partner>;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
   user?: Maybe<User>;
   users?: Maybe<UserPaginator>;
+};
+
+
+export type QueryEventByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryEventBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+export type QueryEventsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+  page?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -370,6 +516,26 @@ export type QueryNewsTagByIdArgs = {
 
 
 export type QueryNewsTagsArgs = {
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryOrganizerByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryOrganizersArgs = {
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryPartnerByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPatnersArgs = {
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -531,14 +697,14 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: string } | null };
 
-export type AllNewsFieldsFragment = { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, published_at?: any | null, imageUrl?: string | null, created_at: any, updated_at: any, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, imageThumbs?: Array<{ __typename?: 'ImageThumbs', name?: string | null, method?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null };
+export type AllNewsFieldsFragment = { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null };
 
 export type NewsByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, published_at?: any | null, imageUrl?: string | null, created_at: any, updated_at: any, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, imageThumbs?: Array<{ __typename?: 'ImageThumbs', name?: string | null, method?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null } | null };
+export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
 
 export type NewsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -548,7 +714,7 @@ export type NewsQueryVariables = Exact<{
 }>;
 
 
-export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, published_at?: any | null, imageUrl?: string | null, created_at: any, updated_at: any, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, imageThumbs?: Array<{ __typename?: 'ImageThumbs', name?: string | null, method?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null }> } | null };
+export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null }> } | null };
 
 export type UpdateOnIndexMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -574,6 +740,22 @@ export type NewsCategoriesQueryVariables = Exact<{
 
 export type NewsCategoriesQuery = { __typename?: 'Query', newsCategories: Array<{ __typename?: 'NewsCategory', id: string, sort: number, name: string }> };
 
+export type AllNewsTagsFieldsFragment = { __typename?: 'NewsTag', id: string, sort: number, name: string };
+
+export type NewsTagByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type NewsTagByIdQuery = { __typename?: 'Query', newsTagById?: { __typename?: 'NewsTag', id: string, sort: number, name: string } | null };
+
+export type NewsTagsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+}>;
+
+
+export type NewsTagsQuery = { __typename?: 'Query', newsTags: Array<{ __typename?: 'NewsTag', id: string, sort: number, name: string }> };
+
 export type AllUsersFieldsFragment = { __typename?: 'User', id: string, role: number, name: string, email: string, email_verified_at?: any | null };
 
 export type UsersQueryVariables = Exact<{
@@ -597,29 +779,48 @@ export const AllNewsFieldsFragmentDoc = `
   slug
   content
   description
-  published_at
   imageUrl
+  source
+  source_name
+  published
   image {
     id
     url
   }
-  imageThumbs {
-    name
-    method
+  gallery {
+    id
+    url
   }
-  created_at
-  updated_at
   category {
     id
     name
     sort
   }
+  tags {
+    id
+    name
+    sort
+  }
+  seo {
+    id
+    title
+    description
+  }
+  created_at
+  updated_at
   published_at
   on_index
 }
     `;
 export const AllNewsCategoriesFieldsFragmentDoc = `
     fragment allNewsCategoriesFields on NewsCategory {
+  id
+  sort
+  name
+}
+    `;
+export const AllNewsTagsFieldsFragmentDoc = `
+    fragment allNewsTagsFields on NewsTag {
   id
   sort
   name
@@ -781,6 +982,48 @@ export const useNewsCategoriesQuery = <
     useQuery<NewsCategoriesQuery, TError, TData>(
       variables === undefined ? ['newsCategories'] : ['newsCategories', variables],
       fetcher<NewsCategoriesQuery, NewsCategoriesQueryVariables>(client, NewsCategoriesDocument, variables, headers),
+      options
+    );
+export const NewsTagByIdDocument = `
+    query newsTagById($id: ID!) {
+  newsTagById(id: $id) {
+    ...allNewsTagsFields
+  }
+}
+    ${AllNewsTagsFieldsFragmentDoc}`;
+export const useNewsTagByIdQuery = <
+      TData = NewsTagByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: NewsTagByIdQueryVariables,
+      options?: UseQueryOptions<NewsTagByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<NewsTagByIdQuery, TError, TData>(
+      ['newsTagById', variables],
+      fetcher<NewsTagByIdQuery, NewsTagByIdQueryVariables>(client, NewsTagByIdDocument, variables, headers),
+      options
+    );
+export const NewsTagsDocument = `
+    query newsTags($orderBy: [OrderByClause!]) {
+  newsTags(orderBy: $orderBy) {
+    ...allNewsTagsFields
+  }
+}
+    ${AllNewsTagsFieldsFragmentDoc}`;
+export const useNewsTagsQuery = <
+      TData = NewsTagsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: NewsTagsQueryVariables,
+      options?: UseQueryOptions<NewsTagsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<NewsTagsQuery, TError, TData>(
+      variables === undefined ? ['newsTags'] : ['newsTags', variables],
+      fetcher<NewsTagsQuery, NewsTagsQueryVariables>(client, NewsTagsDocument, variables, headers),
       options
     );
 export const UsersDocument = `

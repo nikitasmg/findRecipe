@@ -7,7 +7,7 @@ import { useTablePagination } from "./useTablePagination";
 
 type Params = Record<string, string>;
 
-export const useRequestState = (fastSearchFieldId: string, ) => {
+export const useRequestState = (fastSearchFieldId: string) => {
   const [activeOrder, setActiveOrder] = useState<ActiveOrder>(null);
   const [filters, setFilters] = useState<Params | null>(null);
   const [params, setParams] = useState<Params | null>(null);

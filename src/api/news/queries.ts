@@ -7,24 +7,35 @@ export const NewsFragment = gql`
     slug
     content
     description
-    published_at
     imageUrl
+    source
+    source_name
+    published
     image {
       id
       url
     }
-    imageThumbs {
-      name
-      method
+    gallery {
+      id
+      url
     }
-    created_at
-    updated_at
-
     category {
       id
       name
       sort
     }
+    tags {
+      id
+      name
+      sort
+    }
+    seo {
+      id
+      title
+      description
+    }
+    created_at
+    updated_at
     published_at
     on_index
   }

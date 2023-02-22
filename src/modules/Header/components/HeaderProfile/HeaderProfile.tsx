@@ -1,12 +1,13 @@
 import React, { Fragment } from "react";
-import { useMeQuery } from "~/generated/graphql";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { Button, Fade, Menu, MenuItem, Typography } from "@mui/material";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Button, CircularProgress, Fade, Menu, MenuItem, Typography } from "@mui/material";
 import clsx from "clsx";
-import { ProfilePage, SettingsPage } from "~shared/routes";
-import { Link } from "react-router-dom";
-import { Text } from "~/shared/components/Text";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutMutation, useMeQuery } from "~/generated/graphql";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { LoginPageRoute, ProfilePage, SettingsPage } from "~shared/routes";
+import { Text } from "~shared/components/Text";
 
 const links = [
   {
@@ -26,6 +27,8 @@ export const HeaderProfile: React.FC = () => {
 
   const id = open ? "header-profile" : undefined;
 
+  const history = useNavigate();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -36,14 +39,28 @@ export const HeaderProfile: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = useMeQuery(client);
+  const { data, isLoading, isSuccess } = useMeQuery(client);
+
+  const { mutateAsync: logout, isLoading: isLogoutLoading } = useLogoutMutation(client);
 
   const name = data?.me.name ?? "";
+
+  const loaderVisible = isLoading || isLogoutLoading;
+
+  const isEmptyProfile = !name && isSuccess;
+
+  const handleLogoutClick = () => {
+    logout({});
+    history(LoginPageRoute);
+  };
 
   return (
     <Fragment>
       <Button className='!hidden md:!flex !capitalize' onClick={handleClick}>
+        {loaderVisible && <CircularProgress />}
         <Typography className='text-black'>{name}</Typography>
+
+        {isEmptyProfile && <ManageAccountsIcon />}
 
         <ExpandMoreIcon
           className={clsx("transition-transform duration-500 ease-in-out transform text-black", {
@@ -70,7 +87,10 @@ export const HeaderProfile: React.FC = () => {
           </MenuItem>
         ))}
         <MenuItem className='!p-0'>
-          <Button className='!capitalize  w-full !justify-start !px-4 !py-2'>
+          <Button
+            onClick={handleLogoutClick}
+            className='!capitalize  w-full !justify-start !px-4 !py-2'
+          >
             <Text className='text-black' component='span'>
               Logout
             </Text>

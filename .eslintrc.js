@@ -20,7 +20,8 @@ module.exports = {
     {
       files: ["*.ts", "*.tsx"],
       rules: {
-        "security/detect-object-injection": "off"
+        "security/detect-object-injection": "off",
+        "react/prop-types": "off"
       }
     }
   ],

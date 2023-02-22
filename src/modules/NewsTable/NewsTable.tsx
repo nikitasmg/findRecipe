@@ -13,7 +13,7 @@ import React, { Fragment, useEffect } from "react";
 import { News, useNewsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
-import { NewsPageEdit } from "~/shared/routes";
+import { NewsPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { LinkButton } from "~/shared/components/LinkButton";
 import { Text } from "~/shared/components/Text";
@@ -65,7 +65,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
           size='small'
         />
 
-        <LinkButton variant='outlined' href={NewsPageEdit} className='!capitalize'>
+        <LinkButton variant='outlined' href={NewsPageCreate} className='!capitalize'>
           <AddBoxRoundedIcon />
           <Text>Add</Text>
         </LinkButton>
@@ -107,6 +107,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
               </TableBody>
             )}
           </Table>
+
           {isLoading && (
             <Box className='flex h-[20vh] w-full justify-center items-center'>
               <CircularProgress />
