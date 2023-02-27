@@ -1,8 +1,9 @@
-import React, { PropsWithChildren } from "react";
+import React, { Fragment, PropsWithChildren } from "react";
 import PopupStateContainer, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { PopupState } from "material-ui-popup-state/hooks";
 import { Box, Button, Popover, TableSortLabel } from "@mui/material";
 import { Text } from "../Text";
+import styles from "./TableHeadCell.module.css";
 
 type Props = {
   cellId: string;
@@ -22,34 +23,44 @@ export const TableHeadCell: React.FC<PropsWithChildren<Props>> = ({
   align = "left",
   children
 }) => {
-  const handleClickSort = () => onSortClick?.(cellId);
+  const handleClickSort = () => {
+    onSortClick?.(cellId);
+  };
 
   return (
     <PopupStateContainer variant='popover' popupId={cellId}>
       {(popupState: PopupState) => (
-        <>
+        <Fragment>
           <Box className='flex'>
             <Button className='!block !capitalize' {...bindTrigger(popupState)}>
               <Text align={align} color={!isFilterActive ? "black" : ""}>
                 {title}
               </Text>
             </Button>
-            {sortProps && <TableSortLabel onClick={handleClickSort} {...sortProps} />}
+            {sortProps && (
+              <TableSortLabel
+                className={styles.sortIcon}
+                onClick={handleClickSort}
+                {...sortProps}
+              />
+            )}
           </Box>
-          <Popover
-            {...bindPopover(popupState)}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left"
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left"
-            }}
-          >
-            <div className='p-2'>{children}</div>
-          </Popover>
-        </>
+          {children && (
+            <Popover
+              {...bindPopover(popupState)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left"
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left"
+              }}
+            >
+              <div className='p-2'>{children}</div>
+            </Popover>
+          )}
+        </Fragment>
       )}
     </PopupStateContainer>
   );

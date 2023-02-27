@@ -13,7 +13,7 @@ export const Home: React.FC = () => {
       <PageTitle>
         <Text className='px-4'>Home</Text>
       </PageTitle>
-      <PathsPanel paths={paths} />
+      <PathsPanel initialExpanded paths={paths} />
     </Box>
   );
 };

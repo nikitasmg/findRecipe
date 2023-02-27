@@ -24,6 +24,7 @@
     "react-i18next": "^12.1.5",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
+    "react-sortable-hoc": "^2.0.0",
     "zustand": "^4.3.2"
   },
   "devDependencies": {

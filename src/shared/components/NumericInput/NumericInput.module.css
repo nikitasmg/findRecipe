@@ -1,0 +1,11 @@
+.text-field {
+  @apply text-center;
+}
+
+.text-field input {
+  @apply text-center w-[50px];
+}
+
+.text-field__button {
+  @apply !min-w-[24px];
+}

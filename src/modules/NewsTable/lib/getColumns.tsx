@@ -48,7 +48,7 @@ export const getColumns = (
       return handleOrderClick?.(null);
     }
 
-    const direction = activeOrder?.name === name ? SortOrder.Desc : SortOrder.Asc;
+    const direction = activeOrder?.[name] === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc;
 
     return handleOrderClick?.({ [name]: direction });
   };
@@ -136,14 +136,7 @@ export const getColumns = (
           isFilterActive={!!filter?.name}
           onSortClick={getClickHandler("name")}
           sortProps={getActiveProps("name")}
-        >
-          <TextField
-            value={filter?.name}
-            label={<Text>Enter title</Text>}
-            onChange={getChangeHandler("name")}
-            variant='outlined'
-          />
-        </TableHeadCell>
+        />
       ),
       minWidth: 120,
       render: (value, row) => {

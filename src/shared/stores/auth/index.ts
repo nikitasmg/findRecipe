@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { LoginPageRoute } from "~shared/routes";
 
 export type AuthState = {
   token: string;

@@ -134,7 +134,6 @@ export type Mutation = {
   logout?: Maybe<User>;
   requestPasswordReset: Scalars['String'];
   resetPassword: Scalars['String'];
-  /** Для тестирования, потом убрать */
   upload?: Maybe<Scalars['String']>;
   upsertEvent?: Maybe<Event>;
   upsertNews?: Maybe<News>;
@@ -442,7 +441,6 @@ export type PartnerInput = {
 export type Query = {
   __typename?: 'Query';
   eventById?: Maybe<Event>;
-  eventBySlug?: Maybe<Event>;
   events?: Maybe<EventPaginator>;
   me: User;
   news?: Maybe<NewsPaginator>;
@@ -455,7 +453,7 @@ export type Query = {
   organizerById?: Maybe<Organizer>;
   organizers: Array<Organizer>;
   partnerById?: Maybe<Partner>;
-  patners: Array<Partner>;
+  partners: Array<Partner>;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
@@ -466,11 +464,6 @@ export type Query = {
 
 export type QueryEventByIdArgs = {
   id: Scalars['ID'];
-};
-
-
-export type QueryEventBySlugArgs = {
-  slug: Scalars['String'];
 };
 
 
@@ -535,7 +528,7 @@ export type QueryPartnerByIdArgs = {
 };
 
 
-export type QueryPatnersArgs = {
+export type QueryPartnersArgs = {
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -740,6 +733,30 @@ export type NewsCategoriesQueryVariables = Exact<{
 
 export type NewsCategoriesQuery = { __typename?: 'Query', newsCategories: Array<{ __typename?: 'NewsCategory', id: string, sort: number, name: string }> };
 
+export type CreateNewsCategoryMutationVariables = Exact<{
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type CreateNewsCategoryMutation = { __typename?: 'Mutation', upsertNewsCategory?: { __typename?: 'NewsCategory', id: string, sort: number, name: string } | null };
+
+export type UpdateNewsCategoryMutationVariables = Exact<{
+  id: Scalars['ID'];
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdateNewsCategoryMutation = { __typename?: 'Mutation', upsertNewsCategory?: { __typename?: 'NewsCategory', id: string, sort: number, name: string } | null };
+
+export type DeleteNewsCategoryMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteNewsCategoryMutation = { __typename?: 'Mutation', deleteNewsCategory?: { __typename?: 'NewsCategory', sort: number, name: string } | null };
+
 export type AllNewsTagsFieldsFragment = { __typename?: 'NewsTag', id: string, sort: number, name: string };
 
 export type NewsTagByIdQueryVariables = Exact<{
@@ -755,6 +772,30 @@ export type NewsTagsQueryVariables = Exact<{
 
 
 export type NewsTagsQuery = { __typename?: 'Query', newsTags: Array<{ __typename?: 'NewsTag', id: string, sort: number, name: string }> };
+
+export type CreateNewsTagMutationVariables = Exact<{
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type CreateNewsTagMutation = { __typename?: 'Mutation', upsertNewsTag?: { __typename?: 'NewsTag', id: string, sort: number, name: string } | null };
+
+export type UpdateNewsTagMutationVariables = Exact<{
+  id: Scalars['ID'];
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdateNewsTagMutation = { __typename?: 'Mutation', upsertNewsTag?: { __typename?: 'NewsTag', id: string, sort: number, name: string } | null };
+
+export type DeleteNewsTagMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteNewsTagMutation = { __typename?: 'Mutation', deleteNewsTag?: { __typename?: 'NewsTag', sort: number, name: string } | null };
 
 export type AllUsersFieldsFragment = { __typename?: 'User', id: string, role: number, name: string, email: string, email_verified_at?: any | null };
 
@@ -984,6 +1025,67 @@ export const useNewsCategoriesQuery = <
       fetcher<NewsCategoriesQuery, NewsCategoriesQueryVariables>(client, NewsCategoriesDocument, variables, headers),
       options
     );
+export const CreateNewsCategoryDocument = `
+    mutation createNewsCategory($sort: Int!, $name: String!) {
+  upsertNewsCategory(input: {sort: $sort, name: $name}) {
+    ...allNewsCategoriesFields
+  }
+}
+    ${AllNewsCategoriesFieldsFragmentDoc}`;
+export const useCreateNewsCategoryMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateNewsCategoryMutation, TError, CreateNewsCategoryMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateNewsCategoryMutation, TError, CreateNewsCategoryMutationVariables, TContext>(
+      ['createNewsCategory'],
+      (variables?: CreateNewsCategoryMutationVariables) => fetcher<CreateNewsCategoryMutation, CreateNewsCategoryMutationVariables>(client, CreateNewsCategoryDocument, variables, headers)(),
+      options
+    );
+export const UpdateNewsCategoryDocument = `
+    mutation updateNewsCategory($id: ID!, $sort: Int!, $name: String!) {
+  upsertNewsCategory(input: {id: $id, sort: $sort, name: $name}) {
+    ...allNewsCategoriesFields
+  }
+}
+    ${AllNewsCategoriesFieldsFragmentDoc}`;
+export const useUpdateNewsCategoryMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateNewsCategoryMutation, TError, UpdateNewsCategoryMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateNewsCategoryMutation, TError, UpdateNewsCategoryMutationVariables, TContext>(
+      ['updateNewsCategory'],
+      (variables?: UpdateNewsCategoryMutationVariables) => fetcher<UpdateNewsCategoryMutation, UpdateNewsCategoryMutationVariables>(client, UpdateNewsCategoryDocument, variables, headers)(),
+      options
+    );
+export const DeleteNewsCategoryDocument = `
+    mutation deleteNewsCategory($id: ID!) {
+  deleteNewsCategory(id: $id) {
+    sort
+    name
+  }
+}
+    `;
+export const useDeleteNewsCategoryMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteNewsCategoryMutation, TError, DeleteNewsCategoryMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteNewsCategoryMutation, TError, DeleteNewsCategoryMutationVariables, TContext>(
+      ['deleteNewsCategory'],
+      (variables?: DeleteNewsCategoryMutationVariables) => fetcher<DeleteNewsCategoryMutation, DeleteNewsCategoryMutationVariables>(client, DeleteNewsCategoryDocument, variables, headers)(),
+      options
+    );
 export const NewsTagByIdDocument = `
     query newsTagById($id: ID!) {
   newsTagById(id: $id) {
@@ -1024,6 +1126,67 @@ export const useNewsTagsQuery = <
     useQuery<NewsTagsQuery, TError, TData>(
       variables === undefined ? ['newsTags'] : ['newsTags', variables],
       fetcher<NewsTagsQuery, NewsTagsQueryVariables>(client, NewsTagsDocument, variables, headers),
+      options
+    );
+export const CreateNewsTagDocument = `
+    mutation createNewsTag($sort: Int!, $name: String!) {
+  upsertNewsTag(input: {sort: $sort, name: $name}) {
+    ...allNewsTagsFields
+  }
+}
+    ${AllNewsTagsFieldsFragmentDoc}`;
+export const useCreateNewsTagMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateNewsTagMutation, TError, CreateNewsTagMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateNewsTagMutation, TError, CreateNewsTagMutationVariables, TContext>(
+      ['createNewsTag'],
+      (variables?: CreateNewsTagMutationVariables) => fetcher<CreateNewsTagMutation, CreateNewsTagMutationVariables>(client, CreateNewsTagDocument, variables, headers)(),
+      options
+    );
+export const UpdateNewsTagDocument = `
+    mutation updateNewsTag($id: ID!, $sort: Int!, $name: String!) {
+  upsertNewsTag(input: {id: $id, sort: $sort, name: $name}) {
+    ...allNewsTagsFields
+  }
+}
+    ${AllNewsTagsFieldsFragmentDoc}`;
+export const useUpdateNewsTagMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateNewsTagMutation, TError, UpdateNewsTagMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateNewsTagMutation, TError, UpdateNewsTagMutationVariables, TContext>(
+      ['updateNewsTag'],
+      (variables?: UpdateNewsTagMutationVariables) => fetcher<UpdateNewsTagMutation, UpdateNewsTagMutationVariables>(client, UpdateNewsTagDocument, variables, headers)(),
+      options
+    );
+export const DeleteNewsTagDocument = `
+    mutation deleteNewsTag($id: ID!) {
+  deleteNewsTag(id: $id) {
+    sort
+    name
+  }
+}
+    `;
+export const useDeleteNewsTagMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteNewsTagMutation, TError, DeleteNewsTagMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteNewsTagMutation, TError, DeleteNewsTagMutationVariables, TContext>(
+      ['deleteNewsTag'],
+      (variables?: DeleteNewsTagMutationVariables) => fetcher<DeleteNewsTagMutation, DeleteNewsTagMutationVariables>(client, DeleteNewsTagDocument, variables, headers)(),
       options
     );
 export const UsersDocument = `

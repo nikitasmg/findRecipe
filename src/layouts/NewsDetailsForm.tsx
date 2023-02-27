@@ -4,9 +4,9 @@ import { AdditionalNewsForm } from "~/modules/AdditionalNewsForm";
 import { GeneralNewsForm } from "~/modules/GeneralNewsForm";
 import { SeoNewsForm } from "~/modules/SeoNewsForm";
 import { TabsForm } from "~/shared/components/TabsForm";
-import { useNavigate } from "react-router-dom";
 import { useNewsByIdQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 type Props = {
   id?: number;
@@ -18,8 +18,6 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
   const [forms, setForms] = useState<Record<string, Form>>();
 
   const [step, setStep] = useState(0);
-
-  const history = useNavigate();
 
   const isCreateMode = !Number.isInteger(id);
 
@@ -50,9 +48,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     return null;
   };
 
-  const handleGoBack = useCallback(() => {
-    history(-1);
-  }, [history]);
+  const handleGoBack = useNavigationBack();
 
   return (
     <TabsForm

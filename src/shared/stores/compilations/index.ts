@@ -1,6 +1,15 @@
 import { create } from "zustand";
 import { NewsPageRoute } from "~/shared/routes";
-import { useNewsCategoriesQuery, useNewsTagsQuery } from "~/generated/graphql";
+import {
+  useUpdateNewsTagMutation,
+  useCreateNewsTagMutation,
+  useNewsCategoriesQuery,
+  useNewsTagsQuery,
+  useCreateNewsCategoryMutation,
+  useDeleteNewsTagMutation,
+  useDeleteNewsCategoryMutation,
+  useUpdateNewsCategoryMutation
+} from "~/generated/graphql";
 
 export type Compilations = {
   id: number;
@@ -26,12 +35,40 @@ const compilations: Compilations[] = [
 
 const compilationsHooks = [
   {
-    fetchHook: useNewsCategoriesQuery,
-    key: "newsCategories"
+    get: {
+      hook: useNewsCategoriesQuery,
+      key: "newsCategories"
+    },
+    create: {
+      hook: useCreateNewsCategoryMutation,
+      key: "upsertNewsCategory"
+    },
+    update: {
+      hook: useUpdateNewsCategoryMutation,
+      key: "upsertNewsCategory"
+    },
+    remove: {
+      hook: useDeleteNewsCategoryMutation,
+      key: "deleteNewsCategory"
+    }
   },
   {
-    fetchHook: useNewsTagsQuery,
-    key: "newsTags"
+    get: {
+      hook: useNewsTagsQuery,
+      key: "newsTags"
+    },
+    create: {
+      hook: useCreateNewsTagMutation,
+      key: "upsertNewsTag"
+    },
+    update: {
+      hook: useUpdateNewsTagMutation,
+      key: "upsertNewsTag"
+    },
+    remove: {
+      hook: useDeleteNewsTagMutation,
+      key: "deleteNewsTag"
+    }
   }
 ];
 

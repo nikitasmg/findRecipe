@@ -1,15 +1,37 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { debounce } from "~shared/lib/debounce";
 import { createOrder } from "~shared/lib/createOrder";
 import { formatFilters } from "~shared/lib/formatFilters";
 import { ActiveOrder } from "~shared/types/ActiveOrder";
 import { useTablePagination } from "./useTablePagination";
+import { useSearchParams } from "react-router-dom";
 
 type Params = Record<string, string>;
 
 export const useRequestState = (fastSearchFieldId: string) => {
-  const [activeOrder, setActiveOrder] = useState<ActiveOrder>(null);
-  const [filters, setFilters] = useState<Params | null>(null);
+  const [search, setSearch] = useSearchParams();
+  const { filter: initialFilter, sort: initialSort } = [...search.entries()].reduce(
+    (res, cur) => {
+      const [key, value]: [string, unknown] = cur;
+      const sortName = key.match(/sort\[(.+?)]/)?.[1];
+
+      if (sortName) {
+        res.sort[sortName] = value;
+        return res;
+      }
+
+      res.filter[key] = value;
+
+      return res;
+    },
+    {
+      sort: Object.create(null),
+      filter: Object.create(null)
+    }
+  );
+
+  const [activeOrder, setActiveOrder] = useState<ActiveOrder>(initialSort);
+  const [filters, setFilters] = useState<Params | null>(initialFilter);
   const [params, setParams] = useState<Params | null>(null);
   const [title, setTitle] = useState<string>("");
 
@@ -77,6 +99,12 @@ export const useRequestState = (fastSearchFieldId: string) => {
     },
     [handleFilter, params, fastSearchFieldId]
   );
+
+  useEffect(() => {
+    const [sortKey, sortValue] = Object.entries(activeOrder ?? {})[0] ?? [];
+
+    setSearch({ ...(Boolean(activeOrder) && { [`sort[${sortKey}]`]: sortValue }), ...params });
+  }, [params, activeOrder, setSearch]);
 
   return {
     variables,

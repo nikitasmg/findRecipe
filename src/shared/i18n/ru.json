@@ -65,5 +65,11 @@
   "Used in section": "Используется в разделе",
   "News categories": "Категории новостей",
   "News tags": "Теги новостей",
-  "Compilations editing": "Редактирование справочника"
+  "Compilations editing": "Редактирование справочника",
+  "Sorting": "Сортировка",
+  "Value": "Значение",
+  "Actions": "Действия",
+  "Row not selected": "Строка не выбрана",
+  "Unauthenticated.": "Ошибка авторизации",
+  "Compilations edit": "Редактирование справочника"
 }

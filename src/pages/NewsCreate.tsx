@@ -1,16 +1,12 @@
 import { Box } from "@mui/material";
-import React, { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { NewsDetailsForm } from "~/layouts/NewsDetailsForm";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
-import { NewsDetailsForm } from "~/layouts/NewsDetailsForm";
 
 export const NewsCreate: React.FC = () => {
-  const history = useNavigate();
-
-  const handleGoBack = useCallback(() => {
-    history(-1);
-  }, [history]);
+  const handleGoBack = useNavigationBack();
 
   return (
     <Panel>

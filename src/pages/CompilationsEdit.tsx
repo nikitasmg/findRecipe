@@ -13,7 +13,7 @@ export const CompilationsEdit: React.FC = () => {
       <PageTitle>
         <Text className='px-4'>Compilations edit</Text>
       </PageTitle>
-      <CompilationEditTable id={Number(id)} />
+      <CompilationEditTable id={Number(id) - 1} />
     </Box>
   );
 };
