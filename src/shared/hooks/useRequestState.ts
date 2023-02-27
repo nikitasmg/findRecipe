@@ -103,7 +103,7 @@ export const useRequestState = (fastSearchFieldId: string) => {
   useEffect(() => {
     const [sortKey, sortValue] = Object.entries(activeOrder ?? {})[0] ?? [];
 
-    setSearch({ ...(Boolean(activeOrder) && { [`sort[${sortKey}]`]: sortValue }), ...params });
+    setSearch({ ...(Boolean(sortKey) && { [`sort[${sortKey}]`]: sortValue }), ...params });
   }, [params, activeOrder, setSearch]);
 
   return {
