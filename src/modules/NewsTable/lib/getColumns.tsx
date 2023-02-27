@@ -86,11 +86,14 @@ export const getColumns = (
     {
       id: "content",
       label: (
-        <Box className='flex'>
-          <Text>Content</Text>
-          <TableSortLabel onClick={getClickHandler("content")} {...getActiveProps("content")} />
-        </Box>
+        <TableHeadCell
+          title='Content'
+          cellId='content'
+          onSortClick={getClickHandler("content")}
+          sortProps={getActiveProps("content")}
+        />
       ),
+      minWidth: 220,
       render: (value, row) => {
         if (typeof value !== "string") return null;
 
@@ -138,10 +141,13 @@ export const getColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 120,
+      minWidth: 250,
       render: (value, row) => {
         return (
-          <Link className='hover:underline hover:text-green-500' to={`${NewsPageEdit}/${row.id}`}>
+          <Link
+            className=' text-green-500 hover:text-green-700 transition-all'
+            to={`${NewsPageEdit}/${row.id}`}
+          >
             {value as string}
           </Link>
         );

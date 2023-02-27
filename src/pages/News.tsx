@@ -1,11 +1,15 @@
-import { Box } from "@mui/material";
-import React, { useState } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import React from "react";
 import { NewsTable } from "~/modules/NewsTable";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { Text } from "~/shared/components/Text";
+import { useNewsStore } from "~/shared/stores/news";
 
 export const News: React.FC = () => {
-  const [newsCount, setNewsCount] = useState(0);
+  const { count, isLoading } = useNewsStore((state) => ({
+    count: state.count,
+    isLoading: state.isLoading
+  }));
 
   return (
     <Box className='!flex flex-col h-full'>
@@ -17,9 +21,10 @@ export const News: React.FC = () => {
           count news
         </Text>
         &nbsp;
-        <Text className='text-gray-600'>{`${newsCount}`}</Text>
+        {isLoading && <CircularProgress size={16} />}
+        {!isLoading && <Text className='text-gray-600'>{`${count}`}</Text>}
       </PageTitle>
-      <NewsTable onNewsCountChange={setNewsCount} />
+      <NewsTable />
     </Box>
   );
 };

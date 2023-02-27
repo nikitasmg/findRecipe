@@ -21,12 +21,9 @@ import { TablePagination } from "~/shared/components/TablePagination";
 import { SearchInput } from "~/shared/components/SearchInput";
 import { Panel } from "~shared/components/Panel/Panel";
 import { getColumns } from "./lib/getColumns";
+import { useNewsStore } from "~/shared/stores/news";
 
-type Props = {
-  onNewsCountChange?: (count: number) => void;
-};
-
-export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
+export const NewsTable: React.FC = () => {
   const {
     variables,
     title,
@@ -42,6 +39,11 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
 
   const client = useGraphqlClient();
 
+  const { setCount, setLoading } = useNewsStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
+
   const { data, isLoading } = useNewsQuery(client, variables);
 
   const news = data?.news;
@@ -51,8 +53,12 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
   const columns = getColumns(activeOrder, params, handleChangeOrder, handleFilterChange);
 
   useEffect(() => {
-    onNewsCountChange?.(total);
-  }, [total, onNewsCountChange]);
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(total);
+  }, [total, setCount]);
 
   return (
     <Panel>

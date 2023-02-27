@@ -17,7 +17,7 @@ export const getColumns = (): Column[] => {
       render: (value, row) => {
         return (
           <Link
-            className='hover:underline hover:text-green-500 w-full block'
+            className='text-green-500 hover:text-green-700 w-full block'
             to={`${CompilationEditPage.replace(":id", `${row.id}`)}`}
           >
             {value as string}
@@ -36,7 +36,7 @@ export const getColumns = (): Column[] => {
       render: (value) => {
         const { href: to, title } = value as Compilations["whereUseLink"];
         return (
-          <Link className='hover:underline hover:text-green-500 w-full block' to={to}>
+          <Link className='text-green-500 hover:text-green-700 w-full block' to={to}>
             <Text component='span'>{title}</Text>
           </Link>
         );
