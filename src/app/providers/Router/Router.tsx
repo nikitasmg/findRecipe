@@ -11,6 +11,7 @@ import { Home } from "~/pages/Home";
 import { Users } from "~/pages/Users";
 import { NewsEdit } from "~/pages/NewsEdit";
 import { Compilations } from "~/pages/Compilations";
+import {Settings} from "~/pages/Settings";
 
 import {
   HomePageRoute,
@@ -19,7 +20,8 @@ import {
   NewsPageEdit,
   NewsPageRoute,
   UsersPageRoute,
-  CompilationsPage
+  CompilationsPage,
+  SettingsPage
 } from "~shared/routes";
 import { CompilationsEdit } from "~/pages/CompilationsEdit";
 import { CompilationEditPage } from "~/shared/routes";
@@ -86,6 +88,15 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <CompilationsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={SettingsPage}
+        element={
+          <BaseProtectedLayout>
+            <Settings />
           </BaseProtectedLayout>
         }
       />

@@ -39,6 +39,29 @@ export type Document = {
   user_name?: Maybe<Scalars['String']>;
 };
 
+export type Employee = {
+  __typename?: 'Employee';
+  additional?: Maybe<Scalars['String']>;
+  created_at: Scalars['DateTime'];
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  position?: Maybe<Scalars['String']>;
+  sort: Scalars['Int'];
+  subdivision?: Maybe<Subdivision>;
+  updated_at: Scalars['DateTime'];
+};
+
+export type EmployeeInput = {
+  additional?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  position?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  subdivision?: InputMaybe<SubdivisionBelongsTo>;
+};
+
 export type Event = {
   __typename?: 'Event';
   created_at: Scalars['DateTime'];
@@ -123,25 +146,43 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
   deleteNews?: Maybe<News>;
   deleteNewsCategory?: Maybe<NewsCategory>;
   deleteNewsTag?: Maybe<NewsTag>;
   deleteOrganizer?: Maybe<Organizer>;
+  deletePage?: Maybe<Page>;
   deletePartner?: Maybe<Partner>;
   deleteSetting?: Maybe<Setting>;
+  deleteSubdivision?: Maybe<Subdivision>;
+  /** Нельзя удалить суперпользователя, ID=1 */
+  deleteUser?: Maybe<User>;
+  deleteVacancy?: Maybe<Vacancy>;
   login: Scalars['String'];
   logout?: Maybe<User>;
   requestPasswordReset: Scalars['String'];
   resetPassword: Scalars['String'];
+  sendEmail: Scalars['String'];
+  sendResume: Scalars['Boolean'];
   upload?: Maybe<Scalars['String']>;
+  upsertEmployee?: Maybe<Employee>;
   upsertEvent?: Maybe<Event>;
   upsertNews?: Maybe<News>;
   upsertNewsCategory?: Maybe<NewsCategory>;
   upsertNewsTag?: Maybe<NewsTag>;
   upsertOrganizer?: Maybe<Organizer>;
+  upsertPage?: Maybe<Page>;
   upsertPartner?: Maybe<Partner>;
   upsertSetting?: Maybe<Setting>;
+  upsertSubdivision?: Maybe<Subdivision>;
+  upsertUser?: Maybe<User>;
+  upsertVacancy?: Maybe<Vacancy>;
+};
+
+
+export type MutationDeleteEmployeeArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -170,12 +211,32 @@ export type MutationDeleteOrganizerArgs = {
 };
 
 
+export type MutationDeletePageArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationDeletePartnerArgs = {
   id: Scalars['ID'];
 };
 
 
 export type MutationDeleteSettingArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteSubdivisionArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteVacancyArgs = {
   id: Scalars['ID'];
 };
 
@@ -198,8 +259,28 @@ export type MutationResetPasswordArgs = {
 };
 
 
+export type MutationSendEmailArgs = {
+  email: Scalars['String'];
+  message: Scalars['String'];
+  name: Scalars['String'];
+  subject: Scalars['String'];
+};
+
+
+export type MutationSendResumeArgs = {
+  email: Scalars['String'];
+  file: Scalars['Upload'];
+  name: Scalars['String'];
+};
+
+
 export type MutationUploadArgs = {
   file: Scalars['Upload'];
+};
+
+
+export type MutationUpsertEmployeeArgs = {
+  input: EmployeeInput;
 };
 
 
@@ -228,6 +309,11 @@ export type MutationUpsertOrganizerArgs = {
 };
 
 
+export type MutationUpsertPageArgs = {
+  input: PageInput;
+};
+
+
 export type MutationUpsertPartnerArgs = {
   input: PartnerInput;
 };
@@ -235,6 +321,21 @@ export type MutationUpsertPartnerArgs = {
 
 export type MutationUpsertSettingArgs = {
   input: SettingInput;
+};
+
+
+export type MutationUpsertSubdivisionArgs = {
+  input: SubdivisionInput;
+};
+
+
+export type MutationUpsertUserArgs = {
+  input: UserInput;
+};
+
+
+export type MutationUpsertVacancyArgs = {
+  input: VacancyInput;
 };
 
 export type News = {
@@ -373,6 +474,25 @@ export type OrganizerInput = {
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
+export type Page = {
+  __typename?: 'Page';
+  children?: Maybe<Array<Maybe<Page>>>;
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  documents?: Maybe<Array<Maybe<Document>>>;
+  id: Scalars['ID'];
+  image?: Maybe<Image>;
+  imageUrl?: Maybe<Scalars['String']>;
+  meta?: Maybe<Meta>;
+  name: Scalars['String'];
+  parent?: Maybe<Page>;
+  parent_id?: Maybe<Scalars['Int']>;
+  seo?: Maybe<Seo>;
+  slug: Scalars['String'];
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+};
+
 /** Information about pagination using a Relay style cursor connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -392,6 +512,27 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']>;
   /** Total number of nodes in the paginated connection. */
   total: Scalars['Int'];
+};
+
+export type PageInput = {
+  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  parent?: InputMaybe<PageParentBelongsTo>;
+  parent_id?: InputMaybe<Scalars['Int']>;
+  seo?: InputMaybe<SeoBelongsTo>;
+  slug?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
+  uploadDocuments?: InputMaybe<Array<InputMaybe<UploadDocumentInput>>>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
+export type PageParentBelongsTo = {
+  connect?: InputMaybe<Scalars['ID']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Information about pagination using a fully featured paginator. */
@@ -440,6 +581,8 @@ export type PartnerInput = {
 
 export type Query = {
   __typename?: 'Query';
+  employeeById?: Maybe<Employee>;
+  employees: Array<Employee>;
   eventById?: Maybe<Event>;
   events?: Maybe<EventPaginator>;
   me: User;
@@ -452,13 +595,32 @@ export type Query = {
   newsTags: Array<NewsTag>;
   organizerById?: Maybe<Organizer>;
   organizers: Array<Organizer>;
+  pageById?: Maybe<Page>;
+  pageBySlug?: Maybe<Page>;
+  pages: Array<Page>;
   partnerById?: Maybe<Partner>;
   partners: Array<Partner>;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
-  user?: Maybe<User>;
+  subdivisionById?: Maybe<Subdivision>;
+  subdivisions: Array<Subdivision>;
+  userByEmail?: Maybe<User>;
+  userById?: Maybe<User>;
   users?: Maybe<UserPaginator>;
+  vacancies: Array<Vacancy>;
+  vacancyById?: Maybe<Vacancy>;
+};
+
+
+export type QueryEmployeeByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryEmployeesArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
 
@@ -523,6 +685,22 @@ export type QueryOrganizersArgs = {
 };
 
 
+export type QueryPageByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPageBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+export type QueryPagesArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
 export type QueryPartnerByIdArgs = {
   id: Scalars['ID'];
 };
@@ -549,16 +727,43 @@ export type QuerySettingsArgs = {
 };
 
 
-export type QueryUserArgs = {
-  email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+export type QuerySubdivisionByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QuerySubdivisionsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryUserByEmailArgs = {
+  email: Scalars['String'];
+};
+
+
+export type QueryUserByIdArgs = {
+  id: Scalars['ID'];
 };
 
 
 export type QueryUsersArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   first?: InputMaybe<Scalars['Int']>;
-  name?: InputMaybe<Scalars['String']>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
   page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryVacanciesArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryVacancyByIdArgs = {
+  id: Scalars['ID'];
 };
 
 export type Seo = {
@@ -616,6 +821,25 @@ export enum SortOrder {
   Desc = 'DESC'
 }
 
+export type Subdivision = {
+  __typename?: 'Subdivision';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  sort: Scalars['Int'];
+};
+
+export type SubdivisionBelongsTo = {
+  connect?: InputMaybe<Scalars['ID']>;
+  create?: InputMaybe<SubdivisionInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SubdivisionInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+};
+
 export type TagBelongsToMany = {
   connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   create?: InputMaybe<Array<InputMaybe<NewsTagInput>>>;
@@ -664,8 +888,14 @@ export type User = {
   email_verified_at?: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   name: Scalars['String'];
-  role: Scalars['Int'];
   updated_at: Scalars['DateTime'];
+};
+
+export type UserInput = {
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
 };
 
 /** A paginated list of User items. */
@@ -675,6 +905,23 @@ export type UserPaginator = {
   data: Array<User>;
   /** Pagination information about the list of items. */
   paginatorInfo: PaginatorInfo;
+};
+
+export type Vacancy = {
+  __typename?: 'Vacancy';
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  published: Scalars['Boolean'];
+  sort: Scalars['Int'];
+};
+
+export type VacancyInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  published?: InputMaybe<Scalars['Boolean']>;
+  sort?: InputMaybe<Scalars['Int']>;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -797,21 +1044,57 @@ export type DeleteNewsTagMutationVariables = Exact<{
 
 export type DeleteNewsTagMutation = { __typename?: 'Mutation', deleteNewsTag?: { __typename?: 'NewsTag', sort: number, name: string } | null };
 
-export type AllUsersFieldsFragment = { __typename?: 'User', id: string, role: number, name: string, email: string, email_verified_at?: any | null };
+export type AllSettingsFieldsFragment = { __typename?: 'Setting', id: string, name: string, value?: string | null };
+
+export type SettingByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type SettingByIdQuery = { __typename?: 'Query', settingById?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+
+export type SettingByNameQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type SettingByNameQuery = { __typename?: 'Query', settingByName?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+
+export type SettingsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type SettingsQuery = { __typename?: 'Query', settings: Array<{ __typename?: 'Setting', id: string, name: string, value?: string | null }> };
+
+export type UpdateSettingsMutationVariables = Exact<{
+  schedule?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  address?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  emailPress?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+
+export type AllUsersFieldsFragment = { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null };
 
 export type UsersQueryVariables = Exact<{
-  name?: InputMaybe<Scalars['String']>;
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
   first?: InputMaybe<Scalars['Int']>;
   page?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users?: { __typename?: 'UserPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'User', id: string, role: number, name: string, email: string, email_verified_at?: any | null }> } | null };
+export type UsersQuery = { __typename?: 'Query', users?: { __typename?: 'UserPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null }> } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, role: number, name: string, email: string, email_verified_at?: any | null } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null } };
 
 export const AllNewsFieldsFragmentDoc = `
     fragment allNewsFields on News {
@@ -867,10 +1150,16 @@ export const AllNewsTagsFieldsFragmentDoc = `
   name
 }
     `;
+export const AllSettingsFieldsFragmentDoc = `
+    fragment allSettingsFields on Setting {
+  id
+  name
+  value
+}
+    `;
 export const AllUsersFieldsFragmentDoc = `
     fragment allUsersFields on User {
   id
-  role
   name
   email
   email_verified_at
@@ -1189,9 +1478,104 @@ export const useDeleteNewsTagMutation = <
       (variables?: DeleteNewsTagMutationVariables) => fetcher<DeleteNewsTagMutation, DeleteNewsTagMutationVariables>(client, DeleteNewsTagDocument, variables, headers)(),
       options
     );
+export const SettingByIdDocument = `
+    query settingById($id: ID!) {
+  settingById(id: $id) {
+    ...allSettingsFields
+  }
+}
+    ${AllSettingsFieldsFragmentDoc}`;
+export const useSettingByIdQuery = <
+      TData = SettingByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: SettingByIdQueryVariables,
+      options?: UseQueryOptions<SettingByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SettingByIdQuery, TError, TData>(
+      ['settingById', variables],
+      fetcher<SettingByIdQuery, SettingByIdQueryVariables>(client, SettingByIdDocument, variables, headers),
+      options
+    );
+export const SettingByNameDocument = `
+    query settingByName($name: String!) {
+  settingByName(name: $name) {
+    ...allSettingsFields
+  }
+}
+    ${AllSettingsFieldsFragmentDoc}`;
+export const useSettingByNameQuery = <
+      TData = SettingByNameQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: SettingByNameQueryVariables,
+      options?: UseQueryOptions<SettingByNameQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SettingByNameQuery, TError, TData>(
+      ['settingByName', variables],
+      fetcher<SettingByNameQuery, SettingByNameQueryVariables>(client, SettingByNameDocument, variables, headers),
+      options
+    );
+export const SettingsDocument = `
+    query settings($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  settings(orderBy: $orderBy, filter: $filter) {
+    ...allSettingsFields
+  }
+}
+    ${AllSettingsFieldsFragmentDoc}`;
+export const useSettingsQuery = <
+      TData = SettingsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: SettingsQueryVariables,
+      options?: UseQueryOptions<SettingsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SettingsQuery, TError, TData>(
+      variables === undefined ? ['settings'] : ['settings', variables],
+      fetcher<SettingsQuery, SettingsQueryVariables>(client, SettingsDocument, variables, headers),
+      options
+    );
+export const UpdateSettingsDocument = `
+    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String) {
+  schedule: upsertSetting(input: {id: "1", name: "phone", value: $phone}) {
+    ...allSettingsFields
+  }
+  phone: upsertSetting(input: {id: "2", name: "email", value: $email}) {
+    ...allSettingsFields
+  }
+  address: upsertSetting(input: {id: "3", name: "emailPress", value: $emailPress}) {
+    ...allSettingsFields
+  }
+  email: upsertSetting(input: {id: "4", name: "address", value: $address}) {
+    ...allSettingsFields
+  }
+  emailPress: upsertSetting(input: {id: "5", name: "schedule", value: $schedule}) {
+    ...allSettingsFields
+  }
+}
+    ${AllSettingsFieldsFragmentDoc}`;
+export const useUpdateSettingsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateSettingsMutation, TError, UpdateSettingsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateSettingsMutation, TError, UpdateSettingsMutationVariables, TContext>(
+      ['updateSettings'],
+      (variables?: UpdateSettingsMutationVariables) => fetcher<UpdateSettingsMutation, UpdateSettingsMutationVariables>(client, UpdateSettingsDocument, variables, headers)(),
+      options
+    );
 export const UsersDocument = `
-    query users($name: String, $first: Int = 10, $page: Int) {
-  users(name: $name, first: $first, page: $page) {
+    query users($orderBy: [OrderByClause!], $filter: [FilterByClause!], $first: Int = 30, $page: Int) {
+  users(orderBy: $orderBy, filter: $filter, first: $first, page: $page) {
     paginatorInfo {
       lastPage
       total
