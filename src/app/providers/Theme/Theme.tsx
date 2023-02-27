@@ -12,13 +12,13 @@ const theme = createTheme({
     MuiTableBody: {
       defaultProps: {
         sx: {
-          "& tr:nth-child(2n)": {
+          "& tr:nth-of-type(2n)": {
             background: grey[200]
           },
           "& .MuiTableRow-hover:hover": {
             background: "none"
           },
-          "& .MuiTableRow-hover:nth-child(2n):hover": {
+          "& .MuiTableRow-hover:nth-of-type(2n):hover": {
             background: grey[200]
           }
         }

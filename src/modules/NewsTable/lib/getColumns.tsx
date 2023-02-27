@@ -32,7 +32,8 @@ export const getColumns = (
   activeOrder?: ActiveOrder,
   filter?: Record<string, unknown> | null,
   handleOrderClick?: (_activeOrder: ActiveOrder) => void,
-  handleChangeFilter?: (name: string, value: unknown) => void
+  handleChangeFilter?: (name: string, value: unknown) => void,
+  removeFilter?: (key: string) => void
 ): Column[] => {
   const { open, handleClose, handleOpen } = useModal();
 
@@ -62,6 +63,13 @@ export const getColumns = (
       : "desc") as Lowercase<SortOrder>
   });
 
+  const getRemoveFilterProps = (key: string) => {
+    return {
+      filterKey: key,
+      removeFilter
+    };
+  };
+
   return [
     {
       id: "id",
@@ -72,6 +80,7 @@ export const getColumns = (
           isFilterActive={!!filter?.id}
           onSortClick={getClickHandler("id")}
           sortProps={getActiveProps("id")}
+          {...getRemoveFilterProps("id")}
         >
           <TextField
             value={filter?.id}
@@ -162,6 +171,7 @@ export const getColumns = (
           isFilterActive={!!filter?.category}
           onSortClick={getClickHandler("category")}
           sortProps={getActiveProps("category")}
+          {...getRemoveFilterProps("category")}
         >
           <FormControl fullWidth>
             <InputLabel id='category-select'>
@@ -200,10 +210,13 @@ export const getColumns = (
           isFilterActive={!!filter?.published_at}
           onSortClick={getClickHandler("published_at")}
           sortProps={getActiveProps("published_at")}
+          {...getRemoveFilterProps("published_at")}
         >
           <DatePicker
             value={filter?.published_at}
-            onChange={(value) => handleChangeFilter?.("published_at", value)}
+            onChange={(value) => {
+              handleChangeFilter?.("published_at", (value as Date).toISOString());
+            }}
             renderInput={(props) => <TextField {...props} variant='outlined' />}
           />
         </TableHeadCell>
@@ -221,6 +234,7 @@ export const getColumns = (
           isFilterActive={!!filter?.on_index}
           onSortClick={getClickHandler("on_index")}
           sortProps={getActiveProps("on_index")}
+          {...getRemoveFilterProps("on_index")}
         >
           <FormControlLabel
             control={

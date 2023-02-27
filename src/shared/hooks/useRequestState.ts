@@ -100,6 +100,18 @@ export const useRequestState = (fastSearchFieldId: string) => {
     [handleFilter, params, fastSearchFieldId]
   );
 
+  const removeFilter = useCallback((key: string) => {
+    setParams((currentParams) => {
+      const newParams = { ...currentParams };
+
+      delete newParams[key];
+
+      setFilters(newParams);
+
+      return newParams;
+    });
+  }, []);
+
   useEffect(() => {
     const [sortKey, sortValue] = Object.entries(activeOrder ?? {})[0] ?? [];
 
@@ -122,6 +134,7 @@ export const useRequestState = (fastSearchFieldId: string) => {
     resetPagination,
     handleChangeOrder,
     handleTitleChange,
-    handleFilterChange
+    handleFilterChange,
+    removeFilter
   };
 };

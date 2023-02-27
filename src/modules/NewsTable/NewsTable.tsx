@@ -33,7 +33,8 @@ export const NewsTable: React.FC = () => {
     handleTitleChange,
     handleChangePage,
     handleChangeOrder,
-    handleFilterChange
+    handleFilterChange,
+    removeFilter
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -49,7 +50,13 @@ export const NewsTable: React.FC = () => {
 
   const total = news?.paginatorInfo.total ?? 0;
 
-  const columns = getColumns(activeOrder, params, handleChangeOrder, handleFilterChange);
+  const columns = getColumns(
+    activeOrder,
+    params,
+    handleChangeOrder,
+    handleFilterChange,
+    removeFilter
+  );
 
   useEffect(() => {
     setLoading(isLoading);
