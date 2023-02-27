@@ -10,7 +10,6 @@ import { News } from "~/pages/News";
 import { Home } from "~/pages/Home";
 import { Users } from "~/pages/Users";
 import { NewsEdit } from "~/pages/NewsEdit";
-import { NewsCreate } from "~/pages/NewsCreate";
 import { Compilations } from "~/pages/Compilations";
 
 import {
@@ -59,7 +58,7 @@ export const Router: React.FC = () => {
         path={NewsPageCreate}
         element={
           <BaseProtectedLayout>
-            <NewsCreate />
+            <NewsEdit />
           </BaseProtectedLayout>
         }
       />

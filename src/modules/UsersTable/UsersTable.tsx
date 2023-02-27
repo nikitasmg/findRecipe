@@ -33,8 +33,7 @@ export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
   const client = useGraphqlClient();
 
   const { data, isLoading } = useUsersQuery(client, {
-    ...variables,
-    name: variables.filter?.[0].value
+    ...variables
   });
 
   const users = data?.users;
