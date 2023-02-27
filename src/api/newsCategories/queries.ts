@@ -27,3 +27,32 @@ export const NewsCategories = gql`
     }
   }
 `;
+
+export const CreateNewsCategory = gql`
+  ${NewsCategoriesFragment}
+
+  mutation createNewsCategory($sort: Int!, $name: String!) {
+    upsertNewsCategory(input: { sort: $sort, name: $name }) {
+      ...allNewsCategoriesFields
+    }
+  }
+`;
+
+export const UpdateNewsCategory = gql`
+  ${NewsCategoriesFragment}
+
+  mutation updateNewsCategory($id: ID!, $sort: Int!, $name: String!) {
+    upsertNewsCategory(input: { id: $id, sort: $sort, name: $name }) {
+      ...allNewsCategoriesFields
+    }
+  }
+`;
+
+export const DeleteNewsCategory = gql`
+  mutation deleteNewsCategory($id: ID!) {
+    deleteNewsCategory(id: $id) {
+      sort
+      name
+    }
+  }
+`;

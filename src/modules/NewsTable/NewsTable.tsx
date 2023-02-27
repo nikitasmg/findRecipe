@@ -13,7 +13,7 @@ import React, { Fragment, useEffect } from "react";
 import { News, useNewsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
-import { NewsPageEdit } from "~/shared/routes";
+import { NewsPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { LinkButton } from "~/shared/components/LinkButton";
 import { Text } from "~/shared/components/Text";
@@ -21,12 +21,9 @@ import { TablePagination } from "~/shared/components/TablePagination";
 import { SearchInput } from "~/shared/components/SearchInput";
 import { Panel } from "~shared/components/Panel/Panel";
 import { getColumns } from "./lib/getColumns";
+import { useNewsStore } from "~/shared/stores/news";
 
-type Props = {
-  onNewsCountChange?: (count: number) => void;
-};
-
-export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
+export const NewsTable: React.FC = () => {
   const {
     variables,
     title,
@@ -35,12 +32,17 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
     pagination,
     handleTitleChange,
     handleChangePage,
-    handleChangeRowsPerPage,
     handleChangeOrder,
-    handleFilterChange
+    handleFilterChange,
+    removeFilter
   } = useRequestState("name");
 
   const client = useGraphqlClient();
+
+  const { setCount, setLoading } = useNewsStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const { data, isLoading } = useNewsQuery(client, variables);
 
@@ -48,11 +50,21 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
 
   const total = news?.paginatorInfo.total ?? 0;
 
-  const columns = getColumns(activeOrder, params, handleChangeOrder, handleFilterChange);
+  const columns = getColumns(
+    activeOrder,
+    params,
+    handleChangeOrder,
+    handleFilterChange,
+    removeFilter
+  );
 
   useEffect(() => {
-    onNewsCountChange?.(total);
-  }, [total, onNewsCountChange]);
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(total);
+  }, [total, setCount]);
 
   return (
     <Panel>
@@ -65,7 +77,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
           size='small'
         />
 
-        <LinkButton variant='outlined' href={NewsPageEdit} className='!capitalize'>
+        <LinkButton variant='outlined' href={NewsPageCreate} className='!capitalize'>
           <AddBoxRoundedIcon />
           <Text>Add</Text>
         </LinkButton>
@@ -107,6 +119,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
               </TableBody>
             )}
           </Table>
+
           {isLoading && (
             <Box className='flex h-[20vh] w-full justify-center items-center'>
               <CircularProgress />
@@ -117,9 +130,7 @@ export const NewsTable: React.FC<Props> = ({ onNewsCountChange }) => {
         <TablePagination
           totalPages={news?.paginatorInfo.lastPage ?? 1}
           page={pagination.page || 1}
-          perPage={pagination.perPage}
           onChangePagination={handleChangePage}
-          onChangePerPage={handleChangeRowsPerPage}
         />
       </Fragment>
     </Panel>

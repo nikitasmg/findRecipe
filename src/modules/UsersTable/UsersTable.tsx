@@ -27,14 +27,8 @@ type Props = {
 };
 
 export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
-  const {
-    variables,
-    title,
-    pagination,
-    handleTitleChange,
-    handleChangePage,
-    handleChangeRowsPerPage
-  } = useRequestState("name");
+  const { variables, title, pagination, handleTitleChange, handleChangePage } =
+    useRequestState("name");
 
   const client = useGraphqlClient();
 
@@ -116,9 +110,7 @@ export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
         <TablePagination
           totalPages={users?.paginatorInfo.lastPage ?? 1}
           page={pagination.page || 1}
-          perPage={pagination.perPage}
           onChangePagination={handleChangePage}
-          onChangePerPage={handleChangeRowsPerPage}
         />
       </Fragment>
     </Panel>

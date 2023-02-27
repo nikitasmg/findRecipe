@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+    "@ckeditor/ckeditor5-react": "^5.0.6",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
@@ -22,6 +24,7 @@
     "react-i18next": "^12.1.5",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
+    "react-sortable-hoc": "^2.0.0",
     "zustand": "^4.3.2"
   },
   "devDependencies": {

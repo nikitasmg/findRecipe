@@ -1,8 +1,37 @@
 import React, { PropsWithChildren } from "react";
-import { purple, green } from "@mui/material/colors";
+import { purple, green, grey } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
+  components: {
+    MuiTableHead: {
+      defaultProps: {
+        className: "bg-green-500"
+      }
+    },
+    MuiTableBody: {
+      defaultProps: {
+        sx: {
+          "& tr:nth-of-type(2n)": {
+            background: grey[200]
+          },
+          "& .MuiTableRow-hover:hover": {
+            background: "none"
+          },
+          "& .MuiTableRow-hover:nth-of-type(2n):hover": {
+            background: grey[200]
+          }
+        }
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          background: "transparent"
+        }
+      }
+    }
+  },
   palette: {
     primary: {
       main: green["A700"]

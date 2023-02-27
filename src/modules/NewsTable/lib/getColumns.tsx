@@ -11,18 +11,12 @@ import {
   Modal,
   Select,
   Switch,
-  TableSortLabel,
   TextField
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  NewsCategory,
-  SortOrder,
-  useNewsCategoriesQuery,
-  useUpdateOnIndexMutation
-} from "~/generated/graphql";
+import { SortOrder, useNewsCategoriesQuery, useUpdateOnIndexMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
@@ -32,12 +26,14 @@ import { useModal } from "~/shared/hooks/useModal";
 import { formatDate } from "~/shared/lib/formatDate";
 import { NewsPageEdit } from "~/shared/routes";
 import { Column } from "../types";
+import { prop } from "rambda";
 
 export const getColumns = (
   activeOrder?: ActiveOrder,
   filter?: Record<string, unknown> | null,
   handleOrderClick?: (_activeOrder: ActiveOrder) => void,
-  handleChangeFilter?: (name: string, value: unknown) => void
+  handleChangeFilter?: (name: string, value: unknown) => void,
+  removeFilter?: (key: string) => void
 ): Column[] => {
   const { open, handleClose, handleOpen } = useModal();
 
@@ -52,7 +48,7 @@ export const getColumns = (
       return handleOrderClick?.(null);
     }
 
-    const direction = activeOrder?.name === name ? SortOrder.Desc : SortOrder.Asc;
+    const direction = activeOrder?.[name] === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc;
 
     return handleOrderClick?.({ [name]: direction });
   };
@@ -67,6 +63,13 @@ export const getColumns = (
       : "desc") as Lowercase<SortOrder>
   });
 
+  const getRemoveFilterProps = (key: string) => {
+    return {
+      filterKey: key,
+      removeFilter
+    };
+  };
+
   return [
     {
       id: "id",
@@ -77,6 +80,7 @@ export const getColumns = (
           isFilterActive={!!filter?.id}
           onSortClick={getClickHandler("id")}
           sortProps={getActiveProps("id")}
+          {...getRemoveFilterProps("id")}
         >
           <TextField
             value={filter?.id}
@@ -90,18 +94,23 @@ export const getColumns = (
     {
       id: "content",
       label: (
-        <Box className='flex'>
-          <Text>Content</Text>
-          <TableSortLabel onClick={getClickHandler("content")} {...getActiveProps("content")} />
-        </Box>
+        <TableHeadCell
+          title='Content'
+          cellId='content'
+          onSortClick={getClickHandler("content")}
+          sortProps={getActiveProps("content")}
+        />
       ),
-      render: (value) => {
+      minWidth: 220,
+      render: (value, row) => {
         if (typeof value !== "string") return null;
 
-        const handleClick = () => handleOpen(value);
+        const key = `${row.id}`;
+
+        const handleClick = () => handleOpen(key);
 
         return (
-          <Fragment key={value}>
+          <Fragment key={key}>
             <Button
               className='flex gap-2 items-center w-fit !capitalize p-4'
               variant='outlined'
@@ -111,7 +120,7 @@ export const getColumns = (
               <Text>Preview</Text>
             </Button>
             <Modal
-              open={open === value}
+              open={open === key}
               onClose={handleClose}
               aria-labelledby={value}
               aria-describedby={value}
@@ -138,19 +147,15 @@ export const getColumns = (
           isFilterActive={!!filter?.name}
           onSortClick={getClickHandler("name")}
           sortProps={getActiveProps("name")}
-        >
-          <TextField
-            value={filter?.name}
-            label={<Text>Enter title</Text>}
-            onChange={getChangeHandler("name")}
-            variant='outlined'
-          />
-        </TableHeadCell>
+        />
       ),
-      minWidth: 120,
+      minWidth: 250,
       render: (value, row) => {
         return (
-          <Link className='hover:underline hover:text-green-500' to={`${NewsPageEdit}/${row.id}`}>
+          <Link
+            className=' text-green-500 hover:text-green-700 transition-all'
+            to={`${NewsPageEdit.replace(":id", row.id as string)}`}
+          >
             {value as string}
           </Link>
         );
@@ -166,6 +171,7 @@ export const getColumns = (
           isFilterActive={!!filter?.category}
           onSortClick={getClickHandler("category")}
           sortProps={getActiveProps("category")}
+          {...getRemoveFilterProps("category")}
         >
           <FormControl fullWidth>
             <InputLabel id='category-select'>
@@ -192,9 +198,7 @@ export const getColumns = (
         </TableHeadCell>
       ),
       minWidth: 80,
-      render: (value) => {
-        return (value as NewsCategory).name;
-      }
+      render: prop("name")
     },
 
     {
@@ -206,10 +210,13 @@ export const getColumns = (
           isFilterActive={!!filter?.published_at}
           onSortClick={getClickHandler("published_at")}
           sortProps={getActiveProps("published_at")}
+          {...getRemoveFilterProps("published_at")}
         >
           <DatePicker
             value={filter?.published_at}
-            onChange={(value) => handleChangeFilter?.("published_at", value)}
+            onChange={(value) => {
+              handleChangeFilter?.("published_at", (value as Date).toISOString());
+            }}
             renderInput={(props) => <TextField {...props} variant='outlined' />}
           />
         </TableHeadCell>
@@ -227,6 +234,7 @@ export const getColumns = (
           isFilterActive={!!filter?.on_index}
           onSortClick={getClickHandler("on_index")}
           sortProps={getActiveProps("on_index")}
+          {...getRemoveFilterProps("on_index")}
         >
           <FormControlLabel
             control={

@@ -2,8 +2,11 @@ import { GraphQLClient } from "graphql-request";
 import { Response } from "graphql-request/dist/types";
 import { compose, curry, prop } from "rambda";
 import { createCtx } from "~/shared/lib/context";
+import { LoginPageRoute } from "~/shared/routes";
 import { useAlertsStore as alertsStore } from "~/shared/stores/alerts";
 import { useAuthStore, useAuthStore as authStore } from "~/shared/stores/auth";
+
+const goToLoginPage = () => (window.location = LoginPageRoute as unknown as Location);
 
 const client = new GraphQLClient(process.env.REACT_APP_API_URL ?? "", {
   responseMiddleware: (response) => {
@@ -15,12 +18,16 @@ const client = new GraphQLClient(process.env.REACT_APP_API_URL ?? "", {
 
     const errors = (response as unknown as { response: Response<unknown> }).response?.errors;
 
+    const categoryError = errors?.[0]?.extensions.category;
+
     const isAuthError =
-      errors?.[0]?.extensions.category === "internal" && errors?.[0]?.path?.[0] === "me";
+      (categoryError === "internal" && errors?.[0]?.path?.[0] === "me") ||
+      categoryError === "authentication";
 
     if (isAuthError) {
       addErrorAlert("Error authorization");
       unAuth();
+      goToLoginPage();
       return;
     }
 

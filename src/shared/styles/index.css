@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./ovverides.css";
+@import "./overrides.css";
 
 html {
   @apply h-[100%];

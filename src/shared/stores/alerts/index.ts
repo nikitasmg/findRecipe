@@ -14,7 +14,7 @@ export const useAlertsStore = create<AlertsState>(
     addAlert: (severity: AlertColor, message: string) => {
       const newId = String(new Date().getTime());
       set((state) => ({
-        alerts: { ...state.alerts, [newId]: { severity, message } }
+        alerts: { ...state.alerts, [newId]: { severity, message: message.slice(0, 100) } }
       }));
 
       const autoRemoveTimeout = 2000;

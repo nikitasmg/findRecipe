@@ -8,12 +8,13 @@ export type Path = {
   title: React.ReactNode;
   path?: string;
   children?: Path[];
+  initialExpanded?: boolean;
 };
 
-export const Path: React.FC<Path> = ({ children, path, title }) => {
+export const Path: React.FC<Path> = ({ children, path, title, initialExpanded }) => {
   if (children) {
     return (
-      <Accordion disableGutters elevation={0} square className='w-full'>
+      <Accordion expanded={initialExpanded} disableGutters elevation={0} square className='w-full'>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='content-panel'

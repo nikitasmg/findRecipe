@@ -1,9 +1,9 @@
 import { Tabs } from "@mui/material";
-import React, { SyntheticEvent, useCallback, useLayoutEffect } from "react";
+import React, { SyntheticEvent, useCallback, useLayoutEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HeaderTab } from "~/shared/components/HeaderTab";
 import { useHeaderTabsStore } from "~/shared/stores/headerTabs";
-import { HomePageRoute, NewsPageRoute, UsersPageRoute } from "~shared/routes";
+import { CompilationsPage, HomePageRoute, NewsPageRoute, UsersPageRoute } from "~shared/routes";
 
 const tabs: HeaderTab[] = [
   {
@@ -22,6 +22,10 @@ const tabs: HeaderTab[] = [
         path: UsersPageRoute
       }
     ]
+  },
+  {
+    label: "Compilations",
+    path: CompilationsPage
   }
 ];
 
@@ -42,6 +46,8 @@ const pathsResolve = tabs.reduce((res, tab, i) => {
 
 export const HeaderTabs: React.FC = () => {
   const { activeTab, setActiveTab } = useHeaderTabsStore();
+
+  const [activePath, setActivePath] = useState("/");
 
   const history = useNavigate();
 
@@ -68,17 +74,25 @@ export const HeaderTabs: React.FC = () => {
   );
 
   useLayoutEffect(() => {
-    const initialValue = pathsResolve[location.pathname];
+    const path = location.pathname.match(/^\/([^?/]*)/g)?.[0] ?? location.pathname;
+    const initialValue = pathsResolve[path];
 
-    if (~initialValue) {
+    if (initialValue) {
       setActiveTab(initialValue);
+      setActivePath(path);
     }
   }, [location.pathname, setActiveTab]);
 
   return (
     <Tabs className='!hidden md:!flex' value={activeTab} onChange={handleTabChange}>
       {tabs.map((tab, i) => (
-        <HeaderTab key={tab.label} value={i} tab={tab} handleSelect={handleSelectTab} />
+        <HeaderTab
+          key={tab.label}
+          activePath={activePath}
+          value={i}
+          tab={tab}
+          handleSelect={handleSelectTab}
+        />
       ))}
     </Tabs>
   );
