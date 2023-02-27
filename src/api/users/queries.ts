@@ -3,7 +3,6 @@ import { gql } from "graphql-request";
 export const UsersFragment = gql`
   fragment allUsersFields on User {
     id
-    role
     name
     email
     email_verified_at
@@ -13,8 +12,13 @@ export const UsersFragment = gql`
 export const Users = gql`
   ${UsersFragment}
 
-  query users($name: String, $first: Int = 10, $page: Int) {
-    users(name: $name, first: $first, page: $page) {
+  query users(
+    $orderBy: [OrderByClause!]
+    $filter: [FilterByClause!]
+    $first: Int = 30
+    $page: Int
+  ) {
+    users(orderBy: $orderBy, filter: $filter, first: $first, page: $page) {
       paginatorInfo {
         lastPage
         total

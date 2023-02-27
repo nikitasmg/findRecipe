@@ -9,10 +9,6 @@ export const getColumns = (): Column[] => {
       id: "id",
       label: <Text>ID</Text>
     },
-    {
-      id: "role",
-      label: <Text>Role</Text>
-    },
 
     {
       id: "name",
