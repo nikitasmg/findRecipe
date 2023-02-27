@@ -32,7 +32,6 @@ export const NewsTable: React.FC = () => {
     pagination,
     handleTitleChange,
     handleChangePage,
-    handleChangeRowsPerPage,
     handleChangeOrder,
     handleFilterChange
   } = useRequestState("name");
@@ -124,9 +123,7 @@ export const NewsTable: React.FC = () => {
         <TablePagination
           totalPages={news?.paginatorInfo.lastPage ?? 1}
           page={pagination.page || 1}
-          perPage={pagination.perPage}
           onChangePagination={handleChangePage}
-          onChangePerPage={handleChangeRowsPerPage}
         />
       </Fragment>
     </Panel>

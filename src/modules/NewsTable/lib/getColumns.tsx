@@ -11,7 +11,6 @@ import {
   Modal,
   Select,
   Switch,
-  TableSortLabel,
   TextField
 } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -146,7 +145,7 @@ export const getColumns = (
         return (
           <Link
             className=' text-green-500 hover:text-green-700 transition-all'
-            to={`${NewsPageEdit}/${row.id}`}
+            to={`${NewsPageEdit.replace(":id", row.id as string)}`}
           >
             {value as string}
           </Link>

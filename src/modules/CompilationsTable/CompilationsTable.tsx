@@ -17,7 +17,7 @@ import { useCompilationsStore } from "~/shared/stores/compilations";
 import { getColumns } from "./lib/getColumns";
 
 export const CompilationsTable: React.FC = () => {
-  const { variables, title, handleTitleChange } = useRequestState("name");
+  const { title, handleTitleChange } = useRequestState("name");
 
   const compilations = useCompilationsStore((state) => state.compilations);
 
