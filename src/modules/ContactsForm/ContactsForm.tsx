@@ -58,7 +58,7 @@ export const ContactsForm: React.FC = () => {
         setValue(field.name as keyof FormFields, field.value || "");
       });
     }
-  }, [settings]);
+  }, [setValue, settings]);
 
   return (
     <Container className='mt-8'>
