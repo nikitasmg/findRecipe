@@ -22,6 +22,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  JSON: any;
   Upload: any;
 };
 
@@ -136,6 +137,35 @@ export type ImageThumbs = {
   width?: Maybe<Scalars['Int']>;
 };
 
+export type Log = {
+  __typename?: 'Log';
+  causer?: Maybe<User>;
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  event?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  logProperties: LogProperties;
+  log_name?: Maybe<Scalars['String']>;
+  subject_id?: Maybe<Scalars['ID']>;
+  subject_type?: Maybe<Scalars['String']>;
+  updated_at: Scalars['DateTime'];
+};
+
+/** A paginated list of Log items. */
+export type LogPaginator = {
+  __typename?: 'LogPaginator';
+  /** A list of Log items. */
+  data: Array<Log>;
+  /** Pagination information about the list of items. */
+  paginatorInfo: PaginatorInfo;
+};
+
+export type LogProperties = {
+  __typename?: 'LogProperties';
+  attributes?: Maybe<Scalars['JSON']>;
+  old?: Maybe<Scalars['JSON']>;
+};
+
 export type Meta = {
   __typename?: 'Meta';
   auto_description: Scalars['String'];
@@ -159,7 +189,6 @@ export type Mutation = {
   /** Нельзя удалить суперпользователя, ID=1 */
   deleteUser?: Maybe<User>;
   deleteVacancy?: Maybe<Vacancy>;
-  /** Нельзя удалить суперпользователя, ID=1 */
   login: Scalars['String'];
   logout?: Maybe<User>;
   requestPasswordReset: Scalars['String'];
@@ -184,7 +213,6 @@ export type Mutation = {
 
 export type MutationDeleteEmployeeArgs = {
   id: Scalars['ID'];
-  upsertUser?: Maybe<User>;
 };
 
 
@@ -242,6 +270,7 @@ export type MutationDeleteVacancyArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -270,7 +299,7 @@ export type MutationSendEmailArgs = {
 
 export type MutationSendResumeArgs = {
   email: Scalars['String'];
-  file: Scalars['Upload'];
+  files: Array<Scalars['Upload']>;
   name: Scalars['String'];
 };
 
@@ -586,6 +615,8 @@ export type Query = {
   employees: Array<Employee>;
   eventById?: Maybe<Event>;
   events?: Maybe<EventPaginator>;
+  logById?: Maybe<Log>;
+  logs?: Maybe<LogPaginator>;
   me: User;
   news?: Maybe<NewsPaginator>;
   newsById?: Maybe<News>;
@@ -631,6 +662,19 @@ export type QueryEventByIdArgs = {
 
 
 export type QueryEventsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+  page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryLogByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryLogsArgs = {
   filter?: InputMaybe<Array<FilterByClause>>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
@@ -979,12 +1023,12 @@ export type UpdateNewsMutationVariables = Exact<{
 
 export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
 
-export type UpdateNews2MutationVariables = Exact<{
-  input: NewsInput;
+export type DeleteNewsMutationVariables = Exact<{
+  id: Scalars['ID'];
 }>;
 
 
-export type UpdateNews2Mutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
+export type DeleteNewsMutation = { __typename?: 'Mutation', deleteNews?: { __typename?: 'News', id: string } | null };
 
 export type AllNewsCategoriesFieldsFragment = { __typename?: 'NewsCategory', id: string, sort: number, name: string };
 
@@ -1100,6 +1144,13 @@ export type UpdateSettingsMutationVariables = Exact<{
 
 
 export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+
+export type UploadMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type UploadMutation = { __typename?: 'Mutation', upload?: string | null };
 
 export type AllUsersFieldsFragment = { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null };
 
@@ -1334,24 +1385,24 @@ export const useUpdateNewsMutation = <
       (variables?: UpdateNewsMutationVariables) => fetcher<UpdateNewsMutation, UpdateNewsMutationVariables>(client, UpdateNewsDocument, variables, headers)(),
       options
     );
-export const UpdateNews2Document = `
-    mutation updateNews2($input: NewsInput!) {
-  upsertNews(input: $input) {
-    ...allNewsFields
+export const DeleteNewsDocument = `
+    mutation deleteNews($id: ID!) {
+  deleteNews(id: $id) {
+    id
   }
 }
-    ${AllNewsFieldsFragmentDoc}`;
-export const useUpdateNews2Mutation = <
+    `;
+export const useDeleteNewsMutation = <
       TError = unknown,
       TContext = unknown
     >(
       client: GraphQLClient,
-      options?: UseMutationOptions<UpdateNews2Mutation, TError, UpdateNews2MutationVariables, TContext>,
+      options?: UseMutationOptions<DeleteNewsMutation, TError, DeleteNewsMutationVariables, TContext>,
       headers?: RequestInit['headers']
     ) =>
-    useMutation<UpdateNews2Mutation, TError, UpdateNews2MutationVariables, TContext>(
-      ['updateNews2'],
-      (variables?: UpdateNews2MutationVariables) => fetcher<UpdateNews2Mutation, UpdateNews2MutationVariables>(client, UpdateNews2Document, variables, headers)(),
+    useMutation<DeleteNewsMutation, TError, DeleteNewsMutationVariables, TContext>(
+      ['deleteNews'],
+      (variables?: DeleteNewsMutationVariables) => fetcher<DeleteNewsMutation, DeleteNewsMutationVariables>(client, DeleteNewsDocument, variables, headers)(),
       options
     );
 export const NewsCategoryByIdDocument = `
@@ -1653,6 +1704,24 @@ export const useUpdateSettingsMutation = <
     useMutation<UpdateSettingsMutation, TError, UpdateSettingsMutationVariables, TContext>(
       ['updateSettings'],
       (variables?: UpdateSettingsMutationVariables) => fetcher<UpdateSettingsMutation, UpdateSettingsMutationVariables>(client, UpdateSettingsDocument, variables, headers)(),
+      options
+    );
+export const UploadDocument = `
+    mutation upload($file: Upload!) {
+  upload(file: $file)
+}
+    `;
+export const useUploadMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UploadMutation, TError, UploadMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UploadMutation, TError, UploadMutationVariables, TContext>(
+      ['upload'],
+      (variables?: UploadMutationVariables) => fetcher<UploadMutation, UploadMutationVariables>(client, UploadDocument, variables, headers)(),
       options
     );
 export const UsersDocument = `

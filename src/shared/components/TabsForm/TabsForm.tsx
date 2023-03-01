@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Tab, Tabs } from "@mui/material";
 import React, { ReactNode, useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import SaveIcon from "@mui/icons-material/Save";
@@ -19,6 +19,7 @@ type Props = {
   handleBack?: () => void;
   handleStepChange?: (step: number) => void;
   handleSubmit?: () => void;
+  isLoading?: boolean;
 };
 
 export const TabsForm: React.FC<Props> = ({
@@ -26,11 +27,25 @@ export const TabsForm: React.FC<Props> = ({
   handleBack,
   handleStepChange,
   handleSubmit,
-  activeStep = 0
+  activeStep = 0,
+  isLoading = false
 }) => {
   const [step, setStep] = useState(0);
 
   const handleTabChange = (_: unknown, tab: number) => setStep(tab);
+
+  const isNextExist = step < forms.length - 1;
+
+  const isPrevExist = step >= 0;
+
+  const onNextClick = () => {
+    setStep((currentStep) => currentStep + 1);
+    handleBack?.();
+  };
+
+  const onPrevClick = () => {
+    setStep((currentStep) => Math.min(0, currentStep - 1));
+  };
 
   useEffect(() => {
     handleStepChange?.(step);
@@ -41,14 +56,14 @@ export const TabsForm: React.FC<Props> = ({
     setStep(activeStep);
   }, [activeStep]);
 
-  const isNextExist = step < forms.length - 1;
-
-  const onNextClick = () => {
-    setStep((currentStep) => currentStep + 1);
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='w-full' onSubmit={handleSubmit}>
+      {isLoading && (
+        <Backdrop className='z-50 !absolute text-white' open>
+          <CircularProgress color='inherit' />
+        </Backdrop>
+      )}
+
       <Box>
         <Tabs value={step} onChange={handleTabChange} aria-label='basic tabs example'>
           {forms.map(({ tabTitle, hasErrors }, index) => (
@@ -76,14 +91,16 @@ export const TabsForm: React.FC<Props> = ({
       ))}
 
       <Box className='flex flex-wrap gap-4'>
-        <Button
-          startIcon={<ArrowBackIosNewIcon />}
-          onClick={handleBack}
-          variant='outlined'
-          size='small'
-        >
-          Back
-        </Button>
+        {isPrevExist && (
+          <Button
+            startIcon={<ArrowBackIosNewIcon />}
+            onClick={onPrevClick}
+            variant='outlined'
+            size='small'
+          >
+            Back
+          </Button>
+        )}
 
         <Box className='flex gap-4 w-full sm:w-auto ml-auto'>
           {isNextExist && (

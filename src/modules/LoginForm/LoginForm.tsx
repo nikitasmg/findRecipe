@@ -17,6 +17,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useLoginMutation } from "~/generated/graphql";
 import { getBaseEmailValidation, getBasePasswordValidation } from "~shared/lib/validation";
+import { getErrorMessage } from "~/shared/lib/getError";
 import { AuthState, useAuthStore } from "~shared/stores/auth";
 import { HomePageRoute } from "~shared/routes";
 import { Button } from "~/shared/components/Button";
@@ -51,7 +52,7 @@ export const LoginForm: React.FC = () => {
       .then(() => history(HomePageRoute));
   };
 
-  const getError = (field: keyof FormFields) => R.prop("message", errors[field]);
+  const getError = getErrorMessage(errors);
 
   const handleClickShowPassword = () => {
     setShowPassword((show) => !show);

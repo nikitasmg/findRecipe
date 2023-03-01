@@ -2,6 +2,8 @@
 # Go to project directory
 cd ~/projects/front-template/www
 
+cp .env.example .env
+
 # Error if any command error
 set -e
 

@@ -51,7 +51,7 @@ export const NewsTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useNewsQuery(client, variables);
+  const { data, isLoading } = useNewsQuery(client, variables, { refetchOnMount: true });
 
   const news = data?.news;
 

@@ -94,10 +94,12 @@ export const UpdateNews = gql`
       ...allNewsFields
     }
   }
+`;
 
-  mutation updateNews2($input: NewsInput!) {
-    upsertNews(input: $input) {
-      ...allNewsFields
+export const DeleteNews = gql`
+  mutation deleteNews($id: ID!) {
+    deleteNews(id: $id) {
+      id
     }
   }
 `;

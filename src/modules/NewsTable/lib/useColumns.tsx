@@ -1,8 +1,12 @@
 import React, { Fragment } from "react";
 import { Box, Modal, Switch } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { prop } from "rambda";
-import { SortOrder, useUpdateOnIndexMutation } from "~/generated/graphql";
+import {
+  NewsCategory,
+  SortOrder,
+  useNewsCategoriesQuery,
+  useUpdateOnIndexMutation
+} from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableHeadCell } from "~/shared/components/TableHeadCell";
 import { Link } from "~/shared/components/Link";
@@ -22,6 +26,13 @@ export const useColumns = (
   const client = useGraphqlClient();
 
   const { mutateAsync: updateOnIndex } = useUpdateOnIndexMutation(client);
+
+  const { data } = useNewsCategoriesQuery(client);
+
+  const categories = data?.newsCategories.reduce((res, cur) => {
+    res[cur.id] = cur.name;
+    return res;
+  }, Object.create(null));
 
   const getClickHandler = (name: string) => () => {
     if (activeOrder?.[name] && activeOrder[name] === SortOrder.Desc) {
@@ -130,9 +141,11 @@ export const useColumns = (
         />
       ),
       minWidth: 80,
-      render: (_, row) => (
-        <Fragment key={row.id as string}>{prop("category")(row) as string}</Fragment>
-      )
+      render: (value) => {
+        const category = value as NewsCategory | null;
+
+        return <Fragment key={category?.id as string}>{categories[category?.id ?? ""]}</Fragment>;
+      }
     },
 
     {
