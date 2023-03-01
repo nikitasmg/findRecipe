@@ -1,26 +1,19 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Table,
-  TableCell,
-  TableHead,
-  TableRow
-} from "@mui/material";
+import { Box, CircularProgress, Table, TableCell, TableHead, TableRow } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { arrayMove } from "react-sortable-hoc";
-import { Panel } from "~/shared/components/Panel";
-import { CompilationItem } from "~/shared/types/Compilation";
-import { Text } from "~/shared/components/Text";
+import AddIcon from "@mui/icons-material/Add";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
-import { useCompilations } from "./lib/useCompilations";
-import { getColumns } from "./lib/getColumns";
+import { Panel } from "~/shared/components/Panel";
+import { Text } from "~/shared/components/Text";
 import { BodyCellActions } from "~shared/components/BodyCellActions";
 import { HeadCellActions } from "~shared/components/HeadCellActions";
 import { TableBodySortable, TableRowSortable as Row } from "~/shared/components/SortableTable";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { CellDragHandle } from "~/shared/components/CellDragHandle";
-import AddIcon from "@mui/icons-material/Add";
+import { Button } from "~/shared/components/Button";
+import { CompilationItem } from "~/shared/types/Compilation";
+import { useCompilations } from "./lib/useCompilations";
+import { getColumns } from "./lib/getColumns";
 
 type Props = {
   id: number;
@@ -168,10 +161,9 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
             size='large'
             variant='contained'
             startIcon={<AddIcon />}
+            textProps={{ align: "center" }}
           >
-            <Text align='center' component='span'>
-              Add
-            </Text>
+            Add
           </Button>
         </Box>
 

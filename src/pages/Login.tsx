@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { Container, Grid } from "@mui/material";
-import { Footer } from "~/modules/Footer";
 import { LoginForm } from "~/modules/LoginForm";
 import { Text } from "~shared/components/Text";
 import { Logo } from "~shared/components/Logo";
@@ -21,7 +20,6 @@ export const Login: React.FC = () => {
           </Grid>
         </Grid>
       </Container>
-      <Footer />
     </Fragment>
   );
 };

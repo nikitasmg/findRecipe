@@ -7,11 +7,18 @@ type Props = {
   id: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   withPreview?: boolean;
+  url?: string;
 } & InputProps;
 
-export const ImageInput: React.FC<Props> = ({ id, onChange, withPreview = true, ...other }) => {
+export const ImageInput: React.FC<Props> = ({
+  id,
+  onChange,
+  withPreview = true,
+  url = "",
+  ...other
+}) => {
   const [selectedImage, setSelectedImage] = useState<File | null>();
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(url);
   const [event, setEvent] = useState<ChangeEvent<HTMLInputElement> | null>(null);
 
   useEffect(() => {

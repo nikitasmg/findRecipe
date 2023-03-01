@@ -1,14 +1,14 @@
-import { Box } from "@mui/material";
 import React, { useState } from "react";
 import { UsersTable } from "~/modules/UsersTable";
 import { PageTitle } from "~/shared/components/PageTitle";
+import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Text } from "~/shared/components/Text";
 
 export const Users: React.FC = () => {
   const [usersCount, setUsersCount] = useState(0);
 
   return (
-    <Box className='!flex flex-col h-full'>
+    <PageWrapper>
       <PageTitle>
         <Text className='px-4' component='p'>
           Users
@@ -20,6 +20,6 @@ export const Users: React.FC = () => {
         <Text className='text-gray-600'>{`${usersCount}`}</Text>
       </PageTitle>
       <UsersTable onUsersCountChange={setUsersCount} />
-    </Box>
+    </PageWrapper>
   );
 };

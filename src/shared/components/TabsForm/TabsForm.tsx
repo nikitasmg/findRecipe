@@ -1,10 +1,11 @@
-import { Box, Button, Tab, Tabs } from "@mui/material";
-import React, { Fragment, ReactNode, useEffect, useState } from "react";
+import { Box, Tab, Tabs } from "@mui/material";
+import React, { ReactNode, useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import SaveIcon from "@mui/icons-material/Save";
 import ErrorIcon from "@mui/icons-material/Error";
 import { Text } from "../Text";
 import { TabPanel } from "../TabPanel";
+import { Button } from "../Button";
 
 type Props = {
   forms: {
@@ -47,7 +48,7 @@ export const TabsForm: React.FC<Props> = ({
   };
 
   return (
-    <Fragment>
+    <form onSubmit={handleSubmit}>
       <Box>
         <Tabs value={step} onChange={handleTabChange} aria-label='basic tabs example'>
           {forms.map(({ tabTitle, hasErrors }, index) => (
@@ -81,21 +82,21 @@ export const TabsForm: React.FC<Props> = ({
           variant='outlined'
           size='small'
         >
-          <Text className='normal-case'>Back</Text>
+          Back
         </Button>
 
         <Box className='flex gap-4 w-full sm:w-auto ml-auto'>
           {isNextExist && (
             <Button onClick={onNextClick} variant='outlined' size='small'>
-              <Text className='normal-case'>Next</Text>
+              Next
             </Button>
           )}
 
-          <Button startIcon={<SaveIcon />} onClick={handleSubmit} variant='contained' size='small'>
-            <Text className='normal-case'>Save</Text>
+          <Button startIcon={<SaveIcon />} type='submit' variant='contained' size='small'>
+            Save
           </Button>
         </Box>
       </Box>
-    </Fragment>
+    </form>
   );
 };

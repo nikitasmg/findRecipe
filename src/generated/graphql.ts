@@ -159,6 +159,7 @@ export type Mutation = {
   /** Нельзя удалить суперпользователя, ID=1 */
   deleteUser?: Maybe<User>;
   deleteVacancy?: Maybe<Vacancy>;
+  /** Нельзя удалить суперпользователя, ID=1 */
   login: Scalars['String'];
   logout?: Maybe<User>;
   requestPasswordReset: Scalars['String'];
@@ -183,6 +184,7 @@ export type Mutation = {
 
 export type MutationDeleteEmployeeArgs = {
   id: Scalars['ID'];
+  upsertUser?: Maybe<User>;
 };
 
 
@@ -239,7 +241,6 @@ export type MutationDeleteUserArgs = {
 export type MutationDeleteVacancyArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationLoginArgs = {
   email: Scalars['String'];
@@ -964,6 +965,27 @@ export type UpdateOnIndexMutationVariables = Exact<{
 
 export type UpdateOnIndexMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string } | null };
 
+export type CreateNewsMutationVariables = Exact<{
+  input: NewsInput;
+}>;
+
+
+export type CreateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
+
+export type UpdateNewsMutationVariables = Exact<{
+  input: NewsInput;
+}>;
+
+
+export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
+
+export type UpdateNews2MutationVariables = Exact<{
+  input: NewsInput;
+}>;
+
+
+export type UpdateNews2Mutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
+
 export type AllNewsCategoriesFieldsFragment = { __typename?: 'NewsCategory', id: string, sort: number, name: string };
 
 export type NewsCategoryByIdQueryVariables = Exact<{
@@ -1270,6 +1292,66 @@ export const useUpdateOnIndexMutation = <
     useMutation<UpdateOnIndexMutation, TError, UpdateOnIndexMutationVariables, TContext>(
       ['UpdateOnIndex'],
       (variables?: UpdateOnIndexMutationVariables) => fetcher<UpdateOnIndexMutation, UpdateOnIndexMutationVariables>(client, UpdateOnIndexDocument, variables, headers)(),
+      options
+    );
+export const CreateNewsDocument = `
+    mutation createNews($input: NewsInput!) {
+  upsertNews(input: $input) {
+    ...allNewsFields
+  }
+}
+    ${AllNewsFieldsFragmentDoc}`;
+export const useCreateNewsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateNewsMutation, TError, CreateNewsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateNewsMutation, TError, CreateNewsMutationVariables, TContext>(
+      ['createNews'],
+      (variables?: CreateNewsMutationVariables) => fetcher<CreateNewsMutation, CreateNewsMutationVariables>(client, CreateNewsDocument, variables, headers)(),
+      options
+    );
+export const UpdateNewsDocument = `
+    mutation updateNews($input: NewsInput!) {
+  upsertNews(input: $input) {
+    ...allNewsFields
+  }
+}
+    ${AllNewsFieldsFragmentDoc}`;
+export const useUpdateNewsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateNewsMutation, TError, UpdateNewsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateNewsMutation, TError, UpdateNewsMutationVariables, TContext>(
+      ['updateNews'],
+      (variables?: UpdateNewsMutationVariables) => fetcher<UpdateNewsMutation, UpdateNewsMutationVariables>(client, UpdateNewsDocument, variables, headers)(),
+      options
+    );
+export const UpdateNews2Document = `
+    mutation updateNews2($input: NewsInput!) {
+  upsertNews(input: $input) {
+    ...allNewsFields
+  }
+}
+    ${AllNewsFieldsFragmentDoc}`;
+export const useUpdateNews2Mutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateNews2Mutation, TError, UpdateNews2MutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateNews2Mutation, TError, UpdateNews2MutationVariables, TContext>(
+      ['updateNews2'],
+      (variables?: UpdateNews2MutationVariables) => fetcher<UpdateNews2Mutation, UpdateNews2MutationVariables>(client, UpdateNews2Document, variables, headers)(),
       options
     );
 export const NewsCategoryByIdDocument = `

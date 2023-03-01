@@ -75,3 +75,29 @@ export const UpdateOnIndex = gql`
     }
   }
 `;
+
+export const CreateNews = gql`
+  ${NewsFragment}
+
+  mutation createNews($input: NewsInput!) {
+    upsertNews(input: $input) {
+      ...allNewsFields
+    }
+  }
+`;
+
+export const UpdateNews = gql`
+  ${NewsFragment}
+
+  mutation updateNews($input: NewsInput!) {
+    upsertNews(input: $input) {
+      ...allNewsFields
+    }
+  }
+
+  mutation updateNews2($input: NewsInput!) {
+    upsertNews(input: $input) {
+      ...allNewsFields
+    }
+  }
+`;

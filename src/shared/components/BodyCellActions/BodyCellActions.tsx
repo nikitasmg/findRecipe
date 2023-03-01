@@ -1,9 +1,10 @@
-import { Box, Button, CircularProgress, TableCell } from "@mui/material";
+import { Box, CircularProgress, TableCell } from "@mui/material";
 import clsx from "clsx";
 import React, { Fragment } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
+import { Button } from "../Button";
 
 type Props = {
   spinnerVisible?: boolean;

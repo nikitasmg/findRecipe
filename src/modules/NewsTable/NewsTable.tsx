@@ -9,19 +9,24 @@ import {
   TableRow
 } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import React, { Fragment, useEffect } from "react";
 import { News, useNewsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { NewsPageCreate } from "~/shared/routes";
+import { useNewsStore } from "~/shared/stores/news";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { LinkButton } from "~/shared/components/LinkButton";
 import { Text } from "~/shared/components/Text";
 import { TablePagination } from "~/shared/components/TablePagination";
 import { SearchInput } from "~/shared/components/SearchInput";
-import { Panel } from "~shared/components/Panel/Panel";
-import { getColumns } from "./lib/getColumns";
-import { useNewsStore } from "~/shared/stores/news";
+import { Panel } from "~shared/components/Panel";
+import { Button } from "~/shared/components/Button";
+import { useColumns } from "./lib/useColumns";
+import { ModalFilters } from "~/shared/components/ModalFilters";
+import { useModal } from "~/shared/hooks/useModal";
+import { FiltersForm } from "./components/FiltersForm";
 
 export const NewsTable: React.FC = () => {
   const {
@@ -34,8 +39,10 @@ export const NewsTable: React.FC = () => {
     handleChangePage,
     handleChangeOrder,
     handleFilterChange,
-    removeFilter
+    resetFilters
   } = useRequestState("name");
+
+  const { open, handleOpen, handleClose } = useModal();
 
   const client = useGraphqlClient();
 
@@ -50,13 +57,9 @@ export const NewsTable: React.FC = () => {
 
   const total = news?.paginatorInfo.total ?? 0;
 
-  const columns = getColumns(
-    activeOrder,
-    params,
-    handleChangeOrder,
-    handleFilterChange,
-    removeFilter
-  );
+  const columns = useColumns(activeOrder, handleChangeOrder);
+
+  const handleOpenFilters = () => handleOpen();
 
   useEffect(() => {
     setLoading(isLoading);
@@ -68,18 +71,31 @@ export const NewsTable: React.FC = () => {
 
   return (
     <Panel>
-      <Box className='flex items-stretch gap-2 p-4 flex-col sm:flex-row'>
-        <SearchInput
-          label={<Text>Fast search</Text>}
-          fullWidth
-          value={title}
-          onChange={getEventValueHandler(handleTitleChange)}
-          size='small'
-        />
+      <Box className='flex items-stretch justify-between gap-2 p-4 flex-col sm:flex-row'>
+        <Box className='flex items-stretch justify-between gap-2'>
+          <SearchInput
+            label={<Text>Fast search</Text>}
+            className='w-full sm:w-auto'
+            value={title}
+            onChange={getEventValueHandler(handleTitleChange)}
+            size='small'
+          />
+          <Button onClick={handleOpenFilters} variant='outlined'>
+            <FilterAltIcon />
+          </Button>
 
-        <LinkButton variant='outlined' href={NewsPageCreate} className='!capitalize'>
-          <AddBoxRoundedIcon />
-          <Text>Add</Text>
+          <ModalFilters
+            opened={!!open}
+            handleClose={handleClose}
+            handleSuccess={handleClose}
+            handleDrop={resetFilters}
+          >
+            <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
+          </ModalFilters>
+        </Box>
+
+        <LinkButton variant='outlined' href={NewsPageCreate} startIcon={<AddBoxRoundedIcon />}>
+          Add
         </LinkButton>
       </Box>
 

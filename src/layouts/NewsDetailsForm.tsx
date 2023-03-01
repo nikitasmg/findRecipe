@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { AdditionalNewsForm } from "~/modules/AdditionalNewsForm";
 import { GeneralNewsForm } from "~/modules/GeneralNewsForm";
 import { SeoNewsForm } from "~/modules/SeoNewsForm";
 import { TabsForm } from "~/shared/components/TabsForm";
-import { useNewsByIdQuery } from "~/generated/graphql";
+import { NewsInput, useCreateNewsMutation, useNewsByIdQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
@@ -12,65 +12,60 @@ type Props = {
   id?: number;
 };
 
-type Form = UseFormReturn<Record<string, unknown>, unknown>;
-
 export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
-  const [forms, setForms] = useState<Record<string, Form>>();
-
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
 
-  const { data } = useNewsByIdQuery(client, { id: `${id}` }, { enabled: !isCreateMode });
+  const { data, isSuccess } = useNewsByIdQuery(client, { id: `${id}` }, { enabled: !isCreateMode });
+
+  const { mutateAsync: createNews } = useCreateNewsMutation(client);
 
   const values = data?.newsById;
 
-  const updateForm = useCallback((step: number, form: Form) => {
-    setForms((oldForms) => ({ ...oldForms, [step]: form }));
-  }, []);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    control
+  } = useForm({ mode: "all" });
 
-  const handleSubmit = () => {
-    let result = {};
+  const onSubmit = handleSubmit((newValues) => {
+    const newData = { ...values, ...newValues };
 
-    Object.values(forms ?? {}).forEach((form, i) => {
-      form.handleSubmit(
-        (values) => {
-          result = { ...result, ...values };
-        },
-        () => {
-          setStep(i);
-        }
-      );
-    });
-
-    return null;
-  };
+    if (isCreateMode) {
+      createNews({ input: newData as NewsInput });
+      return;
+    }
+    console.log(newData);
+  });
 
   const handleGoBack = useNavigationBack();
 
+  useEffect(() => {
+    if (!isSuccess) {
+      return;
+    }
+
+    setValue("name", values?.name ?? "");
+    setValue("description", values?.description ?? "");
+    setValue("content", values?.content ?? "");
+    setValue("image", values?.image?.url ?? "");
+  }, [values, isSuccess, setValue]);
+
   return (
     <TabsForm
-      handleSubmit={handleSubmit}
+      handleSubmit={onSubmit}
       handleStepChange={setStep}
       activeStep={step}
       handleBack={handleGoBack}
       forms={[
         {
           tabTitle: "General data",
-          component: (
-            <GeneralNewsForm
-              defaultValues={{
-                name: values?.name,
-                description: values?.description ?? "",
-                content: values?.content ?? "",
-                image: values?.image?.url ?? ""
-              }}
-              step={0}
-              onUpdateForm={updateForm}
-            />
-          )
+          component: <GeneralNewsForm errors={errors} register={register} control={control} />
         },
         {
           tabTitle: "Additional data",

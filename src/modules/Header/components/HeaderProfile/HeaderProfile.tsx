@@ -1,13 +1,14 @@
 import React, { Fragment } from "react";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Button, CircularProgress, Fade, Menu, MenuItem, Typography } from "@mui/material";
+import { CircularProgress, Fade, Menu, MenuItem, Typography } from "@mui/material";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation, useMeQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { LoginPageRoute, ProfilePage, SettingsPage } from "~shared/routes";
 import { Text } from "~shared/components/Text";
+import { Button } from "~/shared/components/Button";
 
 const links = [
   {
@@ -56,7 +57,7 @@ export const HeaderProfile: React.FC = () => {
 
   return (
     <Fragment>
-      <Button className='!hidden md:!flex !capitalize' onClick={handleClick}>
+      <Button className='!hidden md:!flex' onClick={handleClick}>
         {loaderVisible && <CircularProgress />}
         <Typography className='text-black'>{name}</Typography>
 
@@ -87,13 +88,8 @@ export const HeaderProfile: React.FC = () => {
           </MenuItem>
         ))}
         <MenuItem className='!p-0'>
-          <Button
-            onClick={handleLogoutClick}
-            className='!capitalize  w-full !justify-start !px-4 !py-2'
-          >
-            <Text className='text-black' component='span'>
-              Logout
-            </Text>
+          <Button onClick={handleLogoutClick} className='w-full !justify-start !px-4 !py-2'>
+            Logout
           </Button>
         </MenuItem>
       </Menu>

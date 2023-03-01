@@ -1,5 +1,6 @@
-import { Button, ButtonProps, Link } from "@mui/material";
+import { ButtonProps, Link } from "@mui/material";
 import React from "react";
+import { Button } from "../Button";
 
 export const LinkButton: React.FC<ButtonProps> = ({ children, href, ...props }) => {
   return (

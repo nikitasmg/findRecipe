@@ -1,7 +1,8 @@
-import { Box, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import React from "react";
 import { NewsTable } from "~/modules/NewsTable";
 import { PageTitle } from "~/shared/components/PageTitle";
+import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Text } from "~/shared/components/Text";
 import { useNewsStore } from "~/shared/stores/news";
 
@@ -12,7 +13,7 @@ export const News: React.FC = () => {
   }));
 
   return (
-    <Box className='!flex flex-col h-full'>
+    <PageWrapper>
       <PageTitle>
         <Text className='px-4' component='p'>
           News
@@ -25,6 +26,6 @@ export const News: React.FC = () => {
         {!isLoading && <Text className='text-gray-600'>{`${count}`}</Text>}
       </PageTitle>
       <NewsTable />
-    </Box>
+    </PageWrapper>
   );
 };

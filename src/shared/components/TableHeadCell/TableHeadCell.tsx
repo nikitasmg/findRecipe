@@ -1,9 +1,9 @@
 import React, { Fragment, PropsWithChildren } from "react";
 import PopupStateContainer, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { PopupState } from "material-ui-popup-state/hooks";
-import { Box, Button, Popover, TableSortLabel } from "@mui/material";
+import { Box, Popover, TableSortLabel } from "@mui/material";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
-import { Text } from "../Text";
+import { Button } from "../Button";
 import styles from "./TableHeadCell.module.css";
 
 type Props = {
@@ -39,10 +39,12 @@ export const TableHeadCell: React.FC<PropsWithChildren<Props>> = ({
       {(popupState: PopupState) => (
         <Fragment>
           <Box className='flex items-center'>
-            <Button className='!block !capitalize' {...bindTrigger(popupState)}>
-              <Text align={align} color='black'>
-                {title}
-              </Text>
+            <Button
+              className='!block'
+              {...bindTrigger(popupState)}
+              textProps={{ align, color: "black" }}
+            >
+              {title}
             </Button>
             {sortProps && (
               <TableSortLabel

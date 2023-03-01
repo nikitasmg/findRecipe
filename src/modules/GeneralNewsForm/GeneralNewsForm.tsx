@@ -1,7 +1,7 @@
-import { Box, FormControl, Input, InputLabel } from "@mui/material";
+import { Box, FormControl, TextField } from "@mui/material";
 import { prop } from "rambda";
-import React, { useEffect } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import React from "react";
+import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { ContentEditor } from "~shared/components/ContentEditor";
 import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
@@ -15,55 +15,78 @@ type FormFields = {
 };
 
 type Props = {
-  step: number;
-  defaultValues?: FormFields;
-  onUpdateForm?: (step: number, form: UseFormReturn<Record<string, unknown>, unknown>) => void;
+  register: UseFormRegister<Partial<FormFields>>;
+  errors: FieldErrors<FormFields>;
+  control?: Control<FormFields, unknown>;
 };
 
-export const GeneralNewsForm: React.FC<Props> = ({ defaultValues, step, onUpdateForm }) => {
-  const form = useForm<FormFields>({ defaultValues, mode: "all" });
-
-  const {
-    formState: { errors }
-  } = form;
-
+export const GeneralNewsForm: React.FC<Props> = ({ register, errors, control }) => {
   const getError = (field: keyof FormFields) => prop("message", errors[field]);
 
-  useEffect(() => {
-    onUpdateForm?.(step, form as unknown as UseFormReturn<Record<string, unknown>, unknown>);
-  }, [form, onUpdateForm, step]);
-
   return (
-    <form className='flex flex-col lg:flex-row gap-6'>
+    <Box className='flex flex-col lg:flex-row gap-6'>
       <Box className='grow-[2] lg:w-[70%] order-last mt-2'>
-        <FormControl fullWidth className='!p-2'>
-          <InputLabel error={!!getError("name")} htmlFor='name'>
-            <Text>Title</Text>
-          </InputLabel>
-          <Input
-            id='name'
-            error={!!getError("name")}
-            {...form.register("name", { required: "This is required" })}
-          />
+        <Controller
+          control={control}
+          name='name'
+          render={({ field: { value } }) => (
+            <FormControl fullWidth className='!p-2'>
+              <TextField
+                label={<Text>Title</Text>}
+                value={value}
+                variant='standard'
+                InputLabelProps={{
+                  shrink: !!value
+                }}
+                id='name'
+                error={!!getError("name")}
+                {...register("name", { required: "This is required" })}
+              />
 
-          <HelperText id='name' error={getError("name")} />
-        </FormControl>
+              <HelperText id='name' error={getError("name")} />
+            </FormControl>
+          )}
+        />
 
-        <FormControl fullWidth className='!p-2 !mt-4'>
-          <InputLabel error={!!getError("description")} htmlFor='description'>
-            <Text>Description</Text>
-          </InputLabel>
-          <Input id='description' {...form.register("description")} />
-        </FormControl>
+        <Controller
+          control={control}
+          name='description'
+          render={({ field: { value } }) => (
+            <FormControl fullWidth className='!p-2 !mt-4'>
+              <TextField
+                label={<Text>Description</Text>}
+                value={value}
+                variant='standard'
+                id='description'
+                error={!!getError("description")}
+                {...register("description")}
+              />
+            </FormControl>
+          )}
+        />
 
-        <FormControl fullWidth className='!p-2 !mt-4'>
-          <ContentEditor id='content' value='' {...form.register("content")} />
-        </FormControl>
+        <Controller
+          control={control}
+          name='content'
+          render={({ field: { value } }) => (
+            <FormControl fullWidth className='!p-2 !mt-4'>
+              <ContentEditor id='content' value={value} {...register("content")} />
+            </FormControl>
+          )}
+        />
+
+        <FormControl fullWidth className='!p-2 !mt-4'></FormControl>
       </Box>
 
       <Box className='grow-[1] flex justify-center lg:w-[30%] order-first lg:order-last'>
-        <ImageInput id='general' {...form.register("image")} />
+        <Controller
+          control={control}
+          name='content'
+          render={({ field: { value } }) => (
+            <ImageInput id='general' url={value} {...register("image")} />
+          )}
+        />
       </Box>
-    </form>
+    </Box>
   );
 };
