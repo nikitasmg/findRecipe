@@ -1,10 +1,11 @@
-import { Box, Button, Tab, Tabs } from "@mui/material";
-import React, { Fragment, ReactNode, useEffect, useState } from "react";
+import { Backdrop, Box, CircularProgress, Tab, Tabs } from "@mui/material";
+import React, { ReactNode, useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import SaveIcon from "@mui/icons-material/Save";
 import ErrorIcon from "@mui/icons-material/Error";
 import { Text } from "../Text";
 import { TabPanel } from "../TabPanel";
+import { Button } from "../Button";
 
 type Props = {
   forms: {
@@ -18,6 +19,7 @@ type Props = {
   handleBack?: () => void;
   handleStepChange?: (step: number) => void;
   handleSubmit?: () => void;
+  isLoading?: boolean;
 };
 
 export const TabsForm: React.FC<Props> = ({
@@ -25,11 +27,25 @@ export const TabsForm: React.FC<Props> = ({
   handleBack,
   handleStepChange,
   handleSubmit,
-  activeStep = 0
+  activeStep = 0,
+  isLoading = false
 }) => {
   const [step, setStep] = useState(0);
 
   const handleTabChange = (_: unknown, tab: number) => setStep(tab);
+
+  const isNextExist = step < forms.length - 1;
+
+  const isPrevExist = step >= 0;
+
+  const onNextClick = () => {
+    setStep((currentStep) => currentStep + 1);
+    handleBack?.();
+  };
+
+  const onPrevClick = () => {
+    setStep((currentStep) => Math.min(0, currentStep - 1));
+  };
 
   useEffect(() => {
     handleStepChange?.(step);
@@ -40,14 +56,14 @@ export const TabsForm: React.FC<Props> = ({
     setStep(activeStep);
   }, [activeStep]);
 
-  const isNextExist = step < forms.length - 1;
-
-  const onNextClick = () => {
-    setStep((currentStep) => currentStep + 1);
-  };
-
   return (
-    <Fragment>
+    <form className='w-full' onSubmit={handleSubmit}>
+      {isLoading && (
+        <Backdrop className='z-50 !absolute text-white' open>
+          <CircularProgress color='inherit' />
+        </Backdrop>
+      )}
+
       <Box>
         <Tabs value={step} onChange={handleTabChange} aria-label='basic tabs example'>
           {forms.map(({ tabTitle, hasErrors }, index) => (
@@ -75,27 +91,29 @@ export const TabsForm: React.FC<Props> = ({
       ))}
 
       <Box className='flex flex-wrap gap-4'>
-        <Button
-          startIcon={<ArrowBackIosNewIcon />}
-          onClick={handleBack}
-          variant='outlined'
-          size='small'
-        >
-          <Text className='normal-case'>Back</Text>
-        </Button>
+        {isPrevExist && (
+          <Button
+            startIcon={<ArrowBackIosNewIcon />}
+            onClick={onPrevClick}
+            variant='outlined'
+            size='small'
+          >
+            Back
+          </Button>
+        )}
 
         <Box className='flex gap-4 w-full sm:w-auto ml-auto'>
           {isNextExist && (
             <Button onClick={onNextClick} variant='outlined' size='small'>
-              <Text className='normal-case'>Next</Text>
+              Next
             </Button>
           )}
 
-          <Button startIcon={<SaveIcon />} onClick={handleSubmit} variant='contained' size='small'>
-            <Text className='normal-case'>Save</Text>
+          <Button startIcon={<SaveIcon />} type='submit' variant='contained' size='small'>
+            Save
           </Button>
         </Box>
       </Box>
-    </Fragment>
+    </form>
   );
 };

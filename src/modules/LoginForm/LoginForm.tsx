@@ -2,24 +2,27 @@ import React from "react";
 import * as R from "rambda";
 import {
   Backdrop,
-  Button,
   CircularProgress,
   Container,
   FormControl,
   Grid,
-  Input,
-  InputLabel,
-  Paper
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { useLoginMutation } from "~/generated/graphql";
 import { getBaseEmailValidation, getBasePasswordValidation } from "~shared/lib/validation";
+import { getErrorMessage } from "~/shared/lib/getError";
 import { AuthState, useAuthStore } from "~shared/stores/auth";
 import { HomePageRoute } from "~shared/routes";
+import { Button } from "~/shared/components/Button";
 import { Text } from "~shared/components/Text";
 import { HelperText } from "~shared/components/HelperText";
-import { useLoginMutation } from "~/generated/graphql";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 
 type FormFields = {
   email: string;
@@ -32,6 +35,8 @@ export const LoginForm: React.FC = () => {
     handleSubmit,
     formState: { errors, isValid }
   } = useForm<FormFields>({ mode: "all" });
+
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const client = useGraphqlClient();
 
@@ -47,7 +52,15 @@ export const LoginForm: React.FC = () => {
       .then(() => history(HomePageRoute));
   };
 
-  const getError = (field: keyof FormFields) => R.prop("message", errors[field]);
+  const getError = getErrorMessage(errors);
+
+  const handleClickShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   return (
     <Paper elevation={12} className='sm:!max-w-[450px] relative'>
@@ -59,18 +72,16 @@ export const LoginForm: React.FC = () => {
 
       <Container>
         <form className='py-10 px-2 border-box' onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item columns={12} xs={12}>
               <FormControl fullWidth>
-                <InputLabel error={!!getError("email")} htmlFor='email'>
-                  <Text>Email address</Text>
-                </InputLabel>
-                <Input
-                  id='email'
-                  defaultValue='dev@echo-company.ru'
+                <TextField
                   error={!!getError("email")}
+                  label={<Text>Email address</Text>}
+                  defaultValue='dev@echo-company.ru'
                   inputMode='email'
                   {...register("email", getBaseEmailValidation({ required: true }))}
+                  variant='standard'
                 />
 
                 <HelperText id='email' error={getError("email")} text={"Enter email"} />
@@ -79,14 +90,27 @@ export const LoginForm: React.FC = () => {
 
             <Grid item columns={12} xs={12}>
               <FormControl fullWidth>
-                <InputLabel error={!!getError("password")} htmlFor='password'>
-                  <Text>Password</Text>
-                </InputLabel>
-                <Input
-                  id='password'
+                <TextField
                   error={!!getError("password")}
-                  type='password'
+                  label={<Text>Password</Text>}
+                  type={showPassword ? "text" : "password"}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          color={getError("password") ? "error" : "default"}
+                          aria-label='toggle password visibility'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge='end'
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
                   {...register("password", getBasePasswordValidation())}
+                  variant='standard'
                 />
 
                 <HelperText id='password' error={getError("password")} text={"Enter password"} />
@@ -95,7 +119,7 @@ export const LoginForm: React.FC = () => {
 
             <Grid item columns={12} xs={12}>
               <Button fullWidth type='submit' variant='contained' disabled={isLoading || !isValid}>
-                <Text>Login</Text>
+                Login
               </Button>
             </Grid>
           </Grid>

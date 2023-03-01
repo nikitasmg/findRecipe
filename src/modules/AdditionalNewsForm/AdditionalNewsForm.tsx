@@ -1,17 +1,8 @@
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-  TextField
-} from "@mui/material";
+import { Box, FormControl, FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import React from "react";
-import { Controller, useForm, UseFormReturn } from "react-hook-form";
+import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   GalleryImage,
@@ -20,6 +11,7 @@ import {
   useNewsTagsQuery
 } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
+import { getErrorMessage } from "~/shared/lib/getError";
 
 type FormFields = {
   source?: string;
@@ -33,89 +25,127 @@ type FormFields = {
 };
 
 type Props = {
-  step: number;
-  defaultValues?: FormFields;
-  onUpdateForm?: (step: number, form: UseFormReturn<Record<string, unknown>, unknown>) => void;
+  register: UseFormRegister<Partial<FormFields>>;
+  errors: FieldErrors<FormFields>;
+  setValue: (name: string, value: unknown) => void;
+  control?: Control<FormFields, unknown>;
 };
 
-export const AdditionalNewsForm: React.FC<Props> = ({ defaultValues }) => {
-  const form = useForm<FormFields>({ defaultValues, mode: "all" });
-
+export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue, control }) => {
   const client = useGraphqlClient();
 
   const { data: categories } = useNewsCategoriesQuery(client);
 
   const { data: tags } = useNewsTagsQuery(client);
 
+  const getError = getErrorMessage(errors);
+
   return (
-    <form className='flex flex-col mt-2 gap-6'>
-      <FormControl fullWidth className='!p-2'>
-        <InputLabel htmlFor='source_name'>
-          <Text>Source title</Text>
-        </InputLabel>
-        <Input id='source_name' {...form.register("source_name")} />
-      </FormControl>
-      <FormControl fullWidth className='!p-2'>
-        <InputLabel htmlFor='source'>
-          <Text>Source</Text>
-        </InputLabel>
-        <Controller
-          control={form.control}
-          name='source'
-          render={({ field: { value: sourceValue } }) => (
-            <Input
-              id='source'
-              {...form.register("source", { required: sourceValue ? "This is required" : false })}
-            />
-          )}
-        />
-      </FormControl>
-      <FormControl fullWidth className='!p-2'>
-        <FormControlLabel
-          control={<Checkbox id='published' {...form.register("published")} />}
-          label={<Text>Published</Text>}
-        />
-      </FormControl>
-      <FormControl fullWidth className='!p-2'>
-        <Controller
-          control={form.control}
-          name='published_at'
-          render={({ field: { value } }) => (
-            <DatePicker
+    <Box className='grow-[2] lg:w-[70%] order-last mt-2'>
+      <Controller
+        control={control}
+        name='source_name'
+        render={({ field: { value } }) => (
+          <FormControl fullWidth className='p-2'>
+            <TextField
+              label={<Text>Source title</Text>}
               value={value}
+              variant='standard'
+              InputLabelProps={{
+                shrink: !!value
+              }}
+              id='source_name'
+              error={!!getError("source_name")}
+              {...register("source_name")}
+            />
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name='source'
+        render={({ field: { value } }) => (
+          <FormControl fullWidth className='p-2'>
+            <TextField
+              label={<Text>Source</Text>}
+              value={value}
+              variant='standard'
+              InputLabelProps={{
+                shrink: !!value
+              }}
+              id='source'
+              error={!!getError("source")}
+              {...register("source")}
+            />
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name='published'
+        render={({ field: { value } }) => (
+          <FormControlLabel
+            control={
+              <Switch
+                value={value}
+                onChange={(event) => setValue("published", event.target.checked)}
+              />
+            }
+            label={<Text>Published</Text>}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name='published_at'
+        render={({ field: { value } }) => (
+          <FormControl fullWidth className='p-2'>
+            <DatePicker
+              value={value || dayjs().toISOString()}
               label={<Text>Published at</Text>}
-              {...form.register("published_at")}
-              onChange={(value) => form.setValue("published_at", `${value}`)}
+              {...register("published_at")}
+              onChange={(value) => setValue("published_at", dayjs(value).toISOString())}
               renderInput={(props) => <TextField id='published_at' {...props} variant='standard' />}
             />
+          </FormControl>
+        )}
+      />
+
+      <FormControl fullWidth className='p-2 mt-2'>
+        <Controller
+          control={control}
+          name='category'
+          render={({ field: { value = [], onChange } }) => (
+            <TextField
+              select
+              name='category'
+              id='category'
+              variant='standard'
+              label={<Text>Category</Text>}
+              SelectProps={{
+                value: value,
+                onChange: onChange
+              }}
+            >
+              <MenuItem key={"empty"} value={""}>
+                <Text>Not selected</Text>
+              </MenuItem>
+              {categories?.newsCategories.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </TextField>
           )}
         />
       </FormControl>
 
-      <FormControl fullWidth className='!pl-2'>
-        <InputLabel id='category-select'>
-          <Text component='span'>Category</Text>
-        </InputLabel>
-        <Select
-          labelId='category-select'
-          id='category-select'
-          label={<Text>Category</Text>}
-          variant='standard'
-          {...form.register("category")}
-        >
-          <MenuItem key={"empty"} value={""}>
-            <Text>Not selected</Text>
-          </MenuItem>
-          {categories?.newsCategories.map((category) => (
-            <MenuItem key={category.id} value={category.id}>
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl fullWidth className='!pl-2'>
+      <FormControl fullWidth className='p-2 mt-2'>
         <Controller
-          control={form.control}
+          control={control}
           name='tags'
           render={({ field: { value = [], onChange } }) => (
             <TextField
@@ -140,20 +170,20 @@ export const AdditionalNewsForm: React.FC<Props> = ({ defaultValues }) => {
         />
       </FormControl>
       <Controller
-        control={form.control}
+        control={control}
         name='on_index'
         render={({ field: { value } }) => (
           <FormControlLabel
             control={
               <Switch
                 value={value}
-                onChange={(event) => form.setValue("on_index", event.target.checked)}
+                onChange={(event) => setValue("on_index", event.target.checked)}
               />
             }
             label={<Text>Visible on home page</Text>}
           />
         )}
       />
-    </form>
+    </Box>
   );
 };

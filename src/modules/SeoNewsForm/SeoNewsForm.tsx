@@ -1,35 +1,63 @@
-import { FormControl, Input, InputLabel } from "@mui/material";
+import { Box, FormControl, TextField } from "@mui/material";
 import React from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { Text } from "~/shared/components/Text";
+import { getErrorMessage } from "~/shared/lib/getError";
 
 type FormFields = {
-  title?: string;
-  description?: string;
+  "seo.upsert.title"?: string;
+  "seo.upsert.description"?: string;
 };
 
 type Props = {
-  step: number;
-  defaultValues?: FormFields;
-  onUpdateForm?: (step: number, form: UseFormReturn<Record<string, unknown>, unknown>) => void;
+  register: UseFormRegister<Partial<FormFields>>;
+  errors: FieldErrors<FormFields>;
+  control?: Control<FormFields, unknown>;
 };
-export const SeoNewsForm: React.FC<Props> = ({ defaultValues }) => {
-  const form = useForm<FormFields>({ defaultValues, mode: "all" });
+export const SeoNewsForm: React.FC<Props> = ({ register, errors, control }) => {
+  const getError = getErrorMessage(errors);
 
   return (
-    <form className='flex flex-col mt-2 gap-6'>
-      <FormControl fullWidth className='!p-2'>
-        <InputLabel htmlFor='title'>
-          <Text>Heading</Text>
-        </InputLabel>
-        <Input id='title' {...form.register("title")} />
-      </FormControl>
-      <FormControl fullWidth className='!p-2'>
-        <InputLabel htmlFor='description'>
-          <Text>Description</Text>
-        </InputLabel>
-        <Input id='description' {...form.register("description")} />
-      </FormControl>
-    </form>
+    <Box className='grow-[2] lg:w-[70%] order-last mt-2'>
+      <Controller
+        control={control}
+        name='seo.upsert.title'
+        render={({ field: { value } }) => (
+          <FormControl fullWidth className='!p-2'>
+            <TextField
+              label={<Text>Heading</Text>}
+              value={value}
+              variant='standard'
+              InputLabelProps={{
+                shrink: !!value
+              }}
+              id='seo.upsert.title'
+              error={!!getError("seo.upsert.title")}
+              {...register("seo.upsert.title")}
+            />
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name='seo.upsert.description'
+        render={({ field: { value } }) => (
+          <FormControl fullWidth className='!p-2'>
+            <TextField
+              label={<Text>Description</Text>}
+              value={value}
+              variant='standard'
+              InputLabelProps={{
+                shrink: !!value
+              }}
+              id='title'
+              error={!!getError("seo.upsert.description")}
+              {...register("seo.upsert.description")}
+            />
+          </FormControl>
+        )}
+      />
+    </Box>
   );
 };

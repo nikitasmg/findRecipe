@@ -16,21 +16,20 @@ export const Header: React.FC = () => {
 
   return (
     <Fragment>
-      <Box
-        component='header'
-        className='flex items-center justify-between px-2 pt-2 border bg-white'
-      >
-        <Box className='flex items-center'>
-          <Link to={HomePageRoute} className='p-2'>
-            <Logo size='small' />
-          </Link>
+      <Box component='header' className='flex justify-center border bg-white '>
+        <Box className='flex items-center justify-between px-2 pt-2 w-full max-w-[1280px]'>
+          <Box className='flex items-center'>
+            <Link to={HomePageRoute} className='p-2'>
+              <Logo size='small' />
+            </Link>
 
-          <HeaderTabs />
+            <HeaderTabs />
+          </Box>
+
+          <HeaderProfile />
+
+          <MenuButton className='md:!hidden' onClick={toggleMenu} opened={!!open} />
         </Box>
-
-        <HeaderProfile />
-
-        <MenuButton className='md:!hidden' onClick={toggleMenu} opened={!!open} />
       </Box>
       <NavigationMenu handleClose={handleClose} opened={!!open} />
     </Fragment>

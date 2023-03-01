@@ -1,8 +1,8 @@
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
 import clsx from "clsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Link } from "../Link";
 
 export type Path = {
   title: React.ReactNode;
@@ -12,6 +12,8 @@ export type Path = {
 };
 
 export const Path: React.FC<Path> = ({ children, path, title, initialExpanded }) => {
+  const presentationClassNames = clsx({ underline: !!path, "!text-black": !path });
+
   if (children) {
     return (
       <Accordion expanded={initialExpanded} disableGutters elevation={0} square className='w-full'>
@@ -21,7 +23,7 @@ export const Path: React.FC<Path> = ({ children, path, title, initialExpanded })
           id='content-panel'
           className='flex-row-reverse'
         >
-          <Link className={clsx({ "underline text-green-500": !!path })} to={path ?? ""}>
+          <Link className={presentationClassNames} to={path ?? ""}>
             {title}
           </Link>
         </AccordionSummary>
@@ -31,10 +33,7 @@ export const Path: React.FC<Path> = ({ children, path, title, initialExpanded })
   }
 
   return (
-    <Link
-      className={clsx("px-10 py-[12px]", { "underline text-green-500": !!path })}
-      to={path ?? ""}
-    >
+    <Link className={clsx("px-10 py-[12px]", presentationClassNames)} to={path ?? ""}>
       {title}
     </Link>
   );

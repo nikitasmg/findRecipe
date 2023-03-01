@@ -5,7 +5,7 @@ import { Providers } from "~/app/providers";
 import { CustomThemeProvider } from "~/app/providers/Theme";
 import "../src/app/providers/Translation";
 import "../src/shared/styles/index.css";
-import "../src/shared/styles/ovverides.css";
+import "../src/shared/styles/overrides.css";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

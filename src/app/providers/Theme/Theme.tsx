@@ -1,12 +1,16 @@
 import React, { PropsWithChildren } from "react";
 import { purple, green, grey } from "@mui/material/colors";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme, StyledEngineProvider } from "@mui/material/styles";
 
 const theme = createTheme({
   components: {
     MuiTableHead: {
       defaultProps: {
-        className: "bg-green-500"
+        sx: {
+          "& .MuiTableCell-head": {
+            background: green["A700"]
+          }
+        }
       }
     },
     MuiTableBody: {
@@ -23,13 +27,6 @@ const theme = createTheme({
           }
         }
       }
-    },
-    MuiTableCell: {
-      styleOverrides: {
-        root: {
-          background: "transparent"
-        }
-      }
     }
   },
   palette: {
@@ -43,5 +40,9 @@ const theme = createTheme({
 });
 
 export const CustomThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </StyledEngineProvider>
+  );
 };

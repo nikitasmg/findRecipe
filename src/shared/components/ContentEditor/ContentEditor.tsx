@@ -1,42 +1,74 @@
-import React, { ChangeEvent } from "react";
-
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React, { useEffect, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { Box } from "@mui/material";
+import { createEvent } from "./lib/createEvent";
+import { getNativeFileUrl } from "./lib/getNativeFileUrl";
 
 type Props = {
-  value?: string;
-  id?: string;
-  name?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: (event: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  name: string;
+  onChange?: (event: { target: { value: string; name: string } }) => void;
+  getUploadedUrl?: (blobUrl: string) => Promise<string>;
 };
 
-export const ContentEditor: React.FC<Props> = ({
-  value,
-  id,
-  name = "editor",
-  onChange,
-  onBlur,
-  onFocus
-}) => {
-  const handleEvent =
-    (eventHandler?: (event: ChangeEvent<HTMLInputElement>) => void) =>
-    (_: unknown, editor: typeof ClassicEditor) => {
-      const data = editor.getData();
-      // eslint-disable-next-line xss/no-mixed-html
-      const event = { target: { name, value: data.data } } as ChangeEvent<HTMLInputElement>;
-      eventHandler?.(event);
-    };
+export const ContentEditor: React.FC<Props> = React.memo(
+  ({ value: initialValue, name, onChange, getUploadedUrl }) => {
+    const [localValue, setValue] = useState("");
 
-  return (
-    <CKEditor
-      id={id}
-      editor={ClassicEditor}
-      data={value ?? ""}
-      onChange={handleEvent(onChange)}
-      onBlur={handleEvent(onBlur)}
-      onFocus={handleEvent(onFocus)}
-    />
-  );
-};
+    useEffect(() => {
+      onChange?.(createEvent(localValue, name));
+    }, [onChange, localValue, name]);
+
+    return (
+      <Box>
+        <Editor
+          onInit={(_, editor) => {
+            editor.setContent(initialValue);
+          }}
+          value={localValue}
+          apiKey={process.env.REACT_APP_TINY_MCE_KEY}
+          onEditorChange={setValue}
+          init={{
+            selector: "textarea" as never,
+            language: "ru",
+            plugins:
+              "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern help charmap quickbars emoticons",
+            menubar: "file edit view insert format tools table",
+            toolbar:
+              "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview print | insertfile image media link codesample | ltr rtl",
+            toolbar_sticky: false,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            image_advtab: true,
+            importcss_append: true,
+            images_upload_handler: (blob) => {
+              getUploadedUrl?.(blob.blobUri());
+            },
+            file_picker_callback: async (callback) => {
+              const blobUrl = await getNativeFileUrl();
+              const fileUrl = (await getUploadedUrl?.(blobUrl)) || blobUrl;
+
+              callback(fileUrl);
+            },
+            height: 600,
+            image_caption: true,
+            quickbars_selection_toolbar:
+              "bold italic | quicklink h1 h2 h3 | fontselect fontsizeselect formatselect | blockquote quickimage quicktable",
+            toolbar_mode: "sliding",
+            toolbar_drawer: false,
+            contextmenu: "link image imagetools table",
+            skin: "oxide",
+            content_css: "default",
+            content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px } ",
+            statusbar: false
+          }}
+        />
+      </Box>
+    );
+  }
+);
+
+ContentEditor.displayName = "ContentEditor";

@@ -39,7 +39,7 @@ export const useRequestState = (fastSearchFieldId: string) => {
     useTablePagination();
 
   const variables = {
-    page: pagination.page,
+    page: pagination.page || 1,
     first: pagination.perPage,
     ...(activeOrder
       ? {
@@ -112,10 +112,24 @@ export const useRequestState = (fastSearchFieldId: string) => {
     });
   }, []);
 
+  const resetFilters = useCallback(() => {
+    setParams(null);
+    setFilters(null);
+  }, []);
+
   useEffect(() => {
     const [sortKey, sortValue] = Object.entries(activeOrder ?? {})[0] ?? [];
 
-    setSearch({ ...(Boolean(sortKey) && { [`sort[${sortKey}]`]: sortValue }), ...params });
+    setSearch({
+      ...(Boolean(sortKey) && { [`sort[${sortKey}]`]: sortValue }),
+      ...Object.entries(params ?? {}).reduce((res: Record<string, string>, [key, value]) => {
+        if (value) {
+          res[key] = value;
+        }
+
+        return res;
+      }, Object.create(null))
+    });
   }, [params, activeOrder, setSearch]);
 
   return {
@@ -135,6 +149,7 @@ export const useRequestState = (fastSearchFieldId: string) => {
     handleChangeOrder,
     handleTitleChange,
     handleFilterChange,
-    removeFilter
+    removeFilter,
+    resetFilters
   };
 };

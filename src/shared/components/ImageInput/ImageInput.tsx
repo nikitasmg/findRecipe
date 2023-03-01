@@ -5,14 +5,22 @@ import { Text } from "../Text";
 
 type Props = {
   id: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (file?: File | null) => void;
+  onDelete?: () => void;
   withPreview?: boolean;
+  url?: string;
 } & InputProps;
 
-export const ImageInput: React.FC<Props> = ({ id, onChange, withPreview = true, ...other }) => {
+export const ImageInput: React.FC<Props> = ({
+  id,
+  onChange,
+  withPreview = true,
+  url = "",
+  onDelete,
+  ...other
+}) => {
   const [selectedImage, setSelectedImage] = useState<File | null>();
-  const [imageUrl, setImageUrl] = useState("");
-  const [event, setEvent] = useState<ChangeEvent<HTMLInputElement> | null>(null);
+  const [imageUrl, setImageUrl] = useState(url);
 
   useEffect(() => {
     if (selectedImage) {
@@ -21,22 +29,16 @@ export const ImageInput: React.FC<Props> = ({ id, onChange, withPreview = true, 
   }, [selectedImage]);
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e);
-    setEvent(e);
+    onChange?.(e.target.files?.[0]);
     setSelectedImage(e.target.files?.[0]);
   };
 
   const handleDeleteImage = () => {
-    if (event) {
-      event.target.files = null;
-      onChange?.(event);
-      setEvent(null);
-    }
-
+    onDelete?.();
     setSelectedImage(null);
   };
 
-  const isImagePreview = withPreview && imageUrl && selectedImage;
+  const isImagePreview = url || (withPreview && imageUrl && selectedImage);
 
   return (
     <>
@@ -60,7 +62,12 @@ export const ImageInput: React.FC<Props> = ({ id, onChange, withPreview = true, 
       {isImagePreview && (
         <Box className='relative text-red-700 w-fit p-6'>
           <CancelIcon onClick={handleDeleteImage} className='absolute right-0 top-0' />
-          <img src={imageUrl} alt={selectedImage.name} className='h-[100px]' height='100px' />
+          <img
+            src={imageUrl || url}
+            alt={selectedImage?.name}
+            className='h-[100px]'
+            height='100px'
+          />
         </Box>
       )}
     </>
