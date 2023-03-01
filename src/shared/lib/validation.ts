@@ -7,7 +7,7 @@ export const emailValidation = (value: string) =>
 export const getBaseEmailValidation = ({ required }: { required: boolean }) => ({
   ...(Boolean(required) && { required: "This is required" }),
   validate: {
-    validEmail: (value: string) => (!emailValidation(value) ? "Invalid email" : true)
+    validEmail: (value: string) => (value && !emailValidation(value) ? "Invalid email" : true)
   }
 });
 

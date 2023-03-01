@@ -11,7 +11,9 @@ import {
   FormControl,
   Grid,
   Input,
-  InputLabel
+  InputLabel,
+  TextareaAutosize,
+  TextField
 } from "@mui/material";
 import { Text } from "~shared/components/Text";
 import { getBaseEmailValidation } from "~shared/lib/validation";
@@ -70,12 +72,29 @@ export const ContactsForm: React.FC = () => {
       <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Grid item columns={12} xs={12}>
-            <FormControl fullWidth>
-              <InputLabel htmlFor='schedule' shrink>
-                <Text>Schedule</Text>
-              </InputLabel>
-              <Input id='schedule' multiline rows={4} {...register("schedule")} />
-            </FormControl>
+            <TextField
+              id='schedule'
+              multiline
+              fullWidth
+              variant='standard'
+              label={<Text>Schedule</Text>}
+              InputProps={{
+                inputComponent: TextareaAutosize,
+                inputProps: {
+                  style: {
+                    resize: "vertical",
+                    marginTop: 8
+                  }
+                }
+              }}
+              InputLabelProps={{
+                shrink: true,
+                style: {
+                  paddingLeft: 16
+                }
+              }}
+              {...register("schedule")}
+            />
           </Grid>
           <Grid item columns={12} xs={12}>
             <FormControl fullWidth>
