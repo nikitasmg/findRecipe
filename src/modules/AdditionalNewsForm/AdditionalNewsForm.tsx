@@ -89,7 +89,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
           <FormControlLabel
             control={
               <Switch
-                value={value}
+                checked={!!value}
                 onChange={(event) => setValue("published", event.target.checked)}
               />
             }
@@ -176,7 +176,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
           <FormControlLabel
             control={
               <Switch
-                value={value}
+                checked={!!value}
                 onChange={(event) => setValue("on_index", event.target.checked)}
               />
             }
