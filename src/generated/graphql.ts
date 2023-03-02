@@ -982,14 +982,14 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: string } | null };
 
-export type AllEventsFieldsFragment = { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
+export type AllEventsFieldsFragment = { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type EventByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type EventsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -999,21 +999,29 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
+
+export type UpdateEventPublishedMutationVariables = Exact<{
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type UpdateEventPublishedMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string } | null };
 
 export type CreateEventMutationVariables = Exact<{
   input: EventInput;
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateEventMutationVariables = Exact<{
   input: EventInput;
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1216,6 +1224,7 @@ export const AllEventsFieldsFragmentDoc = `
   description
   published
   imageUrl
+  created_at
   image {
     id
     url
@@ -1391,6 +1400,26 @@ export const useEventsQuery = <
     useQuery<EventsQuery, TError, TData>(
       variables === undefined ? ['events'] : ['events', variables],
       fetcher<EventsQuery, EventsQueryVariables>(client, EventsDocument, variables, headers),
+      options
+    );
+export const UpdateEventPublishedDocument = `
+    mutation UpdateEventPublished($id: ID!, $published: Boolean!) {
+  upsertEvent(input: {id: $id, published: $published}) {
+    id
+  }
+}
+    `;
+export const useUpdateEventPublishedMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEventPublishedMutation, TError, UpdateEventPublishedMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateEventPublishedMutation, TError, UpdateEventPublishedMutationVariables, TContext>(
+      ['UpdateEventPublished'],
+      (variables?: UpdateEventPublishedMutationVariables) => fetcher<UpdateEventPublishedMutation, UpdateEventPublishedMutationVariables>(client, UpdateEventPublishedDocument, variables, headers)(),
       options
     );
 export const CreateEventDocument = `

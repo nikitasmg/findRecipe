@@ -82,7 +82,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
 
           <Grid item columns={12} xs={12}>
             <FormControlLabel
-              control={<Switch value={params?.on_index} onChange={handleOnIndexChange} />}
+              control={<Switch checked={!!params?.on_index} onChange={handleOnIndexChange} />}
               label={<Text>Visible</Text>}
             />
           </Grid>

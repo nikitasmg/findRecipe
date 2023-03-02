@@ -7,6 +7,7 @@ export const EventsFragment = gql`
     description
     published
     imageUrl
+    created_at
     image {
       id
       url
@@ -57,6 +58,14 @@ export const Events = gql`
       data {
         ...allEventsFields
       }
+    }
+  }
+`;
+
+export const UpdateEventPublished = gql`
+  mutation UpdateEventPublished($id: ID!, $published: Boolean!) {
+    upsertEvent(input: { id: $id, published: $published }) {
+      id
     }
   }
 `;

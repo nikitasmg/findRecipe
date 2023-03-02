@@ -1,5 +1,6 @@
 import { CircularProgress } from "@mui/material";
 import React from "react";
+import { EventsTable } from "~/modules/EventsTable";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Text } from "~/shared/components/Text";
@@ -24,6 +25,7 @@ export const Events: React.FC = () => {
         {isLoading && <CircularProgress size={16} />}
         {!isLoading && <Text className='text-gray-600'>{`${count}`}</Text>}
       </PageTitle>
+      <EventsTable />
     </PageWrapper>
   );
 };
