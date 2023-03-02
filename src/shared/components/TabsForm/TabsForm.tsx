@@ -1,4 +1,4 @@
-import { Backdrop, Box, CircularProgress, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import React, { ReactNode, useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import SaveIcon from "@mui/icons-material/Save";
@@ -28,7 +28,7 @@ export const TabsForm: React.FC<Props> = ({
   handleStepChange,
   handleSubmit,
   activeStep = 0,
-  isLoading = false
+  isLoading
 }) => {
   const [step, setStep] = useState(0);
 
@@ -58,12 +58,6 @@ export const TabsForm: React.FC<Props> = ({
 
   return (
     <form className='w-full' onSubmit={handleSubmit}>
-      {isLoading && (
-        <Backdrop className='z-50 !absolute text-white' open>
-          <CircularProgress color='inherit' />
-        </Backdrop>
-      )}
-
       <Box>
         <Tabs value={step} onChange={handleTabChange} aria-label='basic tabs example'>
           {forms.map(({ tabTitle, hasErrors }, index) => (
@@ -109,7 +103,13 @@ export const TabsForm: React.FC<Props> = ({
             </Button>
           )}
 
-          <Button startIcon={<SaveIcon />} type='submit' variant='contained' size='small'>
+          <Button
+            startIcon={<SaveIcon />}
+            disabled={isLoading}
+            type='submit'
+            variant='contained'
+            size='small'
+          >
             Save
           </Button>
         </Box>
