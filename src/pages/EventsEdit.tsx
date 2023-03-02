@@ -37,7 +37,7 @@ export const EventsEdit: React.FC = () => {
       <Panel>
         <Box className='flex flex-col gap-6 items-center'>
           <DetailsHead
-            title={isEdit ? "News editing" : "News creating"}
+            title={isEdit ? "Events editing" : "Events creating"}
             onBackClick={handleGoBack}
             onRemove={handleDelete}
           />
