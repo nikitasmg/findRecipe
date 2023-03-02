@@ -53,7 +53,8 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
     const input: EventInput & { imageUrl?: never } = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
-      imageUrl: undefined
+      imageUrl: undefined,
+      ...(!newValues.uploadImage && { deleteImage: true })
     };
 
     if (isCreateMode) {
