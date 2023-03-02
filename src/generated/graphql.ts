@@ -982,6 +982,46 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: string } | null };
 
+export type AllEventsFieldsFragment = { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
+
+export type EventByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type EventsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+  first?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
+
+export type CreateEventMutationVariables = Exact<{
+  input: EventInput;
+}>;
+
+
+export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type UpdateEventMutationVariables = Exact<{
+  input: EventInput;
+}>;
+
+
+export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'Event', id: string } | null };
+
 export type AllNewsFieldsFragment = { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null };
 
 export type NewsByIdQueryVariables = Exact<{
@@ -1169,6 +1209,34 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null } };
 
+export const AllEventsFieldsFragmentDoc = `
+    fragment allEventsFields on Event {
+  id
+  name
+  description
+  published
+  imageUrl
+  image {
+    id
+    url
+  }
+  partners {
+    id
+    name
+    imageUrl
+    image {
+      id
+      url
+    }
+  }
+  documents {
+    id
+    url
+    user_name
+    sort
+  }
+}
+    `;
 export const AllNewsFieldsFragmentDoc = `
     fragment allNewsFields on News {
   id
@@ -1274,6 +1342,115 @@ export const useLogoutMutation = <
     useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
       ['Logout'],
       (variables?: LogoutMutationVariables) => fetcher<LogoutMutation, LogoutMutationVariables>(client, LogoutDocument, variables, headers)(),
+      options
+    );
+export const EventByIdDocument = `
+    query eventById($id: ID!) {
+  eventById(id: $id) {
+    ...allEventsFields
+  }
+}
+    ${AllEventsFieldsFragmentDoc}`;
+export const useEventByIdQuery = <
+      TData = EventByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: EventByIdQueryVariables,
+      options?: UseQueryOptions<EventByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<EventByIdQuery, TError, TData>(
+      ['eventById', variables],
+      fetcher<EventByIdQuery, EventByIdQueryVariables>(client, EventByIdDocument, variables, headers),
+      options
+    );
+export const EventsDocument = `
+    query events($orderBy: [OrderByClause!], $filter: [FilterByClause!], $first: Int = 30, $page: Int) {
+  events(orderBy: $orderBy, filter: $filter, first: $first, page: $page) {
+    paginatorInfo {
+      lastPage
+      total
+      perPage
+    }
+    data {
+      ...allEventsFields
+    }
+  }
+}
+    ${AllEventsFieldsFragmentDoc}`;
+export const useEventsQuery = <
+      TData = EventsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: EventsQueryVariables,
+      options?: UseQueryOptions<EventsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<EventsQuery, TError, TData>(
+      variables === undefined ? ['events'] : ['events', variables],
+      fetcher<EventsQuery, EventsQueryVariables>(client, EventsDocument, variables, headers),
+      options
+    );
+export const CreateEventDocument = `
+    mutation createEvent($input: EventInput!) {
+  upsertEvent(input: $input) {
+    ...allEventsFields
+  }
+}
+    ${AllEventsFieldsFragmentDoc}`;
+export const useCreateEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateEventMutation, TError, CreateEventMutationVariables, TContext>(
+      ['createEvent'],
+      (variables?: CreateEventMutationVariables) => fetcher<CreateEventMutation, CreateEventMutationVariables>(client, CreateEventDocument, variables, headers)(),
+      options
+    );
+export const UpdateEventDocument = `
+    mutation updateEvent($input: EventInput!) {
+  upsertEvent(input: $input) {
+    ...allEventsFields
+  }
+}
+    ${AllEventsFieldsFragmentDoc}`;
+export const useUpdateEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>(
+      ['updateEvent'],
+      (variables?: UpdateEventMutationVariables) => fetcher<UpdateEventMutation, UpdateEventMutationVariables>(client, UpdateEventDocument, variables, headers)(),
+      options
+    );
+export const DeleteEventDocument = `
+    mutation deleteEvent($id: ID!) {
+  deleteEvent(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
+      ['deleteEvent'],
+      (variables?: DeleteEventMutationVariables) => fetcher<DeleteEventMutation, DeleteEventMutationVariables>(client, DeleteEventDocument, variables, headers)(),
       options
     );
 export const NewsByIdDocument = `
