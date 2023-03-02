@@ -3,7 +3,13 @@ import React, { SyntheticEvent, useCallback, useLayoutEffect, useState } from "r
 import { useLocation, useNavigate } from "react-router-dom";
 import { HeaderTab } from "~/shared/components/HeaderTab";
 import { useHeaderTabsStore } from "~/shared/stores/headerTabs";
-import { CompilationsPage, HomePageRoute, NewsPageRoute, UsersPageRoute } from "~shared/routes";
+import {
+  CompilationsPage,
+  EventsPageRoute,
+  HomePageRoute,
+  NewsPageRoute,
+  UsersPageRoute
+} from "~shared/routes";
 
 const tabs: HeaderTab[] = [
   {
@@ -16,6 +22,10 @@ const tabs: HeaderTab[] = [
       {
         label: "News",
         path: NewsPageRoute
+      },
+      {
+        label: "Events",
+        path: EventsPageRoute
       },
       {
         label: "Users",

@@ -21,3 +21,9 @@ export const SettingsPage = "/settings";
 export const CompilationsPage = "/compilation";
 
 export const CompilationEditPage = `${CompilationsPage}/edit/:id`;
+
+export const EventsPageRoute = "/events";
+
+export const EventsPageEdit = "/events/edit/:id";
+
+export const EventsPageCreate = `${EventsPageRoute}/create`;

@@ -11,7 +11,10 @@ import { Home } from "~/pages/Home";
 import { Users } from "~/pages/Users";
 import { NewsEdit } from "~/pages/NewsEdit";
 import { Compilations } from "~/pages/Compilations";
-import {Settings} from "~/pages/Settings";
+import { Settings } from "~/pages/Settings";
+import { Events } from "~/pages/Events";
+import { CompilationsEdit } from "~/pages/CompilationsEdit";
+import { EventsEdit } from "~/pages/EventsEdit";
 
 import {
   HomePageRoute,
@@ -21,10 +24,12 @@ import {
   NewsPageRoute,
   UsersPageRoute,
   CompilationsPage,
-  SettingsPage
+  SettingsPage,
+  CompilationEditPage,
+  EventsPageRoute,
+  EventsPageEdit,
+  EventsPageCreate
 } from "~shared/routes";
-import { CompilationsEdit } from "~/pages/CompilationsEdit";
-import { CompilationEditPage } from "~/shared/routes";
 
 export const Router: React.FC = () => {
   return (
@@ -38,6 +43,7 @@ export const Router: React.FC = () => {
           </BaseProtectedLayout>
         }
       />
+
       <Route
         path={NewsPageRoute}
         element={
@@ -61,6 +67,33 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <NewsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={EventsPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Events />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={EventsPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <EventsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={EventsPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <EventsEdit />
           </BaseProtectedLayout>
         }
       />

@@ -1,7 +1,7 @@
 import React from "react";
 import { createCtx } from "~/shared/lib/context";
 import { Text } from "~/shared/components/Text";
-import { HomePageRoute, NewsPageRoute, UsersPageRoute } from "~shared/routes";
+import { HomePageRoute, NewsPageRoute, UsersPageRoute, EventsPageRoute } from "~shared/routes";
 
 const paths = [
   {
@@ -14,6 +14,10 @@ const paths = [
       {
         title: <Text component='span'>News</Text>,
         path: NewsPageRoute
+      },
+      {
+        title: <Text component='span'>Events</Text>,
+        path: EventsPageRoute
       },
       {
         title: <Text component='span'>Users</Text>,

@@ -166,7 +166,7 @@ export const useColumns = (
       id: "on_index",
       label: (
         <TableHeadCell
-          title='На главной'
+          title='On the main'
           align='center'
           cellId='on_index'
           onSortClick={getClickHandler("on_index")}
