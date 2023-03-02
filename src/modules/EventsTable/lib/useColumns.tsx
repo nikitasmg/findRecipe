@@ -111,15 +111,18 @@ export const useColumns = (
       ),
       minWidth: 200,
       align: "center",
-      render: (value, row) => (
-        <Switch
-          aria-label='switch-published'
-          defaultValue={value as string}
-          onChange={(event) =>
-            updatePublished({ id: row.id as string, published: event.target.checked })
-          }
-        />
-      )
+      render: (value, row) => {
+        return (
+          <Switch
+            aria-label='switch-published'
+            checked={!!value}
+            onChange={(event) => {
+              updatePublished({ id: row.id as string, published: event.target.checked });
+              row.published = !row.published;
+            }}
+          />
+        );
+      }
     }
   ];
 };

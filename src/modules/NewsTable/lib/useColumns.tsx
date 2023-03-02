@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
-import { Box, Modal, Switch } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Switch } from "@mui/material";
 import {
   NewsCategory,
   SortOrder,
@@ -10,19 +9,15 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableHeadCell } from "~/shared/components/TableHeadCell";
 import { Link } from "~/shared/components/Link";
-import { useModal } from "~/shared/hooks/useModal";
 import { formatDate } from "~/shared/lib/formatDate";
 import { NewsPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
-import { Button } from "~/shared/components/Button";
 
 export const useColumns = (
   activeOrder?: ActiveOrder,
   handleOrderClick?: (_activeOrder: ActiveOrder) => void
 ): Column[] => {
-  const { open, handleClose, handleOpen } = useModal();
-
   const client = useGraphqlClient();
 
   const { mutateAsync: updateOnIndex } = useUpdateOnIndexMutation(client);
@@ -64,50 +59,17 @@ export const useColumns = (
       )
     },
     {
-      id: "content",
-      label: (
-        <TableHeadCell
-          title='Content'
-          cellId='content'
-          onSortClick={getClickHandler("content")}
-          sortProps={getActiveProps("content")}
-        />
-      ),
+      id: "imageUrl",
+      label: <TableHeadCell title='Image' cellId='imageUrl' />,
       minWidth: 220,
-      render: (value, row) => {
-        if (typeof value !== "string") return null;
-
-        const key = `${row.id}`;
-
-        const handleClick = () => handleOpen(key);
-
-        return (
-          <Fragment key={key}>
-            <Button
-              className='flex gap-2 items-center w-fit p-4'
-              variant='outlined'
-              onClick={handleClick}
-              startIcon={<VisibilityIcon />}
-            >
-              Preview
-            </Button>
-            <Modal
-              open={open === key}
-              onClose={handleClose}
-              aria-labelledby={value}
-              aria-describedby={value}
-            >
-              <Box className='w-[90%] bg-white mx-auto mt-2 border-box p-6 h-[90%] flex items-center rounded-lg'>
-                <div
-                  className='h-[90%] overflow-auto'
-                  // eslint-disable-next-line xss/no-mixed-html
-                  dangerouslySetInnerHTML={{ __html: value }}
-                />
-              </Box>
-            </Modal>
-          </Fragment>
-        );
-      }
+      render: (value, row) => (
+        <img
+          className='w-[220px] h-auto'
+          loading='lazy'
+          src={(value as string) ?? ""}
+          alt={row.name as string}
+        />
+      )
     },
 
     {
@@ -178,10 +140,12 @@ export const useColumns = (
       render: (value, row) => (
         <Switch
           aria-label='switch-view-on-index'
-          defaultValue={value as string}
-          onChange={(event) =>
-            updateOnIndex({ id: row.id as string, on_index: event.target.checked })
-          }
+          checked={!!value}
+          onChange={(event) => {
+            updateOnIndex({ id: row.id as string, on_index: event.target.checked });
+
+            row.on_index = !row.on_index;
+          }}
         />
       )
     }

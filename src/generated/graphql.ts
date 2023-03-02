@@ -1158,6 +1158,80 @@ export type DeleteNewsTagMutationVariables = Exact<{
 
 export type DeleteNewsTagMutation = { __typename?: 'Mutation', deleteNewsTag?: { __typename?: 'NewsTag', sort: number, name: string } | null };
 
+export type AllOrganizerFieldsFragment = { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
+
+export type OrganizerByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type OrganizerByIdQuery = { __typename?: 'Query', organizerById?: { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type OrganizersQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+}>;
+
+
+export type OrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null }> };
+
+export type CreateOrganizerMutationVariables = Exact<{
+  input: OrganizerInput;
+}>;
+
+
+export type CreateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type UpdateOrganizerMutationVariables = Exact<{
+  input: OrganizerInput;
+}>;
+
+
+export type UpdateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type DeleteOrganizerMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id?: string | null } | null };
+
+export type AllPartnerFieldsFragment = { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
+
+export type PartnerByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PartnerByIdQuery = { __typename?: 'Query', partnerById?: { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type PartnersQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+}>;
+
+
+export type PartnersQuery = { __typename?: 'Query', partners: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null }> };
+
+export type CreatePartnerMutationVariables = Exact<{
+  input: PartnerInput;
+}>;
+
+
+export type CreatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type UpdatePartnerMutationVariables = Exact<{
+  input: PartnerInput;
+}>;
+
+
+export type UpdatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type DeletePartnerMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id?: string | null } | null };
+
 export type AllSettingsFieldsFragment = { __typename?: 'Setting', id: string, name: string, value?: string | null };
 
 export type SettingByIdQueryVariables = Exact<{
@@ -1298,6 +1372,30 @@ export const AllNewsTagsFieldsFragmentDoc = `
   id
   sort
   name
+}
+    `;
+export const AllOrganizerFieldsFragmentDoc = `
+    fragment allOrganizerFields on Organizer {
+  id
+  name
+  imageUrl
+  image {
+    id
+    url
+  }
+  created_at
+}
+    `;
+export const AllPartnerFieldsFragmentDoc = `
+    fragment allPartnerFields on Partner {
+  id
+  name
+  imageUrl
+  image {
+    id
+    url
+  }
+  created_at
 }
     `;
 export const AllSettingsFieldsFragmentDoc = `
@@ -1815,6 +1913,210 @@ export const useDeleteNewsTagMutation = <
     useMutation<DeleteNewsTagMutation, TError, DeleteNewsTagMutationVariables, TContext>(
       ['deleteNewsTag'],
       (variables?: DeleteNewsTagMutationVariables) => fetcher<DeleteNewsTagMutation, DeleteNewsTagMutationVariables>(client, DeleteNewsTagDocument, variables, headers)(),
+      options
+    );
+export const OrganizerByIdDocument = `
+    query organizerById($id: ID!) {
+  organizerById(id: $id) {
+    ...allOrganizerFields
+  }
+}
+    ${AllOrganizerFieldsFragmentDoc}`;
+export const useOrganizerByIdQuery = <
+      TData = OrganizerByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: OrganizerByIdQueryVariables,
+      options?: UseQueryOptions<OrganizerByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<OrganizerByIdQuery, TError, TData>(
+      ['organizerById', variables],
+      fetcher<OrganizerByIdQuery, OrganizerByIdQueryVariables>(client, OrganizerByIdDocument, variables, headers),
+      options
+    );
+export const OrganizersDocument = `
+    query organizers($orderBy: [OrderByClause!]) {
+  organizers(orderBy: $orderBy) {
+    ...allOrganizerFields
+  }
+}
+    ${AllOrganizerFieldsFragmentDoc}`;
+export const useOrganizersQuery = <
+      TData = OrganizersQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: OrganizersQueryVariables,
+      options?: UseQueryOptions<OrganizersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<OrganizersQuery, TError, TData>(
+      variables === undefined ? ['organizers'] : ['organizers', variables],
+      fetcher<OrganizersQuery, OrganizersQueryVariables>(client, OrganizersDocument, variables, headers),
+      options
+    );
+export const CreateOrganizerDocument = `
+    mutation createOrganizer($input: OrganizerInput!) {
+  upsertOrganizer(input: $input) {
+    ...allOrganizerFields
+  }
+}
+    ${AllOrganizerFieldsFragmentDoc}`;
+export const useCreateOrganizerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateOrganizerMutation, TError, CreateOrganizerMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateOrganizerMutation, TError, CreateOrganizerMutationVariables, TContext>(
+      ['createOrganizer'],
+      (variables?: CreateOrganizerMutationVariables) => fetcher<CreateOrganizerMutation, CreateOrganizerMutationVariables>(client, CreateOrganizerDocument, variables, headers)(),
+      options
+    );
+export const UpdateOrganizerDocument = `
+    mutation updateOrganizer($input: OrganizerInput!) {
+  upsertOrganizer(input: $input) {
+    ...allOrganizerFields
+  }
+}
+    ${AllOrganizerFieldsFragmentDoc}`;
+export const useUpdateOrganizerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateOrganizerMutation, TError, UpdateOrganizerMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateOrganizerMutation, TError, UpdateOrganizerMutationVariables, TContext>(
+      ['updateOrganizer'],
+      (variables?: UpdateOrganizerMutationVariables) => fetcher<UpdateOrganizerMutation, UpdateOrganizerMutationVariables>(client, UpdateOrganizerDocument, variables, headers)(),
+      options
+    );
+export const DeleteOrganizerDocument = `
+    mutation deleteOrganizer($id: ID!) {
+  deleteOrganizer(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteOrganizerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteOrganizerMutation, TError, DeleteOrganizerMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteOrganizerMutation, TError, DeleteOrganizerMutationVariables, TContext>(
+      ['deleteOrganizer'],
+      (variables?: DeleteOrganizerMutationVariables) => fetcher<DeleteOrganizerMutation, DeleteOrganizerMutationVariables>(client, DeleteOrganizerDocument, variables, headers)(),
+      options
+    );
+export const PartnerByIdDocument = `
+    query partnerById($id: ID!) {
+  partnerById(id: $id) {
+    ...allPartnerFields
+  }
+}
+    ${AllPartnerFieldsFragmentDoc}`;
+export const usePartnerByIdQuery = <
+      TData = PartnerByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: PartnerByIdQueryVariables,
+      options?: UseQueryOptions<PartnerByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<PartnerByIdQuery, TError, TData>(
+      ['partnerById', variables],
+      fetcher<PartnerByIdQuery, PartnerByIdQueryVariables>(client, PartnerByIdDocument, variables, headers),
+      options
+    );
+export const PartnersDocument = `
+    query partners($orderBy: [OrderByClause!]) {
+  partners(orderBy: $orderBy) {
+    ...allPartnerFields
+  }
+}
+    ${AllPartnerFieldsFragmentDoc}`;
+export const usePartnersQuery = <
+      TData = PartnersQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: PartnersQueryVariables,
+      options?: UseQueryOptions<PartnersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<PartnersQuery, TError, TData>(
+      variables === undefined ? ['partners'] : ['partners', variables],
+      fetcher<PartnersQuery, PartnersQueryVariables>(client, PartnersDocument, variables, headers),
+      options
+    );
+export const CreatePartnerDocument = `
+    mutation createPartner($input: PartnerInput!) {
+  upsertPartner(input: $input) {
+    ...allPartnerFields
+  }
+}
+    ${AllPartnerFieldsFragmentDoc}`;
+export const useCreatePartnerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreatePartnerMutation, TError, CreatePartnerMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreatePartnerMutation, TError, CreatePartnerMutationVariables, TContext>(
+      ['createPartner'],
+      (variables?: CreatePartnerMutationVariables) => fetcher<CreatePartnerMutation, CreatePartnerMutationVariables>(client, CreatePartnerDocument, variables, headers)(),
+      options
+    );
+export const UpdatePartnerDocument = `
+    mutation updatePartner($input: PartnerInput!) {
+  upsertPartner(input: $input) {
+    ...allPartnerFields
+  }
+}
+    ${AllPartnerFieldsFragmentDoc}`;
+export const useUpdatePartnerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePartnerMutation, TError, UpdatePartnerMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePartnerMutation, TError, UpdatePartnerMutationVariables, TContext>(
+      ['updatePartner'],
+      (variables?: UpdatePartnerMutationVariables) => fetcher<UpdatePartnerMutation, UpdatePartnerMutationVariables>(client, UpdatePartnerDocument, variables, headers)(),
+      options
+    );
+export const DeletePartnerDocument = `
+    mutation deletePartner($id: ID!) {
+  deletePartner(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeletePartnerMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeletePartnerMutation, TError, DeletePartnerMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeletePartnerMutation, TError, DeletePartnerMutationVariables, TContext>(
+      ['deletePartner'],
+      (variables?: DeletePartnerMutationVariables) => fetcher<DeletePartnerMutation, DeletePartnerMutationVariables>(client, DeletePartnerDocument, variables, headers)(),
       options
     );
 export const SettingByIdDocument = `
