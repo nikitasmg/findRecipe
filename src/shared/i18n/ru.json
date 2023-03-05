@@ -89,5 +89,15 @@
   "On the main": "На главной",
   "Events editing": "Редактирование мероприятия",
   "Events creating": "Создание мероприятия",
-  "Image": "Изображение"
+  "Image": "Изображение",
+  "About fund": "О фонде",
+  "Employees": "Сотрудники",
+  "count employees": "количество сотрудников",
+  "Subdivision": "Подразделение",
+  "Subdivisions": "Подразделения",
+  "Full name": "ФИО",
+  "Position": "Должность",
+  "Additional number": "Добавочный номер",
+  "Employee editing": "Редактирование сотрудника",
+  "Employee creating": "Создание сотрудника"
 }

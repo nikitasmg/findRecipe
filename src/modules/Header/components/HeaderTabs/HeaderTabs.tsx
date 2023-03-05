@@ -5,6 +5,7 @@ import { HeaderTab } from "~/shared/components/HeaderTab";
 import { useHeaderTabsStore } from "~/shared/stores/headerTabs";
 import {
   CompilationsPage,
+  EmployeesPage,
   EventsPageRoute,
   HomePageRoute,
   NewsPageRoute,
@@ -30,6 +31,15 @@ const tabs: HeaderTab[] = [
       {
         label: "Users",
         path: UsersPageRoute
+      }
+    ]
+  },
+  {
+    label: "About fund",
+    children: [
+      {
+        label: "Employees",
+        path: EmployeesPage
       }
     ]
   },

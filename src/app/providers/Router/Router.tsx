@@ -28,8 +28,13 @@ import {
   CompilationEditPage,
   EventsPageRoute,
   EventsPageEdit,
-  EventsPageCreate
+  EventsPageCreate,
+  EmployeesPage,
+  EmployeesPageEdit,
+  EmployeesPageCreate
 } from "~shared/routes";
+import { Employees } from "~/pages/Employees";
+import { EmployeesEdit } from "~/pages/EmployeesEdit";
 
 export const Router: React.FC = () => {
   return (
@@ -130,6 +135,33 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <Settings />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={EmployeesPage}
+        element={
+          <BaseProtectedLayout>
+            <Employees />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={EmployeesPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <EmployeesEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={EmployeesPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <EmployeesEdit />
           </BaseProtectedLayout>
         }
       />

@@ -27,3 +27,9 @@ export const EventsPageRoute = "/events";
 export const EventsPageEdit = "/events/edit/:id";
 
 export const EventsPageCreate = `${EventsPageRoute}/create`;
+
+export const EmployeesPage = "/employees";
+
+export const EmployeesPageEdit = `${EmployeesPage}/edit/:id`;
+
+export const EmployeesPageCreate = `${EmployeesPage}/create`;
