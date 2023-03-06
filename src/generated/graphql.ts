@@ -176,6 +176,7 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteControl?: Maybe<StaffControl>;
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
   deleteNews?: Maybe<News>;
@@ -205,9 +206,15 @@ export type Mutation = {
   upsertPage?: Maybe<Page>;
   upsertPartner?: Maybe<Partner>;
   upsertSetting?: Maybe<Setting>;
+  upsertStaffControl?: Maybe<StaffControl>;
   upsertSubdivision?: Maybe<Subdivision>;
   upsertUser?: Maybe<User>;
   upsertVacancy?: Maybe<Vacancy>;
+};
+
+
+export type MutationDeleteControlArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -351,6 +358,11 @@ export type MutationUpsertPartnerArgs = {
 
 export type MutationUpsertSettingArgs = {
   input: SettingInput;
+};
+
+
+export type MutationUpsertStaffControlArgs = {
+  input: StaffControlInput;
 };
 
 
@@ -523,6 +535,11 @@ export type Page = {
   updated_at: Scalars['DateTime'];
 };
 
+export type PageBelongsTo = {
+  connect?: InputMaybe<Scalars['ID']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+};
+
 /** Information about pagination using a Relay style cursor connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -635,6 +652,8 @@ export type Query = {
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
+  staffControlById?: Maybe<StaffControl>;
+  staffControls: Array<StaffControl>;
   subdivisionById?: Maybe<Subdivision>;
   subdivisions: Array<Subdivision>;
   userByEmail?: Maybe<User>;
@@ -772,6 +791,17 @@ export type QuerySettingsArgs = {
 };
 
 
+export type QueryStaffControlByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryStaffControlsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
 export type QuerySubdivisionByIdArgs = {
   id: Scalars['ID'];
 };
@@ -865,6 +895,36 @@ export enum SortOrder {
   /** Sort records in descending order. */
   Desc = 'DESC'
 }
+
+/**
+ * Сотрудники органов управления и контроля
+ * Выводятся на страницах раздела Органы управления и контроля
+ *
+ * https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=37%3A1395&t=U0C6Mrr376j97Jtf-1
+ */
+export type StaffControl = {
+  __typename?: 'StaffControl';
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  image?: Maybe<Image>;
+  imageThumbs?: Maybe<ImageThumbs>;
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  page: Page;
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+};
+
+export type StaffControlInput = {
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<PageBelongsTo>;
+  sort?: InputMaybe<Scalars['Int']>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
 
 export type Subdivision = {
   __typename?: 'Subdivision';
@@ -1029,6 +1089,11 @@ export type DeleteEventMutationVariables = Exact<{
 
 
 export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'Event', id: string } | null };
+
+export type ContentEditorKeyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ContentEditorKeyQuery = { __typename?: 'Query', settingById?: { __typename?: 'Setting', value?: string | null } | null };
 
 export type AllNewsFieldsFragment = { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null };
 
@@ -1262,10 +1327,12 @@ export type UpdateSettingsMutationVariables = Exact<{
   address?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailPress?: InputMaybe<Scalars['String']>;
+  send_email_notify?: InputMaybe<Scalars['String']>;
+  contentEditor?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, contentEditor?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
 
 export type UploadMutationVariables = Exact<{
   file: Scalars['Upload'];
@@ -1578,6 +1645,27 @@ export const useDeleteEventMutation = <
     useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
       ['deleteEvent'],
       (variables?: DeleteEventMutationVariables) => fetcher<DeleteEventMutation, DeleteEventMutationVariables>(client, DeleteEventDocument, variables, headers)(),
+      options
+    );
+export const ContentEditorKeyDocument = `
+    query contentEditorKey {
+  settingById(id: 7) {
+    value
+  }
+}
+    `;
+export const useContentEditorKeyQuery = <
+      TData = ContentEditorKeyQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ContentEditorKeyQueryVariables,
+      options?: UseQueryOptions<ContentEditorKeyQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ContentEditorKeyQuery, TError, TData>(
+      variables === undefined ? ['contentEditorKey'] : ['contentEditorKey', variables],
+      fetcher<ContentEditorKeyQuery, ContentEditorKeyQueryVariables>(client, ContentEditorKeyDocument, variables, headers),
       options
     );
 export const NewsByIdDocument = `
@@ -2183,7 +2271,7 @@ export const useSettingsQuery = <
       options
     );
 export const UpdateSettingsDocument = `
-    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String) {
+    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String, $send_email_notify: String, $contentEditor: String) {
   schedule: upsertSetting(input: {id: "1", name: "phone", value: $phone}) {
     ...allSettingsFields
   }
@@ -2197,6 +2285,16 @@ export const UpdateSettingsDocument = `
     ...allSettingsFields
   }
   emailPress: upsertSetting(input: {id: "5", name: "schedule", value: $schedule}) {
+    ...allSettingsFields
+  }
+  send_email_notify: upsertSetting(
+    input: {id: "6", name: "send_email_notify", value: $send_email_notify}
+  ) {
+    ...allSettingsFields
+  }
+  contentEditor: upsertSetting(
+    input: {id: "7", name: "contentEditor", value: $contentEditor}
+  ) {
     ...allSettingsFields
   }
 }

@@ -4,7 +4,7 @@ import { PopupState } from "material-ui-popup-state/hooks";
 import { Box, Popover, TableSortLabel } from "@mui/material";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import { Button } from "../Button";
-import styles from "./TableHeadCell.module.css";
+import styles from "./TableHeadLabel.module.css";
 
 type Props = {
   cellId: string;

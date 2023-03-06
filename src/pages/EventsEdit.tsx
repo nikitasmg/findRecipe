@@ -35,13 +35,15 @@ export const EventsEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='flex flex-col gap-6 items-center'>
-          <DetailsHead
-            title={isEdit ? "Events editing" : "Events creating"}
-            onBackClick={handleGoBack}
-            onRemove={handleDelete}
-          />
-          <EventsDetailsForm id={Number(id)} />
+        <Box className='p-4'>
+          <Box className='flex flex-col gap-6 items-center'>
+            <DetailsHead
+              title={isEdit ? "Events editing" : "Events creating"}
+              onBackClick={handleGoBack}
+              onRemove={handleDelete}
+            />
+            <EventsDetailsForm id={Number(id)} />
+          </Box>
         </Box>
       </Panel>
     </PageWrapper>

@@ -104,7 +104,7 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ tab, value, handleSelect, 
             >
               <Link
                 className={clsx("w-full px-4 py-2", {
-                  "text-green-500": isActive
+                  "text-primary": isActive
                 })}
                 to={tabInner.path ?? ""}
               >

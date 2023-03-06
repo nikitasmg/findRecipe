@@ -10,8 +10,10 @@ type Props = {
 
 export const HelperText: React.FC<Props> = ({ error, id, text = "" }) => {
   return (
-    <FormHelperText error={!!error} id={id}>
-      <Text component='span'>{error ?? text}</Text>
+    <FormHelperText className='ml-0 test-xs' error={!!error} id={id}>
+      <Text component='span' className='text-sm'>
+        {error ?? text}
+      </Text>
     </FormHelperText>
   );
 };

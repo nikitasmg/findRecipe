@@ -25,7 +25,9 @@ export const ImageInput: React.FC<Props> = ({
   useEffect(() => {
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
+      return;
     }
+    setImageUrl("");
   }, [selectedImage]);
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +63,12 @@ export const ImageInput: React.FC<Props> = ({
       )}
       {isImagePreview && (
         <Box className='relative text-red-700 w-fit p-6'>
-          <CancelIcon onClick={handleDeleteImage} className='absolute right-0 top-0' />
+          <CancelIcon
+            onClick={handleDeleteImage}
+            onKeyDown={handleDeleteImage}
+            tabIndex={0}
+            className='absolute right-0 top-0 cursor-pointer'
+          />
           <img
             src={imageUrl || url}
             alt={selectedImage?.name}

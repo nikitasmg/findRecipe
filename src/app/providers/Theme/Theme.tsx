@@ -1,6 +1,8 @@
 import React, { PropsWithChildren } from "react";
-import { purple, green, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import { ThemeProvider, createTheme, StyledEngineProvider } from "@mui/material/styles";
+
+const colors = { primary: "#22c55e", primaryActive: "#15803d", secondary: "#9c27b0" };
 
 const theme = createTheme({
   components: {
@@ -8,7 +10,7 @@ const theme = createTheme({
       defaultProps: {
         sx: {
           "& .MuiTableCell-head": {
-            background: green["A700"]
+            background: colors.primary
           }
         }
       }
@@ -27,14 +29,26 @@ const theme = createTheme({
           }
         }
       }
+    },
+    MuiInputLabel: {
+      defaultProps: {
+        shrink: true
+      }
+    },
+    MuiTextField: {
+      defaultProps: {
+        InputLabelProps: {
+          shrink: true
+        }
+      }
     }
   },
   palette: {
     primary: {
-      main: green["A700"]
+      main: colors.primary
     },
     secondary: {
-      main: purple[500]
+      main: colors.secondary
     }
   }
 });

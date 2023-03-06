@@ -18,19 +18,16 @@ export const SeoNewsForm: React.FC<Props> = ({ register, errors, control }) => {
   const getError = getErrorMessage(errors);
 
   return (
-    <Box className='grow-[2] lg:w-[70%] order-last mt-2'>
+    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
       <Controller
         control={control}
         name='seo.upsert.title'
         render={({ field: { value } }) => (
-          <FormControl fullWidth className='!p-2'>
+          <FormControl fullWidth>
             <TextField
               label={<Text>Heading</Text>}
               value={value}
-              variant='standard'
-              InputLabelProps={{
-                shrink: !!value
-              }}
+              variant='outlined'
               id='seo.upsert.title'
               error={!!getError("seo.upsert.title")}
               {...register("seo.upsert.title")}
@@ -43,15 +40,12 @@ export const SeoNewsForm: React.FC<Props> = ({ register, errors, control }) => {
         control={control}
         name='seo.upsert.description'
         render={({ field: { value } }) => (
-          <FormControl fullWidth className='!p-2'>
+          <FormControl fullWidth>
             <TextField
               label={<Text>Description</Text>}
               value={value}
-              variant='standard'
-              InputLabelProps={{
-                shrink: !!value
-              }}
-              id='title'
+              variant='outlined'
+              id='seo.upsert.description'
               error={!!getError("seo.upsert.description")}
               {...register("seo.upsert.description")}
             />

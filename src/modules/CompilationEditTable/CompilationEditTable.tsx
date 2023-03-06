@@ -52,7 +52,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   };
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    update({ ...rows[oldIndex], sort: newIndex });
+    update({ ...rows[oldIndex], sort: newIndex + 1 });
 
     setRows((rows) => arrayMove(rows, oldIndex, newIndex));
   };
