@@ -27,6 +27,10 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               fullWidth
               value={params?.description}
               label={<Text>Description</Text>}
+              InputLabelProps={{
+                shrink: !!params?.description
+              }}
+              size='small'
               onChange={getChangeHandler("description")}
               variant='outlined'
             />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, Grid, MenuItem, TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
@@ -95,7 +95,8 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                   <TextField
                     label={<Text>Full name</Text>}
                     value={value}
-                    variant='standard'
+                    variant='outlined'
+                    size='small'
                     InputLabelProps={{
                       shrink: !!value
                     }}
@@ -118,7 +119,8 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                   <TextField
                     label={<Text>Position</Text>}
                     value={value}
-                    variant='standard'
+                    variant='outlined'
+                    size='small'
                     InputLabelProps={{
                       shrink: !!value
                     }}
@@ -141,7 +143,9 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                   <TextField
                     label={<Text>Additional number</Text>}
                     value={value}
-                    variant='standard'
+                    variant='outlined'
+                    type='number'
+                    size='small'
                     InputLabelProps={{
                       shrink: !!value
                     }}
@@ -164,7 +168,8 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                   <TextField
                     label={<Text>Email</Text>}
                     value={value}
-                    variant='standard'
+                    variant='outlined'
+                    size='small'
                     InputLabelProps={{
                       shrink: !!value
                     }}
@@ -187,8 +192,9 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                   <TextField
                     label={<Text>Sorting</Text>}
                     value={value}
-                    variant='standard'
+                    variant='outlined'
                     type='number'
+                    size='small'
                     InputLabelProps={{
                       shrink: !!value || value === 0
                     }}
@@ -213,7 +219,8 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                       select
                       name='subdivision'
                       id='subdivision'
-                      variant='standard'
+                      variant='outlined'
+                      size='small'
                       label={<Text>Subdivision</Text>}
                       SelectProps={{
                         value: value?.id ?? value ?? "",

@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Box, FormControl, FormControlLabel, Switch, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Switch,
+  TextareaAutosize,
+  TextField
+} from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
@@ -75,102 +83,121 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
-      <Box className='lg:w-[70%] mt-2'>
-        <Controller
-          control={control}
-          name='name'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth className='p-2'>
-              <TextField
-                label={<Text>Title</Text>}
-                value={value}
-                variant='standard'
-                InputLabelProps={{
-                  shrink: !!value
-                }}
-                id='name'
-                error={!!getError("name")}
-                {...register("name", { required: "This is required" })}
-              />
-
-              <HelperText id='name' error={getError("name")} />
-            </FormControl>
-          )}
-        />
-        <Controller
-          control={control}
-          name='description'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth className='p-2'>
-              <TextField
-                label={<Text>Description</Text>}
-                value={value}
-                variant='standard'
-                InputLabelProps={{
-                  shrink: !!value
-                }}
-                id='description'
-                error={!!getError("description")}
-                {...register("description")}
-              />
-
-              <HelperText id='description' error={getError("description")} />
-            </FormControl>
-          )}
-        />
-        <Controller
-          control={control}
-          name='sort'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth className='p-2'>
-              <TextField
-                label={<Text>Sorting</Text>}
-                value={value}
-                variant='standard'
-                type='number'
-                InputLabelProps={{
-                  shrink: !!value || value === 0
-                }}
-                id='sort'
-                error={!!getError("sort")}
-                {...register("sort")}
-              />
-
-              <HelperText id='sort' error={getError("sort")} />
-            </FormControl>
-          )}
-        />
-        <Controller
-          control={control}
-          name='published'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth className='!p-2'>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={!!value}
-                    onChange={(event) => setValue("published", event.target.checked)}
+      <Box className='lg:w-[70%] mt-4'>
+        <Grid container columns={12} spacing={4}>
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='name'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    label={<Text>Title</Text>}
+                    value={value}
+                    variant='outlined'
+                    size='small'
+                    InputLabelProps={{
+                      shrink: !!value
+                    }}
+                    id='name'
+                    error={!!getError("name")}
+                    {...register("name", { required: "This is required" })}
                   />
-                }
-                label={<Text>Published</Text>}
-              />
 
-              <HelperText id='published' error={getError("published")} />
-            </FormControl>
-          )}
-        />
-        <Box className='w-full flex'>
-          <Button
-            startIcon={<SaveIcon />}
-            disabled={isLoading}
-            type='submit'
-            variant='contained'
-            className='w-fit ml-auto'
-            size='small'
-          >
-            Save
-          </Button>
-        </Box>
+                  <HelperText id='name' error={getError("name")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='description'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    multiline
+                    label={<Text>Description</Text>}
+                    value={value}
+                    variant='outlined'
+                    size='small'
+                    InputLabelProps={{
+                      shrink: !!value
+                    }}
+                    InputProps={{
+                      inputComponent: TextareaAutosize
+                    }}
+                    id='description'
+                    error={!!getError("description")}
+                    {...register("description")}
+                  />
+
+                  <HelperText id='description' error={getError("description")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='sort'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    label={<Text>Sorting</Text>}
+                    value={value}
+                    variant='outlined'
+                    size='small'
+                    type='number'
+                    InputLabelProps={{
+                      shrink: !!value || value === 0
+                    }}
+                    id='sort'
+                    error={!!getError("sort")}
+                    {...register("sort")}
+                  />
+
+                  <HelperText id='sort' error={getError("sort")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='published'
+              render={({ field: { value } }) => (
+                <FormControl>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={!!value}
+                        onChange={(event) => setValue("published", event.target.checked)}
+                      />
+                    }
+                    label={<Text>Published</Text>}
+                  />
+
+                  <HelperText id='published' error={getError("published")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Box className='w-full flex'>
+              <Button
+                startIcon={<SaveIcon />}
+                disabled={isLoading}
+                type='submit'
+                variant='contained'
+                className='w-fit ml-auto'
+                size='small'
+              >
+                Save
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
     </form>
   );

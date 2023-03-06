@@ -55,6 +55,9 @@ export const VacanciesTable: React.FC = () => {
             label={<Text>Fast search</Text>}
             className='w-full sm:w-auto'
             value={title}
+            InputLabelProps={{
+              shrink: !!title
+            }}
             onChange={getEventValueHandler(handleTitleChange)}
             size='small'
           />

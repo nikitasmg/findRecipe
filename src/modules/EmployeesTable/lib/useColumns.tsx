@@ -39,14 +39,14 @@ export const useColumns = (
 
   return [
     {
-      id: "id",
+      id: "sort",
       label: (
         <TableHeadCell
-          title='ID'
-          cellId='id'
+          title='Sorting'
+          cellId='sort'
           align='center'
-          onSortClick={getClickHandler("id")}
-          sortProps={getActiveProps("id")}
+          onSortClick={getClickHandler("sort")}
+          sortProps={getActiveProps("sort")}
         />
       ),
       align: "center"
@@ -87,7 +87,8 @@ export const useColumns = (
           sortProps={getActiveProps("position")}
         />
       ),
-      minWidth: 150
+      minWidth: 150,
+      align: "center"
     },
 
     {
@@ -102,7 +103,7 @@ export const useColumns = (
         />
       ),
       align: "center",
-      minWidth: 250
+      minWidth: 150
     },
 
     {
@@ -116,7 +117,7 @@ export const useColumns = (
           sortProps={getActiveProps("email")}
         />
       ),
-      minWidth: 250
+      minWidth: 150
     },
 
     {
