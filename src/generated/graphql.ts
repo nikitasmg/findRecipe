@@ -32,30 +32,6 @@ export type CategoryBelongsTo = {
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type Control = {
-  __typename?: 'Control';
-  created_at: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  image?: Maybe<Image>;
-  imageThumbs?: Maybe<ImageThumbs>;
-  imageUrl?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  page: Page;
-  sort: Scalars['Int'];
-  updated_at: Scalars['DateTime'];
-};
-
-export type ControlInput = {
-  deleteImage?: InputMaybe<Scalars['Boolean']>;
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
-  page?: InputMaybe<PageBelongsTo>;
-  sort?: InputMaybe<Scalars['Int']>;
-  uploadImage?: InputMaybe<Scalars['Upload']>;
-};
-
 export type Document = {
   __typename?: 'Document';
   id?: Maybe<Scalars['ID']>;
@@ -200,7 +176,7 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  deleteControl?: Maybe<Control>;
+  deleteControl?: Maybe<StaffControl>;
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
   deleteNews?: Maybe<News>;
@@ -221,7 +197,6 @@ export type Mutation = {
   sendEmail: Scalars['String'];
   sendResume: Scalars['Boolean'];
   upload?: Maybe<Scalars['String']>;
-  upsertControl?: Maybe<Control>;
   upsertEmployee?: Maybe<Employee>;
   upsertEvent?: Maybe<Event>;
   upsertNews?: Maybe<News>;
@@ -231,6 +206,7 @@ export type Mutation = {
   upsertPage?: Maybe<Page>;
   upsertPartner?: Maybe<Partner>;
   upsertSetting?: Maybe<Setting>;
+  upsertStaffControl?: Maybe<StaffControl>;
   upsertSubdivision?: Maybe<Subdivision>;
   upsertUser?: Maybe<User>;
   upsertVacancy?: Maybe<Vacancy>;
@@ -340,11 +316,6 @@ export type MutationUploadArgs = {
 };
 
 
-export type MutationUpsertControlArgs = {
-  input: ControlInput;
-};
-
-
 export type MutationUpsertEmployeeArgs = {
   input: EmployeeInput;
 };
@@ -387,6 +358,11 @@ export type MutationUpsertPartnerArgs = {
 
 export type MutationUpsertSettingArgs = {
   input: SettingInput;
+};
+
+
+export type MutationUpsertStaffControlArgs = {
+  input: StaffControlInput;
 };
 
 
@@ -652,8 +628,6 @@ export type PartnerInput = {
 
 export type Query = {
   __typename?: 'Query';
-  controlById?: Maybe<Control>;
-  controls: Array<Control>;
   employeeById?: Maybe<Employee>;
   employees: Array<Employee>;
   eventById?: Maybe<Event>;
@@ -678,6 +652,8 @@ export type Query = {
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
+  staffControlById?: Maybe<StaffControl>;
+  staffControls: Array<StaffControl>;
   subdivisionById?: Maybe<Subdivision>;
   subdivisions: Array<Subdivision>;
   userByEmail?: Maybe<User>;
@@ -685,17 +661,6 @@ export type Query = {
   users?: Maybe<UserPaginator>;
   vacancies: Array<Vacancy>;
   vacancyById?: Maybe<Vacancy>;
-};
-
-
-export type QueryControlByIdArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryControlsArgs = {
-  filter?: InputMaybe<Array<FilterByClause>>;
-  orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
 
@@ -826,6 +791,17 @@ export type QuerySettingsArgs = {
 };
 
 
+export type QueryStaffControlByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryStaffControlsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
 export type QuerySubdivisionByIdArgs = {
   id: Scalars['ID'];
 };
@@ -919,6 +895,36 @@ export enum SortOrder {
   /** Sort records in descending order. */
   Desc = 'DESC'
 }
+
+/**
+ * Сотрудники органов управления и контроля
+ * Выводятся на страницах раздела Органы управления и контроля
+ *
+ * https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=37%3A1395&t=U0C6Mrr376j97Jtf-1
+ */
+export type StaffControl = {
+  __typename?: 'StaffControl';
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  image?: Maybe<Image>;
+  imageThumbs?: Maybe<ImageThumbs>;
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  page: Page;
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+};
+
+export type StaffControlInput = {
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<PageBelongsTo>;
+  sort?: InputMaybe<Scalars['Int']>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
 
 export type Subdivision = {
   __typename?: 'Subdivision';
@@ -1431,6 +1437,52 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null } };
 
+export type AllVacanciesFieldsFragment = { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean };
+
+export type VacancyByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type VacancyByIdQuery = { __typename?: 'Query', vacancyById?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+
+export type VacanciesQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type VacanciesQuery = { __typename?: 'Query', vacancies: Array<{ __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean }> };
+
+export type UpdateVacancyPublishedMutationVariables = Exact<{
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type UpdateVacancyPublishedMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string } | null };
+
+export type CreateVacancyMutationVariables = Exact<{
+  input: VacancyInput;
+}>;
+
+
+export type CreateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+
+export type UpdateVacancyMutationVariables = Exact<{
+  input: VacancyInput;
+}>;
+
+
+export type UpdateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+
+export type DeleteVacancyMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: string } | null };
+
 export const AllSubdivisionsFieldsFragmentDoc = `
     fragment allSubdivisionsFields on Subdivision {
   id
@@ -1573,6 +1625,15 @@ export const AllUsersFieldsFragmentDoc = `
   name
   email
   email_verified_at
+}
+    `;
+export const AllVacanciesFieldsFragmentDoc = `
+    fragment allVacanciesFields on Vacancy {
+  id
+  name
+  description
+  sort
+  published
 }
     `;
 export const LoginDocument = `
@@ -2666,5 +2727,127 @@ export const useMeQuery = <
     useQuery<MeQuery, TError, TData>(
       variables === undefined ? ['me'] : ['me', variables],
       fetcher<MeQuery, MeQueryVariables>(client, MeDocument, variables, headers),
+      options
+    );
+export const VacancyByIdDocument = `
+    query vacancyById($id: ID!) {
+  vacancyById(id: $id) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useVacancyByIdQuery = <
+      TData = VacancyByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: VacancyByIdQueryVariables,
+      options?: UseQueryOptions<VacancyByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<VacancyByIdQuery, TError, TData>(
+      ['vacancyById', variables],
+      fetcher<VacancyByIdQuery, VacancyByIdQueryVariables>(client, VacancyByIdDocument, variables, headers),
+      options
+    );
+export const VacanciesDocument = `
+    query vacancies($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  vacancies(orderBy: $orderBy, filter: $filter) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useVacanciesQuery = <
+      TData = VacanciesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: VacanciesQueryVariables,
+      options?: UseQueryOptions<VacanciesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<VacanciesQuery, TError, TData>(
+      variables === undefined ? ['vacancies'] : ['vacancies', variables],
+      fetcher<VacanciesQuery, VacanciesQueryVariables>(client, VacanciesDocument, variables, headers),
+      options
+    );
+export const UpdateVacancyPublishedDocument = `
+    mutation UpdateVacancyPublished($id: ID!, $published: Boolean!) {
+  upsertVacancy(input: {id: $id, published: $published}) {
+    id
+  }
+}
+    `;
+export const useUpdateVacancyPublishedMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateVacancyPublishedMutation, TError, UpdateVacancyPublishedMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateVacancyPublishedMutation, TError, UpdateVacancyPublishedMutationVariables, TContext>(
+      ['UpdateVacancyPublished'],
+      (variables?: UpdateVacancyPublishedMutationVariables) => fetcher<UpdateVacancyPublishedMutation, UpdateVacancyPublishedMutationVariables>(client, UpdateVacancyPublishedDocument, variables, headers)(),
+      options
+    );
+export const CreateVacancyDocument = `
+    mutation createVacancy($input: VacancyInput!) {
+  upsertVacancy(input: $input) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useCreateVacancyMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateVacancyMutation, TError, CreateVacancyMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateVacancyMutation, TError, CreateVacancyMutationVariables, TContext>(
+      ['createVacancy'],
+      (variables?: CreateVacancyMutationVariables) => fetcher<CreateVacancyMutation, CreateVacancyMutationVariables>(client, CreateVacancyDocument, variables, headers)(),
+      options
+    );
+export const UpdateVacancyDocument = `
+    mutation updateVacancy($input: VacancyInput!) {
+  upsertVacancy(input: $input) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useUpdateVacancyMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateVacancyMutation, TError, UpdateVacancyMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateVacancyMutation, TError, UpdateVacancyMutationVariables, TContext>(
+      ['updateVacancy'],
+      (variables?: UpdateVacancyMutationVariables) => fetcher<UpdateVacancyMutation, UpdateVacancyMutationVariables>(client, UpdateVacancyDocument, variables, headers)(),
+      options
+    );
+export const DeleteVacancyDocument = `
+    mutation deleteVacancy($id: ID!) {
+  deleteVacancy(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteVacancyMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteVacancyMutation, TError, DeleteVacancyMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteVacancyMutation, TError, DeleteVacancyMutationVariables, TContext>(
+      ['deleteVacancy'],
+      (variables?: DeleteVacancyMutationVariables) => fetcher<DeleteVacancyMutation, DeleteVacancyMutationVariables>(client, DeleteVacancyDocument, variables, headers)(),
       options
     );

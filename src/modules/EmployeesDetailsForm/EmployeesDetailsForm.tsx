@@ -190,7 +190,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                     variant='standard'
                     type='number'
                     InputLabelProps={{
-                      shrink: !!value
+                      shrink: !!value || value === 0
                     }}
                     id='sort'
                     error={!!getError("sort")}

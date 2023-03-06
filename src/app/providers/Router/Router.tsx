@@ -15,6 +15,10 @@ import { Settings } from "~/pages/Settings";
 import { Events } from "~/pages/Events";
 import { CompilationsEdit } from "~/pages/CompilationsEdit";
 import { EventsEdit } from "~/pages/EventsEdit";
+import { Employees } from "~/pages/Employees";
+import { EmployeesEdit } from "~/pages/EmployeesEdit";
+import { Vacancies } from "~/pages/Vacancies";
+import { VacanciesEdit } from "~/pages/VacanciesEdit";
 
 import {
   HomePageRoute,
@@ -31,10 +35,11 @@ import {
   EventsPageCreate,
   EmployeesPage,
   EmployeesPageEdit,
-  EmployeesPageCreate
+  EmployeesPageCreate,
+  VacanciesPage,
+  VacanciesPageEdit,
+  VacanciesPageCreate
 } from "~shared/routes";
-import { Employees } from "~/pages/Employees";
-import { EmployeesEdit } from "~/pages/EmployeesEdit";
 
 export const Router: React.FC = () => {
   return (
@@ -162,6 +167,33 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <EmployeesEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={VacanciesPage}
+        element={
+          <BaseProtectedLayout>
+            <Vacancies />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={VacanciesPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <VacanciesEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={VacanciesPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <VacanciesEdit />
           </BaseProtectedLayout>
         }
       />

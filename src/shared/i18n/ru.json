@@ -99,5 +99,9 @@
   "Position": "Должность",
   "Additional number": "Добавочный номер",
   "Employee editing": "Редактирование сотрудника",
-  "Employee creating": "Создание сотрудника"
+  "Employee creating": "Создание сотрудника",
+  "Vacancies": "Вакансии",
+  "count vacancies": "количество вакансий",
+  "Vacancy editing": "Редактирование вакансии",
+  "Vacancy creating": "Создание вакансии"
 }
