@@ -1,0 +1,3 @@
+.telInput :global(.MuiInputAdornment-root) {
+  display: none;
+}

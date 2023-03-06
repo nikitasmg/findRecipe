@@ -7,7 +7,7 @@ export const Link: React.FC<LinkProps> = ({ children, className, ...props }) => 
   const inner = typeof children === "string" ? <Text component='span'>{children}</Text> : children;
 
   return (
-    <RouterLink className={clsx("text-green-500 hover:text-green-700", className)} {...props}>
+    <RouterLink className={clsx("text-primary hover:text-primaryActive", className)} {...props}>
       {inner}
     </RouterLink>
   );

@@ -6,7 +6,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { useUploadMutation } from "~/generated/graphql";
+import { useContentEditorKeyQuery, useUploadMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 
@@ -31,6 +31,10 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
 
   const { mutateAsync: upload } = useUploadMutation(client);
 
+  const { data } = useContentEditorKeyQuery(client);
+
+  const contentEditorKey = data?.settingById?.value;
+
   const getUploadedUrl = useCallback(
     (url: string) => {
       return fileFromBlobUrl(url).then((file) =>
@@ -42,19 +46,16 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
-      <Box className='grow-[2] lg:w-[70%] order-last mt-2'>
+      <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
         <Controller
           control={control}
           name='name'
           render={({ field: { value } }) => (
-            <FormControl fullWidth className='!p-2'>
+            <FormControl fullWidth>
               <TextField
                 label={<Text>Title</Text>}
                 value={value}
-                variant='standard'
-                InputLabelProps={{
-                  shrink: !!value
-                }}
+                variant='outlined'
                 id='name'
                 error={!!getError("name")}
                 {...register("name", { required: "This is required" })}
@@ -69,11 +70,11 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           control={control}
           name='description'
           render={({ field: { value } }) => (
-            <FormControl fullWidth className='!p-2 !mt-4'>
+            <FormControl fullWidth>
               <TextField
                 label={<Text>Description</Text>}
                 value={value}
-                variant='standard'
+                variant='outlined'
                 id='description'
                 error={!!getError("description")}
                 {...register("description")}
@@ -82,21 +83,22 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           )}
         />
 
-        <Controller
-          control={control}
-          name='content'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth className='!p-2 !mt-4'>
-              <ContentEditor
-                value={value ?? ""}
-                {...register("content")}
-                getUploadedUrl={getUploadedUrl}
-              />
-            </FormControl>
-          )}
-        />
-
-        <FormControl fullWidth className='!p-2 !mt-4'></FormControl>
+        {contentEditorKey && (
+          <Controller
+            control={control}
+            name='content'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <ContentEditor
+                  apiKey={contentEditorKey}
+                  value={value ?? ""}
+                  {...register("content")}
+                  getUploadedUrl={getUploadedUrl}
+                />
+              </FormControl>
+            )}
+          />
+        )}
       </Box>
 
       <Box className='grow-[1] flex justify-center lg:w-[30%] order-first lg:order-last'>

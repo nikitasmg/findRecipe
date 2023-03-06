@@ -1,6 +1,6 @@
 import { Box, FormControl, FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+import { curry } from "rambda";
 import React from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -10,8 +10,11 @@ import {
   useNewsCategoriesQuery,
   useNewsTagsQuery
 } from "~/generated/graphql";
+import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
+import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
 import { getErrorMessage } from "~/shared/lib/getError";
+import { getBaseUrlValidation } from "~/shared/lib/validation";
 
 type FormFields = {
   source?: string;
@@ -41,19 +44,16 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
   const getError = getErrorMessage(errors);
 
   return (
-    <Box className='grow-[2] lg:w-[70%] order-last mt-2'>
+    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
       <Controller
         control={control}
         name='source_name'
         render={({ field: { value } }) => (
-          <FormControl fullWidth className='p-2'>
+          <FormControl fullWidth>
             <TextField
               label={<Text>Source title</Text>}
               value={value}
-              variant='standard'
-              InputLabelProps={{
-                shrink: !!value
-              }}
+              variant='outlined'
               id='source_name'
               error={!!getError("source_name")}
               {...register("source_name")}
@@ -66,18 +66,18 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         control={control}
         name='source'
         render={({ field: { value } }) => (
-          <FormControl fullWidth className='p-2'>
+          <FormControl fullWidth>
             <TextField
               label={<Text>Source</Text>}
               value={value}
-              variant='standard'
-              InputLabelProps={{
-                shrink: !!value
-              }}
+              inputMode='url'
+              variant='outlined'
               id='source'
               error={!!getError("source")}
-              {...register("source")}
+              {...register("source", getBaseUrlValidation())}
             />
+
+            <HelperText id='source' error={getError("source")} />
           </FormControl>
         )}
       />
@@ -102,19 +102,28 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         control={control}
         name='published_at'
         render={({ field: { value } }) => (
-          <FormControl fullWidth className='p-2'>
+          <FormControl error={getError("published_at")}>
             <DatePicker
-              value={value || dayjs().toISOString()}
+              value={value}
               label={<Text>Published at</Text>}
-              {...register("published_at")}
-              onChange={(value) => setValue("published_at", dayjs(value).toISOString())}
-              renderInput={(props) => <TextField id='published_at' {...props} variant='standard' />}
+              {...register("published_at", { required: "This is required" })}
+              onChange={curry(setValue)("created_at")}
+              renderInput={(props) => (
+                <TextField
+                  error={getError("published_at")}
+                  id='published_at'
+                  variant='outlined'
+                  {...props}
+                />
+              )}
             />
+
+            <HelperText id='published_at' error={getError("published_at")} />
           </FormControl>
         )}
       />
 
-      <FormControl fullWidth className='p-2 mt-2'>
+      <FormControl fullWidth>
         <Controller
           control={control}
           name='category'
@@ -123,7 +132,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
               select
               name='category'
               id='category'
-              variant='standard'
+              variant='outlined'
               label={<Text>Category</Text>}
               SelectProps={{
                 value: value,
@@ -143,7 +152,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         />
       </FormControl>
 
-      <FormControl fullWidth className='p-2 mt-2'>
+      <FormControl fullWidth>
         <Controller
           control={control}
           name='tags'
@@ -152,7 +161,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
               select
               name='tags'
               id='tags'
-              variant='standard'
+              variant='outlined'
               label={<Text>Tags</Text>}
               SelectProps={{
                 multiple: true,
@@ -169,6 +178,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
           )}
         />
       </FormControl>
+
       <Controller
         control={control}
         name='on_index'
@@ -184,6 +194,9 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
           />
         )}
       />
+      <Box>
+        <DocumentsUpload value={[]} />
+      </Box>
     </Box>
   );
 };

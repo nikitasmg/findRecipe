@@ -89,5 +89,19 @@
   "On the main": "На главной",
   "Events editing": "Редактирование мероприятия",
   "Events creating": "Создание мероприятия",
-  "Image": "Изображение"
+  "Image": "Изображение",
+  "Attach file": "Прикрепить файл",
+  "Document title": "Название документа",
+  "Upload or drop file": "Загрузите или перетащите файл",
+  "Settings Edit": "Редактирование настроек",
+  "API-keys": "API-ключи",
+  "Content Editor key": "Content Editor ключ",
+  "Email for notifies": "Электронная почта для уведомлений",
+  "Notification": "Уведомления",
+  "Invalid url": "Ссылка недействительна",
+  "Other": "Другие",
+  "Partners": "Партнеры",
+  "Organizers": "Организаторы",
+  "Attach partner": "Прикрепить партнера",
+  "Attach organizer": "Прикрепить организатора"
 }
