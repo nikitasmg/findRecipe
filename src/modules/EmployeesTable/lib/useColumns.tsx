@@ -1,7 +1,7 @@
 import React from "react";
 import { SortOrder, Subdivision, useSubdivisionsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { TableHeadCell } from "~/shared/components/TableHeadCell";
+import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
 import { EmployeesPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";

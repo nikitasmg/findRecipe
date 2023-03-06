@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
-import { AdditionalNewsForm } from "~/modules/AdditionalNewsForm";
-import { GeneralNewsForm } from "~/modules/GeneralNewsForm";
-import { SeoNewsForm } from "~/modules/SeoNewsForm";
-import { TabsForm } from "~/shared/components/TabsForm";
 import {
+  News,
   NewsInput,
   NewsTag,
   useCreateNewsMutation,
@@ -13,7 +10,13 @@ import {
   useUpdateNewsMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { AdditionalNewsForm } from "~/modules/AdditionalNewsForm";
+import { GeneralNewsForm } from "~/modules/GeneralNewsForm";
+import { SeoNewsForm } from "~/modules/SeoNewsForm";
+import { OtherNewsForm } from "~/modules/OtherNewsForm/OtherNewsForm";
+import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
+import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 
 type Props = {
   id?: number;
@@ -47,15 +50,29 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     control
   } = useForm({ mode: "all" });
 
-  const onSubmit = handleSubmit((newValues) => {
+  const onSubmit = handleSubmit(async (newValues) => {
     const input: NewsInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
       published_at: dayjs(newValues.published_at).toISOString(),
-      ...(isCreateMode && { published: touchedFields.published ? newValues.published : true }),
+      ...(Boolean(isCreateMode) && {
+        published: touchedFields.published ? newValues.published : true
+      }),
       category: { connect: newValues.category },
-      tags: { connect: newValues.tags }
+      tags: { connect: newValues.tags },
+      uploadDocuments: await Promise.all(
+        newValues.uploadDocuments?.map(
+          async (document: { title: string; url: string }, i: number) =>
+            ({
+              upload: await fileFromBlobUrl(document.url),
+              sort: i,
+              user_name: document.title
+            } || [])
+        )
+      )
     };
+
+    delete (input as News).documents;
 
     if (isCreateMode) {
       createNews({ input });
@@ -87,6 +104,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
           }
         ],
         "on_index",
+        "documents",
         "uploadImage"
       ],
       setValue,
@@ -126,6 +144,10 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
         {
           tabTitle: "SEO",
           component: <SeoNewsForm errors={errors} register={register} control={control} />
+        },
+        {
+          tabTitle: "Other",
+          component: <OtherNewsForm setValue={setValue} control={control} />
         }
       ]}
     />

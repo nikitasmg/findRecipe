@@ -58,7 +58,7 @@ export const TabsForm: React.FC<Props> = ({
 
   return (
     <form className='w-full' onSubmit={handleSubmit}>
-      <Box>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={step} onChange={handleTabChange} aria-label='basic tabs example'>
           {forms.map(({ tabTitle, hasErrors }, index) => (
             <Tab
@@ -79,12 +79,12 @@ export const TabsForm: React.FC<Props> = ({
       </Box>
 
       {forms.map(({ component }, index) => (
-        <TabPanel className='mt-2 pb-8' key={index} value={step} index={index}>
+        <TabPanel className='mt-8' key={index} value={step} index={index}>
           {component}
         </TabPanel>
       ))}
 
-      <Box className='flex flex-wrap gap-4'>
+      <Box className='flex flex-wrap gap-4 pt-2 mt-16'>
         {isPrevExist && (
           <Button
             startIcon={<ArrowBackIosNewIcon />}

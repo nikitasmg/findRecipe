@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import { createEvent } from "./lib/createEvent";
 import { getNativeFileUrl } from "./lib/getNativeFileUrl";
 
 type Props = {
   value: string;
+  apiKey: string;
   name: string;
   onChange?: (event: { target: { value: string; name: string } }) => void;
   getUploadedUrl?: (blobUrl: string) => Promise<string>;
 };
 
 export const ContentEditor: React.FC<Props> = React.memo(
-  ({ value: initialValue, name, onChange, getUploadedUrl }) => {
+  ({ value: initialValue, name, apiKey, onChange, getUploadedUrl }) => {
     const [localValue, setValue] = useState("");
+
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
       onChange?.(createEvent(localValue, name));
@@ -21,12 +24,14 @@ export const ContentEditor: React.FC<Props> = React.memo(
 
     return (
       <Box>
+        {(!apiKey || isLoading) && <Skeleton variant='rectangular' height={600} />}
         <Editor
           onInit={(_, editor) => {
             editor.setContent(initialValue);
+            setIsLoading(false);
           }}
           value={localValue}
-          apiKey={process.env.REACT_APP_TINY_MCE_KEY}
+          apiKey={apiKey}
           onEditorChange={setValue}
           init={{
             selector: "textarea" as never,
@@ -62,7 +67,7 @@ export const ContentEditor: React.FC<Props> = React.memo(
             contextmenu: "link image imagetools table",
             skin: "oxide",
             content_css: "default",
-            content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px } ",
+            content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             statusbar: false
           }}
         />

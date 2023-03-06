@@ -2,11 +2,16 @@ import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, FormControlLabel, Switch, TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import { curry } from "rambda";
 import {
   EventInput,
   useCreateEventMutation,
   useEventByIdQuery,
-  useUpdateEventMutation
+  useUpdateEventMutation,
+  Document,
+  Event,
+  Partner,
+  Organizer
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { initFormValues } from "~/shared/lib/initFormValues";
@@ -15,6 +20,9 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { ImageInput } from "~/shared/components/ImageInput";
+import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
+import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { Member } from "./components/Member";
 
 type Props = {
   id?: number;
@@ -49,13 +57,25 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
 
   const getError = getErrorMessage(errors);
 
-  const onSubmit = handleSubmit((newValues) => {
+  const onSubmit = handleSubmit(async (newValues) => {
     const input: EventInput & { imageUrl?: never } = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
       imageUrl: undefined,
-      ...(!newValues.uploadImage && { deleteImage: true })
+      ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
+      uploadDocuments: await Promise.all(
+        newValues.documents?.map(
+          async (document: { title: string; url: string }, i: number) =>
+            ({
+              upload: document.url ? await fileFromBlobUrl(document.url) : "",
+              sort: i,
+              user_name: document.title
+            } || [])
+        )
+      )
     };
+
+    delete (input as Event).documents;
 
     if (isCreateMode) {
       createEvent({ input });
@@ -65,30 +85,34 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
     updateEvent({ input });
   });
 
+  const getInitMemberValue = (members?: (Partner | Organizer)[]) =>
+    members?.map((member) => ({ name: member.name ?? "", avatarUrl: member.imageUrl ?? "" })) ?? [];
+
   useEffect(() => {
     if (!isSuccess) {
       return;
     }
 
-    initFormValues(["name", "description", "published", "imageUrl"], setValue, values);
+    initFormValues(
+      ["name", "description", "published", "imageUrl", "documents", "organizers", "partners"],
+      setValue,
+      values
+    );
   }, [values, isSuccess, setValue]);
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
-      <Box className='flex flex-col lg:flex-row gap-6'>
-        <Box className='grow-[2] lg:w-[70%] order-last mt-2 '>
+      <Box className='flex flex-col lg:flex-row gap-6 mt-2'>
+        <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
           <Controller
             control={control}
             name='name'
             render={({ field: { value } }) => (
-              <FormControl fullWidth className='!p-2'>
+              <FormControl fullWidth>
                 <TextField
                   label={<Text>Title</Text>}
                   value={value}
-                  variant='standard'
-                  InputLabelProps={{
-                    shrink: !!value
-                  }}
+                  variant='outlined'
                   id='name'
                   error={!!getError("name")}
                   {...register("name", { required: "This is required" })}
@@ -103,14 +127,11 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
             control={control}
             name='description'
             render={({ field: { value } }) => (
-              <FormControl fullWidth className='!p-2'>
+              <FormControl fullWidth>
                 <TextField
                   label={<Text>Description</Text>}
                   value={value}
-                  variant='standard'
-                  InputLabelProps={{
-                    shrink: !!value
-                  }}
+                  variant='outlined'
                   id='description'
                   error={!!getError("description")}
                   {...register("description")}
@@ -125,7 +146,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
             control={control}
             name='published'
             render={({ field: { value } }) => (
-              <FormControl fullWidth className='!p-2'>
+              <FormControl fullWidth>
                 <FormControlLabel
                   control={
                     <Switch
@@ -140,7 +161,50 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
               </FormControl>
             )}
           />
+
+          <Controller
+            control={control}
+            name='documents'
+            render={({ field: { value } }) => (
+              <DocumentsUpload
+                value={value?.map((document: Document) => ({
+                  title: document.user_name ?? "",
+                  url: document.user_name ?? ""
+                }))}
+                onChange={(documents) => {
+                  setValue("documents", documents);
+                }}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name='partners'
+            render={({ field: { value } }) => (
+              <Member
+                title='Partners'
+                attachTitle='Attach partner'
+                value={getInitMemberValue(value)}
+                onChange={curry(setValue)("partners")}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name='organizers'
+            render={({ field: { value } }) => (
+              <Member
+                title='Organizers'
+                attachTitle='Attach organizer'
+                value={getInitMemberValue(value)}
+                onChange={curry(setValue)("organizers")}
+              />
+            )}
+          />
         </Box>
+
         <Box className='grow-[1] flex justify-center lg:w-[30%] order-first lg:order-last'>
           <Controller
             control={control}

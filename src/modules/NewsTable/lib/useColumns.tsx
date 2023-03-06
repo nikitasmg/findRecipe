@@ -7,7 +7,7 @@ import {
   useUpdateOnIndexMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { TableHeadCell } from "~/shared/components/TableHeadCell";
+import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
 import { formatDate } from "~/shared/lib/formatDate";
 import { NewsPageEdit } from "~/shared/routes";

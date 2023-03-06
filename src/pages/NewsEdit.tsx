@@ -35,13 +35,15 @@ export const NewsEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='flex flex-col gap-6 items-center'>
-          <DetailsHead
-            title={isEdit ? "News editing" : "News creating"}
-            onBackClick={handleGoBack}
-            onRemove={handleDelete}
-          />
-          <NewsDetailsForm id={Number(id)} />
+        <Box className='p-4'>
+          <Box className='flex flex-col gap-6 items-center'>
+            <DetailsHead
+              title={isEdit ? "News editing" : "News creating"}
+              onBackClick={handleGoBack}
+              onRemove={handleDelete}
+            />
+            <NewsDetailsForm id={Number(id)} />
+          </Box>
         </Box>
       </Panel>
     </PageWrapper>

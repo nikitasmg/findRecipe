@@ -1136,6 +1136,11 @@ export type DeleteEventMutationVariables = Exact<{
 
 export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'Event', id: string } | null };
 
+export type ContentEditorKeyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ContentEditorKeyQuery = { __typename?: 'Query', settingById?: { __typename?: 'Setting', value?: string | null } | null };
+
 export type AllNewsFieldsFragment = { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null };
 
 export type NewsByIdQueryVariables = Exact<{
@@ -1368,10 +1373,12 @@ export type UpdateSettingsMutationVariables = Exact<{
   address?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailPress?: InputMaybe<Scalars['String']>;
+  send_email_notify?: InputMaybe<Scalars['String']>;
+  contentEditor?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, contentEditor?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
 
 export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: string, name: string, sort: number };
 
@@ -1923,6 +1930,27 @@ export const useDeleteEventMutation = <
     useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
       ['deleteEvent'],
       (variables?: DeleteEventMutationVariables) => fetcher<DeleteEventMutation, DeleteEventMutationVariables>(client, DeleteEventDocument, variables, headers)(),
+      options
+    );
+export const ContentEditorKeyDocument = `
+    query contentEditorKey {
+  settingById(id: 7) {
+    value
+  }
+}
+    `;
+export const useContentEditorKeyQuery = <
+      TData = ContentEditorKeyQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ContentEditorKeyQueryVariables,
+      options?: UseQueryOptions<ContentEditorKeyQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ContentEditorKeyQuery, TError, TData>(
+      variables === undefined ? ['contentEditorKey'] : ['contentEditorKey', variables],
+      fetcher<ContentEditorKeyQuery, ContentEditorKeyQueryVariables>(client, ContentEditorKeyDocument, variables, headers),
       options
     );
 export const NewsByIdDocument = `
@@ -2528,7 +2556,7 @@ export const useSettingsQuery = <
       options
     );
 export const UpdateSettingsDocument = `
-    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String) {
+    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String, $send_email_notify: String, $contentEditor: String) {
   schedule: upsertSetting(input: {id: "1", name: "phone", value: $phone}) {
     ...allSettingsFields
   }
@@ -2542,6 +2570,16 @@ export const UpdateSettingsDocument = `
     ...allSettingsFields
   }
   emailPress: upsertSetting(input: {id: "5", name: "schedule", value: $schedule}) {
+    ...allSettingsFields
+  }
+  send_email_notify: upsertSetting(
+    input: {id: "6", name: "send_email_notify", value: $send_email_notify}
+  ) {
+    ...allSettingsFields
+  }
+  contentEditor: upsertSetting(
+    input: {id: "7", name: "contentEditor", value: $contentEditor}
+  ) {
     ...allSettingsFields
   }
 }

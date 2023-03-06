@@ -1,19 +1,22 @@
-import { Box } from "@mui/material";
 import React from "react";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { Text } from "~/shared/components/Text";
 import { Panel } from "~shared/components/Panel";
-import { SettingsTabs } from "~/modules/SettingsTabs";
+import { SettingsTabs } from "~/layouts/SettingsTabs";
+import { PageWrapper } from "~/shared/components/PageWrapper";
+import { Box } from "@mui/material";
 
 export const Settings: React.FC = () => {
   return (
-    <Box className='h-full'>
+    <PageWrapper>
       <PageTitle>
-        <Text className='px-4'>Settings</Text>
+        <Text>Settings</Text>
       </PageTitle>
       <Panel>
-        <SettingsTabs />
+        <Box className='p-4'>
+          <SettingsTabs />
+        </Box>
       </Panel>
-    </Box>
+    </PageWrapper>
   );
 };

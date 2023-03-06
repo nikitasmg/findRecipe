@@ -102,10 +102,8 @@ export const HeaderTabs: React.FC = () => {
     const path = location.pathname.match(/^\/([^?/]*)/g)?.[0] ?? location.pathname;
     const initialValue = pathsResolve[path];
 
-    if (initialValue) {
-      setActiveTab(initialValue);
-      setActivePath(path);
-    }
+    setActiveTab(initialValue);
+    setActivePath(path);
   }, [location.pathname, setActiveTab]);
 
   return (

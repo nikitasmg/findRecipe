@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch } from "@mui/material";
 import { SortOrder, useUpdateVacancyPublishedMutation } from "~/generated/graphql";
-import { TableHeadCell } from "~/shared/components/TableHeadCell";
+import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
 import { VacanciesPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
