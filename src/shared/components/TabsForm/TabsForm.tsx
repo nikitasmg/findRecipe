@@ -6,6 +6,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { Text } from "../Text";
 import { TabPanel } from "../TabPanel";
 import { Button } from "../Button";
+import { LinkButton } from "../LinkButton";
 
 type Props = {
   forms: {
@@ -16,6 +17,7 @@ type Props = {
     hasErrors?: boolean;
   }[];
   activeStep?: number;
+  backHref?: string;
   handleBack?: () => void;
   handleStepChange?: (step: number) => void;
   handleSubmit?: () => void;
@@ -25,6 +27,7 @@ type Props = {
 export const TabsForm: React.FC<Props> = ({
   forms,
   handleBack,
+  backHref,
   handleStepChange,
   handleSubmit,
   activeStep = 0,
@@ -33,19 +36,6 @@ export const TabsForm: React.FC<Props> = ({
   const [step, setStep] = useState(0);
 
   const handleTabChange = (_: unknown, tab: number) => setStep(tab);
-
-  const isNextExist = step < forms.length - 1;
-
-  const isPrevExist = step >= 0;
-
-  const onNextClick = () => {
-    setStep((currentStep) => currentStep + 1);
-    handleBack?.();
-  };
-
-  const onPrevClick = () => {
-    setStep((currentStep) => Math.min(0, currentStep - 1));
-  };
 
   useEffect(() => {
     handleStepChange?.(step);
@@ -85,24 +75,19 @@ export const TabsForm: React.FC<Props> = ({
       ))}
 
       <Box className='flex flex-wrap gap-4 pt-2 mt-16'>
-        {isPrevExist && (
-          <Button
+        {(handleBack || backHref) && (
+          <LinkButton
             startIcon={<ArrowBackIosNewIcon />}
-            onClick={onPrevClick}
+            onClick={handleBack}
+            href={backHref}
             variant='outlined'
             size='small'
           >
             Back
-          </Button>
+          </LinkButton>
         )}
 
         <Box className='flex gap-4 w-full sm:w-auto ml-auto'>
-          {isNextExist && (
-            <Button onClick={onNextClick} variant='outlined' size='small'>
-              Next
-            </Button>
-          )}
-
           <Button
             startIcon={<SaveIcon />}
             disabled={isLoading}

@@ -48,7 +48,7 @@ export const UpdateSettings = gql`
     $email: String
     $emailPress: String
     $send_email_notify: String
-    $contentEditor: String
+    $content_editor: String
   ) {
     schedule: upsertSetting(input: { id: "1", name: "phone", value: $phone }) {
       ...allSettingsFields
@@ -70,7 +70,9 @@ export const UpdateSettings = gql`
     ) {
       ...allSettingsFields
     }
-    contentEditor: upsertSetting(input: { id: "7", name: "contentEditor", value: $contentEditor }) {
+    content_editor: upsertSetting(
+      input: { id: "7", name: "content_editor", value: $content_editor }
+    ) {
       ...allSettingsFields
     }
   }

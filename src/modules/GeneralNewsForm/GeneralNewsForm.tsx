@@ -6,9 +6,10 @@ import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { useContentEditorKeyQuery, useUploadMutation } from "~/generated/graphql";
+import { useUploadMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { useSettingByNameQuery } from "../../generated/graphql";
 
 type FormFields = {
   name?: string;
@@ -31,9 +32,9 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
 
   const { mutateAsync: upload } = useUploadMutation(client);
 
-  const { data } = useContentEditorKeyQuery(client);
+  const { data } = useSettingByNameQuery(client, { name: "content_editor" });
 
-  const contentEditorKey = data?.settingById?.value;
+  const contentEditorKey = data?.settingByName?.value;
 
   const getUploadedUrl = useCallback(
     (url: string) => {

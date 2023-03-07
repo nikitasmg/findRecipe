@@ -19,6 +19,7 @@ import { Employees } from "~/pages/Employees";
 import { EmployeesEdit } from "~/pages/EmployeesEdit";
 import { Vacancies } from "~/pages/Vacancies";
 import { VacanciesEdit } from "~/pages/VacanciesEdit";
+import { Pages } from "~/pages/Pages";
 
 import {
   HomePageRoute,
@@ -38,8 +39,11 @@ import {
   EmployeesPageCreate,
   VacanciesPage,
   VacanciesPageEdit,
-  VacanciesPageCreate
+  VacanciesPageCreate,
+  PagesRoute
 } from "~shared/routes";
+
+import { PagesEditRouter } from "./PagesEditRouter";
 
 export const Router: React.FC = () => {
   return (
@@ -145,6 +149,15 @@ export const Router: React.FC = () => {
       />
 
       <Route
+        path={PagesRoute}
+        element={
+          <BaseProtectedLayout>
+            <Pages />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
         path={EmployeesPage}
         element={
           <BaseProtectedLayout>
@@ -197,6 +210,8 @@ export const Router: React.FC = () => {
           </BaseProtectedLayout>
         }
       />
+
+      {PagesEditRouter}
 
       <Route
         path='*'

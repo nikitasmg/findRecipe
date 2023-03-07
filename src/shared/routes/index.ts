@@ -39,3 +39,13 @@ export const VacanciesPage = "/vacancies";
 export const VacanciesPageEdit = `${VacanciesPage}/edit/:id`;
 
 export const VacanciesPageCreate = `${VacanciesPage}/create`;
+
+export const PagesRoute = "/pages";
+
+export const PagesEdit = "/pages/edit/:slug";
+
+export const PagesEditIndex = "/pages/edit/index";
+
+export const PagesEditNews = "/pages/edit/news";
+
+export const PagesEditEvents = "/pages/edit/events";
