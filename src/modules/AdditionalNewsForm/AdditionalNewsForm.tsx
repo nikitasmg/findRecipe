@@ -10,7 +10,6 @@ import {
   useNewsCategoriesQuery,
   useNewsTagsQuery
 } from "~/generated/graphql";
-import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
 import { getErrorMessage } from "~/shared/lib/getError";
@@ -166,7 +165,10 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
               SelectProps={{
                 multiple: true,
                 value: value,
-                onChange: onChange
+                onChange: onChange,
+                MenuProps: {
+                  className: "h-[300px]"
+                }
               }}
             >
               {tags?.newsTags.map((tag) => (
@@ -194,9 +196,6 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
           />
         )}
       />
-      <Box>
-        <DocumentsUpload value={[]} />
-      </Box>
     </Box>
   );
 };

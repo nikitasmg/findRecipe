@@ -4,6 +4,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   Switch,
   TextField
@@ -48,14 +49,20 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
 
           <Grid item columns={12} xs={12}>
             <FormControl fullWidth>
-              <InputLabel id='category-select'>
+              <InputLabel shrink id='category-select'>
                 <Text component='span'>Category</Text>
               </InputLabel>
               <Select
                 labelId='category-select'
-                id='category-select'
+                input={
+                  <OutlinedInput
+                    notched
+                    label={<Text component='span'>Category</Text>}
+                    name='category'
+                    id='category-select'
+                  />
+                }
                 value={(params?.category as string) ?? ""}
-                label={<Text>Category</Text>}
                 onChange={getChangeHandler("category")}
               >
                 <MenuItem key={"empty"} value={""}>

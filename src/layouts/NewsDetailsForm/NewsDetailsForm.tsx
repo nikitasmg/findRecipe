@@ -17,6 +17,7 @@ import { OtherNewsForm } from "~/modules/OtherNewsForm/OtherNewsForm";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { NewsPageRoute } from "~/shared/routes";
 
 type Props = {
   id?: number;
@@ -60,16 +61,18 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
       }),
       category: { connect: newValues.category },
       tags: { connect: newValues.tags },
-      uploadDocuments: await Promise.all(
-        newValues.uploadDocuments?.map(
-          async (document: { title: string; url: string }, i: number) =>
-            ({
-              upload: await fileFromBlobUrl(document.url),
-              sort: i,
-              user_name: document.title
-            } || [])
+      ...(Boolean(newValues.documents) && {
+        uploadDocuments: await Promise.all(
+          newValues.documents?.map(
+            async (document: { title: string; url: string }, i: number) =>
+              ({
+                upload: await fileFromBlobUrl(document.url),
+                sort: i,
+                user_name: document.title
+              } || [])
+          )
         )
-      )
+      })
     };
 
     delete (input as News).documents;
@@ -116,6 +119,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     <TabsForm
       handleSubmit={onSubmit}
       handleStepChange={setStep}
+      backHref={NewsPageRoute}
       activeStep={step}
       isLoading={isLoading}
       forms={[

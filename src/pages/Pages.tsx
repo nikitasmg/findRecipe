@@ -1,11 +1,11 @@
 import React from "react";
-import { NewsTable } from "~/modules/NewsTable";
+import { PagesTable } from "~/modules/PagesTable";
 import { PageTableTitle } from "~/shared/components/PageTableTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
-import { useNewsStore } from "~/shared/stores/news";
+import { usePagesStore } from "~/shared/stores/pages";
 
-export const News: React.FC = () => {
-  const { count, isLoading } = useNewsStore((state) => ({
+export const Pages: React.FC = () => {
+  const { count, isLoading } = usePagesStore((state) => ({
     count: state.count,
     isLoading: state.isLoading
   }));
@@ -13,7 +13,7 @@ export const News: React.FC = () => {
   return (
     <PageWrapper>
       <PageTableTitle title='Pages' countTitle='count pages' isLoading={isLoading} count={count} />
-      <NewsTable />
+      <PagesTable />
     </PageWrapper>
   );
 };

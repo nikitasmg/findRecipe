@@ -23,8 +23,14 @@ export const ContentEditor: React.FC<Props> = React.memo(
     }, [onChange, localValue, name]);
 
     return (
-      <Box>
-        {(!apiKey || isLoading) && <Skeleton variant='rectangular' height={600} />}
+      <Box className='relative h-[600px]'>
+        {(!apiKey || isLoading) && (
+          <Skeleton
+            className='absolute top-0 left-0 h-full w-full z-999'
+            variant='rectangular'
+            height={600}
+          />
+        )}
         <Editor
           onInit={(_, editor) => {
             editor.setContent(initialValue);
