@@ -112,7 +112,13 @@ export const HeaderTabs: React.FC = () => {
   }, [location.pathname, setActiveTab]);
 
   return (
-    <Tabs className='!hidden md:!flex' value={activeTab} onChange={handleTabChange}>
+    <Tabs
+      variant='scrollable'
+      scrollButtons='auto'
+      className='!hidden md:!flex sm:max-w-[500px] lg:max-w-[1000px]'
+      value={activeTab}
+      onChange={handleTabChange}
+    >
       {tabs.map((tab, i) => (
         <HeaderTab
           key={tab.label}
