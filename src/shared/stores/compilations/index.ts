@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { NewsPageRoute } from "~/shared/routes";
+import { EmployeesPage, NewsPageRoute } from "~/shared/routes";
 import {
   useUpdateNewsTagMutation,
   useCreateNewsTagMutation,
@@ -8,7 +8,11 @@ import {
   useCreateNewsCategoryMutation,
   useDeleteNewsTagMutation,
   useDeleteNewsCategoryMutation,
-  useUpdateNewsCategoryMutation
+  useUpdateNewsCategoryMutation,
+  useSubdivisionsQuery,
+  useCreateSubdivisionMutation,
+  useUpdateSubdivisionMutation,
+  useDeleteSubdivisionMutation
 } from "~/generated/graphql";
 
 export type Compilations = {
@@ -30,6 +34,12 @@ const compilations: Compilations[] = [
     title: "news_tags",
     heading: "News tags",
     whereUseLink: { title: "News", href: NewsPageRoute }
+  },
+  {
+    id: 3,
+    title: "subdivisions",
+    heading: "Subdivisions",
+    whereUseLink: { title: "Employees", href: EmployeesPage }
   }
 ];
 
@@ -68,6 +78,24 @@ const compilationsHooks = [
     remove: {
       hook: useDeleteNewsTagMutation,
       key: "deleteNewsTag"
+    }
+  },
+  {
+    get: {
+      hook: useSubdivisionsQuery,
+      key: "subdivisions"
+    },
+    create: {
+      hook: useCreateSubdivisionMutation,
+      key: "upsertSubdivision"
+    },
+    update: {
+      hook: useUpdateSubdivisionMutation,
+      key: "upsertSubdivision"
+    },
+    remove: {
+      hook: useDeleteSubdivisionMutation,
+      key: "deleteSubdivision"
     }
   }
 ];

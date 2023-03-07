@@ -1042,6 +1042,52 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: string } | null };
 
+export type AllEmployeeFieldsFragment = { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+
+export type EmployeeByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type EmployeeByIdQuery = { __typename?: 'Query', employeeById?: { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null } | null };
+
+export type EmployeesQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type EmployeesQuery = { __typename?: 'Query', employees: Array<{ __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null }> };
+
+export type CreateEmployeeMutationVariables = Exact<{
+  input: EmployeeInput;
+}>;
+
+
+export type CreateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null } | null };
+
+export type UpdateEmployeeMutationVariables = Exact<{
+  input: EmployeeInput;
+}>;
+
+
+export type UpdateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null } | null };
+
+export type UpdateEmployeeSubdivisionMutationVariables = Exact<{
+  id: Scalars['ID'];
+  subdivisionId: Scalars['ID'];
+}>;
+
+
+export type UpdateEmployeeSubdivisionMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: string } | null };
+
+export type DeleteEmployeeMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEmployeeMutation = { __typename?: 'Mutation', deleteEmployee?: { __typename?: 'Employee', id: string } | null };
+
 export type AllEventsFieldsFragment = { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type EventByIdQueryVariables = Exact<{
@@ -1334,6 +1380,46 @@ export type UpdateSettingsMutationVariables = Exact<{
 
 export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, contentEditor?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
 
+export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: string, name: string, sort: number };
+
+export type SubdivisionByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type SubdivisionByIdQuery = { __typename?: 'Query', subdivisionById?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+
+export type SubdivisionsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+}>;
+
+
+export type SubdivisionsQuery = { __typename?: 'Query', subdivisions: Array<{ __typename?: 'Subdivision', id: string, name: string, sort: number }> };
+
+export type CreateSubdivisionMutationVariables = Exact<{
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type CreateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+
+export type UpdateSubdivisionMutationVariables = Exact<{
+  id: Scalars['ID'];
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+
+export type DeleteSubdivisionMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteSubdivisionMutation = { __typename?: 'Mutation', deleteSubdivision?: { __typename?: 'Subdivision', sort: number, name: string } | null };
+
 export type UploadMutationVariables = Exact<{
   file: Scalars['Upload'];
 }>;
@@ -1358,6 +1444,74 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null } };
 
+export type AllVacanciesFieldsFragment = { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean };
+
+export type VacancyByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type VacancyByIdQuery = { __typename?: 'Query', vacancyById?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+
+export type VacanciesQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type VacanciesQuery = { __typename?: 'Query', vacancies: Array<{ __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean }> };
+
+export type UpdateVacancyPublishedMutationVariables = Exact<{
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type UpdateVacancyPublishedMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string } | null };
+
+export type CreateVacancyMutationVariables = Exact<{
+  input: VacancyInput;
+}>;
+
+
+export type CreateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+
+export type UpdateVacancyMutationVariables = Exact<{
+  input: VacancyInput;
+}>;
+
+
+export type UpdateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+
+export type DeleteVacancyMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: string } | null };
+
+export const AllSubdivisionsFieldsFragmentDoc = `
+    fragment allSubdivisionsFields on Subdivision {
+  id
+  name
+  sort
+}
+    `;
+export const AllEmployeeFieldsFragmentDoc = `
+    fragment allEmployeeFields on Employee {
+  id
+  name
+  email
+  position
+  additional
+  sort
+  subdivision {
+    ...allSubdivisionsFields
+  }
+  created_at
+  updated_at
+}
+    ${AllSubdivisionsFieldsFragmentDoc}`;
 export const AllEventsFieldsFragmentDoc = `
     fragment allEventsFields on Event {
   id
@@ -1480,6 +1634,15 @@ export const AllUsersFieldsFragmentDoc = `
   email_verified_at
 }
     `;
+export const AllVacanciesFieldsFragmentDoc = `
+    fragment allVacanciesFields on Vacancy {
+  id
+  name
+  description
+  sort
+  published
+}
+    `;
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password)
@@ -1516,6 +1679,128 @@ export const useLogoutMutation = <
     useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
       ['Logout'],
       (variables?: LogoutMutationVariables) => fetcher<LogoutMutation, LogoutMutationVariables>(client, LogoutDocument, variables, headers)(),
+      options
+    );
+export const EmployeeByIdDocument = `
+    query employeeById($id: ID!) {
+  employeeById(id: $id) {
+    ...allEmployeeFields
+  }
+}
+    ${AllEmployeeFieldsFragmentDoc}`;
+export const useEmployeeByIdQuery = <
+      TData = EmployeeByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: EmployeeByIdQueryVariables,
+      options?: UseQueryOptions<EmployeeByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<EmployeeByIdQuery, TError, TData>(
+      ['employeeById', variables],
+      fetcher<EmployeeByIdQuery, EmployeeByIdQueryVariables>(client, EmployeeByIdDocument, variables, headers),
+      options
+    );
+export const EmployeesDocument = `
+    query employees($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  employees(orderBy: $orderBy, filter: $filter) {
+    ...allEmployeeFields
+  }
+}
+    ${AllEmployeeFieldsFragmentDoc}`;
+export const useEmployeesQuery = <
+      TData = EmployeesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: EmployeesQueryVariables,
+      options?: UseQueryOptions<EmployeesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<EmployeesQuery, TError, TData>(
+      variables === undefined ? ['employees'] : ['employees', variables],
+      fetcher<EmployeesQuery, EmployeesQueryVariables>(client, EmployeesDocument, variables, headers),
+      options
+    );
+export const CreateEmployeeDocument = `
+    mutation createEmployee($input: EmployeeInput!) {
+  upsertEmployee(input: $input) {
+    ...allEmployeeFields
+  }
+}
+    ${AllEmployeeFieldsFragmentDoc}`;
+export const useCreateEmployeeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateEmployeeMutation, TError, CreateEmployeeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateEmployeeMutation, TError, CreateEmployeeMutationVariables, TContext>(
+      ['createEmployee'],
+      (variables?: CreateEmployeeMutationVariables) => fetcher<CreateEmployeeMutation, CreateEmployeeMutationVariables>(client, CreateEmployeeDocument, variables, headers)(),
+      options
+    );
+export const UpdateEmployeeDocument = `
+    mutation updateEmployee($input: EmployeeInput!) {
+  upsertEmployee(input: $input) {
+    ...allEmployeeFields
+  }
+}
+    ${AllEmployeeFieldsFragmentDoc}`;
+export const useUpdateEmployeeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEmployeeMutation, TError, UpdateEmployeeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateEmployeeMutation, TError, UpdateEmployeeMutationVariables, TContext>(
+      ['updateEmployee'],
+      (variables?: UpdateEmployeeMutationVariables) => fetcher<UpdateEmployeeMutation, UpdateEmployeeMutationVariables>(client, UpdateEmployeeDocument, variables, headers)(),
+      options
+    );
+export const UpdateEmployeeSubdivisionDocument = `
+    mutation UpdateEmployeeSubdivision($id: ID!, $subdivisionId: ID!) {
+  upsertEmployee(input: {id: $id, subdivision: {connect: $subdivisionId}}) {
+    id
+  }
+}
+    `;
+export const useUpdateEmployeeSubdivisionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEmployeeSubdivisionMutation, TError, UpdateEmployeeSubdivisionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateEmployeeSubdivisionMutation, TError, UpdateEmployeeSubdivisionMutationVariables, TContext>(
+      ['UpdateEmployeeSubdivision'],
+      (variables?: UpdateEmployeeSubdivisionMutationVariables) => fetcher<UpdateEmployeeSubdivisionMutation, UpdateEmployeeSubdivisionMutationVariables>(client, UpdateEmployeeSubdivisionDocument, variables, headers)(),
+      options
+    );
+export const DeleteEmployeeDocument = `
+    mutation deleteEmployee($id: ID!) {
+  deleteEmployee(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteEmployeeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteEmployeeMutation, TError, DeleteEmployeeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteEmployeeMutation, TError, DeleteEmployeeMutationVariables, TContext>(
+      ['deleteEmployee'],
+      (variables?: DeleteEmployeeMutationVariables) => fetcher<DeleteEmployeeMutation, DeleteEmployeeMutationVariables>(client, DeleteEmployeeDocument, variables, headers)(),
       options
     );
 export const EventByIdDocument = `
@@ -2312,6 +2597,109 @@ export const useUpdateSettingsMutation = <
       (variables?: UpdateSettingsMutationVariables) => fetcher<UpdateSettingsMutation, UpdateSettingsMutationVariables>(client, UpdateSettingsDocument, variables, headers)(),
       options
     );
+export const SubdivisionByIdDocument = `
+    query subdivisionById($id: ID!) {
+  subdivisionById(id: $id) {
+    ...allSubdivisionsFields
+  }
+}
+    ${AllSubdivisionsFieldsFragmentDoc}`;
+export const useSubdivisionByIdQuery = <
+      TData = SubdivisionByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: SubdivisionByIdQueryVariables,
+      options?: UseQueryOptions<SubdivisionByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SubdivisionByIdQuery, TError, TData>(
+      ['subdivisionById', variables],
+      fetcher<SubdivisionByIdQuery, SubdivisionByIdQueryVariables>(client, SubdivisionByIdDocument, variables, headers),
+      options
+    );
+export const SubdivisionsDocument = `
+    query subdivisions($orderBy: [OrderByClause!]) {
+  subdivisions(orderBy: $orderBy) {
+    ...allSubdivisionsFields
+  }
+}
+    ${AllSubdivisionsFieldsFragmentDoc}`;
+export const useSubdivisionsQuery = <
+      TData = SubdivisionsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: SubdivisionsQueryVariables,
+      options?: UseQueryOptions<SubdivisionsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SubdivisionsQuery, TError, TData>(
+      variables === undefined ? ['subdivisions'] : ['subdivisions', variables],
+      fetcher<SubdivisionsQuery, SubdivisionsQueryVariables>(client, SubdivisionsDocument, variables, headers),
+      options
+    );
+export const CreateSubdivisionDocument = `
+    mutation createSubdivision($sort: Int!, $name: String!) {
+  upsertSubdivision(input: {sort: $sort, name: $name}) {
+    ...allSubdivisionsFields
+  }
+}
+    ${AllSubdivisionsFieldsFragmentDoc}`;
+export const useCreateSubdivisionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateSubdivisionMutation, TError, CreateSubdivisionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateSubdivisionMutation, TError, CreateSubdivisionMutationVariables, TContext>(
+      ['createSubdivision'],
+      (variables?: CreateSubdivisionMutationVariables) => fetcher<CreateSubdivisionMutation, CreateSubdivisionMutationVariables>(client, CreateSubdivisionDocument, variables, headers)(),
+      options
+    );
+export const UpdateSubdivisionDocument = `
+    mutation updateSubdivision($id: ID!, $sort: Int!, $name: String!) {
+  upsertSubdivision(input: {id: $id, sort: $sort, name: $name}) {
+    ...allSubdivisionsFields
+  }
+}
+    ${AllSubdivisionsFieldsFragmentDoc}`;
+export const useUpdateSubdivisionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateSubdivisionMutation, TError, UpdateSubdivisionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateSubdivisionMutation, TError, UpdateSubdivisionMutationVariables, TContext>(
+      ['updateSubdivision'],
+      (variables?: UpdateSubdivisionMutationVariables) => fetcher<UpdateSubdivisionMutation, UpdateSubdivisionMutationVariables>(client, UpdateSubdivisionDocument, variables, headers)(),
+      options
+    );
+export const DeleteSubdivisionDocument = `
+    mutation deleteSubdivision($id: ID!) {
+  deleteSubdivision(id: $id) {
+    sort
+    name
+  }
+}
+    `;
+export const useDeleteSubdivisionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteSubdivisionMutation, TError, DeleteSubdivisionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteSubdivisionMutation, TError, DeleteSubdivisionMutationVariables, TContext>(
+      ['deleteSubdivision'],
+      (variables?: DeleteSubdivisionMutationVariables) => fetcher<DeleteSubdivisionMutation, DeleteSubdivisionMutationVariables>(client, DeleteSubdivisionDocument, variables, headers)(),
+      options
+    );
 export const UploadDocument = `
     mutation upload($file: Upload!) {
   upload(file: $file)
@@ -2377,5 +2765,127 @@ export const useMeQuery = <
     useQuery<MeQuery, TError, TData>(
       variables === undefined ? ['me'] : ['me', variables],
       fetcher<MeQuery, MeQueryVariables>(client, MeDocument, variables, headers),
+      options
+    );
+export const VacancyByIdDocument = `
+    query vacancyById($id: ID!) {
+  vacancyById(id: $id) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useVacancyByIdQuery = <
+      TData = VacancyByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: VacancyByIdQueryVariables,
+      options?: UseQueryOptions<VacancyByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<VacancyByIdQuery, TError, TData>(
+      ['vacancyById', variables],
+      fetcher<VacancyByIdQuery, VacancyByIdQueryVariables>(client, VacancyByIdDocument, variables, headers),
+      options
+    );
+export const VacanciesDocument = `
+    query vacancies($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  vacancies(orderBy: $orderBy, filter: $filter) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useVacanciesQuery = <
+      TData = VacanciesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: VacanciesQueryVariables,
+      options?: UseQueryOptions<VacanciesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<VacanciesQuery, TError, TData>(
+      variables === undefined ? ['vacancies'] : ['vacancies', variables],
+      fetcher<VacanciesQuery, VacanciesQueryVariables>(client, VacanciesDocument, variables, headers),
+      options
+    );
+export const UpdateVacancyPublishedDocument = `
+    mutation UpdateVacancyPublished($id: ID!, $published: Boolean!) {
+  upsertVacancy(input: {id: $id, published: $published}) {
+    id
+  }
+}
+    `;
+export const useUpdateVacancyPublishedMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateVacancyPublishedMutation, TError, UpdateVacancyPublishedMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateVacancyPublishedMutation, TError, UpdateVacancyPublishedMutationVariables, TContext>(
+      ['UpdateVacancyPublished'],
+      (variables?: UpdateVacancyPublishedMutationVariables) => fetcher<UpdateVacancyPublishedMutation, UpdateVacancyPublishedMutationVariables>(client, UpdateVacancyPublishedDocument, variables, headers)(),
+      options
+    );
+export const CreateVacancyDocument = `
+    mutation createVacancy($input: VacancyInput!) {
+  upsertVacancy(input: $input) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useCreateVacancyMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateVacancyMutation, TError, CreateVacancyMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateVacancyMutation, TError, CreateVacancyMutationVariables, TContext>(
+      ['createVacancy'],
+      (variables?: CreateVacancyMutationVariables) => fetcher<CreateVacancyMutation, CreateVacancyMutationVariables>(client, CreateVacancyDocument, variables, headers)(),
+      options
+    );
+export const UpdateVacancyDocument = `
+    mutation updateVacancy($input: VacancyInput!) {
+  upsertVacancy(input: $input) {
+    ...allVacanciesFields
+  }
+}
+    ${AllVacanciesFieldsFragmentDoc}`;
+export const useUpdateVacancyMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateVacancyMutation, TError, UpdateVacancyMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateVacancyMutation, TError, UpdateVacancyMutationVariables, TContext>(
+      ['updateVacancy'],
+      (variables?: UpdateVacancyMutationVariables) => fetcher<UpdateVacancyMutation, UpdateVacancyMutationVariables>(client, UpdateVacancyDocument, variables, headers)(),
+      options
+    );
+export const DeleteVacancyDocument = `
+    mutation deleteVacancy($id: ID!) {
+  deleteVacancy(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteVacancyMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteVacancyMutation, TError, DeleteVacancyMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteVacancyMutation, TError, DeleteVacancyMutationVariables, TContext>(
+      ['deleteVacancy'],
+      (variables?: DeleteVacancyMutationVariables) => fetcher<DeleteVacancyMutation, DeleteVacancyMutationVariables>(client, DeleteVacancyDocument, variables, headers)(),
       options
     );

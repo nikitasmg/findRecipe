@@ -27,3 +27,15 @@ export const EventsPageRoute = "/events";
 export const EventsPageEdit = "/events/edit/:id";
 
 export const EventsPageCreate = `${EventsPageRoute}/create`;
+
+export const EmployeesPage = "/employees";
+
+export const EmployeesPageEdit = `${EmployeesPage}/edit/:id`;
+
+export const EmployeesPageCreate = `${EmployeesPage}/create`;
+
+export const VacanciesPage = "/vacancies";
+
+export const VacanciesPageEdit = `${VacanciesPage}/edit/:id`;
+
+export const VacanciesPageCreate = `${VacanciesPage}/create`;

@@ -103,5 +103,19 @@
   "Partners": "Партнеры",
   "Organizers": "Организаторы",
   "Attach partner": "Прикрепить партнера",
-  "Attach organizer": "Прикрепить организатора"
+  "Attach organizer": "Прикрепить организатора",
+  "About fund": "О фонде",
+  "Employees": "Сотрудники",
+  "count employees": "количество сотрудников",
+  "Subdivision": "Подразделение",
+  "Subdivisions": "Подразделения",
+  "Full name": "ФИО",
+  "Position": "Должность",
+  "Additional number": "Добавочный номер",
+  "Employee editing": "Редактирование сотрудника",
+  "Employee creating": "Создание сотрудника",
+  "Vacancies": "Вакансии",
+  "count vacancies": "количество вакансий",
+  "Vacancy editing": "Редактирование вакансии",
+  "Vacancy creating": "Создание вакансии"
 }
