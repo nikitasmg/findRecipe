@@ -117,5 +117,10 @@
   "Vacancies": "Вакансии",
   "count vacancies": "количество вакансий",
   "Vacancy editing": "Редактирование вакансии",
-  "Vacancy creating": "Создание вакансии"
+  "Vacancy creating": "Создание вакансии",
+  "Purchases": "Закупки",
+  "count purchases": "количество закупок",
+  "Purchase editing": "Редактирование закупки",
+  "Purchase creating": "Создание закупки",
+  "Link": "Ссылка"
 }

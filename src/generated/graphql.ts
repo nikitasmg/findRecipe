@@ -21,6 +21,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
   DateTime: any;
   JSON: any;
   Upload: any;
@@ -32,11 +33,53 @@ export type CategoryBelongsTo = {
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
+/**
+ * Конкурсы. Базовая сущность, на основе которой создается проект
+ *
+ * https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=22%3A392&t=jQzNk4jyD9g3QDdg-0
+ */
+export type Contest = {
+  __typename?: 'Contest';
+  created_at: Scalars['DateTime'];
+  date?: Maybe<Scalars['Date']>;
+  deadline?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  number?: Maybe<Scalars['Int']>;
+  status?: Maybe<ContestStatus>;
+  updated_at: Scalars['DateTime'];
+};
+
+export type ContestInput = {
+  date?: InputMaybe<Scalars['Date']>;
+  deadline?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  number?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<ContestStatus>;
+};
+
+/** A paginated list of Contest items. */
+export type ContestPaginator = {
+  __typename?: 'ContestPaginator';
+  /** A list of Contest items. */
+  data: Array<Contest>;
+  /** Pagination information about the list of items. */
+  paginatorInfo: PaginatorInfo;
+};
+
+export enum ContestStatus {
+  Acceptance = 'ACCEPTANCE',
+  Completed = 'COMPLETED',
+  Expertise = 'EXPERTISE'
+}
+
 export type Document = {
   __typename?: 'Document';
   id?: Maybe<Scalars['ID']>;
   sort?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
+  /** Имя файла заданное пользователем */
   user_name?: Maybe<Scalars['String']>;
 };
 
@@ -144,7 +187,7 @@ export type Log = {
   description?: Maybe<Scalars['String']>;
   event?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  logProperties: LogProperties;
+  logProperties?: Maybe<LogProperties>;
   log_name?: Maybe<Scalars['String']>;
   subject_id?: Maybe<Scalars['ID']>;
   subject_type?: Maybe<Scalars['String']>;
@@ -176,6 +219,7 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteContest?: Maybe<Contest>;
   deleteControl?: Maybe<StaffControl>;
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
@@ -185,6 +229,7 @@ export type Mutation = {
   deleteOrganizer?: Maybe<Organizer>;
   deletePage?: Maybe<Page>;
   deletePartner?: Maybe<Partner>;
+  deletePurchase?: Maybe<Purchase>;
   deleteSetting?: Maybe<Setting>;
   deleteSubdivision?: Maybe<Subdivision>;
   /** Нельзя удалить суперпользователя, ID=1 */
@@ -197,6 +242,7 @@ export type Mutation = {
   sendEmail: Scalars['String'];
   sendResume: Scalars['Boolean'];
   upload?: Maybe<Scalars['String']>;
+  upsertContest?: Maybe<Contest>;
   upsertEmployee?: Maybe<Employee>;
   upsertEvent?: Maybe<Event>;
   upsertNews?: Maybe<News>;
@@ -205,11 +251,17 @@ export type Mutation = {
   upsertOrganizer?: Maybe<Organizer>;
   upsertPage?: Maybe<Page>;
   upsertPartner?: Maybe<Partner>;
+  upsertPurchase?: Maybe<Purchase>;
   upsertSetting?: Maybe<Setting>;
   upsertStaffControl?: Maybe<StaffControl>;
   upsertSubdivision?: Maybe<Subdivision>;
   upsertUser?: Maybe<User>;
   upsertVacancy?: Maybe<Vacancy>;
+};
+
+
+export type MutationDeleteContestArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -254,6 +306,11 @@ export type MutationDeletePageArgs = {
 
 
 export type MutationDeletePartnerArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeletePurchaseArgs = {
   id: Scalars['ID'];
 };
 
@@ -316,6 +373,11 @@ export type MutationUploadArgs = {
 };
 
 
+export type MutationUpsertContestArgs = {
+  input: ContestInput;
+};
+
+
 export type MutationUpsertEmployeeArgs = {
   input: EmployeeInput;
 };
@@ -353,6 +415,11 @@ export type MutationUpsertPageArgs = {
 
 export type MutationUpsertPartnerArgs = {
   input: PartnerInput;
+};
+
+
+export type MutationUpsertPurchaseArgs = {
+  input: PurchaseInput;
 };
 
 
@@ -626,8 +693,36 @@ export type PartnerInput = {
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
+/**
+ * Закупки. Выводятся на соответствующей странице
+ *
+ * https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=39%3A1842&t=XUMjF8DKdEord54I-0
+ */
+export type Purchase = {
+  __typename?: 'Purchase';
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  published: Scalars['Boolean'];
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type PurchaseInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  published?: InputMaybe<Scalars['Boolean']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  contestById?: Maybe<Contest>;
+  contests?: Maybe<ContestPaginator>;
   employeeById?: Maybe<Employee>;
   employees: Array<Employee>;
   eventById?: Maybe<Event>;
@@ -649,6 +744,8 @@ export type Query = {
   pages: Array<Page>;
   partnerById?: Maybe<Partner>;
   partners: Array<Partner>;
+  purchaseById?: Maybe<Purchase>;
+  purchases: Array<Purchase>;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
@@ -661,6 +758,20 @@ export type Query = {
   users?: Maybe<UserPaginator>;
   vacancies: Array<Vacancy>;
   vacancyById?: Maybe<Vacancy>;
+};
+
+
+export type QueryContestByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryContestsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+  page?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<ContestStatus>;
 };
 
 
@@ -771,6 +882,17 @@ export type QueryPartnerByIdArgs = {
 
 
 export type QueryPartnersArgs = {
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryPurchaseByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPurchasesArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -912,6 +1034,7 @@ export type StaffControl = {
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   page: Page;
+  page_id?: Maybe<Scalars['ID']>;
   sort: Scalars['Int'];
   updated_at: Scalars['DateTime'];
 };
@@ -922,6 +1045,7 @@ export type StaffControlInput = {
   id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
   page?: InputMaybe<PageBelongsTo>;
+  page_id?: InputMaybe<Scalars['ID']>;
   sort?: InputMaybe<Scalars['Int']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
@@ -964,7 +1088,7 @@ export enum Trashed {
 export type UpdateDocumentInput = {
   id: Scalars['ID'];
   sort?: InputMaybe<Scalars['Int']>;
-  upload: Scalars['Upload'];
+  /** Имя файла заданное пользователем */
   user_name?: InputMaybe<Scalars['String']>;
 };
 
@@ -977,6 +1101,7 @@ export type UpdateGalleryInput = {
 export type UploadDocumentInput = {
   sort?: InputMaybe<Scalars['Int']>;
   upload: Scalars['Upload'];
+  /** Имя файла заданное пользователем */
   user_name?: InputMaybe<Scalars['String']>;
 };
 
@@ -1343,6 +1468,52 @@ export type DeletePartnerMutationVariables = Exact<{
 
 export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id?: string | null } | null };
 
+export type AllPurchasesFieldsFragment = { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any };
+
+export type PurchaseByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PurchaseByIdQuery = { __typename?: 'Query', purchaseById?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+
+export type PurchasesQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type PurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any }> };
+
+export type UpdatePurchasePublishedMutationVariables = Exact<{
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type UpdatePurchasePublishedMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string } | null };
+
+export type CreatePurchaseMutationVariables = Exact<{
+  input: PurchaseInput;
+}>;
+
+
+export type CreatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+
+export type UpdatePurchaseMutationVariables = Exact<{
+  input: PurchaseInput;
+}>;
+
+
+export type UpdatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+
+export type DeletePurchaseMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeletePurchaseMutation = { __typename?: 'Mutation', deletePurchase?: { __typename?: 'Purchase', id: string } | null };
+
 export type AllSettingsFieldsFragment = { __typename?: 'Setting', id: string, name: string, value?: string | null };
 
 export type SettingByIdQueryVariables = Exact<{
@@ -1617,6 +1788,18 @@ export const AllPartnerFieldsFragmentDoc = `
     url
   }
   created_at
+}
+    `;
+export const AllPurchasesFieldsFragmentDoc = `
+    fragment allPurchasesFields on Purchase {
+  id
+  name
+  description
+  url
+  sort
+  published
+  created_at
+  updated_at
 }
     `;
 export const AllSettingsFieldsFragmentDoc = `
@@ -2490,6 +2673,128 @@ export const useDeletePartnerMutation = <
     useMutation<DeletePartnerMutation, TError, DeletePartnerMutationVariables, TContext>(
       ['deletePartner'],
       (variables?: DeletePartnerMutationVariables) => fetcher<DeletePartnerMutation, DeletePartnerMutationVariables>(client, DeletePartnerDocument, variables, headers)(),
+      options
+    );
+export const PurchaseByIdDocument = `
+    query purchaseById($id: ID!) {
+  purchaseById(id: $id) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const usePurchaseByIdQuery = <
+      TData = PurchaseByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: PurchaseByIdQueryVariables,
+      options?: UseQueryOptions<PurchaseByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<PurchaseByIdQuery, TError, TData>(
+      ['purchaseById', variables],
+      fetcher<PurchaseByIdQuery, PurchaseByIdQueryVariables>(client, PurchaseByIdDocument, variables, headers),
+      options
+    );
+export const PurchasesDocument = `
+    query purchases($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  purchases(orderBy: $orderBy, filter: $filter) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const usePurchasesQuery = <
+      TData = PurchasesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: PurchasesQueryVariables,
+      options?: UseQueryOptions<PurchasesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<PurchasesQuery, TError, TData>(
+      variables === undefined ? ['purchases'] : ['purchases', variables],
+      fetcher<PurchasesQuery, PurchasesQueryVariables>(client, PurchasesDocument, variables, headers),
+      options
+    );
+export const UpdatePurchasePublishedDocument = `
+    mutation updatePurchasePublished($id: ID!, $published: Boolean!) {
+  upsertPurchase(input: {id: $id, published: $published}) {
+    id
+  }
+}
+    `;
+export const useUpdatePurchasePublishedMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePurchasePublishedMutation, TError, UpdatePurchasePublishedMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePurchasePublishedMutation, TError, UpdatePurchasePublishedMutationVariables, TContext>(
+      ['updatePurchasePublished'],
+      (variables?: UpdatePurchasePublishedMutationVariables) => fetcher<UpdatePurchasePublishedMutation, UpdatePurchasePublishedMutationVariables>(client, UpdatePurchasePublishedDocument, variables, headers)(),
+      options
+    );
+export const CreatePurchaseDocument = `
+    mutation createPurchase($input: PurchaseInput!) {
+  upsertPurchase(input: $input) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const useCreatePurchaseMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreatePurchaseMutation, TError, CreatePurchaseMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreatePurchaseMutation, TError, CreatePurchaseMutationVariables, TContext>(
+      ['createPurchase'],
+      (variables?: CreatePurchaseMutationVariables) => fetcher<CreatePurchaseMutation, CreatePurchaseMutationVariables>(client, CreatePurchaseDocument, variables, headers)(),
+      options
+    );
+export const UpdatePurchaseDocument = `
+    mutation updatePurchase($input: PurchaseInput!) {
+  upsertPurchase(input: $input) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const useUpdatePurchaseMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePurchaseMutation, TError, UpdatePurchaseMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePurchaseMutation, TError, UpdatePurchaseMutationVariables, TContext>(
+      ['updatePurchase'],
+      (variables?: UpdatePurchaseMutationVariables) => fetcher<UpdatePurchaseMutation, UpdatePurchaseMutationVariables>(client, UpdatePurchaseDocument, variables, headers)(),
+      options
+    );
+export const DeletePurchaseDocument = `
+    mutation deletePurchase($id: ID!) {
+  deletePurchase(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeletePurchaseMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeletePurchaseMutation, TError, DeletePurchaseMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeletePurchaseMutation, TError, DeletePurchaseMutationVariables, TContext>(
+      ['deletePurchase'],
+      (variables?: DeletePurchaseMutationVariables) => fetcher<DeletePurchaseMutation, DeletePurchaseMutationVariables>(client, DeletePurchaseDocument, variables, headers)(),
       options
     );
 export const SettingByIdDocument = `

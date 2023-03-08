@@ -9,6 +9,7 @@ import {
   EventsPageRoute,
   HomePageRoute,
   NewsPageRoute,
+  PurchasesPage,
   UsersPageRoute,
   VacanciesPage
 } from "~shared/routes";
@@ -45,6 +46,10 @@ const tabs: HeaderTab[] = [
       {
         label: "Vacancies",
         path: VacanciesPage
+      },
+      {
+        label: "Purchases",
+        path: PurchasesPage
       }
     ]
   },

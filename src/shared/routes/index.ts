@@ -39,3 +39,9 @@ export const VacanciesPage = "/vacancies";
 export const VacanciesPageEdit = `${VacanciesPage}/edit/:id`;
 
 export const VacanciesPageCreate = `${VacanciesPage}/create`;
+
+export const PurchasesPage = "/purchases";
+
+export const PurchasesPageEdit = `${PurchasesPage}/edit/:id`;
+
+export const PurchasesPageCreate = `${PurchasesPage}/create`;

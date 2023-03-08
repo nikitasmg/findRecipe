@@ -19,6 +19,8 @@ import { Employees } from "~/pages/Employees";
 import { EmployeesEdit } from "~/pages/EmployeesEdit";
 import { Vacancies } from "~/pages/Vacancies";
 import { VacanciesEdit } from "~/pages/VacanciesEdit";
+import { Purchases } from "~/pages/Purchases";
+import { PurchasesEdit } from "~/pages/PurchasesEdit";
 
 import {
   HomePageRoute,
@@ -38,7 +40,10 @@ import {
   EmployeesPageCreate,
   VacanciesPage,
   VacanciesPageEdit,
-  VacanciesPageCreate
+  VacanciesPageCreate,
+  PurchasesPage,
+  PurchasesPageEdit,
+  PurchasesPageCreate
 } from "~shared/routes";
 
 export const Router: React.FC = () => {
@@ -194,6 +199,33 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <VacanciesEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={PurchasesPage}
+        element={
+          <BaseProtectedLayout>
+            <Purchases />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={PurchasesPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <PurchasesEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={PurchasesPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <PurchasesEdit />
           </BaseProtectedLayout>
         }
       />
