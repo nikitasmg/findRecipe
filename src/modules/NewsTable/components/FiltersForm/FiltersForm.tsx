@@ -9,13 +9,14 @@ import {
   Switch,
   TextField
 } from "@mui/material";
+import { curry } from "rambda";
 import { DatePicker } from "@mui/x-date-pickers";
-import React, { ChangeEvent, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useNewsCategoriesQuery } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
-import { curry } from "rambda";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 
 type Props = {
   params: Record<string, string> | null;
@@ -27,8 +28,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     const getChangeHandler = (cellId: string) =>
       getEventValueHandler((value: unknown) => handleChangeFilter(cellId, value));
 
-    const handleOnIndexChange = (event: ChangeEvent<HTMLInputElement>) =>
-      handleChangeFilter?.("on_index", event.target.checked);
+    const handleChecked = getCheckedHandler(handleChangeFilter);
+
+    const handleOnIndexChange = handleChecked("on_index");
 
     const client = useGraphqlClient();
 

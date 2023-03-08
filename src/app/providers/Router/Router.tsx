@@ -20,6 +20,7 @@ import { EmployeesEdit } from "~/pages/EmployeesEdit";
 import { Vacancies } from "~/pages/Vacancies";
 import { VacanciesEdit } from "~/pages/VacanciesEdit";
 import { Pages } from "~/pages/Pages";
+import { InteractiveMap } from "~/pages/InteractiveMap";
 import { Purchases } from "~/pages/Purchases";
 import { PurchasesEdit } from "~/pages/PurchasesEdit";
 
@@ -43,6 +44,7 @@ import {
   VacanciesPageEdit,
   VacanciesPageCreate,
   PagesRoute,
+  InteractiveMapFormRoute,
   PurchasesPage,
   PurchasesPageEdit,
   PurchasesPageCreate
@@ -215,6 +217,16 @@ export const Router: React.FC = () => {
           </BaseProtectedLayout>
         }
       />
+
+      <Route
+        path={InteractiveMapFormRoute}
+        element={
+          <BaseProtectedLayout>
+            <InteractiveMap />
+          </BaseProtectedLayout>
+        }
+      />
+
 
       <Route
         path={PurchasesPage}

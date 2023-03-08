@@ -1,4 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
+// eslint-disable-next-line no-comments/disallowComments
+/* eslint-disable xss/no-mixed-html */
+import React, { ChangeEvent } from "react";
 import { Box, TextField, TextFieldProps } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -6,26 +8,35 @@ import { Button } from "../Button";
 import styles from "./NumericInput.module.css";
 
 type Props = {
-  max?: number;
-  min?: number;
-  value?: number;
+  max?: number | string;
+  min?: number | string;
+  value: number;
 } & TextFieldProps;
 
 export const NumericInput: React.FC<Props> = ({
   max = Infinity,
   min,
-  value: initialValue,
+  value,
   onChange,
+  name,
   ...props
 }) => {
-  const [value, setValue] = useState(initialValue ?? min ?? "");
-
   const handleAdd = () => {
-    setValue((v) => Math.min(max, +v + 1));
+    onChange?.({
+      target: {
+        value: Math.min(+max, +value + 1),
+        name: name ?? ""
+      }
+    } as unknown as ChangeEvent<HTMLInputElement>);
   };
 
   const handleRemove = () => {
-    setValue((v) => (Number.isInteger(min) ? Math.max(min as number, +v - 1) : +v - 1));
+    onChange?.({
+      target: {
+        value: String(Number.isInteger(min) ? Math.max(min as number, +value - 1) : +value - 1),
+        name: name ?? ""
+      }
+    } as unknown as ChangeEvent<HTMLInputElement>);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +48,6 @@ export const NumericInput: React.FC<Props> = ({
     }
 
     onChange?.(e);
-    setValue(e.target.value);
   };
 
   return (
@@ -50,7 +60,7 @@ export const NumericInput: React.FC<Props> = ({
         {...props}
         InputProps={{
           inputMode: "numeric",
-          value,
+          value: isNaN(value) ? 0 : value,
           endAdornment: (
             <Button onClick={handleAdd} className={styles["text-field__button"]} size='small'>
               <AddIcon />

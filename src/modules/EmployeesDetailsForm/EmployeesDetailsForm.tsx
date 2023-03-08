@@ -10,12 +10,13 @@ import {
   useUpdateEmployeeMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { initFormValues } from "~/shared/lib/initFormValues";
 import { Text } from "~/shared/components/Text";
-import { getErrorMessage } from "~/shared/lib/getError";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
+import { NumericInput } from "~/shared/components/NumericInput";
 import { getBaseEmailValidation } from "~shared/lib/validation";
+import { getErrorMessage } from "~/shared/lib/getError";
+import { initFormValues } from "~/shared/lib/initFormValues";
 
 interface IEmployeesDetailsForm {
   id?: number;
@@ -85,8 +86,8 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='flex flex-col gap-6'>
-        <Grid container className='mt-2' columns={12} spacing={3}>
-          <Grid item className='max-w-lg' xs={12} sm={6}>
+        <Grid container columns={12} spacing={3}>
+          <Grid item xs={12}>
             <Controller
               control={control}
               name='name'
@@ -96,10 +97,6 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                     label={<Text>Full name</Text>}
                     value={value}
                     variant='outlined'
-                    size='small'
-                    InputLabelProps={{
-                      shrink: !!value
-                    }}
                     id='name'
                     error={!!getError("name")}
                     {...register("name", { required: "This is required" })}
@@ -110,7 +107,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item className='max-w-lg' xs={12} sm={6}>
+          <Grid item xs={12}>
             <Controller
               control={control}
               name='position'
@@ -120,10 +117,6 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                     label={<Text>Position</Text>}
                     value={value}
                     variant='outlined'
-                    size='small'
-                    InputLabelProps={{
-                      shrink: !!value
-                    }}
                     id='position'
                     error={!!getError("position")}
                     {...register("position")}
@@ -134,21 +127,16 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item className='max-w-lg' xs={12} sm={6}>
+          <Grid item xs={12}>
             <Controller
               control={control}
               name='additional'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
-                  <TextField
+                  <NumericInput
+                    size='medium'
                     label={<Text>Additional number</Text>}
-                    value={value}
-                    variant='outlined'
-                    type='number'
-                    size='small'
-                    InputLabelProps={{
-                      shrink: !!value
-                    }}
+                    value={Number(value)}
                     id='additional'
                     error={!!getError("additional")}
                     {...register("additional")}
@@ -159,7 +147,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item className='max-w-lg' xs={12} sm={6}>
+          <Grid item xs={12}>
             <Controller
               control={control}
               name='email'
@@ -169,10 +157,6 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                     label={<Text>Email</Text>}
                     value={value}
                     variant='outlined'
-                    size='small'
-                    InputLabelProps={{
-                      shrink: !!value
-                    }}
                     id='email'
                     error={!!getError("email")}
                     {...register("email", getBaseEmailValidation({ required: false }))}
@@ -183,32 +167,24 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item className='max-w-lg' xs={12} sm={6}>
+          <Grid item xs={12}>
             <Controller
               control={control}
               name='sort'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
-                  <TextField
+                  <NumericInput
+                    size='medium'
                     label={<Text>Sorting</Text>}
-                    value={value}
-                    variant='outlined'
-                    type='number'
-                    size='small'
-                    InputLabelProps={{
-                      shrink: !!value || value === 0
-                    }}
-                    id='sort'
-                    error={!!getError("sort")}
+                    value={Number(value)}
                     {...register("sort")}
                   />
-
                   <HelperText id='sort' error={getError("sort")} />
                 </FormControl>
               )}
             />
           </Grid>
-          <Grid item className='max-w-lg' xs={12} sm={6}>
+          <Grid item xs={12}>
             <FormControl fullWidth>
               <Controller
                 control={control}
@@ -220,7 +196,6 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                       name='subdivision'
                       id='subdivision'
                       variant='outlined'
-                      size='small'
                       label={<Text>Subdivision</Text>}
                       SelectProps={{
                         value: value?.id ?? value ?? "",
@@ -248,7 +223,6 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
           type='submit'
           variant='contained'
           className='w-fit ml-auto'
-          size='small'
         >
           Save
         </Button>

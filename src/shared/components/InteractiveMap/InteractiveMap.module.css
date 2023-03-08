@@ -1,0 +1,7 @@
+.btn {
+  @apply !bg-primary h-[20px] w-[20px] flex items-center justify-center opacity-90 rounded-full;
+}
+
+.btn-minus {
+  @apply mt-2;
+}

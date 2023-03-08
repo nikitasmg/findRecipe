@@ -1,7 +1,9 @@
 import { FormControlLabel, Grid, Switch, TextField } from "@mui/material";
-import React, { ChangeEvent, forwardRef } from "react";
+import React, { forwardRef } from "react";
+import { curry } from "rambda";
 import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 
 type Props = {
   params: Record<string, string> | null;
@@ -10,14 +12,13 @@ type Props = {
 
 export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
   ({ params, handleChangeFilter }, ref) => {
-    const getChangeHandler = (cellId: string) =>
-      getEventValueHandler((value: unknown) => handleChangeFilter(cellId, value));
+    const handleChange = curry(handleChangeFilter);
 
-    const handlePublishedChange = (event: ChangeEvent<HTMLInputElement>) => {
-      handleChangeFilter?.("published", event.target.checked ? "1" : "0");
-    };
+    const getChangeHandler = (cellId: string) => getEventValueHandler(handleChange(cellId));
 
-    const switchValue = params?.published && Boolean(+params?.published);
+    const handleChecked = getCheckedHandler(handleChangeFilter);
+
+    const handlePublishedChange = handleChecked("published");
 
     return (
       <form ref={ref}>
@@ -27,10 +28,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               fullWidth
               value={params?.description}
               label={<Text>Description</Text>}
-              InputLabelProps={{
-                shrink: !!params?.description
-              }}
-              size='small'
               onChange={getChangeHandler("description")}
               variant='outlined'
             />
@@ -38,7 +35,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
 
           <Grid item columns={12} xs={12}>
             <FormControlLabel
-              control={<Switch checked={!!switchValue} onChange={handlePublishedChange} />}
+              control={
+                <Switch checked={Boolean(params?.published)} onChange={handlePublishedChange} />
+              }
               label={<Text>Published</Text>}
             />
           </Grid>

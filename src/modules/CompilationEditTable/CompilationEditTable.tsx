@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Table, TableCell, TableHead, TableRow } from "@mui/material";
 import React, { useRef, useState } from "react";
-import { arrayMove } from "react-sortable-hoc";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Panel } from "~/shared/components/Panel";
@@ -14,6 +13,7 @@ import { Button } from "~/shared/components/Button";
 import { CompilationItem } from "~/shared/types/Compilation";
 import { useCompilations } from "./lib/useCompilations";
 import { getColumns } from "./lib/getColumns";
+import { resortArray } from "~/shared/lib/resortArray";
 
 type Props = {
   id: number;
@@ -54,7 +54,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     update({ ...rows[oldIndex], sort: newIndex + 1 });
 
-    setRows((rows) => arrayMove(rows, oldIndex, newIndex));
+    setRows((rows) => resortArray(oldIndex, newIndex, rows));
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {

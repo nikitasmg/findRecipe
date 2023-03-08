@@ -7,25 +7,18 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { DeepPartial } from "react-hook-form";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import React, { Fragment } from "react";
+import React from "react";
 import { Vacancy } from "~/generated/graphql";
+import { Panel } from "~shared/components/Panel";
+import { CellDragHandle } from "~shared/components/CellDragHandle";
+import { TableActions } from "~/shared/components/TableActions";
+import { TableBodySortable, TableRowSortable } from "~shared/components/SortableTable";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { VacanciesPageCreate } from "~/shared/routes";
-import { LinkButton } from "~/shared/components/LinkButton";
-import { Text } from "~/shared/components/Text";
-import { SearchInput } from "~/shared/components/SearchInput";
-import { Panel } from "~shared/components/Panel";
-import { Button } from "~/shared/components/Button";
 import { useColumns } from "./lib/useColumns";
-import { ModalFilters } from "~/shared/components/ModalFilters";
-import { useModal } from "~/shared/hooks/useModal";
+import { useVacancies } from "./lib/useVacancies";
 import { FiltersForm } from "./components/FiltersForm";
-import { CellDragHandle } from "~shared/components/CellDragHandle";
-import { TableBodySortable, TableRowSortable } from "~shared/components/SortableTable";
-import { useVacancies } from "~/modules/VacanciesTable/lib/useVacancies";
 
 export const VacanciesTable: React.FC = () => {
   const {
@@ -41,46 +34,25 @@ export const VacanciesTable: React.FC = () => {
     onSortEnd
   } = useVacancies();
 
-  const { open, handleOpen, handleClose } = useModal();
-
   const columns = useColumns(activeOrder, handleChangeOrder);
-
-  const handleOpenFilters = () => handleOpen();
 
   return (
     <Panel>
-      <Box className='flex items-stretch justify-between gap-2 p-4 flex-col sm:flex-row'>
-        <Box className='flex items-stretch justify-between gap-2'>
-          <SearchInput
-            label={<Text>Fast search</Text>}
-            className='w-full sm:w-auto'
-            value={title}
-            InputLabelProps={{
-              shrink: !!title
-            }}
-            onChange={getEventValueHandler(handleTitleChange)}
-            size='small'
-          />
-          <Button onClick={handleOpenFilters} variant='outlined'>
-            <FilterAltIcon />
-          </Button>
-
-          <ModalFilters
-            opened={!!open}
-            handleClose={handleClose}
-            handleSuccess={handleClose}
-            handleDrop={resetFilters}
-          >
+      <Box className='flex flex-col gap-6 p-4'>
+        <TableActions
+          searchProps={{
+            searchValue: title,
+            searchChange: getEventValueHandler(handleTitleChange)
+          }}
+          addButtonProps={{
+            addHref: VacanciesPageCreate
+          }}
+          resetFilters={resetFilters}
+          filterModalInnerForm={
             <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
-          </ModalFilters>
-        </Box>
+          }
+        />
 
-        <LinkButton variant='outlined' href={VacanciesPageCreate} startIcon={<AddBoxRoundedIcon />}>
-          Add
-        </LinkButton>
-      </Box>
-
-      <Fragment>
         <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
@@ -128,7 +100,7 @@ export const VacanciesTable: React.FC = () => {
             </Box>
           )}
         </TableContainer>
-      </Fragment>
+      </Box>
     </Panel>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { Text } from "~/shared/components/Text";
 import { Panel } from "~shared/components/Panel";
-import { SettingsTabs } from "~/layouts/SettingsTabs";
+import { SettingsTabs } from "~/modules/SettingsForm";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Box } from "@mui/material";
 
