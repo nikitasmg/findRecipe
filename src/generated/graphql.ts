@@ -50,6 +50,11 @@ export type Contest = {
   updated_at: Scalars['DateTime'];
 };
 
+export type ContestBelongsTo = {
+  connect?: InputMaybe<Scalars['ID']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type ContestInput = {
   date?: InputMaybe<Scalars['Date']>;
   deadline?: InputMaybe<Scalars['DateTime']>;
@@ -180,6 +185,30 @@ export type ImageThumbs = {
   width?: Maybe<Scalars['Int']>;
 };
 
+/**
+ * Области знаний. Применяются для фильтрации проектов
+ *
+ * https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=22%3A600&t=nnLdQLBhEJ10FXQM-0
+ */
+export type KnowledgeField = {
+  __typename?: 'KnowledgeField';
+  id?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+  sort: Scalars['Int'];
+};
+
+export type KnowledgeFieldBelongsTo = {
+  connect?: InputMaybe<Scalars['ID']>;
+  create?: InputMaybe<KnowledgeFieldInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type KnowledgeFieldInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+};
+
 export type Log = {
   __typename?: 'Log';
   causer?: Maybe<User>;
@@ -223,12 +252,14 @@ export type Mutation = {
   deleteControl?: Maybe<StaffControl>;
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
+  deleteKnowledgeField?: Maybe<KnowledgeField>;
   deleteNews?: Maybe<News>;
   deleteNewsCategory?: Maybe<NewsCategory>;
   deleteNewsTag?: Maybe<NewsTag>;
   deleteOrganizer?: Maybe<Organizer>;
   deletePage?: Maybe<Page>;
   deletePartner?: Maybe<Partner>;
+  deleteProject?: Maybe<Project>;
   deletePurchase?: Maybe<Purchase>;
   deleteSetting?: Maybe<Setting>;
   deleteSubdivision?: Maybe<Subdivision>;
@@ -245,12 +276,14 @@ export type Mutation = {
   upsertContest?: Maybe<Contest>;
   upsertEmployee?: Maybe<Employee>;
   upsertEvent?: Maybe<Event>;
+  upsertKnowledgeField?: Maybe<KnowledgeField>;
   upsertNews?: Maybe<News>;
   upsertNewsCategory?: Maybe<NewsCategory>;
   upsertNewsTag?: Maybe<NewsTag>;
   upsertOrganizer?: Maybe<Organizer>;
   upsertPage?: Maybe<Page>;
   upsertPartner?: Maybe<Partner>;
+  upsertProject?: Maybe<Project>;
   upsertPurchase?: Maybe<Purchase>;
   upsertSetting?: Maybe<Setting>;
   upsertStaffControl?: Maybe<StaffControl>;
@@ -276,6 +309,11 @@ export type MutationDeleteEmployeeArgs = {
 
 
 export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteKnowledgeFieldArgs = {
   id: Scalars['ID'];
 };
 
@@ -306,6 +344,11 @@ export type MutationDeletePageArgs = {
 
 
 export type MutationDeletePartnerArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteProjectArgs = {
   id: Scalars['ID'];
 };
 
@@ -388,6 +431,11 @@ export type MutationUpsertEventArgs = {
 };
 
 
+export type MutationUpsertKnowledgeFieldArgs = {
+  input: KnowledgeFieldInput;
+};
+
+
 export type MutationUpsertNewsArgs = {
   input: NewsInput;
 };
@@ -415,6 +463,11 @@ export type MutationUpsertPageArgs = {
 
 export type MutationUpsertPartnerArgs = {
   input: PartnerInput;
+};
+
+
+export type MutationUpsertProjectArgs = {
+  input: ProjectInput;
 };
 
 
@@ -693,6 +746,62 @@ export type PartnerInput = {
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
+/** https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=0%3A1&t=nnLdQLBhEJ10FXQM-0 */
+export type Project = {
+  __typename?: 'Project';
+  annotation?: Maybe<Scalars['String']>;
+  contest: Contest;
+  contest_id: Scalars['ID'];
+  created_at: Scalars['DateTime'];
+  id: Scalars['ID'];
+  information?: Maybe<Scalars['String']>;
+  knowledge_field?: Maybe<KnowledgeField>;
+  knowledge_field_id?: Maybe<Scalars['ID']>;
+  leader?: Maybe<Scalars['String']>;
+  leader_rank?: Maybe<Scalars['String']>;
+  meta?: Maybe<Meta>;
+  name: Scalars['String'];
+  number: Scalars['String'];
+  organization?: Maybe<Scalars['String']>;
+  plan_results?: Maybe<Scalars['String']>;
+  publications?: Maybe<Scalars['String']>;
+  result_annotation?: Maybe<Scalars['String']>;
+  seo?: Maybe<Seo>;
+  slug: Scalars['String'];
+  updated_at: Scalars['DateTime'];
+  year?: Maybe<Scalars['Int']>;
+};
+
+export type ProjectInput = {
+  annotation?: InputMaybe<Scalars['String']>;
+  contest?: InputMaybe<ContestBelongsTo>;
+  contest_id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
+  information?: InputMaybe<Scalars['String']>;
+  knowledge_field?: InputMaybe<KnowledgeFieldBelongsTo>;
+  knowledge_field_id?: InputMaybe<Scalars['ID']>;
+  leader?: InputMaybe<Scalars['String']>;
+  leader_rank?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  number?: InputMaybe<Scalars['String']>;
+  organization?: InputMaybe<Scalars['String']>;
+  plan_results?: InputMaybe<Scalars['String']>;
+  publications?: InputMaybe<Scalars['String']>;
+  result_annotation?: InputMaybe<Scalars['String']>;
+  seo?: InputMaybe<SeoBelongsTo>;
+  slug?: InputMaybe<Scalars['String']>;
+  year?: InputMaybe<Scalars['Int']>;
+};
+
+/** A paginated list of Project items. */
+export type ProjectPaginator = {
+  __typename?: 'ProjectPaginator';
+  /** A list of Project items. */
+  data: Array<Project>;
+  /** Pagination information about the list of items. */
+  paginatorInfo: PaginatorInfo;
+};
+
 /**
  * Закупки. Выводятся на соответствующей странице
  *
@@ -727,6 +836,8 @@ export type Query = {
   employees: Array<Employee>;
   eventById?: Maybe<Event>;
   events?: Maybe<EventPaginator>;
+  knowledgeFieldById?: Maybe<KnowledgeField>;
+  knowledgeFields: Array<KnowledgeField>;
   logById?: Maybe<Log>;
   logs?: Maybe<LogPaginator>;
   me: User;
@@ -744,6 +855,9 @@ export type Query = {
   pages: Array<Page>;
   partnerById?: Maybe<Partner>;
   partners: Array<Partner>;
+  projectById?: Maybe<Project>;
+  projectBySlug?: Maybe<Project>;
+  projects?: Maybe<ProjectPaginator>;
   purchaseById?: Maybe<Purchase>;
   purchases: Array<Purchase>;
   settingById?: Maybe<Setting>;
@@ -796,6 +910,16 @@ export type QueryEventsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
   page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryKnowledgeFieldByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryKnowledgeFieldsArgs = {
+  orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
 
@@ -883,6 +1007,24 @@ export type QueryPartnerByIdArgs = {
 
 export type QueryPartnersArgs = {
   orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryProjectByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryProjectBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+export type QueryProjectsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+  page?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1494,6 +1636,52 @@ export type DeletePartnerMutationVariables = Exact<{
 
 export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id?: string | null } | null };
 
+export type AllPurchasesFieldsFragment = { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any };
+
+export type PurchaseByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PurchaseByIdQuery = { __typename?: 'Query', purchaseById?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+
+export type PurchasesQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type PurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any }> };
+
+export type UpdatePurchasePublishedMutationVariables = Exact<{
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type UpdatePurchasePublishedMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string } | null };
+
+export type CreatePurchaseMutationVariables = Exact<{
+  input: PurchaseInput;
+}>;
+
+
+export type CreatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+
+export type UpdatePurchaseMutationVariables = Exact<{
+  input: PurchaseInput;
+}>;
+
+
+export type UpdatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+
+export type DeletePurchaseMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeletePurchaseMutation = { __typename?: 'Mutation', deletePurchase?: { __typename?: 'Purchase', id: string } | null };
+
 export type AllSettingsFieldsFragment = { __typename?: 'Setting', id: string, name: string, value?: string | null };
 
 export type SettingByIdQueryVariables = Exact<{
@@ -1785,6 +1973,18 @@ export const AllPartnerFieldsFragmentDoc = `
     url
   }
   created_at
+}
+    `;
+export const AllPurchasesFieldsFragmentDoc = `
+    fragment allPurchasesFields on Purchase {
+  id
+  name
+  description
+  url
+  sort
+  published
+  created_at
+  updated_at
 }
     `;
 export const AllSettingsFieldsFragmentDoc = `
@@ -2724,6 +2924,128 @@ export const useDeletePartnerMutation = <
     useMutation<DeletePartnerMutation, TError, DeletePartnerMutationVariables, TContext>(
       ['deletePartner'],
       (variables?: DeletePartnerMutationVariables) => fetcher<DeletePartnerMutation, DeletePartnerMutationVariables>(client, DeletePartnerDocument, variables, headers)(),
+      options
+    );
+export const PurchaseByIdDocument = `
+    query purchaseById($id: ID!) {
+  purchaseById(id: $id) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const usePurchaseByIdQuery = <
+      TData = PurchaseByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: PurchaseByIdQueryVariables,
+      options?: UseQueryOptions<PurchaseByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<PurchaseByIdQuery, TError, TData>(
+      ['purchaseById', variables],
+      fetcher<PurchaseByIdQuery, PurchaseByIdQueryVariables>(client, PurchaseByIdDocument, variables, headers),
+      options
+    );
+export const PurchasesDocument = `
+    query purchases($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  purchases(orderBy: $orderBy, filter: $filter) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const usePurchasesQuery = <
+      TData = PurchasesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: PurchasesQueryVariables,
+      options?: UseQueryOptions<PurchasesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<PurchasesQuery, TError, TData>(
+      variables === undefined ? ['purchases'] : ['purchases', variables],
+      fetcher<PurchasesQuery, PurchasesQueryVariables>(client, PurchasesDocument, variables, headers),
+      options
+    );
+export const UpdatePurchasePublishedDocument = `
+    mutation updatePurchasePublished($id: ID!, $published: Boolean!) {
+  upsertPurchase(input: {id: $id, published: $published}) {
+    id
+  }
+}
+    `;
+export const useUpdatePurchasePublishedMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePurchasePublishedMutation, TError, UpdatePurchasePublishedMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePurchasePublishedMutation, TError, UpdatePurchasePublishedMutationVariables, TContext>(
+      ['updatePurchasePublished'],
+      (variables?: UpdatePurchasePublishedMutationVariables) => fetcher<UpdatePurchasePublishedMutation, UpdatePurchasePublishedMutationVariables>(client, UpdatePurchasePublishedDocument, variables, headers)(),
+      options
+    );
+export const CreatePurchaseDocument = `
+    mutation createPurchase($input: PurchaseInput!) {
+  upsertPurchase(input: $input) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const useCreatePurchaseMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreatePurchaseMutation, TError, CreatePurchaseMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreatePurchaseMutation, TError, CreatePurchaseMutationVariables, TContext>(
+      ['createPurchase'],
+      (variables?: CreatePurchaseMutationVariables) => fetcher<CreatePurchaseMutation, CreatePurchaseMutationVariables>(client, CreatePurchaseDocument, variables, headers)(),
+      options
+    );
+export const UpdatePurchaseDocument = `
+    mutation updatePurchase($input: PurchaseInput!) {
+  upsertPurchase(input: $input) {
+    ...allPurchasesFields
+  }
+}
+    ${AllPurchasesFieldsFragmentDoc}`;
+export const useUpdatePurchaseMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePurchaseMutation, TError, UpdatePurchaseMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePurchaseMutation, TError, UpdatePurchaseMutationVariables, TContext>(
+      ['updatePurchase'],
+      (variables?: UpdatePurchaseMutationVariables) => fetcher<UpdatePurchaseMutation, UpdatePurchaseMutationVariables>(client, UpdatePurchaseDocument, variables, headers)(),
+      options
+    );
+export const DeletePurchaseDocument = `
+    mutation deletePurchase($id: ID!) {
+  deletePurchase(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeletePurchaseMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeletePurchaseMutation, TError, DeletePurchaseMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeletePurchaseMutation, TError, DeletePurchaseMutationVariables, TContext>(
+      ['deletePurchase'],
+      (variables?: DeletePurchaseMutationVariables) => fetcher<DeletePurchaseMutation, DeletePurchaseMutationVariables>(client, DeletePurchaseDocument, variables, headers)(),
       options
     );
 export const SettingByIdDocument = `
