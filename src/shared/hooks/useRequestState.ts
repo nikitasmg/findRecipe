@@ -5,6 +5,7 @@ import { formatFilters } from "~shared/lib/formatFilters";
 import { ActiveOrder } from "~shared/types/ActiveOrder";
 import { useTablePagination } from "./useTablePagination";
 import { useSearchParams } from "react-router-dom";
+import { getBooleanPresentationForBackend } from "../lib/getBooleanPresentationForBackend";
 
 type Params = Record<string, string>;
 
@@ -89,9 +90,15 @@ export const useRequestState = (fastSearchFieldId: string) => {
 
   const handleFilterChange = useCallback(
     (cellId: string, value: unknown) => {
+      const preparedValue =
+        typeof value === "boolean" ? getBooleanPresentationForBackend(value) : value;
+
       const newParams = { ...params, [cellId]: value } as Params;
-      handleFilter(newParams);
       setParams(newParams);
+
+      const paramsForBackend = { ...params, [cellId]: preparedValue } as Params;
+
+      handleFilter(paramsForBackend);
 
       if (cellId === fastSearchFieldId) {
         setTitle(value as string);

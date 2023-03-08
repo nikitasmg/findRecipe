@@ -7,12 +7,18 @@ import {
   UpdateSettingsMutationVariables
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { ContactSettingsForm, FormFieldsContacts } from "~/modules/ContactSettingsForm";
-import { ApiKeysSettingsForm, FormFieldsApiKeys } from "~/modules/ApiKeysSettingsForm";
+import {
+  ContactSettingsForm,
+  FormFieldsContacts
+} from "~/modules/SettingsForm/components/ContactSettingsForm";
+import {
+  ApiKeysSettingsForm,
+  FormFieldsApiKeys
+} from "~/modules/SettingsForm/components/ApiKeysSettingsForm";
 import {
   NotificationSettingsForm,
   FormFieldsNotification
-} from "~/modules/NotificationSettingsForm";
+} from "~/modules/SettingsForm/components/NotificationSettingsForm";
 import { Text } from "~shared/components/Text";
 import { TabsForm } from "~/shared/components/TabsForm";
 

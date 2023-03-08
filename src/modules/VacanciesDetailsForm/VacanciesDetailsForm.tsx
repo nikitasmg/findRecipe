@@ -22,6 +22,8 @@ import { Text } from "~/shared/components/Text";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
+import { NumericInput } from "~/shared/components/NumericInput";
 
 interface IVacanciesDetailsForm {
   id?: number;
@@ -73,6 +75,8 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
     updateVacancy({ input });
   });
 
+  const handleChecked = getCheckedHandler(setValue);
+
   useEffect(() => {
     if (!isSuccess) {
       return;
@@ -95,7 +99,6 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                     label={<Text>Title</Text>}
                     value={value}
                     variant='outlined'
-                    size='small'
                     InputLabelProps={{
                       shrink: !!value
                     }}
@@ -120,7 +123,6 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                     label={<Text>Description</Text>}
                     value={value}
                     variant='outlined'
-                    size='small'
                     InputLabelProps={{
                       shrink: !!value
                     }}
@@ -143,20 +145,15 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               name='sort'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
-                  <TextField
+                  <NumericInput
                     label={<Text>Sorting</Text>}
                     value={value}
                     variant='outlined'
-                    size='small'
-                    type='number'
-                    InputLabelProps={{
-                      shrink: !!value || value === 0
-                    }}
                     id='sort'
+                    size='medium'
                     error={!!getError("sort")}
                     {...register("sort")}
                   />
-
                   <HelperText id='sort' error={getError("sort")} />
                 </FormControl>
               )}
@@ -169,12 +166,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl>
                   <FormControlLabel
-                    control={
-                      <Switch
-                        checked={!!value}
-                        onChange={(event) => setValue("published", event.target.checked)}
-                      />
-                    }
+                    control={<Switch checked={!!value} onChange={handleChecked("published")} />}
                     label={<Text>Published</Text>}
                   />
 
@@ -183,21 +175,19 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Box className='w-full flex'>
-              <Button
-                startIcon={<SaveIcon />}
-                disabled={isLoading}
-                type='submit'
-                variant='contained'
-                className='w-fit ml-auto'
-                size='small'
-              >
-                Save
-              </Button>
-            </Box>
-          </Grid>
         </Grid>
+      </Box>
+      <Box className='w-full flex'>
+        <Button
+          startIcon={<SaveIcon />}
+          disabled={isLoading}
+          type='submit'
+          variant='contained'
+          className='w-fit ml-auto'
+          size='small'
+        >
+          Save
+        </Button>
       </Box>
     </form>
   );

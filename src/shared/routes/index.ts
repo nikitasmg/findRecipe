@@ -49,3 +49,5 @@ export const PagesEditIndex = "/pages/edit/index";
 export const PagesEditNews = "/pages/edit/news";
 
 export const PagesEditEvents = "/pages/edit/events";
+
+export const InteractiveMapFormRoute = "/interactive-map";

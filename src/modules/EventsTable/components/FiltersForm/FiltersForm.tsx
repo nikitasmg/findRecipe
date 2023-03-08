@@ -1,9 +1,10 @@
 import { FormControlLabel, Grid, Switch, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import React, { ChangeEvent, forwardRef } from "react";
+import React, { forwardRef } from "react";
+import { curry } from "rambda";
 import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
-import { curry } from "rambda";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 
 type Props = {
   params: Record<string, string> | null;
@@ -15,8 +16,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     const getChangeHandler = (cellId: string) =>
       getEventValueHandler((value: unknown) => handleChangeFilter(cellId, value));
 
-    const handlePublishedChange = (event: ChangeEvent<HTMLInputElement>) =>
-      handleChangeFilter?.("published", event.target.checked);
+    const handleChecked = getCheckedHandler(handleChangeFilter);
+
+    const handlePublishedChange = handleChecked("published");
 
     return (
       <form ref={ref}>

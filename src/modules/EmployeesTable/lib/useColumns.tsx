@@ -103,7 +103,7 @@ export const useColumns = (
         />
       ),
       align: "center",
-      minWidth: 150
+      minWidth: 250
     },
 
     {

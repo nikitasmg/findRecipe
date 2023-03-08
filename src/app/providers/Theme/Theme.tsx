@@ -41,6 +41,13 @@ const theme = createTheme({
           shrink: true
         }
       }
+    },
+    MuiMenu: {
+      defaultProps: {
+        style: {
+          height: "300px"
+        }
+      }
     }
   },
   palette: {

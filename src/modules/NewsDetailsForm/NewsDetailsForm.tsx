@@ -10,14 +10,14 @@ import {
   useUpdateNewsMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { AdditionalNewsForm } from "~/modules/AdditionalNewsForm";
-import { GeneralNewsForm } from "~/modules/GeneralNewsForm";
-import { SeoNewsForm } from "~/modules/SeoNewsForm";
-import { OtherNewsForm } from "~/modules/OtherNewsForm/OtherNewsForm";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { NewsPageRoute } from "~/shared/routes";
+import { AdditionalNewsForm } from "./components/AdditionalNewsForm";
+import { GeneralNewsForm } from "./components/GeneralNewsForm";
+import { SeoNewsForm } from "./components/SeoNewsForm";
+import { OtherNewsForm } from "./components/OtherNewsForm/OtherNewsForm";
 
 type Props = {
   id?: number;
@@ -48,7 +48,8 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     handleSubmit,
     formState: { errors, touchedFields },
     setValue,
-    control
+    control,
+    setError
   } = useForm({ mode: "all" });
 
   const onSubmit = handleSubmit(async (newValues) => {
@@ -142,6 +143,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
               errors={errors}
               register={register}
               control={control}
+              setError={setError}
             />
           )
         },

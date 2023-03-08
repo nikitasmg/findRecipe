@@ -22,6 +22,7 @@ import { Button } from "~/shared/components/Button";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { Member } from "./components/Member";
 
 type Props = {
@@ -88,6 +89,8 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
   const getInitMemberValue = (members?: (Partner | Organizer)[]) =>
     members?.map((member) => ({ name: member.name ?? "", avatarUrl: member.imageUrl ?? "" })) ?? [];
 
+  const handleChecked = getCheckedHandler(setValue);
+
   useEffect(() => {
     if (!isSuccess) {
       return;
@@ -148,12 +151,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
             render={({ field: { value } }) => (
               <FormControl fullWidth>
                 <FormControlLabel
-                  control={
-                    <Switch
-                      checked={!!value}
-                      onChange={(event) => setValue("published", event.target.checked)}
-                    />
-                  }
+                  control={<Switch checked={!!value} onChange={handleChecked("published")} />}
                   label={<Text>Published</Text>}
                 />
 

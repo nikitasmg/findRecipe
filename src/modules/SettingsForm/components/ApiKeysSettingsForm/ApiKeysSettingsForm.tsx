@@ -4,7 +4,7 @@ import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { Text } from "~/shared/components/Text";
 
 export type FormFieldsApiKeys = {
-  contentEditor?: string;
+  content_editor?: string;
 };
 
 type Props = {
@@ -18,16 +18,16 @@ export const ApiKeysSettingsForm: React.FC<Props> = ({ register, control }) => {
       <Grid item columns={12} xs={12}>
         <Controller
           control={control}
-          name='contentEditor'
+          name='content_editor'
           render={({ field: { value } }) => (
             <TextField
-              id='contentEditor'
+              id='content_editor'
               multiline
               fullWidth
               value={value}
               variant='outlined'
               label={<Text>Content Editor key</Text>}
-              {...register("contentEditor")}
+              {...register("content_editor")}
             />
           )}
         />

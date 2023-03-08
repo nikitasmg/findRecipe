@@ -1,8 +1,14 @@
 import { Box, FormControl, FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { curry } from "rambda";
 import React from "react";
-import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
+import { curry } from "rambda";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetError
+} from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   GalleryImage,
@@ -12,6 +18,7 @@ import {
 } from "~/generated/graphql";
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { getBaseUrlValidation } from "~/shared/lib/validation";
 
@@ -30,6 +37,7 @@ type Props = {
   register: UseFormRegister<Partial<FormFields>>;
   errors: FieldErrors<FormFields>;
   setValue: (name: string, value: unknown) => void;
+  setError: UseFormSetError<FieldErrors>;
   control?: Control<FormFields, unknown>;
 };
 
@@ -41,6 +49,8 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
   const { data: tags } = useNewsTagsQuery(client);
 
   const getError = getErrorMessage(errors);
+
+  const handleChecked = getCheckedHandler(setValue);
 
   return (
     <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
@@ -86,12 +96,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         name='published'
         render={({ field: { value } }) => (
           <FormControlLabel
-            control={
-              <Switch
-                checked={!!value}
-                onChange={(event) => setValue("published", event.target.checked)}
-              />
-            }
+            control={<Switch checked={!!value} onChange={handleChecked("published")} />}
             label={<Text>Published</Text>}
           />
         )}
@@ -103,18 +108,11 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         render={({ field: { value } }) => (
           <FormControl error={getError("published_at")}>
             <DatePicker
-              value={value}
-              label={<Text>Published at</Text>}
-              {...register("published_at", { required: "This is required" })}
-              onChange={curry(setValue)("created_at")}
-              renderInput={(props) => (
-                <TextField
-                  error={getError("published_at")}
-                  id='published_at'
-                  variant='outlined'
-                  {...props}
-                />
-              )}
+              className='w-full'
+              label={<Text>Created at</Text>}
+              value={value ?? null}
+              onChange={curry(setValue)("published_at")}
+              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
 
             <HelperText id='published_at' error={getError("published_at")} />
@@ -186,12 +184,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         name='on_index'
         render={({ field: { value } }) => (
           <FormControlLabel
-            control={
-              <Switch
-                checked={!!value}
-                onChange={(event) => setValue("on_index", event.target.checked)}
-              />
-            }
+            control={<Switch checked={!!value} onChange={handleChecked("on_index")} />}
             label={<Text>Visible on home page</Text>}
           />
         )}

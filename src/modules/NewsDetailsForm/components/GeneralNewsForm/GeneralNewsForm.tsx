@@ -9,7 +9,7 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { useUploadMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
-import { useSettingByNameQuery } from "../../generated/graphql";
+import { useSettingByNameQuery } from "../../../../generated/graphql";
 
 type FormFields = {
   name?: string;
