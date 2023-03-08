@@ -21,6 +21,8 @@ import { Vacancies } from "~/pages/Vacancies";
 import { VacanciesEdit } from "~/pages/VacanciesEdit";
 import { Pages } from "~/pages/Pages";
 import { InteractiveMap } from "~/pages/InteractiveMap";
+import { Purchases } from "~/pages/Purchases";
+import { PurchasesEdit } from "~/pages/PurchasesEdit";
 
 import {
   HomePageRoute,
@@ -42,7 +44,10 @@ import {
   VacanciesPageEdit,
   VacanciesPageCreate,
   PagesRoute,
-  InteractiveMapFormRoute
+  InteractiveMapFormRoute,
+  PurchasesPage,
+  PurchasesPageEdit,
+  PurchasesPageCreate
 } from "~shared/routes";
 
 import { PagesEditRouter } from "./PagesEditRouter";
@@ -218,6 +223,34 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <InteractiveMap />
+          </BaseProtectedLayout>
+        }
+      />
+
+
+      <Route
+        path={PurchasesPage}
+        element={
+          <BaseProtectedLayout>
+            <Purchases />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={PurchasesPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <PurchasesEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={PurchasesPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <PurchasesEdit />
           </BaseProtectedLayout>
         }
       />
