@@ -4,9 +4,9 @@ import { Box, FormControl, FormControlLabel, Grid, Switch, TextField } from "@mu
 import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
-  useContentEditorKeyQuery,
   useCreatePurchaseMutation,
   usePurchaseByIdQuery,
+  useSettingByNameQuery,
   useUpdatePurchaseMutation,
   useUploadMutation
 } from "~/generated/graphql";
@@ -45,9 +45,11 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   const { mutateAsync: upload } = useUploadMutation(client);
 
-  const { data: contentEditorData } = useContentEditorKeyQuery(client);
+  const { data: { settingByName } = {} } = useSettingByNameQuery(client, {
+    name: "content_editor"
+  });
 
-  const contentEditorKey = contentEditorData?.settingById?.value;
+  const contentEditorKey = settingByName?.value;
 
   const isLoading = isCreateLoading || isUpdateLoading;
 

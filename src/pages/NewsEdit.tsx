@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteNewsMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { NewsDetailsForm } from "~/layouts/NewsDetailsForm";
-import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
@@ -12,8 +11,6 @@ import { NewsPageRoute } from "~/shared/routes/index";
 
 export const NewsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-
-  const handleGoBack = useNavigationBack();
 
   const history = useNavigate();
 
@@ -39,7 +36,7 @@ export const NewsEdit: React.FC = () => {
           <Box className='flex flex-col gap-6 items-center'>
             <DetailsHead
               title={isEdit ? "News editing" : "News creating"}
-              onBackClick={handleGoBack}
+              backHref={NewsPageRoute}
               onRemove={handleDelete}
             />
             <NewsDetailsForm id={Number(id)} />

@@ -6,25 +6,34 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Text } from "../Text";
 import { Link } from "../Link";
 import { Button } from "../Button";
+import { LinkButton } from "../LinkButton";
 
 type Props = {
   title: string;
   clientUrl?: string;
+  backHref?: string;
   onBackClick?: () => void;
   onRemove?: () => void;
 };
 
-export const DetailsHead: React.FC<Props> = ({ title, clientUrl, onRemove, onBackClick }) => (
+export const DetailsHead: React.FC<Props> = ({
+  title,
+  clientUrl,
+  onRemove,
+  onBackClick,
+  backHref
+}) => (
   <Box className='flex flex-wrap items-center w-full md:flex-nowrap  gap-4'>
-    <Button
+    <LinkButton
       className='order-first'
       startIcon={<ArrowBackIosNewIcon />}
       onClick={onBackClick}
+      href={backHref}
       variant='outlined'
       size='small'
     >
       Back
-    </Button>
+    </LinkButton>
 
     <Text
       className='order-last w-full md:w-fit md:order-first text-center'
