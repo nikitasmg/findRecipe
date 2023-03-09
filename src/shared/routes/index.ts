@@ -50,6 +50,10 @@ export const PagesEditNews = "/pages/edit/news";
 
 export const PagesEditEvents = "/pages/edit/events";
 
+export const PagesEditAbout = "/pages/edit/about";
+
+export const PagesEditControl = "/pages/edit/control";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";
@@ -63,3 +67,5 @@ export const ContestPageRoute = "/contest";
 export const ContestPageEdit = `${ContestPageRoute}/edit/:id`;
 
 export const ContestPageCreate = `${ContestPageRoute}/create`;
+
+export const StaffControlPageRoute = "/staff-control";

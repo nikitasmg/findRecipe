@@ -8,7 +8,7 @@ import { PagesRoute } from "~/shared/routes";
 import { GeneralPageForm } from "./components/GeneralPageForm/GeneralPageForm";
 import { SeoForm } from "./components/SeoForm/SeoForm";
 
-export const EditEventsPageForm: React.FC = () => {
+export const EditAboutPageForm: React.FC = () => {
   const [step, setStep] = useState(0);
 
   const {
@@ -21,7 +21,7 @@ export const EditEventsPageForm: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug: "events" });
+  const { data } = usePageBySlugQuery(client, { slug: "about" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client);
 

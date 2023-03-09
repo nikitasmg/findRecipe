@@ -139,5 +139,21 @@
   "Status": "Статус",
   "Contest editing": "Редактирование конкурса",
   "Contest creating": "Создание конкурса",
-  "count contests": "количество конкурсов"
+  "count contests": "количество конкурсов",
+  "Documents": "Документы",
+  "Notice": "Извещение",
+  "Tender documentation": "Конкурсная документация",
+  "Envelope opening protocol": "Протокол вскрытия конвертов ",
+  "Protocol for consideration and evaluation of applications": "Протокол рассмотрения и оценки заявок",
+  "Results": "Результаты",
+  "Edit about page": "Редактировать страницу о фонде",
+  "Edit staff control page": "Редактировать страницу органов управления и контроля",
+  "Staff control": "Органы управления и контроля",
+  "Edit staff control": "Редактировать органы управления и контроля",
+  "Board of Trustees": "Попечительский совет",
+  "Supervisory Board": "Наблюдательный совет",
+  "CEO": "Генеральный директор",
+  "Management Department": "Аппарат управления",
+  "Scientific Advisory Board": "Научно-консультационный совет",
+  "Create staff control": "Создать"
 }

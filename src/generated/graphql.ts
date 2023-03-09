@@ -647,6 +647,7 @@ export type Page = {
   imageUrl?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
+  params?: Maybe<Scalars['JSON']>;
   parent?: Maybe<Page>;
   parent_id?: Maybe<Scalars['Int']>;
   seo?: Maybe<Seo>;
@@ -687,6 +688,7 @@ export type PageInput = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
+  params?: InputMaybe<Scalars['JSON']>;
   parent?: InputMaybe<PageParentBelongsTo>;
   parent_id?: InputMaybe<Scalars['Int']>;
   seo?: InputMaybe<SeoBelongsTo>;
@@ -1609,21 +1611,21 @@ export type DeleteOrganizerMutationVariables = Exact<{
 
 export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id?: string | null } | null };
 
-export type AllPageFieldsFragment = { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
+export type AllPageFieldsFragment = { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null };
 
 export type PageByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
 
 export type PageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
 
 export type PagesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1638,7 +1640,7 @@ export type UpdatePageMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
 
 export type AllPartnerFieldsFragment = { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
 
@@ -1759,6 +1761,49 @@ export type UpdateSettingsMutationVariables = Exact<{
 
 
 export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+
+export type AllFieldsFragment = { __typename?: 'StaffControl', id: string, name: string, description?: string | null, sort: number, page_id?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
+
+export type StaffControlByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type StaffControlByIdQuery = { __typename?: 'Query', staffControlById?: { __typename?: 'StaffControl', id: string, name: string, description?: string | null, sort: number, page_id?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type StaffControlsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type StaffControlsQuery = { __typename?: 'Query', staffControls: Array<{ __typename?: 'StaffControl', id: string, name: string, description?: string | null, sort: number, page_id?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null }> };
+
+export type CreateStaffControlMutationVariables = Exact<{
+  input: StaffControlInput;
+}>;
+
+
+export type CreateStaffControlMutation = { __typename?: 'Mutation', upsertStaffControl?: { __typename?: 'StaffControl', id: string, name: string, description?: string | null, sort: number, page_id?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type UpdateStaffControlMutationVariables = Exact<{
+  input: StaffControlInput;
+}>;
+
+
+export type UpdateStaffControlMutation = { __typename?: 'Mutation', upsertStaffControl?: { __typename?: 'StaffControl', id: string, name: string, description?: string | null, sort: number, page_id?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+
+export type DeleteControlMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteControlMutation = { __typename?: 'Mutation', deleteControl?: { __typename?: 'StaffControl', id: string } | null };
+
+export type StaffControlPagesBySlugQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type StaffControlPagesBySlugQuery = { __typename?: 'Query', popechitelskiy?: { __typename?: 'Page', id: string } | null, nablyudatelnyy?: { __typename?: 'Page', id: string } | null, direktor?: { __typename?: 'Page', id: string } | null, apparat?: { __typename?: 'Page', id: string } | null, konsultacionnyy?: { __typename?: 'Page', id: string } | null };
 
 export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: string, name: string, sort: number };
 
@@ -2010,6 +2055,10 @@ export const AllPageFieldsFragmentDoc = `
     id
     url
   }
+  seo {
+    title
+    description
+  }
   parent_id
   created_at
   updated_at
@@ -2044,6 +2093,21 @@ export const AllSettingsFieldsFragmentDoc = `
   id
   name
   value
+}
+    `;
+export const AllFieldsFragmentDoc = `
+    fragment allFields on StaffControl {
+  id
+  name
+  description
+  sort
+  page_id
+  imageUrl
+  image {
+    id
+    url
+  }
+  created_at
 }
     `;
 export const AllUsersFieldsFragmentDoc = `
@@ -3318,6 +3382,141 @@ export const useUpdateSettingsMutation = <
     useMutation<UpdateSettingsMutation, TError, UpdateSettingsMutationVariables, TContext>(
       ['updateSettings'],
       (variables?: UpdateSettingsMutationVariables) => fetcher<UpdateSettingsMutation, UpdateSettingsMutationVariables>(client, UpdateSettingsDocument, variables, headers)(),
+      options
+    );
+export const StaffControlByIdDocument = `
+    query staffControlById($id: ID!) {
+  staffControlById(id: $id) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useStaffControlByIdQuery = <
+      TData = StaffControlByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: StaffControlByIdQueryVariables,
+      options?: UseQueryOptions<StaffControlByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StaffControlByIdQuery, TError, TData>(
+      ['staffControlById', variables],
+      fetcher<StaffControlByIdQuery, StaffControlByIdQueryVariables>(client, StaffControlByIdDocument, variables, headers),
+      options
+    );
+export const StaffControlsDocument = `
+    query staffControls($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  staffControls(orderBy: $orderBy, filter: $filter) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useStaffControlsQuery = <
+      TData = StaffControlsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: StaffControlsQueryVariables,
+      options?: UseQueryOptions<StaffControlsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StaffControlsQuery, TError, TData>(
+      variables === undefined ? ['staffControls'] : ['staffControls', variables],
+      fetcher<StaffControlsQuery, StaffControlsQueryVariables>(client, StaffControlsDocument, variables, headers),
+      options
+    );
+export const CreateStaffControlDocument = `
+    mutation createStaffControl($input: StaffControlInput!) {
+  upsertStaffControl(input: $input) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useCreateStaffControlMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateStaffControlMutation, TError, CreateStaffControlMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateStaffControlMutation, TError, CreateStaffControlMutationVariables, TContext>(
+      ['createStaffControl'],
+      (variables?: CreateStaffControlMutationVariables) => fetcher<CreateStaffControlMutation, CreateStaffControlMutationVariables>(client, CreateStaffControlDocument, variables, headers)(),
+      options
+    );
+export const UpdateStaffControlDocument = `
+    mutation updateStaffControl($input: StaffControlInput!) {
+  upsertStaffControl(input: $input) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useUpdateStaffControlMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateStaffControlMutation, TError, UpdateStaffControlMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateStaffControlMutation, TError, UpdateStaffControlMutationVariables, TContext>(
+      ['updateStaffControl'],
+      (variables?: UpdateStaffControlMutationVariables) => fetcher<UpdateStaffControlMutation, UpdateStaffControlMutationVariables>(client, UpdateStaffControlDocument, variables, headers)(),
+      options
+    );
+export const DeleteControlDocument = `
+    mutation deleteControl($id: ID!) {
+  deleteControl(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteControlMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteControlMutation, TError, DeleteControlMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteControlMutation, TError, DeleteControlMutationVariables, TContext>(
+      ['deleteControl'],
+      (variables?: DeleteControlMutationVariables) => fetcher<DeleteControlMutation, DeleteControlMutationVariables>(client, DeleteControlDocument, variables, headers)(),
+      options
+    );
+export const StaffControlPagesBySlugDocument = `
+    query staffControlPagesBySlug {
+  popechitelskiy: pageBySlug(slug: "popechitelskiy-sovet") {
+    id
+  }
+  nablyudatelnyy: pageBySlug(slug: "nablyudatelnyy-sovet") {
+    id
+  }
+  direktor: pageBySlug(slug: "generalnyy-direktor") {
+    id
+  }
+  apparat: pageBySlug(slug: "apparat-upravleniya") {
+    id
+  }
+  konsultacionnyy: pageBySlug(slug: "nauchno-konsultacionnyy-sovet") {
+    id
+  }
+}
+    `;
+export const useStaffControlPagesBySlugQuery = <
+      TData = StaffControlPagesBySlugQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: StaffControlPagesBySlugQueryVariables,
+      options?: UseQueryOptions<StaffControlPagesBySlugQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StaffControlPagesBySlugQuery, TError, TData>(
+      variables === undefined ? ['staffControlPagesBySlug'] : ['staffControlPagesBySlug', variables],
+      fetcher<StaffControlPagesBySlugQuery, StaffControlPagesBySlugQueryVariables>(client, StaffControlPagesBySlugDocument, variables, headers),
       options
     );
 export const SubdivisionByIdDocument = `
