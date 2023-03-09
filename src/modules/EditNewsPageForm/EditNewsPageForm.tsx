@@ -38,6 +38,8 @@ export const EditNewsPageForm: React.FC = () => {
 
   useEffect(() => {
     initFormValues(["name", "description"], setValue, values);
+    setValue("seo.upsert.title", values?.seo?.title);
+    setValue("seo.upsert.description", values?.seo?.description);
   }, [values, setValue]);
 
   return (

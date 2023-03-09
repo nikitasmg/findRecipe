@@ -14,7 +14,8 @@ import {
   VacanciesPage,
   PagesRoute,
   InteractiveMapFormRoute,
-  ContestPageRoute
+  ContestPageRoute,
+  StaffControlPageRoute
 } from "~shared/routes";
 
 const tabs: HeaderTab[] = [
@@ -61,6 +62,10 @@ const tabs: HeaderTab[] = [
       {
         label: "Purchases",
         path: PurchasesPage
+      },
+      {
+        label: "Staff control",
+        path: StaffControlPageRoute
       }
     ]
   },

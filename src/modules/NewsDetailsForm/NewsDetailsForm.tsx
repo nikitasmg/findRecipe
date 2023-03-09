@@ -77,6 +77,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     };
 
     delete (input as News).documents;
+    delete (input as News).imageUrl;
 
     if (isCreateMode) {
       createNews({ input });
@@ -107,6 +108,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
             format: getTagsValue
           }
         ],
+        "imageUrl",
         "on_index",
         "documents",
         "uploadImage"

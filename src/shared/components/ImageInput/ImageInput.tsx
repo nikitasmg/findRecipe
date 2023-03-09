@@ -4,7 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { Text } from "../Text";
 
 type Props = {
-  id: string;
+  id?: string;
   onChange: (file?: File | null) => void;
   onDelete?: () => void;
   withPreview?: boolean;
@@ -69,12 +69,7 @@ export const ImageInput: React.FC<Props> = ({
             tabIndex={0}
             className='absolute right-0 top-0 cursor-pointer'
           />
-          <img
-            src={imageUrl || url}
-            alt={selectedImage?.name}
-            className='h-[100px]'
-            height='100px'
-          />
+          <img src={imageUrl || url} alt={selectedImage?.name} className='h-auto w-[100%]' />
         </Box>
       )}
     </>

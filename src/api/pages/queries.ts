@@ -12,6 +12,10 @@ export const PagesFragment = gql`
       id
       url
     }
+    seo {
+      title
+      description
+    }
     parent_id
     created_at
     updated_at
