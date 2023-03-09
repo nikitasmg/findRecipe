@@ -1309,6 +1309,47 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: string } | null };
 
+export type AllContestFieldsFragment = { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any };
+
+export type ContestByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ContestByIdQuery = { __typename?: 'Query', contestById?: { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+
+export type ContestsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+  first?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<ContestStatus>;
+}>;
+
+
+export type ContestsQuery = { __typename?: 'Query', contests?: { __typename?: 'ContestPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any }> } | null };
+
+export type CreateContestMutationVariables = Exact<{
+  input: ContestInput;
+}>;
+
+
+export type CreateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+
+export type UpdateContestMutationVariables = Exact<{
+  input: ContestInput;
+}>;
+
+
+export type UpdateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+
+export type DeleteContestMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteContestMutation = { __typename?: 'Mutation', deleteContest?: { __typename?: 'Contest', id: string } | null };
+
 export type AllEmployeeFieldsFragment = { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
 
 export type EmployeeByIdQueryVariables = Exact<{
@@ -1829,6 +1870,17 @@ export type DeleteVacancyMutationVariables = Exact<{
 
 export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: string } | null };
 
+export const AllContestFieldsFragmentDoc = `
+    fragment allContestFields on Contest {
+  id
+  name
+  number
+  status
+  deadline
+  date
+  created_at
+}
+    `;
 export const AllSubdivisionsFieldsFragmentDoc = `
     fragment allSubdivisionsFields on Subdivision {
   id
@@ -2047,6 +2099,121 @@ export const useLogoutMutation = <
     useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
       ['Logout'],
       (variables?: LogoutMutationVariables) => fetcher<LogoutMutation, LogoutMutationVariables>(client, LogoutDocument, variables, headers)(),
+      options
+    );
+export const ContestByIdDocument = `
+    query contestById($id: ID!) {
+  contestById(id: $id) {
+    ...allContestFields
+  }
+}
+    ${AllContestFieldsFragmentDoc}`;
+export const useContestByIdQuery = <
+      TData = ContestByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: ContestByIdQueryVariables,
+      options?: UseQueryOptions<ContestByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ContestByIdQuery, TError, TData>(
+      ['contestById', variables],
+      fetcher<ContestByIdQuery, ContestByIdQueryVariables>(client, ContestByIdDocument, variables, headers),
+      options
+    );
+export const ContestsDocument = `
+    query contests($orderBy: [OrderByClause!], $filter: [FilterByClause!], $first: Int = 30, $page: Int, $status: ContestStatus) {
+  contests(
+    orderBy: $orderBy
+    filter: $filter
+    first: $first
+    page: $page
+    status: $status
+  ) {
+    paginatorInfo {
+      lastPage
+      total
+      perPage
+    }
+    data {
+      ...allContestFields
+    }
+  }
+}
+    ${AllContestFieldsFragmentDoc}`;
+export const useContestsQuery = <
+      TData = ContestsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ContestsQueryVariables,
+      options?: UseQueryOptions<ContestsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ContestsQuery, TError, TData>(
+      variables === undefined ? ['contests'] : ['contests', variables],
+      fetcher<ContestsQuery, ContestsQueryVariables>(client, ContestsDocument, variables, headers),
+      options
+    );
+export const CreateContestDocument = `
+    mutation createContest($input: ContestInput!) {
+  upsertContest(input: $input) {
+    ...allContestFields
+  }
+}
+    ${AllContestFieldsFragmentDoc}`;
+export const useCreateContestMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateContestMutation, TError, CreateContestMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateContestMutation, TError, CreateContestMutationVariables, TContext>(
+      ['createContest'],
+      (variables?: CreateContestMutationVariables) => fetcher<CreateContestMutation, CreateContestMutationVariables>(client, CreateContestDocument, variables, headers)(),
+      options
+    );
+export const UpdateContestDocument = `
+    mutation updateContest($input: ContestInput!) {
+  upsertContest(input: $input) {
+    ...allContestFields
+  }
+}
+    ${AllContestFieldsFragmentDoc}`;
+export const useUpdateContestMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateContestMutation, TError, UpdateContestMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateContestMutation, TError, UpdateContestMutationVariables, TContext>(
+      ['updateContest'],
+      (variables?: UpdateContestMutationVariables) => fetcher<UpdateContestMutation, UpdateContestMutationVariables>(client, UpdateContestDocument, variables, headers)(),
+      options
+    );
+export const DeleteContestDocument = `
+    mutation deleteContest($id: ID!) {
+  deleteContest(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteContestMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteContestMutation, TError, DeleteContestMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteContestMutation, TError, DeleteContestMutationVariables, TContext>(
+      ['deleteContest'],
+      (variables?: DeleteContestMutationVariables) => fetcher<DeleteContestMutation, DeleteContestMutationVariables>(client, DeleteContestDocument, variables, headers)(),
       options
     );
 export const EmployeeByIdDocument = `

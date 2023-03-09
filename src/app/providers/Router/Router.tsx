@@ -23,6 +23,8 @@ import { Pages } from "~/pages/Pages";
 import { InteractiveMap } from "~/pages/InteractiveMap";
 import { Purchases } from "~/pages/Purchases";
 import { PurchasesEdit } from "~/pages/PurchasesEdit";
+import { Contest } from "~/pages/Contest";
+import { ContestEdit } from "~/pages/ContestEdit";
 
 import {
   HomePageRoute,
@@ -47,7 +49,10 @@ import {
   InteractiveMapFormRoute,
   PurchasesPage,
   PurchasesPageEdit,
-  PurchasesPageCreate
+  PurchasesPageCreate,
+  ContestPageEdit,
+  ContestPageCreate,
+  ContestPageRoute
 } from "~shared/routes";
 
 import { PagesEditRouter } from "./PagesEditRouter";
@@ -227,7 +232,6 @@ export const Router: React.FC = () => {
         }
       />
 
-
       <Route
         path={PurchasesPage}
         element={
@@ -251,6 +255,33 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <PurchasesEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ContestPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Contest />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ContestPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <ContestEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ContestPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <ContestEdit />
           </BaseProtectedLayout>
         }
       />

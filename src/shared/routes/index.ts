@@ -57,3 +57,9 @@ export const PurchasesPage = "/purchases";
 export const PurchasesPageEdit = `${PurchasesPage}/edit/:id`;
 
 export const PurchasesPageCreate = `${PurchasesPage}/create`;
+
+export const ContestPageRoute = "/contest";
+
+export const ContestPageEdit = `${ContestPageRoute}/edit/:id`;
+
+export const ContestPageCreate = `${ContestPageRoute}/create`;
