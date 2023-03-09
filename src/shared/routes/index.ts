@@ -50,6 +50,8 @@ export const PagesEditNews = "/pages/edit/news";
 
 export const PagesEditEvents = "/pages/edit/events";
 
+export const PagesEditAbout = "/pages/edit/about";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";
