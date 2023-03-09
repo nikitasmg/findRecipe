@@ -108,8 +108,6 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                   <TextField
                     label={<Text>Title</Text>}
                     value={value}
-                    size='small'
-                    id='name'
                     error={!!getError("name")}
                     {...register("name", { required: "This is required" })}
                   />
@@ -147,7 +145,6 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                     label={<Text>Link</Text>}
                     value={value}
                     type='url'
-                    size='small'
                     id='url'
                     error={!!getError("url")}
                     {...register("url")}
@@ -165,10 +162,10 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <NumericInput
-                    size='small'
-                    name='sort'
+                    size='medium'
                     label={<Text>Sorting</Text>}
                     value={Number(value) || 0}
+                    {...register("sort")}
                   />
 
                   <HelperText id='sort' error={getError("sort")} />

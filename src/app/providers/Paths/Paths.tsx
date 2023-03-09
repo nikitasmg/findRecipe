@@ -7,7 +7,8 @@ import {
   UsersPageRoute,
   EventsPageRoute,
   CompilationsPage,
-  InteractiveMapFormRoute
+  InteractiveMapFormRoute,
+  ContestPageRoute
 } from "~shared/routes";
 
 const paths = [
@@ -33,6 +34,10 @@ const paths = [
       {
         title: <Text component='span'>Interactive map</Text>,
         path: InteractiveMapFormRoute
+      },
+      {
+        title: <Text component='span'>Contests</Text>,
+        path: ContestPageRoute
       }
     ]
   },
