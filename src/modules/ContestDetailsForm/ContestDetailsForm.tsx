@@ -73,11 +73,7 @@ export const ContestDetailsForm: React.FC<ContestDetailsForm> = ({ id }) => {
       return;
     }
 
-    initFormValues(
-      ["name", "number", "status", "deadline", "date", "created_at"],
-      setValue,
-      values
-    );
+    initFormValues(["name", "number", "status", "deadline", "date"], setValue, values);
   }, [values, isSuccess, setValue]);
 
   return (

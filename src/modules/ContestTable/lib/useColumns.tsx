@@ -2,7 +2,9 @@ import React from "react";
 import { SortOrder } from "~/generated/graphql";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
+import { Text } from "~/shared/components/Text";
 import { formatDate } from "~/shared/lib/formatDate";
+import { capitalize } from "~/shared/lib/capitalize";
 import { ContestPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
@@ -84,7 +86,8 @@ export const useColumns = (
           onSortClick={getClickHandler("status")}
           sortProps={getActiveProps("status")}
         />
-      )
+      ),
+      render: (value) => <Text>{capitalize(value as string)}</Text>
     },
 
     {
