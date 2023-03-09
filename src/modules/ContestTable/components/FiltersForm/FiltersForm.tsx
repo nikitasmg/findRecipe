@@ -1,22 +1,18 @@
 import {
   FormControl,
-  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
-  Switch,
   TextField
 } from "@mui/material";
 import { curry } from "rambda";
 import { DatePicker } from "@mui/x-date-pickers";
 import React, { forwardRef } from "react";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { ContestStatus, useNewsCategoriesQuery } from "~/generated/graphql";
+import { ContestStatus } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
-import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 
 type Props = {
   params: Record<string, string> | null;
