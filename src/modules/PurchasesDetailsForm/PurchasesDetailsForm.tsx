@@ -197,21 +197,19 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Box className='w-full flex'>
-              <Button
-                startIcon={<SaveIcon />}
-                disabled={isLoading}
-                type='submit'
-                variant='contained'
-                className='w-fit ml-auto'
-                size='small'
-              >
-                Save
-              </Button>
-            </Box>
-          </Grid>
         </Grid>
+      </Box>
+      <Box className='w-full flex'>
+        <Button
+          startIcon={<SaveIcon />}
+          disabled={isLoading}
+          type='submit'
+          variant='contained'
+          className='w-fit ml-auto'
+          size='small'
+        >
+          Save
+        </Button>
       </Box>
     </form>
   );

@@ -8,6 +8,7 @@ import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { formatDate } from "~shared/lib/formatDate";
+import { SourceLink } from "~shared/components/SourceLink";
 
 export const useColumns = (
   activeOrder?: ActiveOrder,
@@ -82,13 +83,11 @@ export const useColumns = (
         />
       ),
       minWidth: 200,
-      render: (value) => {
-        return (
-          <Link className='transition-all' to={value as string}>
-            {value as string}
-          </Link>
-        );
-      }
+      render: (value) => (
+        <SourceLink className='transition-all' to={value as string} target='_blank'>
+          {value as string}
+        </SourceLink>
+      )
     },
 
     {
