@@ -54,6 +54,30 @@ export const PagesEditAbout = "/pages/edit/about";
 
 export const PagesEditControl = "/pages/edit/control";
 
+export const PagesEditCommon = "/pages/edit/common";
+
+export const PagesEditPopechitelskiySovet = "/pages/edit/popechitelskiy-sovet";
+
+export const PagesEditNablyudatelnyySovet = "/pages/edit/nablyudatelnyy-sovet";
+
+export const PagesEditGeneralnyyDirektor = "/pages/edit/generalnyy-direktor";
+
+export const PagesEditApparatUpravleniya = "/pages/edit/apparat-upravleniya";
+
+export const PagesEditNauchnoKonsultacionnyySovet = "/pages/edit/nauchno-konsultacionnyy-sovet";
+
+export const PagesEditStaff = "/pages/edit/staff";
+
+export const PagesEditOrders = "/pages/edit/orders";
+
+export const PagesEditResult = "/pages/edit/result";
+
+export const PagesEditDocuments = "/pages/edit/documents";
+
+export const PagesEditLogos = "/pages/edit/logos";
+
+export const PagesEditAnoBiomed = "/pages/edit/ano-biomed";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";
