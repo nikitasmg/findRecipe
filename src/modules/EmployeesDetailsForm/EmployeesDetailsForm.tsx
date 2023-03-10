@@ -14,7 +14,7 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
-import { getBaseEmailValidation } from "~shared/lib/validation";
+import { baseRequired, getBaseEmailValidation } from "~shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 
@@ -99,7 +99,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                     variant='outlined'
                     id='name'
                     error={!!getError("name")}
-                    {...register("name", { required: "This is required" })}
+                    {...register("name", baseRequired)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

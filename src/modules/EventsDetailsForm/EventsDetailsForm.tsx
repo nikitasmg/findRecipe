@@ -24,6 +24,7 @@ import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { Member } from "./components/Member";
+import { baseRequired } from "~/shared/lib/validation";
 
 type Props = {
   id?: number;
@@ -118,7 +119,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
                   variant='outlined'
                   id='name'
                   error={!!getError("name")}
-                  {...register("name", { required: "This is required" })}
+                  {...register("name", baseRequired)}
                 />
 
                 <HelperText id='name' error={getError("name")} />

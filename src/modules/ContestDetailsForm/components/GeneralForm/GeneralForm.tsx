@@ -8,6 +8,7 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { getErrorMessage } from "~/shared/lib/getError";
+import { baseRequired } from "~/shared/lib/validation";
 
 interface GeneralFormFields {
   name?: string;
@@ -39,7 +40,7 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
                 label={<Text>Title</Text>}
                 value={value}
                 error={!!getError("name")}
-                {...register("name", { required: "This is required" })}
+                {...register("name", baseRequired)}
               />
 
               <HelperText id='name' error={getError("name")} />

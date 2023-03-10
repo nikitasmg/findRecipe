@@ -1,15 +1,15 @@
 import { Box, FormControl, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
+import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { ContentEditor } from "~shared/components/ContentEditor";
 import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { useUploadMutation } from "~/generated/graphql";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
-import { useSettingByNameQuery } from "../../../../generated/graphql";
+import { baseRequired } from "~/shared/lib/validation";
 
 type FormFields = {
   name?: string;
@@ -59,7 +59,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 variant='outlined'
                 id='name'
                 error={!!getError("name")}
-                {...register("name", { required: "This is required" })}
+                {...register("name", baseRequired)}
               />
 
               <HelperText id='name' error={getError("name")} />
