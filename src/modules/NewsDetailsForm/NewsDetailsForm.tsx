@@ -23,8 +23,7 @@ type Props = {
   id?: number;
 };
 
-const getTagsValue = (value?: NewsTag[] | null): string[] =>
-  value?.map((tag) => tag?.id ?? "") ?? [];
+const getTagsValue = (value?: NewsTag[] | null): number[] => value?.map((tag) => tag?.id) ?? [];
 
 export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
   const [step, setStep] = useState(0);
@@ -33,7 +32,11 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
 
   const client = useGraphqlClient();
 
-  const { data, isSuccess } = useNewsByIdQuery(client, { id: `${id}` }, { enabled: !isCreateMode });
+  const { data, isSuccess } = useNewsByIdQuery(
+    client,
+    { id: Number(id) },
+    { enabled: !isCreateMode }
+  );
 
   const { mutateAsync: createNews, isLoading: isCreateLoading } = useCreateNewsMutation(client);
 

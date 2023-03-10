@@ -25,7 +25,7 @@ export const PagesFragment = gql`
 export const PageById = gql`
   ${PagesFragment}
 
-  query pageById($id: ID!) {
+  query pageById($id: Int!) {
     pageById(id: $id) {
       ...allPageFields
     }

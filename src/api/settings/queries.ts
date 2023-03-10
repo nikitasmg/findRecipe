@@ -11,7 +11,7 @@ export const SettingsFragment = gql`
 export const SettingById = gql`
   ${SettingsFragment}
 
-  query settingById($id: ID!) {
+  query settingById($id: Int!) {
     settingById(id: $id) {
       ...allSettingsFields
     }
@@ -50,28 +50,28 @@ export const UpdateSettings = gql`
     $send_email_notify: String
     $content_editor: String
   ) {
-    schedule: upsertSetting(input: { id: "1", name: "phone", value: $phone }) {
+    schedule: upsertSetting(input: { id: 1, name: "phone", value: $phone }) {
       ...allSettingsFields
     }
-    phone: upsertSetting(input: { id: "2", name: "email", value: $email }) {
+    phone: upsertSetting(input: { id: 2, name: "email", value: $email }) {
       ...allSettingsFields
     }
-    address: upsertSetting(input: { id: "3", name: "emailPress", value: $emailPress }) {
+    address: upsertSetting(input: { id: 3, name: "emailPress", value: $emailPress }) {
       ...allSettingsFields
     }
-    email: upsertSetting(input: { id: "4", name: "address", value: $address }) {
+    email: upsertSetting(input: { id: 4, name: "address", value: $address }) {
       ...allSettingsFields
     }
-    emailPress: upsertSetting(input: { id: "5", name: "schedule", value: $schedule }) {
+    emailPress: upsertSetting(input: { id: 5, name: "schedule", value: $schedule }) {
       ...allSettingsFields
     }
     send_email_notify: upsertSetting(
-      input: { id: "6", name: "send_email_notify", value: $send_email_notify }
+      input: { id: 6, name: "send_email_notify", value: $send_email_notify }
     ) {
       ...allSettingsFields
     }
     content_editor: upsertSetting(
-      input: { id: "7", name: "content_editor", value: $content_editor }
+      input: { id: 7, name: "content_editor", value: $content_editor }
     ) {
       ...allSettingsFields
     }

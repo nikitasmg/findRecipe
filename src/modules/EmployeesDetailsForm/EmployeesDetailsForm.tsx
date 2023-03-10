@@ -31,7 +31,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
 
   const { data, isSuccess } = useEmployeeByIdQuery(
     client,
-    { id: `${id}` },
+    { id: Number(id) },
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 

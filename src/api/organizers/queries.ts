@@ -16,7 +16,7 @@ export const OrganizerFragment = gql`
 export const OrganizerById = gql`
   ${OrganizerFragment}
 
-  query organizerById($id: ID!) {
+  query organizerById($id: Int!) {
     organizerById(id: $id) {
       ...allOrganizerFields
     }
@@ -54,7 +54,7 @@ export const UpdateOrganizer = gql`
 `;
 
 export const DeleteOrganizer = gql`
-  mutation deleteOrganizer($id: ID!) {
+  mutation deleteOrganizer($id: Int!) {
     deleteOrganizer(id: $id) {
       id
     }

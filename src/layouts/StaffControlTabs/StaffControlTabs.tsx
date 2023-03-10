@@ -56,11 +56,13 @@ export const StaffControlTabs = () => {
   ];
 
   useLayoutEffect(() => {
-    if (!search.get("page_id") || !data) {
+    const pageId = Number(search.get("page_id"));
+
+    if (!pageId || !data) {
       return;
     }
 
-    const index = pageIds.findIndex((id) => id === search.get("page_id"));
+    const index = pageIds.findIndex((id) => id === pageId);
 
     if (~index) {
       setStep(index);

@@ -21,13 +21,13 @@ type FormFields = {
 };
 
 type Props = {
-  page_id: string;
   open: boolean;
   handleCloseForm: () => void;
+  pageId?: string | number;
   activeStaff?: StaffControl | null;
 };
 
-export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaff, page_id }) => {
+export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaff, pageId }) => {
   const { handleSubmit, control, register, reset, setValue } = useForm<FormFields>({ mode: "all" });
 
   const isCreate = !activeStaff;
@@ -41,7 +41,7 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
   const isLoading = isCreateLoading || isUpdateLoading;
 
   const onSubmit = handleSubmit((newValues) => {
-    const input = { ...newValues, page_id };
+    const input = { ...newValues, page_id: Number(pageId) };
 
     delete (input as StaffControl).imageUrl;
 

@@ -32,7 +32,7 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   const { data, isSuccess } = usePurchaseByIdQuery(
     client,
-    { id: `${id}` },
+    { id: Number(id) },
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 

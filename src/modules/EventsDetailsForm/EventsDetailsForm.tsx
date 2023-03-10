@@ -37,7 +37,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
 
   const { data, isSuccess } = useEventByIdQuery(
     client,
-    { id: `${id}` },
+    { id: Number(id) },
     { enabled: !isCreateMode }
   );
 

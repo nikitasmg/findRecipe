@@ -15,7 +15,7 @@ export const ContestFragment = gql`
 export const ContestById = gql`
   ${ContestFragment}
 
-  query contestById($id: ID!) {
+  query contestById($id: Int!) {
     contestById(id: $id) {
       ...allContestFields
     }
@@ -66,7 +66,7 @@ export const UpdateContest = gql`
 `;
 
 export const DeleteContest = gql`
-  mutation deleteContest($id: ID!) {
+  mutation deleteContest($id: Int!) {
     deleteContest(id: $id) {
       id
     }

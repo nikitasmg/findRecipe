@@ -22,7 +22,7 @@ export const EmployeeFragment = gql`
 export const EmployeeById = gql`
   ${EmployeeFragment}
 
-  query employeeById($id: ID!) {
+  query employeeById($id: Int!) {
     employeeById(id: $id) {
       ...allEmployeeFields
     }
@@ -60,7 +60,7 @@ export const UpdateEmployee = gql`
 `;
 
 export const UpdateEmployeeSubdivision = gql`
-  mutation UpdateEmployeeSubdivision($id: ID!, $subdivisionId: ID!) {
+  mutation UpdateEmployeeSubdivision($id: Int!, $subdivisionId: Int!) {
     upsertEmployee(input: { id: $id, subdivision: { connect: $subdivisionId } }) {
       id
     }
@@ -68,7 +68,7 @@ export const UpdateEmployeeSubdivision = gql`
 `;
 
 export const DeleteEmployee = gql`
-  mutation deleteEmployee($id: ID!) {
+  mutation deleteEmployee($id: Int!) {
     deleteEmployee(id: $id) {
       id
     }

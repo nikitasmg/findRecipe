@@ -11,7 +11,7 @@ export const SubdivisionsFragment = gql`
 export const SubdivisionById = gql`
   ${SubdivisionsFragment}
 
-  query subdivisionById($id: ID!) {
+  query subdivisionById($id: Int!) {
     subdivisionById(id: $id) {
       ...allSubdivisionsFields
     }
@@ -41,7 +41,7 @@ export const CreateSubdivision = gql`
 export const UpdateSubdivision = gql`
   ${SubdivisionsFragment}
 
-  mutation updateSubdivision($id: ID!, $sort: Int!, $name: String!) {
+  mutation updateSubdivision($id: Int!, $sort: Int!, $name: String!) {
     upsertSubdivision(input: { id: $id, sort: $sort, name: $name }) {
       ...allSubdivisionsFields
     }
@@ -49,7 +49,7 @@ export const UpdateSubdivision = gql`
 `;
 
 export const DeleteSubdivision = gql`
-  mutation deleteSubdivision($id: ID!) {
+  mutation deleteSubdivision($id: Int!) {
     deleteSubdivision(id: $id) {
       sort
       name

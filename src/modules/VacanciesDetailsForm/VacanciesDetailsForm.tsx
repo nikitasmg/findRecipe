@@ -37,7 +37,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   const { data, isSuccess } = useVacancyByIdQuery(
     client,
-    { id: `${id}` },
+    { id: Number(id) },
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 

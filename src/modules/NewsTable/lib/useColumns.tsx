@@ -106,7 +106,7 @@ export const useColumns = (
       render: (value) => {
         const category = value as NewsCategory | null;
 
-        return <Fragment key={category?.id as string}>{categories[category?.id ?? ""]}</Fragment>;
+        return <Fragment key={category?.id}>{categories[category?.id ?? ""]}</Fragment>;
       }
     },
 
@@ -142,7 +142,7 @@ export const useColumns = (
           aria-label='switch-view-on-index'
           checked={!!value}
           onChange={(event) => {
-            updateOnIndex({ id: row.id as string, on_index: event.target.checked });
+            updateOnIndex({ id: Number(row.id), on_index: event.target.checked });
 
             row.on_index = !row.on_index;
           }}

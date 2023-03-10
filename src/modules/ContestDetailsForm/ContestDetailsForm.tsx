@@ -26,7 +26,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
 
   const { data, isSuccess } = useContestByIdQuery(
     client,
-    { id: `${id}` },
+    { id: Number(id) },
     { enabled: !isCreateMode }
   );
 
