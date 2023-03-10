@@ -14,9 +14,11 @@ import { EditResultPage } from "~/pages/edit/result";
 import { EditOrdersPage } from "~/pages/edit/orders";
 import { EditDocumentsPage } from "~/pages/edit/documents";
 import { EditLogosPage } from "~/pages/edit/logos";
+import { EditAnoBiomedPage } from "~/pages/edit/ano-biomed";
 
 import {
   PagesEditAbout,
+  PagesEditAnoBiomed,
   PagesEditApparatUpravleniya,
   PagesEditCommon,
   PagesEditControl,
@@ -179,6 +181,15 @@ export const PagesEditRouter = [
     element={
       <BaseProtectedLayout>
         <EditLogosPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='ano-biomed'
+    path={PagesEditAnoBiomed}
+    element={
+      <BaseProtectedLayout>
+        <EditAnoBiomedPage />
       </BaseProtectedLayout>
     }
   />

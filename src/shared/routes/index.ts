@@ -76,6 +76,8 @@ export const PagesEditDocuments = "/pages/edit/documents";
 
 export const PagesEditLogos = "/pages/edit/logos";
 
+export const PagesEditAnoBiomed = "/pages/edit/ano-biomed";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";
