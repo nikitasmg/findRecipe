@@ -1,8 +1,9 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { MapInteractionCSS } from "react-map-interaction";
-import { ReactComponent as MapSVG } from "~/shared/assets/images/map.svg";
 import styles from "./InteractiveMap.module.css";
+
+const MapSVG = React.lazy(() => import("~/shared/assets/images/MapSVG"));
 
 type Props = {
   onSelect?: (id: number) => void;
@@ -24,7 +25,9 @@ export const InteractiveMap: React.FC<Props> = () => {
       value={map}
       onChange={setMap}
     >
-      <MapSVG />
+      <Suspense>
+        <MapSVG />
+      </Suspense>
     </MapInteractionCSS>
   );
 };
