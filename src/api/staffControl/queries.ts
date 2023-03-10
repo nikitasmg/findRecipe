@@ -19,7 +19,7 @@ export const StaffControlFragment = gql`
 export const StaffControlById = gql`
   ${StaffControlFragment}
 
-  query staffControlById($id: ID!) {
+  query staffControlById($id: Int!) {
     staffControlById(id: $id) {
       ...allFields
     }
@@ -57,7 +57,7 @@ export const UpdateStaffControl = gql`
 `;
 
 export const DeleteStaffControl = gql`
-  mutation deleteControl($id: ID!) {
+  mutation deleteControl($id: Int!) {
     deleteControl(id: $id) {
       id
     }

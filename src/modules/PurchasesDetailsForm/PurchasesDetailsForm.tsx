@@ -11,14 +11,15 @@ import {
   useUploadMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { initFormValues } from "~/shared/lib/initFormValues";
 import { Text } from "~/shared/components/Text";
-import { getErrorMessage } from "~/shared/lib/getError";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { ContentEditor } from "~shared/components/ContentEditor";
-import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
 import { NumericInput } from "~shared/components/NumericInput";
+import { getErrorMessage } from "~/shared/lib/getError";
+import { initFormValues } from "~/shared/lib/initFormValues";
+import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
+import { baseRequired } from "~/shared/lib/validation";
 
 interface IVacanciesDetailsForm {
   id?: number;
@@ -31,7 +32,7 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   const { data, isSuccess } = usePurchaseByIdQuery(
     client,
-    { id: `${id}` },
+    { id: Number(id) },
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 
@@ -109,7 +110,7 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                     label={<Text>Title</Text>}
                     value={value}
                     error={!!getError("name")}
-                    {...register("name", { required: "This is required" })}
+                    {...register("name", baseRequired)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

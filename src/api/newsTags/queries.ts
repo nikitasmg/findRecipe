@@ -11,7 +11,7 @@ export const NewsTagsFragment = gql`
 export const NewsCategoryById = gql`
   ${NewsTagsFragment}
 
-  query newsTagById($id: ID!) {
+  query newsTagById($id: Int!) {
     newsTagById(id: $id) {
       ...allNewsTagsFields
     }
@@ -41,7 +41,7 @@ export const CreateNewsTag = gql`
 export const UpdateNewsTag = gql`
   ${NewsTagsFragment}
 
-  mutation updateNewsTag($id: ID!, $sort: Int!, $name: String!) {
+  mutation updateNewsTag($id: Int!, $sort: Int!, $name: String!) {
     upsertNewsTag(input: { id: $id, sort: $sort, name: $name }) {
       ...allNewsTagsFields
     }
@@ -49,7 +49,7 @@ export const UpdateNewsTag = gql`
 `;
 
 export const DeleteNewsTag = gql`
-  mutation deleteNewsTag($id: ID!) {
+  mutation deleteNewsTag($id: Int!) {
     deleteNewsTag(id: $id) {
       sort
       name

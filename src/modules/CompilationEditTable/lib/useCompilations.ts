@@ -50,7 +50,7 @@ export const useCompilations = (id: number) => {
 
   const getUpdatedRows = curry((id: string, newValues: CompilationItem, rows: CompilationItem[]) =>
     rows.reduce((res: CompilationItem[], row) => {
-      if (row.id === id) {
+      if (row.id === Number(id)) {
         return res.concat({ ...row, ...newValues });
       }
 
@@ -80,21 +80,25 @@ export const useCompilations = (id: number) => {
     });
   };
 
-  const removeRowById = (id: string) =>
+  const removeRowById = (id: string | number) =>
     filter<CompilationItem>(compose(not, equals(id), prop("id")));
 
-  const onDelete = (id: string) => {
+  const onDelete = (id: number | string) => {
     if (id === "new") {
       return setRows(removeRowById(id));
     }
 
-    removeMutation({ id }).then(() => {
+    removeMutation({ id: Number(id) }).then(() => {
       setRows(removeRowById(id));
     });
   };
 
   useEffect(() => {
-    setRows(data?.[get.key as keyof typeof data] as CompilationItem[]);
+    const newRows = data?.[get.key as keyof typeof data];
+
+    if (Array.isArray(newRows)) {
+      setRows((newRows as CompilationItem[]) ?? []);
+    }
   }, [data, get]);
 
   return {

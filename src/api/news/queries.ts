@@ -44,7 +44,7 @@ export const NewsFragment = gql`
 export const NewsById = gql`
   ${NewsFragment}
 
-  query newsById($id: ID!) {
+  query newsById($id: Int!) {
     newsById(id: $id) {
       ...allNewsFields
     }
@@ -69,7 +69,7 @@ export const News = gql`
 `;
 
 export const UpdateOnIndex = gql`
-  mutation UpdateOnIndex($id: ID!, $on_index: Boolean!) {
+  mutation UpdateOnIndex($id: Int!, $on_index: Boolean!) {
     upsertNews(input: { id: $id, on_index: $on_index }) {
       id
     }
@@ -97,7 +97,7 @@ export const UpdateNews = gql`
 `;
 
 export const DeleteNews = gql`
-  mutation deleteNews($id: ID!) {
+  mutation deleteNews($id: Int!) {
     deleteNews(id: $id) {
       id
     }

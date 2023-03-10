@@ -26,7 +26,7 @@ import { FiltersForm } from "./components/FiltersForm";
 import { DetailsForm } from "./components/DetailsForm";
 
 type Props = {
-  pageId?: string;
+  pageId?: number;
 };
 
 export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
@@ -157,7 +157,7 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
         activeStaff={activeRow}
         open={!!open}
         handleCloseForm={handleCloseForm}
-        page_id={pageId ?? ""}
+        pageId={pageId}
       />
     </Box>
   );

@@ -25,7 +25,7 @@ export const PurchasesEdit: React.FC = () => {
       return;
     }
 
-    deletePurchase({ id });
+    deletePurchase({ id: Number(id) });
     handleGoBack();
   };
 

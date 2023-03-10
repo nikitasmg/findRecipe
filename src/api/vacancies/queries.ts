@@ -13,7 +13,7 @@ export const VacanciesFragment = gql`
 export const VacancyById = gql`
   ${VacanciesFragment}
 
-  query vacancyById($id: ID!) {
+  query vacancyById($id: Int!) {
     vacancyById(id: $id) {
       ...allVacanciesFields
     }
@@ -31,7 +31,7 @@ export const Vacancies = gql`
 `;
 
 export const UpdateVacancyPublished = gql`
-  mutation UpdateVacancyPublished($id: ID!, $published: Boolean!) {
+  mutation UpdateVacancyPublished($id: Int!, $published: Boolean!) {
     upsertVacancy(input: { id: $id, published: $published }) {
       id
     }
@@ -59,7 +59,7 @@ export const UpdateVacancy = gql`
 `;
 
 export const DeleteVacancy = gql`
-  mutation deleteVacancy($id: ID!) {
+  mutation deleteVacancy($id: Int!) {
     deleteVacancy(id: $id) {
       id
     }

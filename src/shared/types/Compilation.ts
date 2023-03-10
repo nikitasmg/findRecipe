@@ -1,5 +1,5 @@
 export type CompilationItem = {
-  id: string;
+  id: number | string;
   sort: number;
   name: string;
 };

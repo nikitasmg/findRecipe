@@ -44,7 +44,7 @@ export const useVacancies = () => {
 
   const getUpdatedRows = curry((id: string, newValues: Vacancy, rows: Vacancy[]) =>
     rows.reduce((res: Vacancy[], row) => {
-      if (row.id === id) {
+      if (row.id === Number(id)) {
         return res.concat({ ...row, ...newValues });
       }
 

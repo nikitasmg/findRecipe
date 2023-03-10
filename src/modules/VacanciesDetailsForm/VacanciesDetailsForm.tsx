@@ -17,13 +17,14 @@ import {
   useVacancyByIdQuery
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { initFormValues } from "~/shared/lib/initFormValues";
 import { Text } from "~/shared/components/Text";
-import { getErrorMessage } from "~/shared/lib/getError";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
-import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { NumericInput } from "~/shared/components/NumericInput";
+import { baseRequired } from "~/shared/lib/validation";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
+import { getErrorMessage } from "~/shared/lib/getError";
+import { initFormValues } from "~/shared/lib/initFormValues";
 
 interface IVacanciesDetailsForm {
   id?: number;
@@ -36,7 +37,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   const { data, isSuccess } = useVacancyByIdQuery(
     client,
-    { id: `${id}` },
+    { id: Number(id) },
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 
@@ -104,7 +105,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                     }}
                     id='name'
                     error={!!getError("name")}
-                    {...register("name", { required: "This is required" })}
+                    {...register("name", baseRequired)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

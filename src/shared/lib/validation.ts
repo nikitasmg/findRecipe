@@ -12,10 +12,12 @@ export const emailValidation = (value: string) =>
     value
   );
 
+export const baseRequired = { required: "This is required" };
+
 export const getBaseEmailValidation = <FormFields>(
   { required }: { required: boolean } = { required: false }
 ) => ({
-  ...(Boolean(required) && { required: "This is required" }),
+  ...(Boolean(required) && baseRequired),
   validate: {
     validEmail: (value: string) => (value && !emailValidation(value) ? "Invalid email" : true)
   } as BaseValidate<FormFields>
@@ -24,13 +26,13 @@ export const getBaseEmailValidation = <FormFields>(
 export const getBaseUrlValidation = <FormFields>(
   { required }: { required: boolean } = { required: false }
 ) => ({
-  ...(Boolean(required) && { required: "This is required" }),
+  ...(Boolean(required) && baseRequired),
   validate: {
     validUrl: (value: string) => (value && !isValidUrl(value) ? "Invalid url" : true)
   } as BaseValidate<FormFields>
 });
 
 export const getBasePasswordValidation = () => ({
-  required: "This is required",
+  ...baseRequired,
   minLength: { value: 6, message: "Min length of password is 6" }
 });

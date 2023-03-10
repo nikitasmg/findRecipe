@@ -25,7 +25,7 @@ export const NewsEdit: React.FC = () => {
       return;
     }
 
-    deleteNews({ id });
+    deleteNews({ id: Number(id) });
     history(NewsPageRoute);
   };
 

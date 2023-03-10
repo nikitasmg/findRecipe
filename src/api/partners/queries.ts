@@ -16,7 +16,7 @@ export const PartnerFragment = gql`
 export const PartnerById = gql`
   ${PartnerFragment}
 
-  query partnerById($id: ID!) {
+  query partnerById($id: Int!) {
     partnerById(id: $id) {
       ...allPartnerFields
     }
@@ -54,7 +54,7 @@ export const UpdatePartner = gql`
 `;
 
 export const DeletePartner = gql`
-  mutation deletePartner($id: ID!) {
+  mutation deletePartner($id: Int!) {
     deletePartner(id: $id) {
       id
     }

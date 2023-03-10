@@ -25,7 +25,7 @@ export const VacanciesEdit: React.FC = () => {
       return;
     }
 
-    deleteVacancy({ id });
+    deleteVacancy({ id: Number(id) });
     handleGoBack();
   };
 
