@@ -72,6 +72,8 @@ export const PagesEditOrders = "/pages/edit/orders";
 
 export const PagesEditResult = "/pages/edit/result";
 
+export const PagesEditDocuments = "/pages/edit/documents";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";

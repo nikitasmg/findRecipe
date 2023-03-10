@@ -12,12 +12,14 @@ import { EditControlItemPage } from "~/pages/edit/control-item";
 import { EditStaffPage } from "~/pages/edit/staff";
 import { EditResultPage } from "~/pages/edit/result";
 import { EditOrdersPage } from "~/pages/edit/orders";
+import { EditDocumentsPage } from "~/pages/edit/documents";
 
 import {
   PagesEditAbout,
   PagesEditApparatUpravleniya,
   PagesEditCommon,
   PagesEditControl,
+  PagesEditDocuments,
   PagesEditEvents,
   PagesEditGeneralnyyDirektor,
   PagesEditIndex,
@@ -157,6 +159,15 @@ export const PagesEditRouter = [
     element={
       <BaseProtectedLayout>
         <EditResultPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='documents'
+    path={PagesEditDocuments}
+    element={
+      <BaseProtectedLayout>
+        <EditDocumentsPage />
       </BaseProtectedLayout>
     }
   />
