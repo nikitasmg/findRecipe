@@ -143,7 +143,7 @@
   "Documents": "Документы",
   "Notice": "Извещение",
   "Tender documentation": "Конкурсная документация",
-  "Envelope opening protocol": "Протокол вскрытия конвертов ",
+  "Envelope opening protocol": "Протокол вскрытия конвертов",
   "Protocol for consideration and evaluation of applications": "Протокол рассмотрения и оценки заявок",
   "Results": "Результаты",
   "Edit about page": "Редактировать страницу о фонде",
@@ -157,5 +157,6 @@
   "Scientific Advisory Board": "Научно-консультационный совет",
   "Create staff control": "Создать",
   "Edit common info page": "Редактировать общие сведения",
-  "count pages": "количество страниц"
+  "count pages": "количество страниц",
+  "Edit staff page": "Редактировать страницу сотрудники"
 }

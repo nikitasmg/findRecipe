@@ -66,6 +66,8 @@ export const PagesEditApparatUpravleniya = "/pages/edit/apparat-upravleniya";
 
 export const PagesEditNauchnoKonsultacionnyySovet = "/pages/edit/nauchno-konsultacionnyy-sovet";
 
+export const PagesEditStaff = "/pages/edit/staff";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";

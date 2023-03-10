@@ -9,6 +9,7 @@ import { EditControlPage } from "~/pages/edit/control";
 import { EditEventsPage } from "~/pages/edit/events";
 import { EditNewsPage } from "~/pages/edit/news";
 import { EditControlItemPage } from "~/pages/edit/control-item";
+import { EditStaffPage } from "~/pages/edit/staff";
 
 import {
   PagesEditAbout,
@@ -21,7 +22,8 @@ import {
   PagesEditNablyudatelnyySovet,
   PagesEditNauchnoKonsultacionnyySovet,
   PagesEditNews,
-  PagesEditPopechitelskiySovet
+  PagesEditPopechitelskiySovet,
+  PagesEditStaff
 } from "~/shared/routes";
 
 export const PagesEditRouter = [
@@ -124,6 +126,15 @@ export const PagesEditRouter = [
           title='Scientific Advisory Board'
           slug='nauchno-konsultacionnyy-sovet'
         />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='common'
+    path={PagesEditStaff}
+    element={
+      <BaseProtectedLayout>
+        <EditStaffPage />
       </BaseProtectedLayout>
     }
   />
