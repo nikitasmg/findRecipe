@@ -5,11 +5,10 @@ import { usePageBySlugQuery, useUpdatePageMutation } from "~/generated/graphql";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { PagesRoute } from "~/shared/routes";
-import { DocumentsForm } from "./components/DocumentsForm";
-import { GeneralPageForm } from "./components/GeneralPageForm";
-import { SeoForm } from "./components/SeoForm";
+import { GeneralPageForm } from "./components/GeneralPageForm/GeneralPageForm";
+import { SeoForm } from "./components/SeoForm/SeoForm";
 
-export const EditOrdersPageForm: React.FC = () => {
+export const EditResultPageForm: React.FC = () => {
   const [step, setStep] = useState(0);
 
   const {
@@ -22,7 +21,7 @@ export const EditOrdersPageForm: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug: "orders" });
+  const { data } = usePageBySlugQuery(client, { slug: "result" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client);
 
@@ -38,7 +37,7 @@ export const EditOrdersPageForm: React.FC = () => {
   });
 
   useEffect(() => {
-    initFormValues(["name", "description", "imageUrl"], setValue, values);
+    initFormValues(["name", "description"], setValue, values);
     setValue("seo.upsert.title", values?.seo?.title);
     setValue("seo.upsert.description", values?.seo?.description);
   }, [values, setValue]);
@@ -53,18 +52,7 @@ export const EditOrdersPageForm: React.FC = () => {
       forms={[
         {
           tabTitle: "General data",
-          component: (
-            <GeneralPageForm
-              setValue={setValue}
-              errors={errors}
-              register={register}
-              control={control}
-            />
-          )
-        },
-        {
-          tabTitle: "Documents",
-          component: <DocumentsForm setValue={setValue} control={control} />
+          component: <GeneralPageForm errors={errors} register={register} control={control} />
         },
         {
           tabTitle: "SEO",
