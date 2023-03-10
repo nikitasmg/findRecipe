@@ -68,6 +68,8 @@ export const PagesEditNauchnoKonsultacionnyySovet = "/pages/edit/nauchno-konsult
 
 export const PagesEditStaff = "/pages/edit/staff";
 
+export const PagesEditOrders = "/pages/edit/orders";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";

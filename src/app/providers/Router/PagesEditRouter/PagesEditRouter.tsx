@@ -10,6 +10,7 @@ import { EditEventsPage } from "~/pages/edit/events";
 import { EditNewsPage } from "~/pages/edit/news";
 import { EditControlItemPage } from "~/pages/edit/control-item";
 import { EditStaffPage } from "~/pages/edit/staff";
+import { EditOrdersPage } from "~/pages/edit/orders";
 
 import {
   PagesEditAbout,
@@ -22,6 +23,7 @@ import {
   PagesEditNablyudatelnyySovet,
   PagesEditNauchnoKonsultacionnyySovet,
   PagesEditNews,
+  PagesEditOrders,
   PagesEditPopechitelskiySovet,
   PagesEditStaff
 } from "~/shared/routes";
@@ -130,11 +132,20 @@ export const PagesEditRouter = [
     }
   />,
   <Route
-    key='common'
+    key='staff'
     path={PagesEditStaff}
     element={
       <BaseProtectedLayout>
         <EditStaffPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='orders'
+    path={PagesEditOrders}
+    element={
+      <BaseProtectedLayout>
+        <EditOrdersPage />
       </BaseProtectedLayout>
     }
   />
