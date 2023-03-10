@@ -4,7 +4,6 @@ import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-fo
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
 import { ContentEditor } from "~/shared/components/ContentEditor";
-import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 
