@@ -13,6 +13,7 @@ import { EditStaffPage } from "~/pages/edit/staff";
 import { EditResultPage } from "~/pages/edit/result";
 import { EditOrdersPage } from "~/pages/edit/orders";
 import { EditDocumentsPage } from "~/pages/edit/documents";
+import { EditLogosPage } from "~/pages/edit/logos";
 
 import {
   PagesEditAbout,
@@ -23,6 +24,7 @@ import {
   PagesEditEvents,
   PagesEditGeneralnyyDirektor,
   PagesEditIndex,
+  PagesEditLogos,
   PagesEditNablyudatelnyySovet,
   PagesEditNauchnoKonsultacionnyySovet,
   PagesEditNews,
@@ -168,6 +170,15 @@ export const PagesEditRouter = [
     element={
       <BaseProtectedLayout>
         <EditDocumentsPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='logos'
+    path={PagesEditLogos}
+    element={
+      <BaseProtectedLayout>
+        <EditLogosPage />
       </BaseProtectedLayout>
     }
   />
