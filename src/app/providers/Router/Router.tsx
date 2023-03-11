@@ -25,6 +25,8 @@ import { Purchases } from "~/pages/Purchases";
 import { PurchasesEdit } from "~/pages/PurchasesEdit";
 import { Contest } from "~/pages/Contest";
 import { ContestEdit } from "~/pages/ContestEdit";
+import { Projects } from "~/pages/Projects";
+import { ProjectsEdit } from "~/pages/ProjectsEdit";
 
 import {
   HomePageRoute,
@@ -52,7 +54,10 @@ import {
   PurchasesPageCreate,
   ContestPageEdit,
   ContestPageCreate,
-  ContestPageRoute
+  ContestPageRoute,
+  ProjectsPageRoute,
+  ProjectsPageEdit,
+  ProjectsPageCreate
 } from "~shared/routes";
 
 import { PagesEditRouter } from "./PagesEditRouter";
@@ -282,6 +287,33 @@ export const Router: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <ContestEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ProjectsPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Projects />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ProjectsPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <ProjectsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ProjectsPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <ProjectsEdit />
           </BaseProtectedLayout>
         }
       />

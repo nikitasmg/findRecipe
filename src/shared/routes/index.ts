@@ -63,3 +63,9 @@ export const ContestPageRoute = "/contest";
 export const ContestPageEdit = `${ContestPageRoute}/edit/:id`;
 
 export const ContestPageCreate = `${ContestPageRoute}/create`;
+
+export const ProjectsPageRoute = "/projects";
+
+export const ProjectsPageEdit = `${ProjectsPageRoute}/edit/:id`;
+
+export const ProjectsPageCreate = `${ProjectsPageRoute}/create`;

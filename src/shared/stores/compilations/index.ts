@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { EmployeesPage, NewsPageRoute } from "~/shared/routes";
+import { EmployeesPage, NewsPageRoute, ProjectsPageRoute } from "~/shared/routes";
 import {
   useUpdateNewsTagMutation,
   useCreateNewsTagMutation,
@@ -12,7 +12,11 @@ import {
   useSubdivisionsQuery,
   useCreateSubdivisionMutation,
   useUpdateSubdivisionMutation,
-  useDeleteSubdivisionMutation
+  useDeleteSubdivisionMutation,
+  useKnowledgeFieldsQuery,
+  useCreateKnowledgeFieldMutation,
+  useUpdateKnowledgeFieldMutation,
+  useDeleteKnowledgeFieldMutation
 } from "~/generated/graphql";
 
 export type Compilations = {
@@ -40,6 +44,12 @@ const compilations: Compilations[] = [
     title: "subdivisions",
     heading: "Subdivisions",
     whereUseLink: { title: "Employees", href: EmployeesPage }
+  },
+  {
+    id: 4,
+    title: "knowledgeFields",
+    heading: "Knowledge fields",
+    whereUseLink: { title: "Projects", href: ProjectsPageRoute }
   }
 ];
 
@@ -96,6 +106,24 @@ const compilationsHooks = [
     remove: {
       hook: useDeleteSubdivisionMutation,
       key: "deleteSubdivision"
+    }
+  },
+  {
+    get: {
+      hook: useKnowledgeFieldsQuery,
+      key: "knowledgeFields"
+    },
+    create: {
+      hook: useCreateKnowledgeFieldMutation,
+      key: "upsertKnowledgeField"
+    },
+    update: {
+      hook: useUpdateKnowledgeFieldMutation,
+      key: "upsertKnowledgeField"
+    },
+    remove: {
+      hook: useDeleteKnowledgeFieldMutation,
+      key: "deleteKnowledgeField"
     }
   }
 ];
