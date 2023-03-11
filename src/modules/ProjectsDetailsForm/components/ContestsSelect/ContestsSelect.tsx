@@ -5,6 +5,7 @@ import { Contest, useContestByIdQuery, useContestsQuery } from "~/generated/grap
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 
 interface IContestsSelect {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (...event: any[]) => void;
   value?: number;
 }
@@ -38,6 +39,7 @@ export const ContestsSelect: React.FC<IContestsSelect> = ({ value, onChange }) =
 
   const isExistContest = !!currentOptions?.find((item) => item.id === value);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleScroll = (event: any) => {
     const node = event.currentTarget;
     const position = node.scrollTop + node.clientHeight;
@@ -56,6 +58,7 @@ export const ContestsSelect: React.FC<IContestsSelect> = ({ value, onChange }) =
       setCurrentValue(currentContest as Contest);
       !isExistContest && setCurrentOptions([currentContest as Contest, ...currentOptions]);
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentContest, isExistContest]);
 
   useEffect(() => {
@@ -64,11 +67,13 @@ export const ContestsSelect: React.FC<IContestsSelect> = ({ value, onChange }) =
 
       setCurrentOptions([...currentOptions, ...(newContests as Contest[])]);
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contests]);
 
   return (
     <Autocomplete
       value={currentValue}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={(event: any, newValue) => {
         onChange(Number(event.target.id));
         setCurrentValue(newValue as Contest);
