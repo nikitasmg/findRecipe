@@ -25,7 +25,7 @@ export const ContestEdit: React.FC = () => {
       return;
     }
 
-    deleteContest({ id });
+    deleteContest({ id: Number(id) });
     history(ContestPageRoute);
   };
 

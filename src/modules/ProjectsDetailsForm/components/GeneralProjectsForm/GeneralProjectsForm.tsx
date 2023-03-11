@@ -7,6 +7,7 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { ContestsSelect } from "~/modules/ProjectsDetailsForm/components/ContestsSelect";
 import { useKnowledgeFieldsQuery } from "~/generated/graphql";
+import { baseRequired } from "~shared/lib/validation";
 
 type FormFields = {
   name?: string;
@@ -47,7 +48,7 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, control
                     variant='outlined'
                     id='name'
                     error={!!getError("name")}
-                    {...register("name", { required: "This is required" })}
+                    {...register("name", baseRequired)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

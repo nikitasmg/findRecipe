@@ -25,7 +25,7 @@ export const EmployeesEdit: React.FC = () => {
       return;
     }
 
-    deleteEmployee({ id });
+    deleteEmployee({ id: Number(id) });
     handleGoBack();
   };
 

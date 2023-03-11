@@ -123,7 +123,7 @@ export const useColumns = (
             aria-label='switch-published'
             checked={!!value}
             onChange={(event) => {
-              updatePublished({ id: row.id as string, published: event.target.checked });
+              updatePublished({ id: Number(row.id), published: event.target.checked });
               row.published = !row.published;
             }}
           />

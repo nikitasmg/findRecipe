@@ -33,7 +33,7 @@ export const EventsFragment = gql`
 export const EventById = gql`
   ${EventsFragment}
 
-  query eventById($id: ID!) {
+  query eventById($id: Int!) {
     eventById(id: $id) {
       ...allEventsFields
     }
@@ -63,7 +63,7 @@ export const Events = gql`
 `;
 
 export const UpdateEventPublished = gql`
-  mutation UpdateEventPublished($id: ID!, $published: Boolean!) {
+  mutation UpdateEventPublished($id: Int!, $published: Boolean!) {
     upsertEvent(input: { id: $id, published: $published }) {
       id
     }
@@ -91,7 +91,7 @@ export const UpdateEvent = gql`
 `;
 
 export const DeleteEvent = gql`
-  mutation deleteEvent($id: ID!) {
+  mutation deleteEvent($id: Int!) {
     deleteEvent(id: $id) {
       id
     }

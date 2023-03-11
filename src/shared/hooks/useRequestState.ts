@@ -4,7 +4,7 @@ import { createOrder } from "~shared/lib/createOrder";
 import { formatFilters } from "~shared/lib/formatFilters";
 import { ActiveOrder } from "~shared/types/ActiveOrder";
 import { useTablePagination } from "./useTablePagination";
-import { useSearchParams } from "react-router-dom";
+import { URLSearchParamsInit, useSearchParams } from "react-router-dom";
 import { getBooleanPresentationForBackend } from "../lib/getBooleanPresentationForBackend";
 
 type Params = Record<string, string>;
@@ -127,15 +127,24 @@ export const useRequestState = (fastSearchFieldId: string) => {
   useEffect(() => {
     const [sortKey, sortValue] = Object.entries(activeOrder ?? {})[0] ?? [];
 
-    setSearch({
-      ...(Boolean(sortKey) && { [`sort[${sortKey}]`]: sortValue }),
-      ...Object.entries(params ?? {}).reduce((res: Record<string, string>, [key, value]) => {
-        if (value) {
-          res[key] = value;
-        }
+    setSearch((old) => {
+      const newSearch: Record<string, unknown> = {
+        ...old,
+        ...(Boolean(sortKey) && { [`sort[${sortKey}]`]: sortValue }),
+        ...Object.entries(params ?? {}).reduce((res: Record<string, string>, [key, value]) => {
+          if (value) {
+            res[key] = value;
+          }
 
-        return res;
-      }, Object.create(null))
+          return res;
+        }, Object.create(null))
+      };
+
+      old.forEach((value, key) => {
+        newSearch[key] = value;
+      });
+
+      return newSearch as URLSearchParamsInit;
     });
   }, [params, activeOrder, setSearch]);
 

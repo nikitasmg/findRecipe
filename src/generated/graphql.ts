@@ -28,7 +28,7 @@ export type Scalars = {
 };
 
 export type CategoryBelongsTo = {
-  connect?: InputMaybe<Scalars['ID']>;
+  connect?: InputMaybe<Scalars['Int']>;
   create?: InputMaybe<NewsCategoryInput>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
@@ -43,7 +43,8 @@ export type Contest = {
   created_at: Scalars['DateTime'];
   date?: Maybe<Scalars['Date']>;
   deadline?: Maybe<Scalars['DateTime']>;
-  id: Scalars['ID'];
+  documents?: Maybe<Array<Maybe<Document>>>;
+  id: Scalars['Int'];
   name: Scalars['String'];
   number?: Maybe<Scalars['Int']>;
   status?: Maybe<ContestStatus>;
@@ -51,17 +52,20 @@ export type Contest = {
 };
 
 export type ContestBelongsTo = {
-  connect?: InputMaybe<Scalars['ID']>;
+  connect?: InputMaybe<Scalars['Int']>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ContestInput = {
   date?: InputMaybe<Scalars['Date']>;
   deadline?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['ID']>;
+  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   number?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<ContestStatus>;
+  updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
+  uploadDocuments?: InputMaybe<Array<InputMaybe<UploadDocumentInput>>>;
 };
 
 /** A paginated list of Contest items. */
@@ -81,7 +85,7 @@ export enum ContestStatus {
 
 export type Document = {
   __typename?: 'Document';
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['Int'];
   sort?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
   /** Имя файла заданное пользователем */
@@ -93,7 +97,7 @@ export type Employee = {
   additional?: Maybe<Scalars['String']>;
   created_at: Scalars['DateTime'];
   email: Scalars['String'];
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   position?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
@@ -104,7 +108,7 @@ export type Employee = {
 export type EmployeeInput = {
   additional?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   position?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
@@ -116,26 +120,32 @@ export type Event = {
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<Document>>>;
-  id: Scalars['ID'];
+  end?: Maybe<Scalars['DateTime']>;
+  id: Scalars['Int'];
   image?: Maybe<Image>;
   imageThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   organizers?: Maybe<Array<Maybe<Organizer>>>;
   partners?: Maybe<Array<Maybe<Partner>>>;
+  place?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
+  start?: Maybe<Scalars['DateTime']>;
   updated_at: Scalars['DateTime'];
 };
 
 export type EventInput = {
-  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  end?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   organizers?: InputMaybe<OrganizerBelongsToMany>;
   partners?: InputMaybe<PartnerBelongsToMany>;
+  place?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
+  start?: InputMaybe<Scalars['DateTime']>;
   updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
   uploadDocuments?: InputMaybe<Array<InputMaybe<UploadDocumentInput>>>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
@@ -158,7 +168,7 @@ export type FilterByClause = {
 export type GalleryImage = {
   __typename?: 'GalleryImage';
   alt?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['Int'];
   sort?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -173,7 +183,7 @@ export type GalleryImage = {
  */
 export type Image = {
   __typename?: 'Image';
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['Int'];
   url?: Maybe<Scalars['String']>;
 };
 
@@ -192,19 +202,19 @@ export type ImageThumbs = {
  */
 export type KnowledgeField = {
   __typename?: 'KnowledgeField';
-  id?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   sort: Scalars['Int'];
 };
 
 export type KnowledgeFieldBelongsTo = {
-  connect?: InputMaybe<Scalars['ID']>;
+  connect?: InputMaybe<Scalars['Int']>;
   create?: InputMaybe<KnowledgeFieldInput>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type KnowledgeFieldInput = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
@@ -215,10 +225,10 @@ export type Log = {
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   event?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   logProperties?: Maybe<LogProperties>;
   log_name?: Maybe<Scalars['String']>;
-  subject_id?: Maybe<Scalars['ID']>;
+  subject_id?: Maybe<Scalars['Int']>;
   subject_type?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
 };
@@ -249,7 +259,6 @@ export type Meta = {
 export type Mutation = {
   __typename?: 'Mutation';
   deleteContest?: Maybe<Contest>;
-  deleteControl?: Maybe<StaffControl>;
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
   deleteKnowledgeField?: Maybe<KnowledgeField>;
@@ -262,6 +271,7 @@ export type Mutation = {
   deleteProject?: Maybe<Project>;
   deletePurchase?: Maybe<Purchase>;
   deleteSetting?: Maybe<Setting>;
+  deleteStaffControl?: Maybe<StaffControl>;
   deleteSubdivision?: Maybe<Subdivision>;
   /** Нельзя удалить суперпользователя, ID=1 */
   deleteUser?: Maybe<User>;
@@ -294,87 +304,87 @@ export type Mutation = {
 
 
 export type MutationDeleteContestArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteControlArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteEmployeeArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteEventArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteKnowledgeFieldArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteNewsArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteNewsCategoryArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteNewsTagArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteOrganizerArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeletePageArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeletePartnerArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteProjectArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeletePurchaseArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteSettingArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteStaffControlArgs = {
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteSubdivisionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteVacancyArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -509,7 +519,7 @@ export type News = {
   documents?: Maybe<Array<Maybe<Document>>>;
   gallery?: Maybe<Array<Maybe<GalleryImage>>>;
   galleryThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   image?: Maybe<Image>;
   imageThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
   imageUrl?: Maybe<Scalars['String']>;
@@ -528,13 +538,13 @@ export type News = {
 
 export type NewsCategory = {
   __typename?: 'NewsCategory';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   sort: Scalars['Int'];
 };
 
 export type NewsCategoryInput = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
@@ -542,11 +552,11 @@ export type NewsCategoryInput = {
 export type NewsInput = {
   category?: InputMaybe<CategoryBelongsTo>;
   content?: InputMaybe<Scalars['String']>;
-  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  deleteGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  deleteGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   on_index?: InputMaybe<Scalars['Boolean']>;
   published?: InputMaybe<Scalars['Boolean']>;
@@ -574,13 +584,13 @@ export type NewsPaginator = {
 
 export type NewsTag = {
   __typename?: 'NewsTag';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   sort: Scalars['Int'];
 };
 
 export type NewsTagInput = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
@@ -616,22 +626,22 @@ export enum OrderByRelationWithColumnAggregateFunction {
 export type Organizer = {
   __typename?: 'Organizer';
   created_at: Scalars['DateTime'];
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['Int'];
   image?: Maybe<Image>;
   imageUrl?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   updated_at: Scalars['DateTime'];
 };
 
 export type OrganizerBelongsToMany = {
-  connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  connect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   create?: InputMaybe<Array<InputMaybe<OrganizerInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type OrganizerInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
@@ -642,11 +652,12 @@ export type Page = {
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<Document>>>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   image?: Maybe<Image>;
   imageUrl?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
+  params?: Maybe<Scalars['JSON']>;
   parent?: Maybe<Page>;
   parent_id?: Maybe<Scalars['Int']>;
   seo?: Maybe<Seo>;
@@ -656,7 +667,7 @@ export type Page = {
 };
 
 export type PageBelongsTo = {
-  connect?: InputMaybe<Scalars['ID']>;
+  connect?: InputMaybe<Scalars['Int']>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -682,11 +693,12 @@ export type PageInfo = {
 };
 
 export type PageInput = {
-  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  params?: InputMaybe<Scalars['JSON']>;
   parent?: InputMaybe<PageParentBelongsTo>;
   parent_id?: InputMaybe<Scalars['Int']>;
   seo?: InputMaybe<SeoBelongsTo>;
@@ -698,7 +710,7 @@ export type PageInput = {
 };
 
 export type PageParentBelongsTo = {
-  connect?: InputMaybe<Scalars['ID']>;
+  connect?: InputMaybe<Scalars['Int']>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -726,22 +738,22 @@ export type PaginatorInfo = {
 export type Partner = {
   __typename?: 'Partner';
   created_at: Scalars['DateTime'];
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['Int'];
   image?: Maybe<Image>;
   imageUrl?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   updated_at: Scalars['DateTime'];
 };
 
 export type PartnerBelongsToMany = {
-  connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  connect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   create?: InputMaybe<Array<InputMaybe<PartnerInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type PartnerInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
@@ -750,13 +762,13 @@ export type PartnerInput = {
 export type Project = {
   __typename?: 'Project';
   annotation?: Maybe<Scalars['String']>;
-  contest: Contest;
-  contest_id: Scalars['ID'];
+  contest?: Maybe<Contest>;
+  contest_id?: Maybe<Scalars['Int']>;
   created_at: Scalars['DateTime'];
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   information?: Maybe<Scalars['String']>;
   knowledge_field?: Maybe<KnowledgeField>;
-  knowledge_field_id?: Maybe<Scalars['ID']>;
+  knowledge_field_id?: Maybe<Scalars['Int']>;
   leader?: Maybe<Scalars['String']>;
   leader_rank?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
@@ -775,11 +787,11 @@ export type Project = {
 export type ProjectInput = {
   annotation?: InputMaybe<Scalars['String']>;
   contest?: InputMaybe<ContestBelongsTo>;
-  contest_id?: InputMaybe<Scalars['ID']>;
-  id?: InputMaybe<Scalars['ID']>;
+  contest_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   information?: InputMaybe<Scalars['String']>;
   knowledge_field?: InputMaybe<KnowledgeFieldBelongsTo>;
-  knowledge_field_id?: InputMaybe<Scalars['ID']>;
+  knowledge_field_id?: InputMaybe<Scalars['Int']>;
   leader?: InputMaybe<Scalars['String']>;
   leader_rank?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -811,7 +823,7 @@ export type Purchase = {
   __typename?: 'Purchase';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   published: Scalars['Boolean'];
   sort: Scalars['Int'];
@@ -821,7 +833,7 @@ export type Purchase = {
 
 export type PurchaseInput = {
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['Int']>;
@@ -876,7 +888,7 @@ export type Query = {
 
 
 export type QueryContestByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -890,7 +902,7 @@ export type QueryContestsArgs = {
 
 
 export type QueryEmployeeByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -901,7 +913,7 @@ export type QueryEmployeesArgs = {
 
 
 export type QueryEventByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -914,7 +926,7 @@ export type QueryEventsArgs = {
 
 
 export type QueryKnowledgeFieldByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -924,7 +936,7 @@ export type QueryKnowledgeFieldsArgs = {
 
 
 export type QueryLogByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -945,7 +957,7 @@ export type QueryNewsArgs = {
 
 
 export type QueryNewsByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -960,12 +972,12 @@ export type QueryNewsCategoriesArgs = {
 
 
 export type QueryNewsCategoryByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
 export type QueryNewsTagByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -975,7 +987,7 @@ export type QueryNewsTagsArgs = {
 
 
 export type QueryOrganizerByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -985,7 +997,7 @@ export type QueryOrganizersArgs = {
 
 
 export type QueryPageByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1001,7 +1013,7 @@ export type QueryPagesArgs = {
 
 
 export type QueryPartnerByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1011,7 +1023,7 @@ export type QueryPartnersArgs = {
 
 
 export type QueryProjectByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1023,13 +1035,13 @@ export type QueryProjectBySlugArgs = {
 export type QueryProjectsArgs = {
   filter?: InputMaybe<Array<FilterByClause>>;
   first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<OrderByClause>>;
+  orderBy?: InputMaybe<Array<QueryProjectsOrderByRelationOrderByClause>>;
   page?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QueryPurchaseByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1040,7 +1052,7 @@ export type QueryPurchasesArgs = {
 
 
 export type QuerySettingByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1056,7 +1068,7 @@ export type QuerySettingsArgs = {
 
 
 export type QueryStaffControlByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1067,7 +1079,7 @@ export type QueryStaffControlsArgs = {
 
 
 export type QuerySubdivisionByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1083,7 +1095,7 @@ export type QueryUserByEmailArgs = {
 
 
 export type QueryUserByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1102,13 +1114,36 @@ export type QueryVacanciesArgs = {
 
 
 export type QueryVacancyByIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
+};
+
+/** Aggregate specification for Query.projects.orderBy.contest. */
+export type QueryProjectsOrderByContest = {
+  /** The aggregate function to apply to the column. */
+  aggregate: OrderByRelationWithColumnAggregateFunction;
+  /** Name of the column to use. */
+  column?: InputMaybe<QueryProjectsOrderByContestColumn>;
+};
+
+/** Allowed column names for Query.projects.orderBy. */
+export enum QueryProjectsOrderByContestColumn {
+  Name = 'NAME'
+}
+
+/** Order by clause for Query.projects.orderBy. */
+export type QueryProjectsOrderByRelationOrderByClause = {
+  /** The column that is used for ordering. */
+  column?: InputMaybe<Scalars['String']>;
+  /** Aggregate specification. */
+  contest?: InputMaybe<QueryProjectsOrderByContest>;
+  /** The direction that is used for ordering. */
+  order: SortOrder;
 };
 
 export type Seo = {
   __typename?: 'Seo';
   description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
 };
 
@@ -1118,19 +1153,19 @@ export type SeoBelongsTo = {
 
 export type SeoInput = {
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
 };
 
 export type Setting = {
   __typename?: 'Setting';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   value?: Maybe<Scalars['String']>;
 };
 
 export type SettingInput = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
   value?: InputMaybe<Scalars['String']>;
 };
@@ -1170,13 +1205,13 @@ export type StaffControl = {
   __typename?: 'StaffControl';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   image?: Maybe<Image>;
   imageThumbs?: Maybe<ImageThumbs>;
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   page: Page;
-  page_id?: Maybe<Scalars['ID']>;
+  page_id?: Maybe<Scalars['Int']>;
   sort: Scalars['Int'];
   updated_at: Scalars['DateTime'];
 };
@@ -1184,37 +1219,37 @@ export type StaffControl = {
 export type StaffControlInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   page?: InputMaybe<PageBelongsTo>;
-  page_id?: InputMaybe<Scalars['ID']>;
+  page_id?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Scalars['Int']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
 export type Subdivision = {
   __typename?: 'Subdivision';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   sort: Scalars['Int'];
 };
 
 export type SubdivisionBelongsTo = {
-  connect?: InputMaybe<Scalars['ID']>;
+  connect?: InputMaybe<Scalars['Int']>;
   create?: InputMaybe<SubdivisionInput>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type SubdivisionInput = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
 
 export type TagBelongsToMany = {
-  connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  connect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   create?: InputMaybe<Array<InputMaybe<NewsTagInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 /** Specify if you want to include or exclude trashed results from a query. */
@@ -1228,7 +1263,7 @@ export enum Trashed {
 }
 
 export type UpdateDocumentInput = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   sort?: InputMaybe<Scalars['Int']>;
   /** Имя файла заданное пользователем */
   user_name?: InputMaybe<Scalars['String']>;
@@ -1236,7 +1271,7 @@ export type UpdateDocumentInput = {
 
 export type UpdateGalleryInput = {
   alt?: InputMaybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   sort?: InputMaybe<Scalars['Int']>;
 };
 
@@ -1258,14 +1293,14 @@ export type User = {
   created_at: Scalars['DateTime'];
   email: Scalars['String'];
   email_verified_at?: Maybe<Scalars['DateTime']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   updated_at: Scalars['DateTime'];
 };
 
 export type UserInput = {
   email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
 };
@@ -1282,7 +1317,7 @@ export type UserPaginator = {
 export type Vacancy = {
   __typename?: 'Vacancy';
   description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   published: Scalars['Boolean'];
   sort: Scalars['Int'];
@@ -1290,7 +1325,7 @@ export type Vacancy = {
 
 export type VacancyInput = {
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['Int']>;
@@ -1307,16 +1342,16 @@ export type LoginMutation = { __typename?: 'Mutation', login: string };
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: string } | null };
+export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: number } | null };
 
-export type AllContestFieldsFragment = { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any };
+export type AllContestFieldsFragment = { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any };
 
 export type ContestByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type ContestByIdQuery = { __typename?: 'Query', contestById?: { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+export type ContestByIdQuery = { __typename?: 'Query', contestById?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
 
 export type ContestsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1327,37 +1362,37 @@ export type ContestsQueryVariables = Exact<{
 }>;
 
 
-export type ContestsQuery = { __typename?: 'Query', contests?: { __typename?: 'ContestPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any }> } | null };
+export type ContestsQuery = { __typename?: 'Query', contests?: { __typename?: 'ContestPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any }> } | null };
 
 export type CreateContestMutationVariables = Exact<{
   input: ContestInput;
 }>;
 
 
-export type CreateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+export type CreateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
 
 export type UpdateContestMutationVariables = Exact<{
   input: ContestInput;
 }>;
 
 
-export type UpdateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: string, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+export type UpdateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
 
 export type DeleteContestMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteContestMutation = { __typename?: 'Mutation', deleteContest?: { __typename?: 'Contest', id: string } | null };
+export type DeleteContestMutation = { __typename?: 'Mutation', deleteContest?: { __typename?: 'Contest', id: number } | null };
 
-export type AllEmployeeFieldsFragment = { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+export type AllEmployeeFieldsFragment = { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
 
 export type EmployeeByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type EmployeeByIdQuery = { __typename?: 'Query', employeeById?: { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null } | null };
+export type EmployeeByIdQuery = { __typename?: 'Query', employeeById?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
 
 export type EmployeesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1365,45 +1400,45 @@ export type EmployeesQueryVariables = Exact<{
 }>;
 
 
-export type EmployeesQuery = { __typename?: 'Query', employees: Array<{ __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null }> };
+export type EmployeesQuery = { __typename?: 'Query', employees: Array<{ __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null }> };
 
 export type CreateEmployeeMutationVariables = Exact<{
   input: EmployeeInput;
 }>;
 
 
-export type CreateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null } | null };
+export type CreateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
 
 export type UpdateEmployeeMutationVariables = Exact<{
   input: EmployeeInput;
 }>;
 
 
-export type UpdateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: string, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null } | null };
+export type UpdateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
 
 export type UpdateEmployeeSubdivisionMutationVariables = Exact<{
-  id: Scalars['ID'];
-  subdivisionId: Scalars['ID'];
+  id: Scalars['Int'];
+  subdivisionId: Scalars['Int'];
 }>;
 
 
-export type UpdateEmployeeSubdivisionMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: string } | null };
+export type UpdateEmployeeSubdivisionMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: number } | null };
 
 export type DeleteEmployeeMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteEmployeeMutation = { __typename?: 'Mutation', deleteEmployee?: { __typename?: 'Employee', id: string } | null };
+export type DeleteEmployeeMutation = { __typename?: 'Mutation', deleteEmployee?: { __typename?: 'Employee', id: number } | null };
 
-export type AllEventsFieldsFragment = { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
+export type AllEventsFieldsFragment = { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type EventByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type EventsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1413,45 +1448,85 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
 
 export type UpdateEventPublishedMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   published: Scalars['Boolean'];
 }>;
 
 
-export type UpdateEventPublishedMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string } | null };
+export type UpdateEventPublishedMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number } | null };
 
 export type CreateEventMutationVariables = Exact<{
   input: EventInput;
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateEventMutationVariables = Exact<{
   input: EventInput;
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: string, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id?: string | null, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type DeleteEventMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'Event', id: string } | null };
+export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'Event', id: number } | null };
 
-export type AllNewsFieldsFragment = { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null };
+export type AllKnowledgeAreasFieldsFragment = { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number };
+
+export type KnowledgeFieldByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type KnowledgeFieldByIdQuery = { __typename?: 'Query', knowledgeFieldById?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null };
+
+export type KnowledgeFieldsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+}>;
+
+
+export type KnowledgeFieldsQuery = { __typename?: 'Query', knowledgeFields: Array<{ __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number }> };
+
+export type CreateKnowledgeFieldMutationVariables = Exact<{
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type CreateKnowledgeFieldMutation = { __typename?: 'Mutation', upsertKnowledgeField?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null };
+
+export type UpdateKnowledgeFieldMutationVariables = Exact<{
+  id: Scalars['Int'];
+  sort: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdateKnowledgeFieldMutation = { __typename?: 'Mutation', upsertKnowledgeField?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null };
+
+export type DeleteKnowledgeFieldMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteKnowledgeFieldMutation = { __typename?: 'Mutation', deleteKnowledgeField?: { __typename?: 'KnowledgeField', sort: number, name: string } | null };
+
+export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
 
 export type NewsByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
+export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type NewsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1461,52 +1536,52 @@ export type NewsQueryVariables = Exact<{
 }>;
 
 
-export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null }> } | null };
+export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
 
 export type UpdateOnIndexMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   on_index: Scalars['Boolean'];
 }>;
 
 
-export type UpdateOnIndexMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string } | null };
+export type UpdateOnIndexMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number } | null };
 
 export type CreateNewsMutationVariables = Exact<{
   input: NewsInput;
 }>;
 
 
-export type CreateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
+export type CreateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type UpdateNewsMutationVariables = Exact<{
   input: NewsInput;
 }>;
 
 
-export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: string, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id?: string | null, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: string, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: string, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: string, title?: string | null, description?: string | null } | null } | null };
+export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type DeleteNewsMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteNewsMutation = { __typename?: 'Mutation', deleteNews?: { __typename?: 'News', id: string } | null };
+export type DeleteNewsMutation = { __typename?: 'Mutation', deleteNews?: { __typename?: 'News', id: number } | null };
 
-export type AllNewsCategoriesFieldsFragment = { __typename?: 'NewsCategory', id: string, sort: number, name: string };
+export type AllNewsCategoriesFieldsFragment = { __typename?: 'NewsCategory', id: number, sort: number, name: string };
 
 export type NewsCategoryByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type NewsCategoryByIdQuery = { __typename?: 'Query', newsCategoryById?: { __typename?: 'NewsCategory', id: string, sort: number, name: string } | null };
+export type NewsCategoryByIdQuery = { __typename?: 'Query', newsCategoryById?: { __typename?: 'NewsCategory', id: number, sort: number, name: string } | null };
 
 export type NewsCategoriesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type NewsCategoriesQuery = { __typename?: 'Query', newsCategories: Array<{ __typename?: 'NewsCategory', id: string, sort: number, name: string }> };
+export type NewsCategoriesQuery = { __typename?: 'Query', newsCategories: Array<{ __typename?: 'NewsCategory', id: number, sort: number, name: string }> };
 
 export type CreateNewsCategoryMutationVariables = Exact<{
   sort: Scalars['Int'];
@@ -1514,39 +1589,39 @@ export type CreateNewsCategoryMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsCategoryMutation = { __typename?: 'Mutation', upsertNewsCategory?: { __typename?: 'NewsCategory', id: string, sort: number, name: string } | null };
+export type CreateNewsCategoryMutation = { __typename?: 'Mutation', upsertNewsCategory?: { __typename?: 'NewsCategory', id: number, sort: number, name: string } | null };
 
 export type UpdateNewsCategoryMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   sort: Scalars['Int'];
   name: Scalars['String'];
 }>;
 
 
-export type UpdateNewsCategoryMutation = { __typename?: 'Mutation', upsertNewsCategory?: { __typename?: 'NewsCategory', id: string, sort: number, name: string } | null };
+export type UpdateNewsCategoryMutation = { __typename?: 'Mutation', upsertNewsCategory?: { __typename?: 'NewsCategory', id: number, sort: number, name: string } | null };
 
 export type DeleteNewsCategoryMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
 export type DeleteNewsCategoryMutation = { __typename?: 'Mutation', deleteNewsCategory?: { __typename?: 'NewsCategory', sort: number, name: string } | null };
 
-export type AllNewsTagsFieldsFragment = { __typename?: 'NewsTag', id: string, sort: number, name: string };
+export type AllNewsTagsFieldsFragment = { __typename?: 'NewsTag', id: number, sort: number, name: string };
 
 export type NewsTagByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type NewsTagByIdQuery = { __typename?: 'Query', newsTagById?: { __typename?: 'NewsTag', id: string, sort: number, name: string } | null };
+export type NewsTagByIdQuery = { __typename?: 'Query', newsTagById?: { __typename?: 'NewsTag', id: number, sort: number, name: string } | null };
 
 export type NewsTagsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type NewsTagsQuery = { __typename?: 'Query', newsTags: Array<{ __typename?: 'NewsTag', id: string, sort: number, name: string }> };
+export type NewsTagsQuery = { __typename?: 'Query', newsTags: Array<{ __typename?: 'NewsTag', id: number, sort: number, name: string }> };
 
 export type CreateNewsTagMutationVariables = Exact<{
   sort: Scalars['Int'];
@@ -1554,76 +1629,76 @@ export type CreateNewsTagMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsTagMutation = { __typename?: 'Mutation', upsertNewsTag?: { __typename?: 'NewsTag', id: string, sort: number, name: string } | null };
+export type CreateNewsTagMutation = { __typename?: 'Mutation', upsertNewsTag?: { __typename?: 'NewsTag', id: number, sort: number, name: string } | null };
 
 export type UpdateNewsTagMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   sort: Scalars['Int'];
   name: Scalars['String'];
 }>;
 
 
-export type UpdateNewsTagMutation = { __typename?: 'Mutation', upsertNewsTag?: { __typename?: 'NewsTag', id: string, sort: number, name: string } | null };
+export type UpdateNewsTagMutation = { __typename?: 'Mutation', upsertNewsTag?: { __typename?: 'NewsTag', id: number, sort: number, name: string } | null };
 
 export type DeleteNewsTagMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
 export type DeleteNewsTagMutation = { __typename?: 'Mutation', deleteNewsTag?: { __typename?: 'NewsTag', sort: number, name: string } | null };
 
-export type AllOrganizerFieldsFragment = { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
+export type AllOrganizerFieldsFragment = { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
 export type OrganizerByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type OrganizerByIdQuery = { __typename?: 'Query', organizerById?: { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type OrganizerByIdQuery = { __typename?: 'Query', organizerById?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type OrganizersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type OrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null }> };
+export type OrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
 
 export type CreateOrganizerMutationVariables = Exact<{
   input: OrganizerInput;
 }>;
 
 
-export type CreateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type CreateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdateOrganizerMutationVariables = Exact<{
   input: OrganizerInput;
 }>;
 
 
-export type UpdateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type UpdateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type DeleteOrganizerMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id?: string | null } | null };
+export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id: number } | null };
 
-export type AllPageFieldsFragment = { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
+export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null };
 
 export type PageByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
 
 export type PageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
 
 export type PagesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1631,60 +1706,100 @@ export type PagesQueryVariables = Exact<{
 }>;
 
 
-export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: string, name: string, description?: string | null, imageUrl?: string | null, slug: string }> };
+export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, name: string, description?: string | null, imageUrl?: string | null, slug: string }> };
 
 export type UpdatePageMutationVariables = Exact<{
   input: PageInput;
 }>;
 
 
-export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: string, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
 
-export type AllPartnerFieldsFragment = { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null };
+export type AllPartnerFieldsFragment = { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
 export type PartnerByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type PartnerByIdQuery = { __typename?: 'Query', partnerById?: { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type PartnerByIdQuery = { __typename?: 'Query', partnerById?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type PartnersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type PartnersQuery = { __typename?: 'Query', partners: Array<{ __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null }> };
+export type PartnersQuery = { __typename?: 'Query', partners: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
 
 export type CreatePartnerMutationVariables = Exact<{
   input: PartnerInput;
 }>;
 
 
-export type CreatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type CreatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdatePartnerMutationVariables = Exact<{
   input: PartnerInput;
 }>;
 
 
-export type UpdatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id?: string | null, name?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id?: string | null, url?: string | null } | null } | null };
+export type UpdatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type DeletePartnerMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id?: string | null } | null };
+export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id: number } | null };
 
-export type AllPurchasesFieldsFragment = { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any };
+export type AllProjectsFieldsFragment = { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
+
+export type ProjectByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ProjectByIdQuery = { __typename?: 'Query', projectById?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+
+export type ProjectsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<QueryProjectsOrderByRelationOrderByClause> | QueryProjectsOrderByRelationOrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+  first?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type ProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
+
+export type CreateProjectMutationVariables = Exact<{
+  input: ProjectInput;
+}>;
+
+
+export type CreateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+
+export type UpdateProjectMutationVariables = Exact<{
+  input: ProjectInput;
+}>;
+
+
+export type UpdateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+
+export type DeleteProjectMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteProjectMutation = { __typename?: 'Mutation', deleteProject?: { __typename?: 'Project', id: number } | null };
+
+export type AllPurchasesFieldsFragment = { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any };
 
 export type PurchaseByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type PurchaseByIdQuery = { __typename?: 'Query', purchaseById?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+export type PurchaseByIdQuery = { __typename?: 'Query', purchaseById?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
 
 export type PurchasesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1692,52 +1807,52 @@ export type PurchasesQueryVariables = Exact<{
 }>;
 
 
-export type PurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any }> };
+export type PurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any }> };
 
 export type UpdatePurchasePublishedMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   published: Scalars['Boolean'];
 }>;
 
 
-export type UpdatePurchasePublishedMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string } | null };
+export type UpdatePurchasePublishedMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: number } | null };
 
 export type CreatePurchaseMutationVariables = Exact<{
   input: PurchaseInput;
 }>;
 
 
-export type CreatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+export type CreatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
 
 export type UpdatePurchaseMutationVariables = Exact<{
   input: PurchaseInput;
 }>;
 
 
-export type UpdatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: string, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+export type UpdatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
 
 export type DeletePurchaseMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeletePurchaseMutation = { __typename?: 'Mutation', deletePurchase?: { __typename?: 'Purchase', id: string } | null };
+export type DeletePurchaseMutation = { __typename?: 'Mutation', deletePurchase?: { __typename?: 'Purchase', id: number } | null };
 
-export type AllSettingsFieldsFragment = { __typename?: 'Setting', id: string, name: string, value?: string | null };
+export type AllSettingsFieldsFragment = { __typename?: 'Setting', id: number, name: string, value?: string | null };
 
 export type SettingByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type SettingByIdQuery = { __typename?: 'Query', settingById?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+export type SettingByIdQuery = { __typename?: 'Query', settingById?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
 
 export type SettingByNameQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
 
 
-export type SettingByNameQuery = { __typename?: 'Query', settingByName?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+export type SettingByNameQuery = { __typename?: 'Query', settingByName?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
 
 export type SettingsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1745,7 +1860,7 @@ export type SettingsQueryVariables = Exact<{
 }>;
 
 
-export type SettingsQuery = { __typename?: 'Query', settings: Array<{ __typename?: 'Setting', id: string, name: string, value?: string | null }> };
+export type SettingsQuery = { __typename?: 'Query', settings: Array<{ __typename?: 'Setting', id: number, name: string, value?: string | null }> };
 
 export type UpdateSettingsMutationVariables = Exact<{
   schedule?: InputMaybe<Scalars['String']>;
@@ -1758,23 +1873,66 @@ export type UpdateSettingsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: string, name: string, value?: string | null } | null };
+export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
 
-export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: string, name: string, sort: number };
+export type AllFieldsFragment = { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
-export type SubdivisionByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+export type StaffControlByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
 }>;
 
 
-export type SubdivisionByIdQuery = { __typename?: 'Query', subdivisionById?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+export type StaffControlByIdQuery = { __typename?: 'Query', staffControlById?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+
+export type StaffControlsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type StaffControlsQuery = { __typename?: 'Query', staffControls: Array<{ __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
+
+export type CreateStaffControlMutationVariables = Exact<{
+  input: StaffControlInput;
+}>;
+
+
+export type CreateStaffControlMutation = { __typename?: 'Mutation', upsertStaffControl?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+
+export type UpdateStaffControlMutationVariables = Exact<{
+  input: StaffControlInput;
+}>;
+
+
+export type UpdateStaffControlMutation = { __typename?: 'Mutation', upsertStaffControl?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+
+export type DeleteStaffControlMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteStaffControlMutation = { __typename?: 'Mutation', deleteStaffControl?: { __typename?: 'StaffControl', id: number } | null };
+
+export type StaffControlPagesBySlugQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type StaffControlPagesBySlugQuery = { __typename?: 'Query', popechitelskiy?: { __typename?: 'Page', id: number } | null, nablyudatelnyy?: { __typename?: 'Page', id: number } | null, direktor?: { __typename?: 'Page', id: number } | null, apparat?: { __typename?: 'Page', id: number } | null, konsultacionnyy?: { __typename?: 'Page', id: number } | null };
+
+export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: number, name: string, sort: number };
+
+export type SubdivisionByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type SubdivisionByIdQuery = { __typename?: 'Query', subdivisionById?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
 
 export type SubdivisionsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type SubdivisionsQuery = { __typename?: 'Query', subdivisions: Array<{ __typename?: 'Subdivision', id: string, name: string, sort: number }> };
+export type SubdivisionsQuery = { __typename?: 'Query', subdivisions: Array<{ __typename?: 'Subdivision', id: number, name: string, sort: number }> };
 
 export type CreateSubdivisionMutationVariables = Exact<{
   sort: Scalars['Int'];
@@ -1782,19 +1940,19 @@ export type CreateSubdivisionMutationVariables = Exact<{
 }>;
 
 
-export type CreateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+export type CreateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
 
 export type UpdateSubdivisionMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   sort: Scalars['Int'];
   name: Scalars['String'];
 }>;
 
 
-export type UpdateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: string, name: string, sort: number } | null };
+export type UpdateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
 
 export type DeleteSubdivisionMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
@@ -1807,7 +1965,7 @@ export type UploadMutationVariables = Exact<{
 
 export type UploadMutation = { __typename?: 'Mutation', upload?: string | null };
 
-export type AllUsersFieldsFragment = { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null };
+export type AllUsersFieldsFragment = { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null };
 
 export type UsersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1817,21 +1975,21 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users?: { __typename?: 'UserPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null }> } | null };
+export type UsersQuery = { __typename?: 'Query', users?: { __typename?: 'UserPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null }> } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, name: string, email: string, email_verified_at?: any | null } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null } };
 
-export type AllVacanciesFieldsFragment = { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean };
+export type AllVacanciesFieldsFragment = { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean };
 
 export type VacancyByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type VacancyByIdQuery = { __typename?: 'Query', vacancyById?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+export type VacancyByIdQuery = { __typename?: 'Query', vacancyById?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
 
 export type VacanciesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1839,36 +1997,36 @@ export type VacanciesQueryVariables = Exact<{
 }>;
 
 
-export type VacanciesQuery = { __typename?: 'Query', vacancies: Array<{ __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean }> };
+export type VacanciesQuery = { __typename?: 'Query', vacancies: Array<{ __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean }> };
 
 export type UpdateVacancyPublishedMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   published: Scalars['Boolean'];
 }>;
 
 
-export type UpdateVacancyPublishedMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string } | null };
+export type UpdateVacancyPublishedMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: number } | null };
 
 export type CreateVacancyMutationVariables = Exact<{
   input: VacancyInput;
 }>;
 
 
-export type CreateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+export type CreateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
 
 export type UpdateVacancyMutationVariables = Exact<{
   input: VacancyInput;
 }>;
 
 
-export type UpdateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: string, name: string, description?: string | null, sort: number, published: boolean } | null };
+export type UpdateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
 
 export type DeleteVacancyMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: string } | null };
+export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: number } | null };
 
 export const AllContestFieldsFragmentDoc = `
     fragment allContestFields on Contest {
@@ -1930,6 +2088,13 @@ export const AllEventsFieldsFragmentDoc = `
     user_name
     sort
   }
+}
+    `;
+export const AllKnowledgeAreasFieldsFragmentDoc = `
+    fragment allKnowledgeAreasFields on KnowledgeField {
+  id
+  name
+  sort
 }
     `;
 export const AllNewsFieldsFragmentDoc = `
@@ -2010,6 +2175,10 @@ export const AllPageFieldsFragmentDoc = `
     id
     url
   }
+  seo {
+    title
+    description
+  }
   parent_id
   created_at
   updated_at
@@ -2025,6 +2194,53 @@ export const AllPartnerFieldsFragmentDoc = `
     url
   }
   created_at
+}
+    `;
+export const AllProjectsFieldsFragmentDoc = `
+    fragment allProjectsFields on Project {
+  id
+  knowledge_field_id
+  knowledge_field {
+    id
+    name
+    sort
+  }
+  contest_id
+  contest {
+    id
+    name
+    number
+    status
+    deadline
+    date
+    created_at
+    updated_at
+  }
+  number
+  name
+  slug
+  leader
+  leader_rank
+  organization
+  information
+  annotation
+  plan_results
+  publications
+  result_annotation
+  year
+  meta {
+    title
+    description
+    auto_title
+    auto_description
+  }
+  seo {
+    id
+    title
+    description
+  }
+  created_at
+  updated_at
 }
     `;
 export const AllPurchasesFieldsFragmentDoc = `
@@ -2044,6 +2260,21 @@ export const AllSettingsFieldsFragmentDoc = `
   id
   name
   value
+}
+    `;
+export const AllFieldsFragmentDoc = `
+    fragment allFields on StaffControl {
+  id
+  name
+  description
+  sort
+  page_id
+  imageUrl
+  image {
+    id
+    url
+  }
+  created_at
 }
     `;
 export const AllUsersFieldsFragmentDoc = `
@@ -2102,7 +2333,7 @@ export const useLogoutMutation = <
       options
     );
 export const ContestByIdDocument = `
-    query contestById($id: ID!) {
+    query contestById($id: Int!) {
   contestById(id: $id) {
     ...allContestFields
   }
@@ -2197,7 +2428,7 @@ export const useUpdateContestMutation = <
       options
     );
 export const DeleteContestDocument = `
-    mutation deleteContest($id: ID!) {
+    mutation deleteContest($id: Int!) {
   deleteContest(id: $id) {
     id
   }
@@ -2217,7 +2448,7 @@ export const useDeleteContestMutation = <
       options
     );
 export const EmployeeByIdDocument = `
-    query employeeById($id: ID!) {
+    query employeeById($id: Int!) {
   employeeById(id: $id) {
     ...allEmployeeFields
   }
@@ -2299,7 +2530,7 @@ export const useUpdateEmployeeMutation = <
       options
     );
 export const UpdateEmployeeSubdivisionDocument = `
-    mutation UpdateEmployeeSubdivision($id: ID!, $subdivisionId: ID!) {
+    mutation UpdateEmployeeSubdivision($id: Int!, $subdivisionId: Int!) {
   upsertEmployee(input: {id: $id, subdivision: {connect: $subdivisionId}}) {
     id
   }
@@ -2319,7 +2550,7 @@ export const useUpdateEmployeeSubdivisionMutation = <
       options
     );
 export const DeleteEmployeeDocument = `
-    mutation deleteEmployee($id: ID!) {
+    mutation deleteEmployee($id: Int!) {
   deleteEmployee(id: $id) {
     id
   }
@@ -2339,7 +2570,7 @@ export const useDeleteEmployeeMutation = <
       options
     );
 export const EventByIdDocument = `
-    query eventById($id: ID!) {
+    query eventById($id: Int!) {
   eventById(id: $id) {
     ...allEventsFields
   }
@@ -2388,7 +2619,7 @@ export const useEventsQuery = <
       options
     );
 export const UpdateEventPublishedDocument = `
-    mutation UpdateEventPublished($id: ID!, $published: Boolean!) {
+    mutation UpdateEventPublished($id: Int!, $published: Boolean!) {
   upsertEvent(input: {id: $id, published: $published}) {
     id
   }
@@ -2448,7 +2679,7 @@ export const useUpdateEventMutation = <
       options
     );
 export const DeleteEventDocument = `
-    mutation deleteEvent($id: ID!) {
+    mutation deleteEvent($id: Int!) {
   deleteEvent(id: $id) {
     id
   }
@@ -2467,8 +2698,111 @@ export const useDeleteEventMutation = <
       (variables?: DeleteEventMutationVariables) => fetcher<DeleteEventMutation, DeleteEventMutationVariables>(client, DeleteEventDocument, variables, headers)(),
       options
     );
+export const KnowledgeFieldByIdDocument = `
+    query knowledgeFieldById($id: Int!) {
+  knowledgeFieldById(id: $id) {
+    ...allKnowledgeAreasFields
+  }
+}
+    ${AllKnowledgeAreasFieldsFragmentDoc}`;
+export const useKnowledgeFieldByIdQuery = <
+      TData = KnowledgeFieldByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: KnowledgeFieldByIdQueryVariables,
+      options?: UseQueryOptions<KnowledgeFieldByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<KnowledgeFieldByIdQuery, TError, TData>(
+      ['knowledgeFieldById', variables],
+      fetcher<KnowledgeFieldByIdQuery, KnowledgeFieldByIdQueryVariables>(client, KnowledgeFieldByIdDocument, variables, headers),
+      options
+    );
+export const KnowledgeFieldsDocument = `
+    query knowledgeFields($orderBy: [OrderByClause!]) {
+  knowledgeFields(orderBy: $orderBy) {
+    ...allKnowledgeAreasFields
+  }
+}
+    ${AllKnowledgeAreasFieldsFragmentDoc}`;
+export const useKnowledgeFieldsQuery = <
+      TData = KnowledgeFieldsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: KnowledgeFieldsQueryVariables,
+      options?: UseQueryOptions<KnowledgeFieldsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<KnowledgeFieldsQuery, TError, TData>(
+      variables === undefined ? ['knowledgeFields'] : ['knowledgeFields', variables],
+      fetcher<KnowledgeFieldsQuery, KnowledgeFieldsQueryVariables>(client, KnowledgeFieldsDocument, variables, headers),
+      options
+    );
+export const CreateKnowledgeFieldDocument = `
+    mutation createKnowledgeField($sort: Int!, $name: String!) {
+  upsertKnowledgeField(input: {sort: $sort, name: $name}) {
+    ...allKnowledgeAreasFields
+  }
+}
+    ${AllKnowledgeAreasFieldsFragmentDoc}`;
+export const useCreateKnowledgeFieldMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateKnowledgeFieldMutation, TError, CreateKnowledgeFieldMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateKnowledgeFieldMutation, TError, CreateKnowledgeFieldMutationVariables, TContext>(
+      ['createKnowledgeField'],
+      (variables?: CreateKnowledgeFieldMutationVariables) => fetcher<CreateKnowledgeFieldMutation, CreateKnowledgeFieldMutationVariables>(client, CreateKnowledgeFieldDocument, variables, headers)(),
+      options
+    );
+export const UpdateKnowledgeFieldDocument = `
+    mutation updateKnowledgeField($id: Int!, $sort: Int!, $name: String!) {
+  upsertKnowledgeField(input: {id: $id, sort: $sort, name: $name}) {
+    ...allKnowledgeAreasFields
+  }
+}
+    ${AllKnowledgeAreasFieldsFragmentDoc}`;
+export const useUpdateKnowledgeFieldMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateKnowledgeFieldMutation, TError, UpdateKnowledgeFieldMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateKnowledgeFieldMutation, TError, UpdateKnowledgeFieldMutationVariables, TContext>(
+      ['updateKnowledgeField'],
+      (variables?: UpdateKnowledgeFieldMutationVariables) => fetcher<UpdateKnowledgeFieldMutation, UpdateKnowledgeFieldMutationVariables>(client, UpdateKnowledgeFieldDocument, variables, headers)(),
+      options
+    );
+export const DeleteKnowledgeFieldDocument = `
+    mutation deleteKnowledgeField($id: Int!) {
+  deleteKnowledgeField(id: $id) {
+    sort
+    name
+  }
+}
+    `;
+export const useDeleteKnowledgeFieldMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteKnowledgeFieldMutation, TError, DeleteKnowledgeFieldMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteKnowledgeFieldMutation, TError, DeleteKnowledgeFieldMutationVariables, TContext>(
+      ['deleteKnowledgeField'],
+      (variables?: DeleteKnowledgeFieldMutationVariables) => fetcher<DeleteKnowledgeFieldMutation, DeleteKnowledgeFieldMutationVariables>(client, DeleteKnowledgeFieldDocument, variables, headers)(),
+      options
+    );
 export const NewsByIdDocument = `
-    query newsById($id: ID!) {
+    query newsById($id: Int!) {
   newsById(id: $id) {
     ...allNewsFields
   }
@@ -2517,7 +2851,7 @@ export const useNewsQuery = <
       options
     );
 export const UpdateOnIndexDocument = `
-    mutation UpdateOnIndex($id: ID!, $on_index: Boolean!) {
+    mutation UpdateOnIndex($id: Int!, $on_index: Boolean!) {
   upsertNews(input: {id: $id, on_index: $on_index}) {
     id
   }
@@ -2577,7 +2911,7 @@ export const useUpdateNewsMutation = <
       options
     );
 export const DeleteNewsDocument = `
-    mutation deleteNews($id: ID!) {
+    mutation deleteNews($id: Int!) {
   deleteNews(id: $id) {
     id
   }
@@ -2597,7 +2931,7 @@ export const useDeleteNewsMutation = <
       options
     );
 export const NewsCategoryByIdDocument = `
-    query newsCategoryById($id: ID!) {
+    query newsCategoryById($id: Int!) {
   newsCategoryById(id: $id) {
     ...allNewsCategoriesFields
   }
@@ -2659,7 +2993,7 @@ export const useCreateNewsCategoryMutation = <
       options
     );
 export const UpdateNewsCategoryDocument = `
-    mutation updateNewsCategory($id: ID!, $sort: Int!, $name: String!) {
+    mutation updateNewsCategory($id: Int!, $sort: Int!, $name: String!) {
   upsertNewsCategory(input: {id: $id, sort: $sort, name: $name}) {
     ...allNewsCategoriesFields
   }
@@ -2679,7 +3013,7 @@ export const useUpdateNewsCategoryMutation = <
       options
     );
 export const DeleteNewsCategoryDocument = `
-    mutation deleteNewsCategory($id: ID!) {
+    mutation deleteNewsCategory($id: Int!) {
   deleteNewsCategory(id: $id) {
     sort
     name
@@ -2700,7 +3034,7 @@ export const useDeleteNewsCategoryMutation = <
       options
     );
 export const NewsTagByIdDocument = `
-    query newsTagById($id: ID!) {
+    query newsTagById($id: Int!) {
   newsTagById(id: $id) {
     ...allNewsTagsFields
   }
@@ -2762,7 +3096,7 @@ export const useCreateNewsTagMutation = <
       options
     );
 export const UpdateNewsTagDocument = `
-    mutation updateNewsTag($id: ID!, $sort: Int!, $name: String!) {
+    mutation updateNewsTag($id: Int!, $sort: Int!, $name: String!) {
   upsertNewsTag(input: {id: $id, sort: $sort, name: $name}) {
     ...allNewsTagsFields
   }
@@ -2782,7 +3116,7 @@ export const useUpdateNewsTagMutation = <
       options
     );
 export const DeleteNewsTagDocument = `
-    mutation deleteNewsTag($id: ID!) {
+    mutation deleteNewsTag($id: Int!) {
   deleteNewsTag(id: $id) {
     sort
     name
@@ -2803,7 +3137,7 @@ export const useDeleteNewsTagMutation = <
       options
     );
 export const OrganizerByIdDocument = `
-    query organizerById($id: ID!) {
+    query organizerById($id: Int!) {
   organizerById(id: $id) {
     ...allOrganizerFields
   }
@@ -2885,7 +3219,7 @@ export const useUpdateOrganizerMutation = <
       options
     );
 export const DeleteOrganizerDocument = `
-    mutation deleteOrganizer($id: ID!) {
+    mutation deleteOrganizer($id: Int!) {
   deleteOrganizer(id: $id) {
     id
   }
@@ -2905,7 +3239,7 @@ export const useDeleteOrganizerMutation = <
       options
     );
 export const PageByIdDocument = `
-    query pageById($id: ID!) {
+    query pageById($id: Int!) {
   pageById(id: $id) {
     ...allPageFields
   }
@@ -2992,7 +3326,7 @@ export const useUpdatePageMutation = <
       options
     );
 export const PartnerByIdDocument = `
-    query partnerById($id: ID!) {
+    query partnerById($id: Int!) {
   partnerById(id: $id) {
     ...allPartnerFields
   }
@@ -3074,7 +3408,7 @@ export const useUpdatePartnerMutation = <
       options
     );
 export const DeletePartnerDocument = `
-    mutation deletePartner($id: ID!) {
+    mutation deletePartner($id: Int!) {
   deletePartner(id: $id) {
     id
   }
@@ -3093,8 +3427,117 @@ export const useDeletePartnerMutation = <
       (variables?: DeletePartnerMutationVariables) => fetcher<DeletePartnerMutation, DeletePartnerMutationVariables>(client, DeletePartnerDocument, variables, headers)(),
       options
     );
+export const ProjectByIdDocument = `
+    query projectById($id: Int!) {
+  projectById(id: $id) {
+    ...allProjectsFields
+  }
+}
+    ${AllProjectsFieldsFragmentDoc}`;
+export const useProjectByIdQuery = <
+      TData = ProjectByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: ProjectByIdQueryVariables,
+      options?: UseQueryOptions<ProjectByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ProjectByIdQuery, TError, TData>(
+      ['projectById', variables],
+      fetcher<ProjectByIdQuery, ProjectByIdQueryVariables>(client, ProjectByIdDocument, variables, headers),
+      options
+    );
+export const ProjectsDocument = `
+    query projects($orderBy: [QueryProjectsOrderByRelationOrderByClause!], $filter: [FilterByClause!], $first: Int = 30, $page: Int) {
+  projects(orderBy: $orderBy, filter: $filter, first: $first, page: $page) {
+    paginatorInfo {
+      lastPage
+      total
+      perPage
+    }
+    data {
+      ...allProjectsFields
+    }
+  }
+}
+    ${AllProjectsFieldsFragmentDoc}`;
+export const useProjectsQuery = <
+      TData = ProjectsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ProjectsQueryVariables,
+      options?: UseQueryOptions<ProjectsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ProjectsQuery, TError, TData>(
+      variables === undefined ? ['projects'] : ['projects', variables],
+      fetcher<ProjectsQuery, ProjectsQueryVariables>(client, ProjectsDocument, variables, headers),
+      options
+    );
+export const CreateProjectDocument = `
+    mutation createProject($input: ProjectInput!) {
+  upsertProject(input: $input) {
+    ...allProjectsFields
+  }
+}
+    ${AllProjectsFieldsFragmentDoc}`;
+export const useCreateProjectMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateProjectMutation, TError, CreateProjectMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateProjectMutation, TError, CreateProjectMutationVariables, TContext>(
+      ['createProject'],
+      (variables?: CreateProjectMutationVariables) => fetcher<CreateProjectMutation, CreateProjectMutationVariables>(client, CreateProjectDocument, variables, headers)(),
+      options
+    );
+export const UpdateProjectDocument = `
+    mutation updateProject($input: ProjectInput!) {
+  upsertProject(input: $input) {
+    ...allProjectsFields
+  }
+}
+    ${AllProjectsFieldsFragmentDoc}`;
+export const useUpdateProjectMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateProjectMutation, TError, UpdateProjectMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateProjectMutation, TError, UpdateProjectMutationVariables, TContext>(
+      ['updateProject'],
+      (variables?: UpdateProjectMutationVariables) => fetcher<UpdateProjectMutation, UpdateProjectMutationVariables>(client, UpdateProjectDocument, variables, headers)(),
+      options
+    );
+export const DeleteProjectDocument = `
+    mutation deleteProject($id: Int!) {
+  deleteProject(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteProjectMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteProjectMutation, TError, DeleteProjectMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteProjectMutation, TError, DeleteProjectMutationVariables, TContext>(
+      ['deleteProject'],
+      (variables?: DeleteProjectMutationVariables) => fetcher<DeleteProjectMutation, DeleteProjectMutationVariables>(client, DeleteProjectDocument, variables, headers)(),
+      options
+    );
 export const PurchaseByIdDocument = `
-    query purchaseById($id: ID!) {
+    query purchaseById($id: Int!) {
   purchaseById(id: $id) {
     ...allPurchasesFields
   }
@@ -3136,7 +3579,7 @@ export const usePurchasesQuery = <
       options
     );
 export const UpdatePurchasePublishedDocument = `
-    mutation updatePurchasePublished($id: ID!, $published: Boolean!) {
+    mutation updatePurchasePublished($id: Int!, $published: Boolean!) {
   upsertPurchase(input: {id: $id, published: $published}) {
     id
   }
@@ -3196,7 +3639,7 @@ export const useUpdatePurchaseMutation = <
       options
     );
 export const DeletePurchaseDocument = `
-    mutation deletePurchase($id: ID!) {
+    mutation deletePurchase($id: Int!) {
   deletePurchase(id: $id) {
     id
   }
@@ -3216,7 +3659,7 @@ export const useDeletePurchaseMutation = <
       options
     );
 export const SettingByIdDocument = `
-    query settingById($id: ID!) {
+    query settingById($id: Int!) {
   settingById(id: $id) {
     ...allSettingsFields
   }
@@ -3280,28 +3723,28 @@ export const useSettingsQuery = <
     );
 export const UpdateSettingsDocument = `
     mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String, $send_email_notify: String, $content_editor: String) {
-  schedule: upsertSetting(input: {id: "1", name: "phone", value: $phone}) {
+  schedule: upsertSetting(input: {id: 1, name: "phone", value: $phone}) {
     ...allSettingsFields
   }
-  phone: upsertSetting(input: {id: "2", name: "email", value: $email}) {
+  phone: upsertSetting(input: {id: 2, name: "email", value: $email}) {
     ...allSettingsFields
   }
-  address: upsertSetting(input: {id: "3", name: "emailPress", value: $emailPress}) {
+  address: upsertSetting(input: {id: 3, name: "emailPress", value: $emailPress}) {
     ...allSettingsFields
   }
-  email: upsertSetting(input: {id: "4", name: "address", value: $address}) {
+  email: upsertSetting(input: {id: 4, name: "address", value: $address}) {
     ...allSettingsFields
   }
-  emailPress: upsertSetting(input: {id: "5", name: "schedule", value: $schedule}) {
+  emailPress: upsertSetting(input: {id: 5, name: "schedule", value: $schedule}) {
     ...allSettingsFields
   }
   send_email_notify: upsertSetting(
-    input: {id: "6", name: "send_email_notify", value: $send_email_notify}
+    input: {id: 6, name: "send_email_notify", value: $send_email_notify}
   ) {
     ...allSettingsFields
   }
   content_editor: upsertSetting(
-    input: {id: "7", name: "content_editor", value: $content_editor}
+    input: {id: 7, name: "content_editor", value: $content_editor}
   ) {
     ...allSettingsFields
   }
@@ -3320,8 +3763,143 @@ export const useUpdateSettingsMutation = <
       (variables?: UpdateSettingsMutationVariables) => fetcher<UpdateSettingsMutation, UpdateSettingsMutationVariables>(client, UpdateSettingsDocument, variables, headers)(),
       options
     );
+export const StaffControlByIdDocument = `
+    query staffControlById($id: Int!) {
+  staffControlById(id: $id) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useStaffControlByIdQuery = <
+      TData = StaffControlByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: StaffControlByIdQueryVariables,
+      options?: UseQueryOptions<StaffControlByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StaffControlByIdQuery, TError, TData>(
+      ['staffControlById', variables],
+      fetcher<StaffControlByIdQuery, StaffControlByIdQueryVariables>(client, StaffControlByIdDocument, variables, headers),
+      options
+    );
+export const StaffControlsDocument = `
+    query staffControls($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  staffControls(orderBy: $orderBy, filter: $filter) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useStaffControlsQuery = <
+      TData = StaffControlsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: StaffControlsQueryVariables,
+      options?: UseQueryOptions<StaffControlsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StaffControlsQuery, TError, TData>(
+      variables === undefined ? ['staffControls'] : ['staffControls', variables],
+      fetcher<StaffControlsQuery, StaffControlsQueryVariables>(client, StaffControlsDocument, variables, headers),
+      options
+    );
+export const CreateStaffControlDocument = `
+    mutation createStaffControl($input: StaffControlInput!) {
+  upsertStaffControl(input: $input) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useCreateStaffControlMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateStaffControlMutation, TError, CreateStaffControlMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateStaffControlMutation, TError, CreateStaffControlMutationVariables, TContext>(
+      ['createStaffControl'],
+      (variables?: CreateStaffControlMutationVariables) => fetcher<CreateStaffControlMutation, CreateStaffControlMutationVariables>(client, CreateStaffControlDocument, variables, headers)(),
+      options
+    );
+export const UpdateStaffControlDocument = `
+    mutation updateStaffControl($input: StaffControlInput!) {
+  upsertStaffControl(input: $input) {
+    ...allFields
+  }
+}
+    ${AllFieldsFragmentDoc}`;
+export const useUpdateStaffControlMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateStaffControlMutation, TError, UpdateStaffControlMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateStaffControlMutation, TError, UpdateStaffControlMutationVariables, TContext>(
+      ['updateStaffControl'],
+      (variables?: UpdateStaffControlMutationVariables) => fetcher<UpdateStaffControlMutation, UpdateStaffControlMutationVariables>(client, UpdateStaffControlDocument, variables, headers)(),
+      options
+    );
+export const DeleteStaffControlDocument = `
+    mutation deleteStaffControl($id: Int!) {
+  deleteStaffControl(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteStaffControlMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteStaffControlMutation, TError, DeleteStaffControlMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteStaffControlMutation, TError, DeleteStaffControlMutationVariables, TContext>(
+      ['deleteStaffControl'],
+      (variables?: DeleteStaffControlMutationVariables) => fetcher<DeleteStaffControlMutation, DeleteStaffControlMutationVariables>(client, DeleteStaffControlDocument, variables, headers)(),
+      options
+    );
+export const StaffControlPagesBySlugDocument = `
+    query staffControlPagesBySlug {
+  popechitelskiy: pageBySlug(slug: "popechitelskiy-sovet") {
+    id
+  }
+  nablyudatelnyy: pageBySlug(slug: "nablyudatelnyy-sovet") {
+    id
+  }
+  direktor: pageBySlug(slug: "generalnyy-direktor") {
+    id
+  }
+  apparat: pageBySlug(slug: "apparat-upravleniya") {
+    id
+  }
+  konsultacionnyy: pageBySlug(slug: "nauchno-konsultacionnyy-sovet") {
+    id
+  }
+}
+    `;
+export const useStaffControlPagesBySlugQuery = <
+      TData = StaffControlPagesBySlugQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: StaffControlPagesBySlugQueryVariables,
+      options?: UseQueryOptions<StaffControlPagesBySlugQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StaffControlPagesBySlugQuery, TError, TData>(
+      variables === undefined ? ['staffControlPagesBySlug'] : ['staffControlPagesBySlug', variables],
+      fetcher<StaffControlPagesBySlugQuery, StaffControlPagesBySlugQueryVariables>(client, StaffControlPagesBySlugDocument, variables, headers),
+      options
+    );
 export const SubdivisionByIdDocument = `
-    query subdivisionById($id: ID!) {
+    query subdivisionById($id: Int!) {
   subdivisionById(id: $id) {
     ...allSubdivisionsFields
   }
@@ -3383,7 +3961,7 @@ export const useCreateSubdivisionMutation = <
       options
     );
 export const UpdateSubdivisionDocument = `
-    mutation updateSubdivision($id: ID!, $sort: Int!, $name: String!) {
+    mutation updateSubdivision($id: Int!, $sort: Int!, $name: String!) {
   upsertSubdivision(input: {id: $id, sort: $sort, name: $name}) {
     ...allSubdivisionsFields
   }
@@ -3403,7 +3981,7 @@ export const useUpdateSubdivisionMutation = <
       options
     );
 export const DeleteSubdivisionDocument = `
-    mutation deleteSubdivision($id: ID!) {
+    mutation deleteSubdivision($id: Int!) {
   deleteSubdivision(id: $id) {
     sort
     name
@@ -3491,7 +4069,7 @@ export const useMeQuery = <
       options
     );
 export const VacancyByIdDocument = `
-    query vacancyById($id: ID!) {
+    query vacancyById($id: Int!) {
   vacancyById(id: $id) {
     ...allVacanciesFields
   }
@@ -3533,7 +4111,7 @@ export const useVacanciesQuery = <
       options
     );
 export const UpdateVacancyPublishedDocument = `
-    mutation UpdateVacancyPublished($id: ID!, $published: Boolean!) {
+    mutation UpdateVacancyPublished($id: Int!, $published: Boolean!) {
   upsertVacancy(input: {id: $id, published: $published}) {
     id
   }
@@ -3593,7 +4171,7 @@ export const useUpdateVacancyMutation = <
       options
     );
 export const DeleteVacancyDocument = `
-    mutation deleteVacancy($id: ID!) {
+    mutation deleteVacancy($id: Int!) {
   deleteVacancy(id: $id) {
     id
   }

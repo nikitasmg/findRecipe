@@ -26,7 +26,7 @@ export const SelectSubdivision: React.FC<ISelectSubdivision> = ({
   const { mutateAsync: updateSubdivision } = useUpdateEmployeeSubdivisionMutation(client);
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSubdivision(event.target.value as string);
+    setSubdivision(Number(event.target.value));
   };
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const SelectSubdivision: React.FC<ISelectSubdivision> = ({
       <FormControl fullWidth>
         <Select
           id='subdivision-select'
-          value={subdivision || ""}
+          value={String(subdivision)}
           onChange={handleChange}
           size='small'
         >
@@ -49,7 +49,9 @@ export const SelectSubdivision: React.FC<ISelectSubdivision> = ({
             <MenuItem
               key={subdivision.id}
               value={subdivision.id}
-              onClick={() => updateSubdivision({ id: employeeId, subdivisionId: subdivision.id })}
+              onClick={() =>
+                updateSubdivision({ id: Number(employeeId), subdivisionId: subdivision.id })
+              }
             >
               {subdivision.name}
             </MenuItem>

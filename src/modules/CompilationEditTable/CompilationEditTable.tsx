@@ -52,7 +52,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   };
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    update({ ...rows[oldIndex], sort: newIndex + 1 });
+    update({ ...rows[oldIndex], sort: newIndex + 1, id: Number(rows[oldIndex].id) });
 
     setRows((rows) => resortArray(oldIndex, newIndex, rows));
   };
@@ -62,7 +62,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
     const isCreate = editRow?.id === "new";
 
     if (!isCreate && editRow) {
-      update({ ...editRow, ...newValues });
+      update({ ...editRow, ...newValues, id: Number(editRow.id) });
       setNewValues({});
       return;
     }
@@ -109,7 +109,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
                 };
 
                 const handleRemove = () => {
-                  remove(row.id);
+                  remove(Number(row.id));
                   setEditRow(null);
                 };
 

@@ -44,7 +44,7 @@ export const usePurchases = () => {
 
   const getUpdatedRows = curry((id: string, newValues: Purchase, rows: Purchase[]) =>
     rows.reduce((res: Purchase[], row) => {
-      if (row.id === id) {
+      if (row.id === Number(id)) {
         return res.concat({ ...row, ...newValues });
       }
 

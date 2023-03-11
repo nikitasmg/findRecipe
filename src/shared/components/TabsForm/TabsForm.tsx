@@ -22,6 +22,7 @@ type Props = {
   handleStepChange?: (step: number) => void;
   handleSubmit?: () => void;
   isLoading?: boolean;
+  isSaveVisible?: boolean;
 };
 
 export const TabsForm: React.FC<Props> = ({
@@ -30,8 +31,9 @@ export const TabsForm: React.FC<Props> = ({
   backHref,
   handleStepChange,
   handleSubmit,
+  isLoading,
   activeStep = 0,
-  isLoading
+  isSaveVisible = true
 }) => {
   const [step, setStep] = useState(0);
 
@@ -49,7 +51,13 @@ export const TabsForm: React.FC<Props> = ({
   return (
     <form className='w-full' onSubmit={handleSubmit}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={step} onChange={handleTabChange} aria-label='basic tabs example'>
+        <Tabs
+          variant='scrollable'
+          scrollButtons='auto'
+          value={step}
+          onChange={handleTabChange}
+          aria-label='tabs'
+        >
           {forms.map(({ tabTitle, hasErrors }, index) => (
             <Tab
               key={tabTitle}
@@ -86,18 +94,19 @@ export const TabsForm: React.FC<Props> = ({
             Back
           </LinkButton>
         )}
-
-        <Box className='flex gap-4 w-full sm:w-auto ml-auto'>
-          <Button
-            startIcon={<SaveIcon />}
-            disabled={isLoading}
-            type='submit'
-            variant='contained'
-            size='small'
-          >
-            Save
-          </Button>
-        </Box>
+        {isSaveVisible && (
+          <Box className='flex gap-4 w-full sm:w-auto ml-auto'>
+            <Button
+              startIcon={<SaveIcon />}
+              disabled={isLoading}
+              type='submit'
+              variant='contained'
+              size='small'
+            >
+              Save
+            </Button>
+          </Box>
+        )}
       </Box>
     </form>
   );

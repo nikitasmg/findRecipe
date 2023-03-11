@@ -16,7 +16,7 @@ export const PurchasesFragment = gql`
 export const PurchaseById = gql`
   ${PurchasesFragment}
 
-  query purchaseById($id: ID!) {
+  query purchaseById($id: Int!) {
     purchaseById(id: $id) {
       ...allPurchasesFields
     }
@@ -34,7 +34,7 @@ export const Purchases = gql`
 `;
 
 export const UpdatePurchasePublished = gql`
-  mutation updatePurchasePublished($id: ID!, $published: Boolean!) {
+  mutation updatePurchasePublished($id: Int!, $published: Boolean!) {
     upsertPurchase(input: { id: $id, published: $published }) {
       id
     }
@@ -62,7 +62,7 @@ export const UpdatePurchase = gql`
 `;
 
 export const DeletePurchase = gql`
-  mutation deletePurchase($id: ID!) {
+  mutation deletePurchase($id: Int!) {
     deletePurchase(id: $id) {
       id
     }
