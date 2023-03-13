@@ -57,8 +57,8 @@ export const UpdateStaffControl = gql`
 `;
 
 export const DeleteStaffControl = gql`
-  mutation deleteControl($id: Int!) {
-    deleteControl(id: $id) {
+  mutation deleteStaffControl($id: Int!) {
+    deleteStaffControl(id: $id) {
       id
     }
   }

@@ -135,6 +135,7 @@
   "Acceptance": "Приём заявок",
   "Completed": "Экспертиза",
   "Expertise": "Конкурс завершён",
+  "Contest": "Конкурс",
   "Contests": "Конкурсы",
   "Status": "Статус",
   "Contest editing": "Редактирование конкурса",
@@ -164,5 +165,19 @@
   "Edit documents page": "Документы",
   "Edit logos page": "Логотипы",
   "Edit ano-biomed page": "АНО Биомед",
-  "Social": "Социальные сети"
+  "Social": "Социальные сети",
+  "Knowledge fields": "Области знаний",
+  "Projects": "Проекты",
+  "count projects": "количество проектов",
+  "Successfully completed": "Успешно выполнено",
+  "Project number": "Номер проекта",
+  "Leader": "Руководитель",
+  "Organization": "Организация",
+  "Projects editing": "Редактирование проекта",
+  "Projects creating": "Создание проекта",
+  "Information": "Информация",
+  "Annotation": "Аннотация",
+  "Plan results": "Планируемый результат",
+  "Result annotation": "Аннтоация результата",
+  "Year": "Год"
 }

@@ -31,7 +31,10 @@ import {
   ContestPageEdit,
   ContestPageCreate,
   ContestPageRoute,
-  StaffControlPageRoute
+  StaffControlPageRoute,
+  ProjectsPageRoute,
+  ProjectsPageEdit,
+  ProjectsPageCreate
 } from "~shared/routes";
 
 import { PagesEditRouting } from "./PagesEditRouting";
@@ -89,6 +92,12 @@ const ContestEdit = lazy(() =>
 );
 const StaffControl = lazy(() =>
   import("~/pages/StaffControl").then((module) => ({ default: module.StaffControl }))
+);
+const Projects = lazy(() =>
+  import("~/pages/Projects").then((module) => ({ default: module.Projects }))
+);
+const ProjectsEdit = lazy(() =>
+  import("~/pages/ProjectsEdit").then((module) => ({ default: module.ProjectsEdit }))
 );
 
 export const Routing: React.FC = () => {
@@ -325,6 +334,33 @@ export const Routing: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <StaffControl />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ProjectsPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Projects />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ProjectsPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <ProjectsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ProjectsPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <ProjectsEdit />
           </BaseProtectedLayout>
         }
       />
