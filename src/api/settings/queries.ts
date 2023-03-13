@@ -49,6 +49,11 @@ export const UpdateSettings = gql`
     $emailPress: String
     $send_email_notify: String
     $content_editor: String
+    $vk: String
+    $facebook: String
+    $telegram: String
+    $instagram: String
+    $whatsapp: String
   ) {
     schedule: upsertSetting(input: { id: 1, name: "phone", value: $phone }) {
       ...allSettingsFields
@@ -65,14 +70,32 @@ export const UpdateSettings = gql`
     emailPress: upsertSetting(input: { id: 5, name: "schedule", value: $schedule }) {
       ...allSettingsFields
     }
+
     send_email_notify: upsertSetting(
       input: { id: 6, name: "send_email_notify", value: $send_email_notify }
     ) {
       ...allSettingsFields
     }
+
     content_editor: upsertSetting(
       input: { id: 7, name: "content_editor", value: $content_editor }
     ) {
+      ...allSettingsFields
+    }
+
+    vk: upsertSetting(input: { id: 8, name: "vk", value: $vk }) {
+      ...allSettingsFields
+    }
+    facebook: upsertSetting(input: { id: 9, name: "facebook", value: $facebook }) {
+      ...allSettingsFields
+    }
+    telegram: upsertSetting(input: { id: 10, name: "telegram", value: $telegram }) {
+      ...allSettingsFields
+    }
+    instagram: upsertSetting(input: { id: 11, name: "instagram", value: $instagram }) {
+      ...allSettingsFields
+    }
+    whatsapp: upsertSetting(input: { id: 12, name: "whatsapp", value: $whatsapp }) {
       ...allSettingsFields
     }
   }

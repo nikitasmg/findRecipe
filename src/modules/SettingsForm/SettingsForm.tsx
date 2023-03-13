@@ -19,10 +19,17 @@ import {
   NotificationSettingsForm,
   FormFieldsNotification
 } from "~/modules/SettingsForm/components/NotificationSettingsForm";
+import {
+  FormFieldsSocial,
+  SocialSettingsForm
+} from "~/modules/SettingsForm/components/SocialSettingsForm";
 import { Text } from "~shared/components/Text";
 import { TabsForm } from "~/shared/components/TabsForm";
 
-type FormFields = FormFieldsContacts & FormFieldsApiKeys & FormFieldsNotification;
+type FormFields = FormFieldsContacts &
+  FormFieldsApiKeys &
+  FormFieldsNotification &
+  FormFieldsSocial;
 
 export const SettingsTabs = () => {
   const [step, setStep] = useState(0);
@@ -85,6 +92,10 @@ export const SettingsTabs = () => {
                   control={control}
                 />
               )
+            },
+            {
+              tabTitle: "Social",
+              component: <SocialSettingsForm register={register} control={control} />
             },
             {
               tabTitle: "API-keys",

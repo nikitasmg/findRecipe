@@ -1,20 +1,6 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Route } from "react-router-dom";
 import { BaseProtectedLayout } from "~/layouts/BaseProtectedLayout";
-
-import { EditIndexPage } from "~/pages/edit";
-import { EditAboutPage } from "~/pages/edit/about";
-import { EditCommonInfoPage } from "~/pages/edit/common";
-import { EditControlPage } from "~/pages/edit/control";
-import { EditEventsPage } from "~/pages/edit/events";
-import { EditNewsPage } from "~/pages/edit/news";
-import { EditControlItemPage } from "~/pages/edit/control-item";
-import { EditStaffPage } from "~/pages/edit/staff";
-import { EditResultPage } from "~/pages/edit/result";
-import { EditOrdersPage } from "~/pages/edit/orders";
-import { EditDocumentsPage } from "~/pages/edit/documents";
-import { EditLogosPage } from "~/pages/edit/logos";
-import { EditAnoBiomedPage } from "~/pages/edit/ano-biomed";
 
 import {
   PagesEditAbout,
@@ -36,7 +22,50 @@ import {
   PagesEditStaff
 } from "~/shared/routes";
 
-export const PagesEditRouter = [
+const EditIndexPage = lazy(() =>
+  import("~/pages/edit").then((module) => ({ default: module.EditIndexPage }))
+);
+const EditAboutPage = lazy(() =>
+  import("~/pages/edit/about").then((module) => ({ default: module.EditAboutPage }))
+);
+const EditCommonInfoPage = lazy(() =>
+  import("~/pages/edit/common").then((module) => ({ default: module.EditCommonInfoPage }))
+);
+const EditControlPage = lazy(() =>
+  import("~/pages/edit/control").then((module) => ({ default: module.EditControlPage }))
+);
+const EditEventsPage = lazy(() =>
+  import("~/pages/edit/events").then((module) => ({ default: module.EditEventsPage }))
+);
+const EditNewsPage = lazy(() =>
+  import("~/pages/edit/news").then((module) => ({ default: module.EditNewsPage }))
+);
+const EditControlItemPage = lazy(() =>
+  import("~/pages/edit/control-item").then((module) => ({ default: module.EditControlItemPage }))
+);
+const EditStaffPage = lazy(() =>
+  import("~/pages/edit/staff").then((module) => ({ default: module.EditStaffPage }))
+);
+const EditResultPage = lazy(() =>
+  import("~/pages/edit/result").then((module) => ({ default: module.EditResultPage }))
+);
+const EditOrdersPage = lazy(() =>
+  import("~/pages/edit/orders").then((module) => ({ default: module.EditOrdersPage }))
+);
+
+const EditDocumentsPage = lazy(() =>
+  import("~/pages/edit/documents").then((module) => ({ default: module.EditDocumentsPage }))
+);
+
+const EditLogosPage = lazy(() =>
+  import("~/pages/edit/logos").then((module) => ({ default: module.EditLogosPage }))
+);
+
+const EditAnoBiomedPage = lazy(() =>
+  import("~/pages/edit/ano-biomed").then((module) => ({ default: module.EditAnoBiomedPage }))
+);
+
+export const PagesEditRouting = [
   <Route
     key='index'
     path={PagesEditIndex}
