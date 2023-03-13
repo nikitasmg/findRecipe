@@ -1,16 +1,16 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
 import { Providers } from "~/app/providers";
 import { Router } from "~/app/providers/Router";
 import { Snackbar } from "~/modules/Snackbar";
+import { Routing } from "~/pages/Routing";
 
 export const App: React.FC = () => {
   return (
     <Providers>
-      <BrowserRouter>
-        <Snackbar />
-        <Router />
-      </BrowserRouter>
+      <Snackbar />
+      <Router>
+        <Routing />
+      </Router>
     </Providers>
   );
 };
