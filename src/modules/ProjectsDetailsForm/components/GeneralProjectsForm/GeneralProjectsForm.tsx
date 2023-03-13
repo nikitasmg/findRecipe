@@ -64,7 +64,7 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, control
                 name='contest'
                 render={({ field: { value, onChange } }) => {
                   const currentValue = value as unknown as number;
-                  return <ContestsSelect onChange={onChange} value={currentValue} />;
+                  return <ContestsSelect onFormChange={onChange} initValue={currentValue} />;
                 }}
               />
             </FormControl>
