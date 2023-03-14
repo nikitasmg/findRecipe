@@ -83,11 +83,7 @@ export const ContestTable: React.FC = () => {
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
+                  <TableCell key={column.id} align={column.align} style={column.style}>
                     {column.label}
                   </TableCell>
                 ))}
@@ -102,7 +98,7 @@ export const ContestTable: React.FC = () => {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align} style={column.style}>
                             {column.render?.(value, row) ?? column.format?.(value) ?? value}
                           </TableCell>
                         );

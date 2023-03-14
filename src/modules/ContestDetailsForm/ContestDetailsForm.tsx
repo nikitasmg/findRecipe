@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import dayjs from "dayjs";
 import {
   ContestInput,
   UploadDocumentInput,
@@ -56,7 +57,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
       number: newValues.number,
       status: newValues.status,
       deadline: newValues.deadline,
-      date: newValues.date,
+      date: dayjs(newValues.date).format("YYYY-MM-DD"),
       uploadDocuments: newValues.uploadDocuments.reduce(
         (res: [UploadDocumentInput], cur: File, i: number) => {
           if (cur) {

@@ -1546,6 +1546,14 @@ export type UpdateOnIndexMutationVariables = Exact<{
 
 export type UpdateOnIndexMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number } | null };
 
+export type UpdatePublishedNewsMutationVariables = Exact<{
+  id: Scalars['Int'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type UpdatePublishedNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number } | null };
+
 export type CreateNewsMutationVariables = Exact<{
   input: NewsInput;
 }>;
@@ -2896,6 +2904,26 @@ export const useUpdateOnIndexMutation = <
     useMutation<UpdateOnIndexMutation, TError, UpdateOnIndexMutationVariables, TContext>(
       ['UpdateOnIndex'],
       (variables?: UpdateOnIndexMutationVariables) => fetcher<UpdateOnIndexMutation, UpdateOnIndexMutationVariables>(client, UpdateOnIndexDocument, variables, headers)(),
+      options
+    );
+export const UpdatePublishedNewsDocument = `
+    mutation UpdatePublishedNews($id: Int!, $published: Boolean!) {
+  upsertNews(input: {id: $id, published: $published}) {
+    id
+  }
+}
+    `;
+export const useUpdatePublishedNewsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePublishedNewsMutation, TError, UpdatePublishedNewsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePublishedNewsMutation, TError, UpdatePublishedNewsMutationVariables, TContext>(
+      ['UpdatePublishedNews'],
+      (variables?: UpdatePublishedNewsMutationVariables) => fetcher<UpdatePublishedNewsMutation, UpdatePublishedNewsMutationVariables>(client, UpdatePublishedNewsDocument, variables, headers)(),
       options
     );
 export const CreateNewsDocument = `
