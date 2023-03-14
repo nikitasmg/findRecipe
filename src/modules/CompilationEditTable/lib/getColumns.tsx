@@ -1,6 +1,5 @@
 import React from "react";
 import { Input, Typography } from "@mui/material";
-import { NumericInput } from "~/shared/components/NumericInput";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
