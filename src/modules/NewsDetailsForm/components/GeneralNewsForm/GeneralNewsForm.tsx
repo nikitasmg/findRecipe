@@ -126,7 +126,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 setValue("uploadImage", file);
               }}
               onDelete={() => {
-                setValue("uploadImage", null);
+                setValue("deleteImage", true);
                 setValue("imageUrl", null);
               }}
             />

@@ -30,7 +30,7 @@ export const prepareFormData = async (
     source: newValues.source,
     source_name: newValues.source_name,
     uploadImage: newValues.uploadImage,
-    ...(Boolean(!newValues.imageUrl) && { deleteImage: true }),
+    ...(Boolean(newValues.deleteImage) && { deleteImage: true }),
     category: {
       ...(Boolean(newValues.category) && { connect: newValues.category }),
       ...(Boolean(!newValues.category) && { disconnect: true })

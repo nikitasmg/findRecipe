@@ -33,7 +33,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
   const { data, isSuccess } = useNewsByIdQuery(
     client,
     { id: Number(id) },
-    { enabled: !isCreateMode }
+    { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 
   const goBack = useNavigationBack();
