@@ -1,4 +1,4 @@
-import { Box, FormControl, TextField } from "@mui/material";
+import { Box, FormControl, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -10,6 +10,7 @@ import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 export type GeneralFormFields = {
   name?: string;
   description?: string;
+  params?: string;
 };
 
 type Props = {
@@ -39,7 +40,7 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
   );
 
   return (
-    <Box className='flex flex-col gap-6'>
+    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
       <Controller
         control={control}
         name='name'
@@ -72,6 +73,25 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
           )}
         />
       )}
+
+      <Controller
+        control={control}
+        name='params'
+        render={({ field: { value } }) => (
+          <FormControl fullWidth>
+            <TextField
+              multiline
+              fullWidth
+              value={value}
+              label={<Text>Additional description</Text>}
+              InputProps={{
+                inputComponent: TextareaAutosize
+              }}
+              {...register("params")}
+            />
+          </FormControl>
+        )}
+      />
     </Box>
   );
 };
