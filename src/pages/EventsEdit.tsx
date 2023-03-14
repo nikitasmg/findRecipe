@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDeleteEventMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { EventsDetailsForm } from "~/modules/EventsDetailsForm";
@@ -8,20 +8,17 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
-import { EventsPageRoute } from "~/shared/routes/index";
 
 export const EventsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const handleGoBack = useNavigationBack();
 
-  const history = useNavigate();
-
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
 
-  const { mutateAsync: deleteNews } = useDeleteEventMutation(client);
+  const { mutateAsync: deleteNews } = useDeleteEventMutation(client, { onSuccess: handleGoBack });
 
   const handleDelete = () => {
     if (!id) {
@@ -29,7 +26,6 @@ export const EventsEdit: React.FC = () => {
     }
 
     deleteNews({ id: Number(id) });
-    history(EventsPageRoute);
   };
 
   return (
@@ -40,7 +36,7 @@ export const EventsEdit: React.FC = () => {
             <DetailsHead
               title={isEdit ? "Events editing" : "Events creating"}
               onBackClick={handleGoBack}
-              onRemove={handleDelete}
+              onRemove={isEdit ? handleDelete : undefined}
             />
             <EventsDetailsForm id={Number(id)} />
           </Box>

@@ -23,7 +23,7 @@ export const ContentEditor: React.FC<Props> = React.memo(
     }, [onChange, localValue, name]);
 
     return (
-      <Box className='relative h-[600px]'>
+      <Box className='relative min-h-[600px]'>
         {(!apiKey || isLoading) && (
           <Skeleton
             className='absolute top-0 left-0 h-full w-full z-999'

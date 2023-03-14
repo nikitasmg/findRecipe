@@ -1,12 +1,12 @@
 import React from "react";
 import { Switch } from "@mui/material";
 import { SortOrder, useUpdateVacancyPublishedMutation } from "~/generated/graphql";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
 import { VacanciesPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 
 export const useColumns = (
   activeOrder?: ActiveOrder,

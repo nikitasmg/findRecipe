@@ -18,7 +18,9 @@ export const VacanciesEdit: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { mutateAsync: deleteVacancy } = useDeleteVacancyMutation(client);
+  const { mutateAsync: deleteVacancy } = useDeleteVacancyMutation(client, {
+    onSuccess: handleGoBack
+  });
 
   const handleDelete = () => {
     if (!id) {
@@ -26,7 +28,6 @@ export const VacanciesEdit: React.FC = () => {
     }
 
     deleteVacancy({ id: Number(id) });
-    handleGoBack();
   };
 
   return (
@@ -36,7 +37,7 @@ export const VacanciesEdit: React.FC = () => {
           <DetailsHead
             title={isEdit ? "Vacancy editing" : "Vacancy creating"}
             onBackClick={handleGoBack}
-            onRemove={handleDelete}
+            onRemove={isEdit ? handleDelete : undefined}
           />
           <VacanciesDetailsForm id={Number(id)} />
         </Box>

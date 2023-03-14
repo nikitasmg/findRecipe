@@ -60,7 +60,7 @@ export const VacanciesTable: React.FC = () => {
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
-                <CellDragHandle />
+                <CellDragHandle disabled />
 
                 {columns.map((column) => (
                   <TableCell

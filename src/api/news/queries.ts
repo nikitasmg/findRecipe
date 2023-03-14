@@ -92,7 +92,7 @@ export const CreateNews = gql`
   ${NewsFragment}
 
   mutation createNews($input: NewsInput!) {
-    upsertNews(input: $input) {
+    createNews: upsertNews(input: $input) {
       ...allNewsFields
     }
   }

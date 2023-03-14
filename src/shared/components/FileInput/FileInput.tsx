@@ -78,7 +78,7 @@ export const FileInput: React.FC<Props> = ({
           </Box>
           <CancelIcon
             onClick={handleDeleteFile}
-            onKeyDown={handleDeleteFile}
+            onKeyPress={handleDeleteFile}
             tabIndex={0}
             className='text-red-700 right-0 top-0 cursor-pointer outline-1'
           />

@@ -12,8 +12,9 @@ import {
   useUpdateEventMutation
 } from "~/generated/graphql";
 import { TabsForm } from "~/shared/components/TabsForm";
+import { DocumentsForm, DocumentsFormFields } from "~/shared/components/DocumentsForm";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
-import { DocumentsForm, DocumentsFormFields } from "./components/DocumentsForm";
 
 type FormFields = GeneralFormFields &
   AdditionalFormFields &
@@ -36,9 +37,15 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
     { enabled: !isCreateMode }
   );
 
-  const { mutateAsync: createEvent, isLoading: isCreateLoading } = useCreateEventMutation(client);
+  const goBack = useNavigationBack();
 
-  const { mutateAsync: updateEvent, isLoading: isUpdateLoading } = useUpdateEventMutation(client);
+  const { mutateAsync: createEvent, isLoading: isCreateLoading } = useCreateEventMutation(client, {
+    onSuccess: goBack
+  });
+
+  const { mutateAsync: updateEvent, isLoading: isUpdateLoading } = useUpdateEventMutation(client, {
+    onSuccess: goBack
+  });
 
   const values = data?.eventById;
 

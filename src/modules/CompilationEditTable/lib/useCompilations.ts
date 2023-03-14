@@ -50,7 +50,7 @@ export const useCompilations = (id: number) => {
 
   const getUpdatedRows = curry((id: string, newValues: CompilationItem, rows: CompilationItem[]) =>
     rows.reduce((res: CompilationItem[], row) => {
-      if (row.id === Number(id)) {
+      if (row.id === id) {
         return res.concat({ ...row, ...newValues });
       }
 
@@ -72,7 +72,6 @@ export const useCompilations = (id: number) => {
     if (!selectedId) {
       addAlert("warning", t("Row not selected"));
     }
-
     updateMutation(args).then((data) => {
       const newItem = data[update.key as keyof typeof data] as unknown as CompilationItem;
 

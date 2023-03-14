@@ -67,7 +67,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    create({ sort: 0, name: "", ...newValues });
+    create({ sort: 0, name: newValues?.name ?? "" });
   };
 
   return (
@@ -84,7 +84,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <CellDragHandle />
+              <CellDragHandle disabled />
 
               {columns.map((column) => (
                 <TableCell key={column.id} align={column.align} style={column.style}>
@@ -109,7 +109,8 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
                 };
 
                 const handleRemove = () => {
-                  remove(Number(row.id));
+                  remove(row.id);
+                  setNewValues({});
                   setEditRow(null);
                 };
 

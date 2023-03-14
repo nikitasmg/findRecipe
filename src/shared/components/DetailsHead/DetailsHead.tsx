@@ -2,11 +2,10 @@ import { Box } from "@mui/material";
 import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Text } from "../Text";
 import { Link } from "../Link";
-import { Button } from "../Button";
 import { LinkButton } from "../LinkButton";
+import { ButtonDelete } from "../ButtonDelete";
 
 type Props = {
   title: string;
@@ -54,17 +53,6 @@ export const DetailsHead: React.FC<Props> = ({
       </Link>
     )}
 
-    {onRemove && (
-      <Button
-        className='order-first !ml-auto'
-        startIcon={<DeleteIcon />}
-        onClick={onRemove}
-        variant='outlined'
-        color='error'
-        size='small'
-      >
-        Delete
-      </Button>
-    )}
+    {onRemove && <ButtonDelete className='order-first !ml-auto' onClick={onRemove} />}
   </Box>
 );

@@ -18,7 +18,9 @@ export const PurchasesEdit: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { mutateAsync: deletePurchase } = useDeletePurchaseMutation(client);
+  const { mutateAsync: deletePurchase } = useDeletePurchaseMutation(client, {
+    onSuccess: handleGoBack
+  });
 
   const handleDelete = () => {
     if (!id) {
@@ -26,7 +28,6 @@ export const PurchasesEdit: React.FC = () => {
     }
 
     deletePurchase({ id: Number(id) });
-    handleGoBack();
   };
 
   return (
@@ -36,7 +37,7 @@ export const PurchasesEdit: React.FC = () => {
           <DetailsHead
             title={isEdit ? "Purchase editing" : "Purchase creating"}
             onBackClick={handleGoBack}
-            onRemove={handleDelete}
+            onRemove={isEdit ? handleDelete : undefined}
           />
           <PurchasesDetailsForm id={Number(id)} />
         </Box>

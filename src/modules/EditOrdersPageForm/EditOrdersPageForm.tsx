@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { usePageBySlugQuery, useUpdatePageMutation } from "~/generated/graphql";
 import { TabsForm } from "~/shared/components/TabsForm";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { PagesRoute } from "~/shared/routes";
 import { DocumentsForm } from "./components/DocumentsForm";
@@ -22,9 +23,13 @@ export const EditOrdersPageForm: React.FC = () => {
 
   const client = useGraphqlClient();
 
+  const goBack = useNavigationBack();
+
   const { data } = usePageBySlugQuery(client, { slug: "orders" });
 
-  const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client);
+  const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
+    onSuccess: goBack
+  });
 
   const values = data?.pageBySlug;
 

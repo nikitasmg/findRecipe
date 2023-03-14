@@ -43,7 +43,7 @@ export const CreateEmployee = gql`
   ${EmployeeFragment}
 
   mutation createEmployee($input: EmployeeInput!) {
-    upsertEmployee(input: $input) {
+    createEmployee: upsertEmployee(input: $input) {
       ...allEmployeeFields
     }
   }

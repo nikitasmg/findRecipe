@@ -65,7 +65,7 @@ export const AvatarInput: React.FC<Props> = ({
         <Box className='relative text-red-700 p-6 min-w-[310px] flex justify-center'>
           <CancelIcon
             onClick={handleDeleteImage}
-            onKeyDown={handleDeleteImage}
+            onKeyPress={handleDeleteImage}
             tabIndex={0}
             className='absolute left-[65%] top-0 cursor-pointer'
           />

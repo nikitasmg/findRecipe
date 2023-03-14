@@ -1,12 +1,47 @@
 import { GraphQLClient } from "graphql-request";
 import { Response } from "graphql-request/dist/types";
 import { compose, curry, prop } from "rambda";
-import { createCtx } from "~/shared/lib/context";
 import { LoginPageRoute } from "~/shared/routes";
 import { useAlertsStore as alertsStore } from "~/shared/stores/alerts";
 import { useAuthStore, useAuthStore as authStore } from "~/shared/stores/auth";
+import {
+  getDefaultSuccessDelete,
+  getDefaultSuccessUpdate,
+  getDefaultSuccessCreate
+} from "~/shared/lib/messages";
+import { createCtx } from "~/shared/lib/context";
 
 const goToLoginPage = () => (window.location = LoginPageRoute as unknown as Location);
+
+const handleSuccessResponse = (response: Response<unknown>) => {
+  const data = response.data;
+
+  if (!data) {
+    return;
+  }
+
+  const key = Object.keys(data)[0];
+
+  const isCreate = key.startsWith("create");
+
+  const isUpsert = key.startsWith("upsert");
+
+  const isDelete = key.startsWith("delete");
+
+  if (isCreate) {
+    getDefaultSuccessCreate();
+  }
+
+  if (isUpsert) {
+    getDefaultSuccessUpdate();
+  }
+
+  if (isDelete) {
+    getDefaultSuccessDelete();
+  }
+
+  return response;
+};
 
 const client = new GraphQLClient(process.env.REACT_APP_API_URL ?? "", {
   responseMiddleware: (response) => {
@@ -39,6 +74,8 @@ const client = new GraphQLClient(process.env.REACT_APP_API_URL ?? "", {
     if (response instanceof Error) {
       return addErrorAlert(response.message);
     }
+
+    handleSuccessResponse(response);
 
     return response;
   }

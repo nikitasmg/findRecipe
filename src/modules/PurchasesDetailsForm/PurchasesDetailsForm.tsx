@@ -22,6 +22,7 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
 import { baseRequired } from "~/shared/lib/validation";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 interface IVacanciesDetailsForm {
   id?: number;
@@ -38,13 +39,19 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 
+  const goBack = useNavigationBack();
+
   const values = data?.purchaseById;
 
-  const { mutateAsync: createPurchase, isLoading: isCreateLoading } =
-    useCreatePurchaseMutation(client);
+  const { mutateAsync: createPurchase, isLoading: isCreateLoading } = useCreatePurchaseMutation(
+    client,
+    { onSuccess: goBack }
+  );
 
-  const { mutateAsync: updatePurchase, isLoading: isUpdateLoading } =
-    useUpdatePurchaseMutation(client);
+  const { mutateAsync: updatePurchase, isLoading: isUpdateLoading } = useUpdatePurchaseMutation(
+    client,
+    { onSuccess: goBack }
+  );
 
   const { mutateAsync: upload } = useUploadMutation(client);
 

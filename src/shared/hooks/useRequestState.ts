@@ -1,23 +1,29 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { debounce } from "~shared/lib/debounce";
 import { createOrder } from "~shared/lib/createOrder";
 import { formatFilters } from "~shared/lib/formatFilters";
 import { ActiveOrder } from "~shared/types/ActiveOrder";
 import { useTablePagination } from "./useTablePagination";
-import { URLSearchParamsInit, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { getBooleanPresentationForBackend } from "../lib/getBooleanPresentationForBackend";
 
 type Params = Record<string, string>;
 
 export const useRequestState = (fastSearchFieldId: string) => {
-  const [search, setSearch] = useSearchParams();
+  const [search] = useSearchParams();
   const { filter: initialFilter, sort: initialSort } = [...search.entries()].reduce(
     (res, cur) => {
       const [key, value]: [string, unknown] = cur;
       const sortName = key.match(/sort\[(.+?)]/)?.[1];
+      const isPage = key === "page";
 
       if (sortName) {
         res.sort[sortName] = value;
+        return res;
+      }
+
+      if (isPage) {
+        res.page = Number(value);
         return res;
       }
 
@@ -27,7 +33,8 @@ export const useRequestState = (fastSearchFieldId: string) => {
     },
     {
       sort: Object.create(null),
-      filter: Object.create(null)
+      filter: Object.create(null),
+      page: 1
     }
   );
 
@@ -55,7 +62,18 @@ export const useRequestState = (fastSearchFieldId: string) => {
   };
 
   const handleChangeOrder = (order: ActiveOrder) => {
-    setActiveOrder(order);
+    setActiveOrder((oldOrder) => {
+      if (order) {
+        const [key, value] = Object.entries(order)[0];
+
+        search.set(`sort[${key}]`, value);
+      } else if (oldOrder) {
+        const key = Object.keys(oldOrder)[0];
+        search.delete(`sort[${key}]`);
+      }
+
+      return order;
+    });
     resetPagination();
   };
 
@@ -128,29 +146,6 @@ export const useRequestState = (fastSearchFieldId: string) => {
     handleSearchTitle("");
     setTitle("");
   }, [handleSearchTitle]);
-
-  useEffect(() => {
-    const [sortKey, sortValue] = Object.entries(activeOrder ?? {})[0] ?? [];
-
-    setSearch((old) => {
-      const newSearch: Record<string, unknown> = {
-        ...(Boolean(sortKey) && { [`sort[${sortKey}]`]: sortValue }),
-        ...Object.entries(params ?? {}).reduce((res: Record<string, string>, [key, value]) => {
-          if (value) {
-            res[key] = value;
-          }
-
-          return res;
-        }, Object.create(null))
-      };
-
-      old.forEach((value, key) => {
-        newSearch[key] = value;
-      });
-
-      return newSearch as URLSearchParamsInit;
-    });
-  }, [params, activeOrder, setSearch]);
 
   return {
     variables,

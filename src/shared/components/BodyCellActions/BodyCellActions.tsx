@@ -24,12 +24,12 @@ export const BodyCellActions: React.FC<Props> = ({
   return (
     <TableCell key='actions' className='w-[180px]'>
       <Box
-        className={clsx("flex", {
+        className={clsx("flex items-center", {
           "justify-end": !spinnerVisible,
           "justify-center": spinnerVisible
         })}
       >
-        {spinnerVisible && <CircularProgress />}
+        {spinnerVisible && <CircularProgress className='!w-[30px] !h-[30px]' />}
 
         {!spinnerVisible && (
           <Fragment>
@@ -46,7 +46,7 @@ export const BodyCellActions: React.FC<Props> = ({
             )}
 
             {handleRemove && (
-              <Button color='error' onClick={handleRemove}>
+              <Button type='button' color='error' onClick={handleRemove}>
                 <DeleteIcon />
               </Button>
             )}

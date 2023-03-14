@@ -12,6 +12,12 @@ export const EventsFragment = gql`
     end
     created_at
     updated_at
+    linked_documents {
+      id
+      url
+      user_name
+      sort
+    }
     image {
       id
       url
@@ -87,7 +93,7 @@ export const CreateEvent = gql`
   ${EventsFragment}
 
   mutation createEvent($input: EventInput!) {
-    upsertEvent(input: $input) {
+    createEvent: upsertEvent(input: $input) {
       ...allEventsFields
     }
   }

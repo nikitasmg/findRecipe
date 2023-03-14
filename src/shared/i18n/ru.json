@@ -55,7 +55,7 @@
   "General data": "Основные данные",
   "Additional data": "Дополнительные данные",
   "Upload or drop image": "Загрузите или перетащите изображение",
-  "Source": "Источник",
+  "Source": "Ссылка на источник",
   "Source title": "Название источника",
   "Published": "Опубликовано",
   "Tags": "Теги",
@@ -183,5 +183,12 @@
   "News announcement": "Анонс новости",
   "Edit contacts page": "Редактировать страницу контактов",
   "Place event": "Место проведения",
-  "Event time": "Время проведения"
+  "Event time": "Время проведения",
+  "Are you sure you want to delete?": "Вы уверены что хотите удалить?",
+  "Cancel": "Отменить",
+  "Date and time created": "Дата и время публикации",
+  "Successfully create": "Успешно создано",
+  "Successfully update": "Успешно обновлено",
+  "Successfully delete": "Успешно удалено",
+  "Invalid file type": "Неверный тип файла"
 }

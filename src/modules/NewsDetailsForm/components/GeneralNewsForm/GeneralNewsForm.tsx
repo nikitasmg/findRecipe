@@ -61,8 +61,6 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                   </RequiredLabelWrapper>
                 }
                 value={value}
-                variant='outlined'
-                id='name'
                 error={!!getError("name")}
                 {...register("name", baseRequired)}
               />
@@ -78,17 +76,21 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <TextField
-                label={<Text>News announcement</Text>}
+                label={
+                  <RequiredLabelWrapper>
+                    <Text>News announcement</Text>
+                  </RequiredLabelWrapper>
+                }
                 value={value}
-                variant='outlined'
                 multiline
                 fullWidth
                 error={!!getError("description")}
                 InputProps={{
                   inputComponent: TextareaAutosize
                 }}
-                {...register("description")}
+                {...register("description", baseRequired)}
               />
+              <HelperText id='name' error={getError("name")} />
             </FormControl>
           )}
         />
@@ -124,7 +126,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 setValue("uploadImage", file);
               }}
               onDelete={() => {
-                setValue("uploadImage", null);
+                setValue("deleteImage", true);
                 setValue("imageUrl", null);
               }}
             />

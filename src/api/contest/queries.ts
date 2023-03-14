@@ -55,7 +55,7 @@ export const CreateContest = gql`
   ${ContestFragment}
 
   mutation createContest($input: ContestInput!) {
-    upsertContest(input: $input) {
+    createContest: upsertContest(input: $input) {
       ...allContestFields
     }
   }

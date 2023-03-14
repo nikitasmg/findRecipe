@@ -9,7 +9,6 @@ import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ProjectsPageRoute } from "~shared/routes";
 import { useNavigationBack } from "~shared/hooks/useBackClick";
 import { ProjectsDetailsForm } from "~/modules/ProjectsDetailsForm";
-import { getDefaultSuccessCallback } from "~shared/lib/getDefaultSuccessCallback";
 
 export const ProjectsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +20,7 @@ export const ProjectsEdit: React.FC = () => {
   const client = useGraphqlClient();
 
   const { mutateAsync: deleteProject } = useDeleteProjectMutation(client, {
-    onSuccess: getDefaultSuccessCallback
+    onSuccess: handleGoBack
   });
 
   const handleDelete = () => {
@@ -30,7 +29,6 @@ export const ProjectsEdit: React.FC = () => {
     }
 
     deleteProject({ id: Number(id) });
-    handleGoBack();
   };
 
   return (
@@ -41,7 +39,7 @@ export const ProjectsEdit: React.FC = () => {
             <DetailsHead
               title={isEdit ? "Projects editing" : "Projects creating"}
               backHref={ProjectsPageRoute}
-              onRemove={handleDelete}
+              onRemove={isEdit ? handleDelete : undefined}
             />
             <ProjectsDetailsForm id={Number(id)} />
           </Box>
