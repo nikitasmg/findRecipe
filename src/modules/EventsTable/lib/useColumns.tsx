@@ -44,7 +44,8 @@ export const useColumns = (
           onSortClick={getClickHandler("id")}
           sortProps={getActiveProps("id")}
         />
-      )
+      ),
+      align: "center"
     },
 
     {
@@ -57,7 +58,9 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 250,
+      style: {
+        width: "30%"
+      },
       render: (value, row) => {
         return (
           <Link
@@ -80,8 +83,10 @@ export const useColumns = (
           sortProps={getActiveProps("description")}
         />
       ),
-      minWidth: 150,
-      render: (value) => (value as string).slice(0, 100)
+      style: {
+        width: "25%"
+      },
+      render: (value) => (value as string).slice(0, 100).concat("...")
     },
 
     {
@@ -94,7 +99,27 @@ export const useColumns = (
           sortProps={getActiveProps("created_at")}
         />
       ),
-      minWidth: 250,
+      style: {
+        width: "120px"
+      },
+      align: "center",
+      format: formatDate
+    },
+
+    {
+      id: "start",
+      label: (
+        <TableHeadCell
+          title='Start date'
+          cellId='start'
+          onSortClick={getClickHandler("start")}
+          sortProps={getActiveProps("start")}
+        />
+      ),
+      style: {
+        minWidth: "170px"
+      },
+      align: "center",
       format: formatDate
     },
 
@@ -109,7 +134,9 @@ export const useColumns = (
           sortProps={getActiveProps("published")}
         />
       ),
-      minWidth: 200,
+      style: {
+        width: "120px"
+      },
       align: "center",
       render: (value, row) => {
         return (
