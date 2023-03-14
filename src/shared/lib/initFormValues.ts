@@ -19,10 +19,10 @@ export const prepareInitialValues = <T = Record<string, unknown> | null>(
     const key = Array.isArray(item) ? item[0] : item;
     let value: unknown;
 
-    if (typeof item === "string") {
-      value = values?.[item as keyof typeof values];
-    } else if ("key" in item[1] && item[1].key) {
+    if (typeof item === "object" && "key" in item[1] && item[1].key) {
       value = getDeepValue<T, string>(item[1].key, values);
+    } else {
+      value = values?.[key as keyof typeof values];
     }
 
     if (Array.isArray(item) && "format" in item[1]) {

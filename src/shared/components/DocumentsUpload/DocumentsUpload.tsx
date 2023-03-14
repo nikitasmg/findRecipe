@@ -1,5 +1,5 @@
 import { Box, Drawer, TextField, Typography } from "@mui/material";
-import React, { BaseSyntheticEvent, ReactNode, useState, useEffect } from "react";
+import React, { BaseSyntheticEvent, ReactNode, useState } from "react";
 import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SaveIcon from "@mui/icons-material/Save";
@@ -58,8 +58,6 @@ export const DocumentsUpload: React.FC<Props> = ({
 }) => {
   const { open, handleOpen, handleClose } = useModal();
 
-  const [files, setFiles] = useState<Document[]>(value);
-
   const [selectedFile, setSelectedFile] = useState<Document | null>();
 
   const { handleSubmit, control, register, setValue, getValues, reset } = useForm<FormFields>({
@@ -87,28 +85,21 @@ export const DocumentsUpload: React.FC<Props> = ({
 
     handleSubmit((values) => {
       if (selectedFile) {
-        setFiles((oldFiles) => {
-          const newFiles = oldFiles.reduce((res: Document[], cur) => {
-            res.push(cur === selectedFile ? values : cur);
+        const newFiles = value.reduce((res: Document[], cur) => {
+          res.push(cur === selectedFile ? values : cur);
 
-            return res;
-          }, []);
+          return res;
+        }, []);
 
-          const updateID = selectedFile.id;
+        const updateID = selectedFile.id;
 
-          if (updateID) {
-            onUpdate?.(values as Document);
-          }
+        if (updateID) {
+          onUpdate?.(values as Document);
+        }
 
-          onChange?.(newFiles);
-          return newFiles;
-        });
+        onChange?.(newFiles);
       } else {
-        setFiles((oldFiles) => {
-          const newFiles = oldFiles.concat(values);
-          onChange?.(newFiles);
-          return newFiles;
-        });
+        onChange?.(value.slice(0, 1).concat(values));
       }
 
       handleCloseForm();
@@ -116,18 +107,15 @@ export const DocumentsUpload: React.FC<Props> = ({
   };
 
   const getDeleteFileHandler = (index: number) => () => {
-    setFiles((oldFiles) => {
-      const newFiles = oldFiles.filter((_, i) => i !== index);
-      onChange?.(newFiles);
+    const newFiles = value.filter((_, i) => i !== index);
 
-      const deleteID = oldFiles[index]?.id;
+    const deleteID = value[index]?.id;
 
-      if (deleteID) {
-        onDelete?.(deleteID);
-      }
+    if (deleteID) {
+      onDelete?.(deleteID);
+    }
 
-      return newFiles;
-    });
+    onChange?.(newFiles);
   };
 
   const getSelectFileHandler = (file: Document) => () => {
@@ -138,29 +126,22 @@ export const DocumentsUpload: React.FC<Props> = ({
   };
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    setFiles((oldFiles) => {
-      const newFiles = arrayMove(oldFiles, oldIndex, newIndex);
+    const newFiles = arrayMove(value, oldIndex, newIndex);
 
-      const update = newFiles[newIndex];
+    const update = newFiles[newIndex];
 
-      if (update.id && update) {
-        onUpdate?.(update);
-      }
+    if (update.id && update) {
+      onUpdate?.(update);
+    }
 
-      onChange?.(newFiles);
-      return newFiles;
-    });
+    onChange?.(newFiles);
   };
-
-  useEffect(() => {
-    setFiles(value);
-  }, [value]);
 
   return (
     <Box className={clsx(containerClassName, "flex flex-col gap-4")}>
-      {!!files.length && (
+      {!!value.length && (
         <DocumentsContainerSortable distance={1} onSortEnd={onSortEnd}>
-          {files.map((file, i) => (
+          {value.map((file, i) => (
             <DocumentsRowSortable key={i} index={i}>
               <DragHandle />
               <Box className='flex gap-2' onClick={getSelectFileHandler(file)}>

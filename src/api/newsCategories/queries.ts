@@ -32,7 +32,7 @@ export const CreateNewsCategory = gql`
   ${NewsCategoriesFragment}
 
   mutation createNewsCategory($sort: Int!, $name: String!) {
-    upsertNewsCategory(input: { sort: $sort, name: $name }) {
+    createNewsCategory: upsertNewsCategory(input: { sort: $sort, name: $name }) {
       ...allNewsCategoriesFields
     }
   }

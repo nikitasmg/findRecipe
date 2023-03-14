@@ -84,7 +84,7 @@ export const CreateProject = gql`
   ${ProjectsFragment}
 
   mutation createProject($input: ProjectInput!) {
-    upsertProject(input: $input) {
+    createProject: upsertProject(input: $input) {
       ...allProjectsFields
     }
   }

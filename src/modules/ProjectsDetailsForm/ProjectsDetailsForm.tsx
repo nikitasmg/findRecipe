@@ -10,10 +10,10 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { ProjectsPageRoute } from "~/shared/routes";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { AdditionalProjectsForm } from "./components/AdditionalProjectsForm";
 import { GeneralProjectsForm } from "./components/GeneralProjectsForm";
 import { SeoProjectsForm } from "./components/SeoProjectsForm";
-import { getDefaultSuccessCallback } from "~shared/lib/getDefaultSuccessCallback";
 
 type Props = {
   id?: number;
@@ -32,14 +32,16 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 
+  const goBack = useNavigationBack();
+
   const { mutateAsync: createProject, isLoading: isCreateLoading } = useCreateProjectMutation(
     client,
-    { onSuccess: getDefaultSuccessCallback }
+    { onSuccess: goBack }
   );
 
   const { mutateAsync: updateProject, isLoading: isUpdateLoading } = useUpdateProjectMutation(
     client,
-    { onSuccess: getDefaultSuccessCallback }
+    { onSuccess: goBack }
   );
 
   const values = data?.projectById;

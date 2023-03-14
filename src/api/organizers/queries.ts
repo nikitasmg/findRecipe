@@ -37,7 +37,7 @@ export const CreateOrganizer = gql`
   ${OrganizerFragment}
 
   mutation createOrganizer($input: OrganizerInput!) {
-    upsertOrganizer(input: $input) {
+    createOrganizer: upsertOrganizer(input: $input) {
       ...allOrganizerFields
     }
   }

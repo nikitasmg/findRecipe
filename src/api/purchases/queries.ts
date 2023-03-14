@@ -45,7 +45,7 @@ export const CreatePurchase = gql`
   ${PurchasesFragment}
 
   mutation createPurchase($input: PurchaseInput!) {
-    upsertPurchase(input: $input) {
+    createPurchase: upsertPurchase(input: $input) {
       ...allPurchasesFields
     }
   }

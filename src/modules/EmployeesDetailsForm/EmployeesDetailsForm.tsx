@@ -18,6 +18,7 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { baseRequired, getBaseEmailValidation } from "~shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 interface IEmployeesDetailsForm {
   id?: number;
@@ -38,11 +39,17 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
 
   const values = data?.employeeById;
 
-  const { mutateAsync: createEmployee, isLoading: isCreateLoading } =
-    useCreateEmployeeMutation(client);
+  const goBack = useNavigationBack();
 
-  const { mutateAsync: updateEmployee, isLoading: isUpdateLoading } =
-    useUpdateEmployeeMutation(client);
+  const { mutateAsync: createEmployee, isLoading: isCreateLoading } = useCreateEmployeeMutation(
+    client,
+    { onSuccess: goBack }
+  );
+
+  const { mutateAsync: updateEmployee, isLoading: isUpdateLoading } = useUpdateEmployeeMutation(
+    client,
+    { onSuccess: goBack }
+  );
 
   const isLoading = isCreateLoading || isUpdateLoading;
 

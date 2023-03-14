@@ -32,7 +32,7 @@ export const CreateSubdivision = gql`
   ${SubdivisionsFragment}
 
   mutation createSubdivision($sort: Int!, $name: String!) {
-    upsertSubdivision(input: { sort: $sort, name: $name }) {
+    createSubdivision: upsertSubdivision(input: { sort: $sort, name: $name }) {
       ...allSubdivisionsFields
     }
   }

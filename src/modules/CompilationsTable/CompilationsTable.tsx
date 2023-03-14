@@ -8,7 +8,8 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import React, { Fragment } from "react";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { Text } from "~/shared/components/Text";
@@ -20,25 +21,29 @@ import { getColumns } from "./lib/getColumns";
 export const CompilationsTable: React.FC = () => {
   const { title, handleTitleChange, resetTitle } = useRequestState("name");
 
+  const { t } = useTranslation();
+
   const compilations = useCompilationsStore((state) => state.compilations);
+
+  const filteredCompilations = compilations
+    .map((compilation) => ({ ...compilation, heading: t(compilation.heading) }))
+    .filter((compilation) => compilation.heading.toLowerCase().includes(title));
 
   const columns = getColumns();
 
   return (
     <Panel>
-      <Box className='flex items-stretch gap-2 p-4 flex-col sm:flex-row'>
+      <Box className='flex flex-col gap-6 p-4'>
         <SearchInput
-          disabled
           label={<Text>Fast search</Text>}
+          className='max-w-[330px]'
           fullWidth
           value={title}
           onChange={getEventValueHandler(handleTitleChange)}
           size='small'
           handleReset={resetTitle}
         />
-      </Box>
 
-      <Fragment>
         <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
@@ -56,7 +61,7 @@ export const CompilationsTable: React.FC = () => {
             </TableHead>
 
             <TableBody>
-              {compilations.map((row) => {
+              {filteredCompilations.map((row) => {
                 return (
                   <TableRow hover role='row' tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
@@ -75,7 +80,7 @@ export const CompilationsTable: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Fragment>
+      </Box>
     </Panel>
   );
 };

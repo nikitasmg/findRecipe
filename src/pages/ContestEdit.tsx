@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDeleteContestMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { ContestDetailsForm } from "~/modules/ContestDetailsForm";
@@ -8,17 +8,18 @@ import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ContestPageRoute } from "~/shared/routes";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 export const ContestEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const history = useNavigate();
+  const goBack = useNavigationBack();
 
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
 
-  const { mutateAsync: deleteContest } = useDeleteContestMutation(client);
+  const { mutateAsync: deleteContest } = useDeleteContestMutation(client, { onSuccess: goBack });
 
   const handleDelete = () => {
     if (!id) {
@@ -26,7 +27,6 @@ export const ContestEdit: React.FC = () => {
     }
 
     deleteContest({ id: Number(id) });
-    history(ContestPageRoute);
   };
 
   return (
@@ -37,7 +37,7 @@ export const ContestEdit: React.FC = () => {
             <DetailsHead
               title={isEdit ? "Contest editing" : "Contest creating"}
               backHref={ContestPageRoute}
-              onRemove={handleDelete}
+              onRemove={isEdit ? handleDelete : undefined}
             />
             <ContestDetailsForm id={Number(id)} />
           </Box>

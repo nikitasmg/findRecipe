@@ -37,7 +37,7 @@ export const CreatePartner = gql`
   ${PartnerFragment}
 
   mutation createPartner($input: PartnerInput!) {
-    upsertPartner(input: $input) {
+    createPartner: upsertPartner(input: $input) {
       ...allPartnerFields
     }
   }

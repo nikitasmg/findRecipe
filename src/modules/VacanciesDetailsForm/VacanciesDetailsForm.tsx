@@ -26,6 +26,7 @@ import { baseRequired } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 interface IVacanciesDetailsForm {
   id?: number;
@@ -44,11 +45,17 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   const values = data?.vacancyById;
 
-  const { mutateAsync: createVacancy, isLoading: isCreateLoading } =
-    useCreateVacancyMutation(client);
+  const goBack = useNavigationBack();
 
-  const { mutateAsync: updateVacancy, isLoading: isUpdateLoading } =
-    useUpdateVacancyMutation(client);
+  const { mutateAsync: createVacancy, isLoading: isCreateLoading } = useCreateVacancyMutation(
+    client,
+    { onSuccess: goBack }
+  );
+
+  const { mutateAsync: updateVacancy, isLoading: isUpdateLoading } = useUpdateVacancyMutation(
+    client,
+    { onSuccess: goBack }
+  );
 
   const isLoading = isCreateLoading || isUpdateLoading;
 

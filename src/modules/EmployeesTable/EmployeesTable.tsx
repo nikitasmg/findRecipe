@@ -64,7 +64,7 @@ const EmployeesTable = () => {
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
-                <CellDragHandle />
+                <CellDragHandle disabled />
 
                 {columns.map((column) => (
                   <TableCell

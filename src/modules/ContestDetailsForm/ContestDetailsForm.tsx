@@ -12,6 +12,7 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { NewsPageRoute } from "~/shared/routes";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { GeneralForm } from "./components/GeneralForm";
 import { DocumentsForm } from "./components/DocumentsForm";
 
@@ -24,6 +25,8 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
 
   const isCreateMode = !Number.isInteger(id);
 
+  const goBack = useNavigationBack();
+
   const client = useGraphqlClient();
 
   const { data, isSuccess } = useContestByIdQuery(
@@ -32,11 +35,15 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
     { enabled: !isCreateMode }
   );
 
-  const { mutateAsync: createContest, isLoading: isCreateLoading } =
-    useCreateContestMutation(client);
+  const { mutateAsync: createContest, isLoading: isCreateLoading } = useCreateContestMutation(
+    client,
+    { onSuccess: goBack }
+  );
 
-  const { mutateAsync: updateContest, isLoading: isUpdateLoading } =
-    useUpdateContestMutation(client);
+  const { mutateAsync: updateContest, isLoading: isUpdateLoading } = useUpdateContestMutation(
+    client,
+    { onSuccess: goBack }
+  );
 
   const {
     control,

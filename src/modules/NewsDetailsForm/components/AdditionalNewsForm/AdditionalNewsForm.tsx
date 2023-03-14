@@ -1,6 +1,7 @@
 import { Box, FormControl, FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
 import React from "react";
 import { curry } from "rambda";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import {
   Control,
   Controller,
@@ -17,11 +18,11 @@ import {
 } from "~/generated/graphql";
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
-import { DatePicker } from "~/shared/components/DatePicker";
+import { LinkInput } from "~/shared/components/LinkInput";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { getBaseUrlValidation } from "~/shared/lib/validation";
-import { LinkInput } from "~/shared/components/LinkInput";
+import { baseRequired } from "~shared/lib/validation";
 
 type FormFields = {
   source?: string;
@@ -82,7 +83,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
               value={value}
               variant='outlined'
               error={!!getError("source")}
-              {...register("source", getBaseUrlValidation())}
+              {...register("source")}
               onChange={(e) => setValue("source", e.target.value)}
             />
 
@@ -107,11 +108,17 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         name='published_at'
         render={({ field: { value } }) => (
           <FormControl error={getError("published_at")}>
-            <DatePicker
+            <DateTimePicker
               className='w-full'
-              label={<Text>Created at</Text>}
+              label={
+                <RequiredLabelWrapper>
+                  <Text>Date and time created</Text>
+                </RequiredLabelWrapper>
+              }
               value={value ?? null}
+              {...register("published_at", baseRequired)}
               onChange={curry(setValue)("published_at")}
+              renderInput={(props) => <TextField {...props} size='small' />}
             />
 
             <HelperText id='published_at' error={getError("published_at")} />
@@ -160,8 +167,8 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
               label={<Text>Tags</Text>}
               SelectProps={{
                 multiple: true,
-                value: value,
-                onChange: onChange,
+                value,
+                onChange,
                 MenuProps: {
                   className: "h-[300px]"
                 }

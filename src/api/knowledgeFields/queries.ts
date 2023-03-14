@@ -32,7 +32,7 @@ export const CreateKnowledgeField = gql`
   ${KnowledgeFieldsFragment}
 
   mutation createKnowledgeField($sort: Int!, $name: String!) {
-    upsertKnowledgeField(input: { sort: $sort, name: $name }) {
+    createKnowledgeField: upsertKnowledgeField(input: { sort: $sort, name: $name }) {
       ...allKnowledgeAreasFields
     }
   }

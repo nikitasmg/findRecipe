@@ -6,13 +6,14 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
+  SelectChangeEvent,
   Switch,
   TextField
 } from "@mui/material";
 import { curry } from "rambda";
 import React, { forwardRef } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { useNewsCategoriesQuery } from "~/generated/graphql";
+import { useNewsCategoriesQuery, useNewsTagsQuery } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
 import { DatePicker } from "~/shared/components/DatePicker";
 import { getEventValueHandler } from "~/shared/lib/events";
@@ -35,6 +36,11 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     const client = useGraphqlClient();
 
     const { data: categories } = useNewsCategoriesQuery(client);
+
+    const { data: tags } = useNewsTagsQuery(client);
+
+    const handleTagChange = (e: SelectChangeEvent<unknown>) =>
+      handleChangeFilter("tags", e.target.value);
 
     return (
       <form ref={ref}>
@@ -80,6 +86,29 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
           </Grid>
 
           <Grid item columns={12} xs={12}>
+            <TextField
+              select
+              fullWidth
+              name='tags'
+              variant='outlined'
+              label={<Text>Tags</Text>}
+              SelectProps={{
+                value: params?.tags,
+                onChange: handleTagChange,
+                MenuProps: {
+                  className: "h-[300px]"
+                }
+              }}
+            >
+              {tags?.newsTags.map((tag) => (
+                <MenuItem key={tag.id} value={tag.id}>
+                  #{tag.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item columns={12} xs={12}>
             <DatePicker
               className='w-full'
               label={<Text>Published at</Text>}
@@ -91,7 +120,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
           <Grid item columns={12} xs={12}>
             <FormControlLabel
               control={<Switch checked={!!params?.on_index} onChange={handleOnIndexChange} />}
-              label={<Text>Visible</Text>}
+              label={<Text>On the main</Text>}
             />
           </Grid>
         </Grid>

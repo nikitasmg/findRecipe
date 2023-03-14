@@ -1,15 +1,16 @@
 import { curry } from "rambda";
+import { useEffect, useState } from "react";
+import { arrayMove } from "react-sortable-hoc";
 import {
   UpdateVacancyMutationVariables,
   useUpdateVacancyMutation,
   useVacanciesQuery,
   Vacancy
 } from "~/generated/graphql";
-import { useEffect, useState } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useVacanciesStore } from "~stores/vacancies";
 import { useRequestState } from "~shared/hooks/useRequestState";
-import { arrayMove } from "react-sortable-hoc";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 export const useVacancies = () => {
   const [rows, setRows] = useState<Vacancy[]>([]);
@@ -41,7 +42,9 @@ export const useVacancies = () => {
 
   const vacancies = data?.vacancies;
 
-  const { mutateAsync: updateVacancy } = useUpdateVacancyMutation(client);
+  const goBack = useNavigationBack();
+
+  const { mutateAsync: updateVacancy } = useUpdateVacancyMutation(client, { onSuccess: goBack });
 
   const getUpdatedRows = curry((id: string, newValues: Vacancy, rows: Vacancy[]) =>
     rows.reduce((res: Vacancy[], row) => {

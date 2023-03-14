@@ -45,6 +45,7 @@ export type Contest = {
   deadline?: Maybe<Scalars['DateTime']>;
   documents?: Maybe<Array<Maybe<Document>>>;
   id: Scalars['Int'];
+  linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   name: Scalars['String'];
   number?: Maybe<Scalars['Int']>;
   status?: Maybe<ContestStatus>;
@@ -61,6 +62,7 @@ export type ContestInput = {
   deadline?: InputMaybe<Scalars['DateTime']>;
   deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   id?: InputMaybe<Scalars['Int']>;
+  linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
   number?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<ContestStatus>;
@@ -125,6 +127,7 @@ export type Event = {
   image?: Maybe<Image>;
   imageThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
   imageUrl?: Maybe<Scalars['String']>;
+  linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   name: Scalars['String'];
   organizers?: Maybe<Array<Maybe<Organizer>>>;
   partners?: Maybe<Array<Maybe<Partner>>>;
@@ -140,6 +143,7 @@ export type EventInput = {
   description?: InputMaybe<Scalars['String']>;
   end?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
+  linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
   organizers?: InputMaybe<OrganizerBelongsToMany>;
   partners?: InputMaybe<PartnerBelongsToMany>;
@@ -219,6 +223,32 @@ export type KnowledgeFieldInput = {
   sort?: InputMaybe<Scalars['Int']>;
 };
 
+export type LikedDocumentPivotInput = {
+  id: Scalars['Int'];
+  sort?: InputMaybe<Scalars['Int']>;
+};
+
+export type LinkedDocument = {
+  __typename?: 'LinkedDocument';
+  id: Scalars['Int'];
+  sort?: Maybe<Scalars['Int']>;
+  url: Scalars['String'];
+  user_name?: Maybe<Scalars['String']>;
+};
+
+export type LinkedDocumentInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  upload?: InputMaybe<Scalars['Upload']>;
+  /** Имя файла заданное пользователем */
+  user_name?: InputMaybe<Scalars['String']>;
+};
+
+export type LinkedDocumentMorphedByMany = {
+  connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  syncWithoutDetaching?: InputMaybe<Array<InputMaybe<LikedDocumentPivotInput>>>;
+};
+
 export type Log = {
   __typename?: 'Log';
   causer?: Maybe<User>;
@@ -262,6 +292,7 @@ export type Mutation = {
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
   deleteKnowledgeField?: Maybe<KnowledgeField>;
+  deleteLinkedDocument?: Maybe<LinkedDocument>;
   deleteNews?: Maybe<News>;
   deleteNewsCategory?: Maybe<NewsCategory>;
   deleteNewsTag?: Maybe<NewsTag>;
@@ -287,6 +318,7 @@ export type Mutation = {
   upsertEmployee?: Maybe<Employee>;
   upsertEvent?: Maybe<Event>;
   upsertKnowledgeField?: Maybe<KnowledgeField>;
+  upsertLinkedDocument?: Maybe<LinkedDocument>;
   upsertNews?: Maybe<News>;
   upsertNewsCategory?: Maybe<NewsCategory>;
   upsertNewsTag?: Maybe<NewsTag>;
@@ -319,6 +351,11 @@ export type MutationDeleteEventArgs = {
 
 
 export type MutationDeleteKnowledgeFieldArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteLinkedDocumentArgs = {
   id: Scalars['Int'];
 };
 
@@ -446,6 +483,11 @@ export type MutationUpsertKnowledgeFieldArgs = {
 };
 
 
+export type MutationUpsertLinkedDocumentArgs = {
+  input: LinkedDocumentInput;
+};
+
+
 export type MutationUpsertNewsArgs = {
   input: NewsInput;
 };
@@ -516,7 +558,6 @@ export type News = {
   content?: Maybe<Scalars['String']>;
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
-  documents?: Maybe<Array<Maybe<Document>>>;
   gallery?: Maybe<Array<Maybe<GalleryImage>>>;
   galleryThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
   id: Scalars['Int'];
@@ -552,7 +593,6 @@ export type NewsCategoryInput = {
 export type NewsInput = {
   category?: InputMaybe<CategoryBelongsTo>;
   content?: InputMaybe<Scalars['String']>;
-  deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
@@ -566,9 +606,7 @@ export type NewsInput = {
   source?: InputMaybe<Scalars['String']>;
   source_name?: InputMaybe<Scalars['String']>;
   tags?: InputMaybe<TagBelongsToMany>;
-  updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
   updateGallery?: InputMaybe<Array<InputMaybe<UpdateGalleryInput>>>;
-  uploadDocuments?: InputMaybe<Array<InputMaybe<UploadDocumentInput>>>;
   uploadGalleryImages?: InputMaybe<Array<InputMaybe<UploadGalleryInput>>>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
@@ -850,6 +888,8 @@ export type Query = {
   events?: Maybe<EventPaginator>;
   knowledgeFieldById?: Maybe<KnowledgeField>;
   knowledgeFields: Array<KnowledgeField>;
+  linkedDocumentById?: Maybe<LinkedDocument>;
+  linkedDocuments: Array<LinkedDocument>;
   logById?: Maybe<Log>;
   logs?: Maybe<LogPaginator>;
   me: User;
@@ -931,6 +971,17 @@ export type QueryKnowledgeFieldByIdArgs = {
 
 
 export type QueryKnowledgeFieldsArgs = {
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryLinkedDocumentByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryLinkedDocumentsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -1431,14 +1482,14 @@ export type DeleteEmployeeMutationVariables = Exact<{
 
 export type DeleteEmployeeMutation = { __typename?: 'Mutation', deleteEmployee?: { __typename?: 'Employee', id: number } | null };
 
-export type AllEventsFieldsFragment = { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
+export type AllEventsFieldsFragment = { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type EventByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type EventsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1448,7 +1499,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
 
 export type UpdateEventPublishedMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1463,14 +1514,14 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateEventMutationVariables = Exact<{
   input: EventInput;
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1559,7 +1610,7 @@ export type CreateNewsMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type CreateNewsMutation = { __typename?: 'Mutation', create?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type UpdateNewsMutationVariables = Exact<{
   input: NewsInput;
@@ -2092,6 +2143,12 @@ export const AllEventsFieldsFragmentDoc = `
   end
   created_at
   updated_at
+  linked_documents {
+    id
+    url
+    user_name
+    sort
+  }
   image {
     id
     url
@@ -2928,7 +2985,7 @@ export const useUpdatePublishedNewsMutation = <
     );
 export const CreateNewsDocument = `
     mutation createNews($input: NewsInput!) {
-  upsertNews(input: $input) {
+  create: upsertNews(input: $input) {
     ...allNewsFields
   }
 }

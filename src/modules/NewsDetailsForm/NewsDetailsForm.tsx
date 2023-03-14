@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import {
-  News,
-  NewsInput,
   NewsTag,
   useCreateNewsMutation,
   useNewsByIdQuery,
@@ -12,12 +10,12 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
-import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { NewsPageRoute } from "~/shared/routes";
+import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { AdditionalNewsForm } from "./components/AdditionalNewsForm";
 import { GeneralNewsForm } from "./components/GeneralNewsForm";
 import { SeoNewsForm } from "./components/SeoNewsForm";
-import { OtherNewsForm } from "./components/OtherNewsForm/OtherNewsForm";
+import { prepareFormData } from "./lib/prepareFormData";
 
 type Props = {
   id?: number;
@@ -38,9 +36,15 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     { enabled: !isCreateMode }
   );
 
-  const { mutateAsync: createNews, isLoading: isCreateLoading } = useCreateNewsMutation(client);
+  const goBack = useNavigationBack();
 
-  const { mutateAsync: updateNews, isLoading: isUpdateLoading } = useUpdateNewsMutation(client);
+  const { mutateAsync: createNews, isLoading: isCreateLoading } = useCreateNewsMutation(client, {
+    onSuccess: goBack
+  });
+
+  const { mutateAsync: updateNews, isLoading: isUpdateLoading } = useUpdateNewsMutation(client, {
+    onSuccess: goBack
+  });
 
   const values = data?.newsById;
 
@@ -53,44 +57,24 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     setValue,
     control,
     setError
-  } = useForm({ mode: "all" });
+  } = useForm({
+    mode: "all"
+  });
 
-  const onSubmit = handleSubmit(async (newValues) => {
-    const input: NewsInput = {
-      ...(Boolean(values?.id) && { id: values?.id }),
-      ...newValues,
-      published_at: dayjs(newValues.published_at).toISOString(),
-      ...(Boolean(isCreateMode) && {
-        published: touchedFields.published ? newValues.published : true
-      }),
-      category: { connect: newValues.category },
-      tags: { connect: newValues.tags },
-      ...(Boolean(newValues.documents) && {
-        uploadDocuments: await Promise.all(
-          newValues.documents?.map(
-            async (document: { title: string; url: string }, i: number) =>
-              ({
-                upload: await fileFromBlobUrl(document.url),
-                sort: i,
-                user_name: document.title
-              } || [])
-          )
-        )
-      })
-    };
+  const onSubmit = handleSubmit((newValues) => {
+    prepareFormData(newValues, values, { isCreateMode, touchedFields }).then((input) => {
+      if (isCreateMode) {
+        createNews({ input });
+        return;
+      }
 
-    delete (input as News).documents;
-    delete (input as News).imageUrl;
-
-    if (isCreateMode) {
-      createNews({ input });
-      return;
-    }
-
-    updateNews({ input });
+      updateNews({ input });
+    });
   });
 
   useEffect(() => {
+    setValue("published_at", values?.published_at || dayjs().toISOString());
+
     if (!isSuccess) {
       return;
     }
@@ -158,10 +142,6 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
         {
           tabTitle: "SEO",
           component: <SeoNewsForm errors={errors} register={register} control={control} />
-        },
-        {
-          tabTitle: "Other",
-          component: <OtherNewsForm setValue={setValue} control={control} />
         }
       ]}
     />

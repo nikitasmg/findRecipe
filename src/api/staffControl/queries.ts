@@ -40,7 +40,7 @@ export const CreateStaffControl = gql`
   ${StaffControlFragment}
 
   mutation createStaffControl($input: StaffControlInput!) {
-    upsertStaffControl(input: $input) {
+    createStaffControl: upsertStaffControl(input: $input) {
       ...allFields
     }
   }

@@ -32,7 +32,7 @@ export const CreateNewsTag = gql`
   ${NewsTagsFragment}
 
   mutation createNewsTag($sort: Int!, $name: String!) {
-    upsertNewsTag(input: { sort: $sort, name: $name }) {
+    createNewsTag: upsertNewsTag(input: { sort: $sort, name: $name }) {
       ...allNewsTagsFields
     }
   }

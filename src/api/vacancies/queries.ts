@@ -42,7 +42,7 @@ export const CreateVacancy = gql`
   ${VacanciesFragment}
 
   mutation createVacancy($input: VacancyInput!) {
-    upsertVacancy(input: $input) {
+    createVacancy: upsertVacancy(input: $input) {
       ...allVacanciesFields
     }
   }
