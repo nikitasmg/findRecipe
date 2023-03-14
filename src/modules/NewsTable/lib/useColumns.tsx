@@ -4,7 +4,8 @@ import {
   NewsCategory,
   SortOrder,
   useNewsCategoriesQuery,
-  useUpdateOnIndexMutation
+  useUpdateOnIndexMutation,
+  useUpdatePublishedNewsMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
@@ -21,6 +22,8 @@ export const useColumns = (
   const client = useGraphqlClient();
 
   const { mutateAsync: updateOnIndex } = useUpdateOnIndexMutation(client);
+
+  const { mutateAsync: updatePublished } = useUpdatePublishedNewsMutation(client);
 
   const { data } = useNewsCategoriesQuery(client);
 
@@ -149,6 +152,31 @@ export const useColumns = (
             updateOnIndex({ id: Number(row.id), on_index: event.target.checked });
 
             row.on_index = !row.on_index;
+          }}
+        />
+      )
+    },
+    {
+      id: "published",
+      label: (
+        <TableHeadCell
+          title='Published'
+          align='center'
+          cellId='published'
+          onSortClick={getClickHandler("published")}
+          sortProps={getActiveProps("published")}
+        />
+      ),
+      style: { minWidth: 120 },
+      align: "center",
+      render: (value, row) => (
+        <Switch
+          aria-label='switch-published'
+          checked={!!value}
+          onChange={(event) => {
+            updatePublished({ id: Number(row.id), published: event.target.checked });
+
+            row.published = !row.published;
           }}
         />
       )

@@ -80,6 +80,14 @@ export const UpdateOnIndex = gql`
   }
 `;
 
+export const UpdatePublishedNews = gql`
+  mutation UpdatePublishedNews($id: Int!, $published: Boolean!) {
+    upsertNews(input: { id: $id, published: $published }) {
+      id
+    }
+  }
+`;
+
 export const CreateNews = gql`
   ${NewsFragment}
 

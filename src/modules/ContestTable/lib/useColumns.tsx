@@ -40,7 +40,11 @@ export const useColumns = (
           onSortClick={getClickHandler("id")}
           sortProps={getActiveProps("id")}
         />
-      )
+      ),
+      align: "center",
+      style: {
+        width: "55px"
+      }
     },
 
     {
@@ -53,7 +57,9 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 250,
+      style: {
+        minWidth: "200px"
+      },
       render: (value, row) => {
         return (
           <Link
@@ -75,7 +81,11 @@ export const useColumns = (
           onSortClick={getClickHandler("number")}
           sortProps={getActiveProps("number")}
         />
-      )
+      ),
+      align: "center",
+      style: {
+        width: "80px"
+      }
     },
     {
       id: "status",
@@ -100,7 +110,11 @@ export const useColumns = (
           sortProps={getActiveProps("deadline")}
         />
       ),
-      minWidth: 250,
+      style: {
+        minWidth: "140px",
+        width: "140px"
+      },
+      align: "center",
       format: formatDate
     },
 
@@ -114,7 +128,11 @@ export const useColumns = (
           sortProps={getActiveProps("date")}
         />
       ),
-      minWidth: 250,
+      style: {
+        minWidth: "155px",
+        width: "155px"
+      },
+      align: "center",
       format: formatDate
     },
 
@@ -128,7 +146,11 @@ export const useColumns = (
           sortProps={getActiveProps("created_at")}
         />
       ),
-      minWidth: 250,
+      style: {
+        minWidth: "100px",
+        width: "100px"
+      },
+      align: "center",
       format: formatDate
     }
   ];
