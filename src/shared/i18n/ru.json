@@ -190,5 +190,6 @@
   "Successfully create": "Успешно создано",
   "Successfully update": "Успешно обновлено",
   "Successfully delete": "Успешно удалено",
-  "Invalid file type": "Неверный тип файла"
+  "Invalid file type": "Неверный тип файла",
+  "Additional description": "Дополнительное описание"
 }
