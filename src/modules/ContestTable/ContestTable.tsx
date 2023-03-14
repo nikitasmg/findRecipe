@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -32,7 +33,8 @@ export const ContestTable: React.FC = () => {
     handleChangePage,
     handleChangeOrder,
     handleFilterChange,
-    resetFilters
+    resetFilters,
+    resetTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -64,7 +66,8 @@ export const ContestTable: React.FC = () => {
         <TableActions
           searchProps={{
             searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange)
+            searchChange: getEventValueHandler(handleTitleChange),
+            resetTitle
           }}
           addButtonProps={{
             addHref: ContestPageCreate
@@ -75,7 +78,7 @@ export const ContestTable: React.FC = () => {
           }
         />
 
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

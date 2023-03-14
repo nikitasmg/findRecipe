@@ -9,6 +9,12 @@ export const ContestFragment = gql`
     deadline
     date
     created_at
+    documents {
+      id
+      url
+      user_name
+      sort
+    }
   }
 `;
 

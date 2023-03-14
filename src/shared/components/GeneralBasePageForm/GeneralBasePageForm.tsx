@@ -7,6 +7,7 @@ import { baseRequired } from "~/shared/lib/validation";
 import { ContentEditor } from "../ContentEditor";
 import { HelperText } from "../HelperText";
 import { ImageInput } from "../ImageInput";
+import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
 
 export type GeneralFormFields = {
@@ -57,7 +58,11 @@ export const GeneralBasePageForm: React.FC<Props> = ({
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <TextField
-                label={<Text>Title</Text>}
+                label={
+                  <RequiredLabelWrapper>
+                    <Text>Title</Text>
+                  </RequiredLabelWrapper>
+                }
                 value={value}
                 variant='outlined'
                 {...register("name", baseRequired)}

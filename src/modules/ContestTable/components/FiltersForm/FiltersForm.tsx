@@ -8,10 +8,10 @@ import {
   TextField
 } from "@mui/material";
 import { curry } from "rambda";
-import { DatePicker } from "@mui/x-date-pickers";
 import React, { forwardRef } from "react";
 import { ContestStatus } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
+import { DatePicker } from "~/shared/components/DatePicker";
 import { getEventValueHandler } from "~/shared/lib/events";
 
 type Props = {
@@ -85,7 +85,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               label={<Text>Deadline</Text>}
               value={params?.deadline ?? null}
               onChange={curry(handleChangeFilter)("deadline")}
-              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
           </Grid>
 
@@ -95,7 +94,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               label={<Text>Start date</Text>}
               value={params?.date ?? null}
               onChange={curry(handleChangeFilter)("date")}
-              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
           </Grid>
 
@@ -105,7 +103,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               label={<Text>Created at</Text>}
               value={params?.created_at ?? null}
               onChange={curry(handleChangeFilter)("created_at")}
-              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
           </Grid>
         </Grid>

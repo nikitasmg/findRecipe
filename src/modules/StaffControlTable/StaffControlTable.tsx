@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Paper,
   Table,
   TableCell,
   TableContainer,
@@ -44,7 +45,8 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
     handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
-    resetFilters
+    resetFilters,
+    resetTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -72,7 +74,11 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
   const columns = useColumns(handelSelect, activeOrder, handleChangeOrder);
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    const input = { id: rows[oldIndex].id, sort: newIndex + 1 };
+    const input: { id?: number; sort: number } = { sort: newIndex + 1 };
+
+    if (rows[oldIndex]?.id) {
+      input.id = rows[oldIndex]?.id;
+    }
 
     update({ input });
 
@@ -95,7 +101,8 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
       <TableActions
         searchProps={{
           searchValue: title,
-          searchChange: getEventValueHandler(handleTitleChange)
+          searchChange: getEventValueHandler(handleTitleChange),
+          resetTitle
         }}
         addButtonProps={{
           onAddClick: handleAddClick
@@ -106,18 +113,14 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
         }
       />
 
-      <TableContainer>
+      <TableContainer component={Paper}>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
               <CellDragHandle />
 
               {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
+                <TableCell key={column.id} align={column.align} style={column.style}>
                   {column.label}
                 </TableCell>
               ))}
@@ -134,7 +137,7 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={column.id} align={column.align} style={column.style}>
                           {column.render?.(value, row) ?? column.format?.(value) ?? value}
                         </TableCell>
                       );

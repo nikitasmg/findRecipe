@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Paper,
   Table,
   TableCell,
   TableContainer,
@@ -31,7 +32,8 @@ export const VacanciesTable: React.FC = () => {
     resetFilters,
     isLoading,
     rows,
-    onSortEnd
+    onSortEnd,
+    resetTitle
   } = useVacancies();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
@@ -42,7 +44,8 @@ export const VacanciesTable: React.FC = () => {
         <TableActions
           searchProps={{
             searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange)
+            searchChange: getEventValueHandler(handleTitleChange),
+            resetTitle
           }}
           addButtonProps={{
             addHref: VacanciesPageCreate
@@ -53,7 +56,7 @@ export const VacanciesTable: React.FC = () => {
           }
         />
 
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Input, Typography } from "@mui/material";
-import { NumericInput } from "~/shared/components/NumericInput";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
@@ -29,35 +28,11 @@ export const getColumns = (
 
   return [
     {
-      id: "sort",
-      label: (
-        <TableHeadCell
-          title='Sorting'
-          cellId='sort'
-          align='center'
-          onSortClick={getClickHandler("sort")}
-          sortProps={getActiveProps("sort")}
-        />
-      ),
-      style: {
-        minWidth: "10%",
-        width: "150px"
-      },
-      render: (value, _, isEditMode) => {
-        if (!isEditMode) {
-          return <Typography textAlign='center'>{value as string}</Typography>;
-        }
-
-        return <NumericInput name='sort' value={Number(value)} />;
-      }
-    },
-    {
       id: "name",
       label: (
         <TableHeadCell
           title='Value'
           cellId='name'
-          align='center'
           onSortClick={getClickHandler("name")}
           sortProps={getActiveProps("name")}
         />

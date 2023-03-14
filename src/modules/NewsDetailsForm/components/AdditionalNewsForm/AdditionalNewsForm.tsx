@@ -1,5 +1,4 @@
 import { Box, FormControl, FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
 import { curry } from "rambda";
 import {
@@ -18,9 +17,11 @@ import {
 } from "~/generated/graphql";
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
+import { DatePicker } from "~/shared/components/DatePicker";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { getBaseUrlValidation } from "~/shared/lib/validation";
+import { LinkInput } from "~/shared/components/LinkInput";
 
 type FormFields = {
   source?: string;
@@ -76,14 +77,13 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         name='source'
         render={({ field: { value } }) => (
           <FormControl fullWidth>
-            <TextField
+            <LinkInput
               label={<Text>Source</Text>}
               value={value}
-              inputMode='url'
               variant='outlined'
-              id='source'
               error={!!getError("source")}
               {...register("source", getBaseUrlValidation())}
+              onChange={(e) => setValue("source", e.target.value)}
             />
 
             <HelperText id='source' error={getError("source")} />
@@ -112,7 +112,6 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
               label={<Text>Created at</Text>}
               value={value ?? null}
               onChange={curry(setValue)("published_at")}
-              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
 
             <HelperText id='published_at' error={getError("published_at")} />
@@ -157,7 +156,6 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
             <TextField
               select
               name='tags'
-              id='tags'
               variant='outlined'
               label={<Text>Tags</Text>}
               SelectProps={{

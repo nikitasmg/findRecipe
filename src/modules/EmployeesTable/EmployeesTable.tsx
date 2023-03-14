@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   CircularProgress,
+  Paper,
   Table,
   TableCell,
   TableContainer,
@@ -31,7 +32,8 @@ const EmployeesTable = () => {
     isLoading,
     rows,
     onSortEnd,
-    subdivisions
+    subdivisions,
+    resetTitle
   } = useEmployees();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
@@ -42,7 +44,8 @@ const EmployeesTable = () => {
         <TableActions
           searchProps={{
             searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange)
+            searchChange: getEventValueHandler(handleTitleChange),
+            resetTitle
           }}
           addButtonProps={{
             addHref: EmployeesPageCreate
@@ -57,7 +60,7 @@ const EmployeesTable = () => {
           }
         />
 
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

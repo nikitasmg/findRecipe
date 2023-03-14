@@ -33,7 +33,8 @@ export const ProjectsTable: React.FC = () => {
     handleChangePage,
     handleChangeOrder,
     handleFilterChange,
-    resetFilters
+    resetFilters,
+    resetTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -67,7 +68,8 @@ export const ProjectsTable: React.FC = () => {
         <TableActions
           searchProps={{
             searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange)
+            searchChange: getEventValueHandler(handleTitleChange),
+            resetTitle
           }}
           addButtonProps={{
             addHref: ProjectsPageCreate

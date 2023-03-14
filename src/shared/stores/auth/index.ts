@@ -14,6 +14,7 @@ export const useAuthStore = create<AuthState>(
     token: localStorage.getItem(storageKey) || "",
     auth: (token: string) => {
       localStorage.setItem(storageKey, token);
+
       set(() => ({ token }));
     },
     unAuth: () => {

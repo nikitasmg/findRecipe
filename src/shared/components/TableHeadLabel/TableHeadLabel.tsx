@@ -2,6 +2,7 @@ import React, { Fragment, PropsWithChildren } from "react";
 import PopupStateContainer, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { PopupState } from "material-ui-popup-state/hooks";
 import { Box, Popover, TableSortLabel } from "@mui/material";
+import clsx from "clsx";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import { Button } from "../Button";
 import styles from "./TableHeadLabel.module.css";
@@ -38,17 +39,24 @@ export const TableHeadCell: React.FC<PropsWithChildren<Props>> = ({
     <PopupStateContainer variant='popover' popupId={cellId}>
       {(popupState: PopupState) => (
         <Fragment>
-          <Box className='flex items-center'>
+          <Box className={clsx("flex items-center", { "justify-center": align === "center" })}>
             <Button
-              className='!block'
+              className={clsx("!block !min-w-fit text-black", {
+                "cursor-default": !handleClickSort,
+                "!text-primary": sortProps?.active
+              })}
               {...bindTrigger(popupState)}
-              textProps={{ align, color: "black" }}
+              onClick={handleClickSort}
+              textProps={{ align }}
             >
               {title}
             </Button>
             {sortProps && (
               <TableSortLabel
-                className={styles.sortIcon}
+                className={clsx(styles.sortIcon, {
+                  "cursor-default": !handleClickSort,
+                  [styles.sortActive]: sortProps.active
+                })}
                 onClick={handleClickSort}
                 {...sortProps}
               />

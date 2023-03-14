@@ -98,12 +98,7 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
           control={control}
           name='name'
           render={({ field: { value } }) => (
-            <TextField
-              label={<Text>Name</Text>}
-              value={value}
-              variant='standard'
-              {...register("name")}
-            />
+            <TextField label={<Text>Name</Text>} value={value} {...register("name")} />
           )}
         />
 
@@ -112,9 +107,10 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
           name='description'
           render={({ field: { value } }) => (
             <TextField
-              label={<Text>Description</Text>}
+              multiline
+              fullWidth
               value={value}
-              variant='standard'
+              label={<Text>Description</Text>}
               InputProps={{
                 inputComponent: TextareaAutosize
               }}

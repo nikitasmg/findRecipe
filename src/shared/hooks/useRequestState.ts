@@ -124,12 +124,16 @@ export const useRequestState = (fastSearchFieldId: string) => {
     setFilters(null);
   }, []);
 
+  const resetTitle = useCallback(() => {
+    handleSearchTitle("");
+    setTitle("");
+  }, [handleSearchTitle]);
+
   useEffect(() => {
     const [sortKey, sortValue] = Object.entries(activeOrder ?? {})[0] ?? [];
 
     setSearch((old) => {
       const newSearch: Record<string, unknown> = {
-        ...old,
         ...(Boolean(sortKey) && { [`sort[${sortKey}]`]: sortValue }),
         ...Object.entries(params ?? {}).reduce((res: Record<string, string>, [key, value]) => {
           if (value) {
@@ -166,6 +170,7 @@ export const useRequestState = (fastSearchFieldId: string) => {
     handleTitleChange,
     handleFilterChange,
     removeFilter,
-    resetFilters
+    resetFilters,
+    resetTitle
   };
 };

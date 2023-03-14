@@ -43,12 +43,12 @@ export const ContentEditor: React.FC<Props> = React.memo(
             selector: "textarea" as never,
             language: "ru",
             plugins:
-              "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern help charmap quickbars emoticons",
+              "autoresize print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern help charmap quickbars emoticons",
             menubar: "file edit view insert format tools table",
             toolbar:
               "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview print | insertfile image media link codesample | ltr rtl",
             toolbar_sticky: false,
-            autosave_ask_before_unload: true,
+            autosave_ask_before_unload: false,
             autosave_interval: "30s",
             autosave_prefix: "{path}{query}-{id}-",
             autosave_restore_when_empty: false,
@@ -64,12 +64,12 @@ export const ContentEditor: React.FC<Props> = React.memo(
 
               callback(fileUrl);
             },
-            height: 600,
-            image_caption: true,
             quickbars_selection_toolbar:
               "bold italic | quicklink h1 h2 h3 | fontselect fontsizeselect formatselect | blockquote quickimage quicktable",
             toolbar_mode: "sliding",
             toolbar_drawer: false,
+            autoresize_bottom_margin: 20,
+            min_height: 600,
             contextmenu: "link image imagetools table",
             skin: "oxide",
             content_css: "default",

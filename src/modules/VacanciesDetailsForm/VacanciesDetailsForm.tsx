@@ -21,6 +21,7 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { baseRequired } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
@@ -97,7 +98,11 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
-                    label={<Text>Title</Text>}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Title</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
                     variant='outlined'
                     InputLabelProps={{
@@ -120,18 +125,14 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
+                    id='description'
                     multiline
-                    label={<Text>Description</Text>}
+                    fullWidth
                     value={value}
-                    variant='outlined'
-                    InputLabelProps={{
-                      shrink: !!value
-                    }}
+                    label={<Text>Description</Text>}
                     InputProps={{
                       inputComponent: TextareaAutosize
                     }}
-                    id='description'
-                    error={!!getError("description")}
                     {...register("description")}
                   />
 
@@ -151,7 +152,6 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                     value={value}
                     variant='outlined'
                     id='sort'
-                    size='medium'
                     error={!!getError("sort")}
                     {...register("sort")}
                   />

@@ -1,8 +1,8 @@
 import { Grid, TextField } from "@mui/material";
 import { curry } from "rambda";
-import { DatePicker } from "@mui/x-date-pickers";
 import React, { forwardRef } from "react";
 import { Text } from "~/shared/components/Text";
+import { DatePicker } from "~/shared/components/DatePicker";
 import { getEventValueHandler } from "~/shared/lib/events";
 
 type Props = {
@@ -44,7 +44,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               label={<Text>Created at</Text>}
               value={params?.created_at ?? null}
               onChange={curry(handleChangeFilter)("created_at")}
-              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
           </Grid>
         </Grid>

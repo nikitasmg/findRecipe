@@ -16,6 +16,8 @@ import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { ContentEditor } from "~shared/components/ContentEditor";
 import { NumericInput } from "~shared/components/NumericInput";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { LinkInput } from "~/shared/components/LinkInput";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
@@ -107,7 +109,11 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
-                    label={<Text>Title</Text>}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Title</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
                     error={!!getError("name")}
                     {...register("name", baseRequired)}
@@ -142,7 +148,7 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               name='url'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
-                  <TextField
+                  <LinkInput
                     label={<Text>Link</Text>}
                     value={value}
                     type='url'
@@ -163,7 +169,6 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <NumericInput
-                    size='medium'
                     label={<Text>Sorting</Text>}
                     value={Number(value) || 0}
                     {...register("sort")}

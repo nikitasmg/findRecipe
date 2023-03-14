@@ -1,5 +1,5 @@
 import { Box, Drawer, TextField, Typography } from "@mui/material";
-import React, { BaseSyntheticEvent, ReactNode, useState } from "react";
+import React, { BaseSyntheticEvent, ReactNode, useState, useEffect } from "react";
 import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SaveIcon from "@mui/icons-material/Save";
@@ -38,15 +38,24 @@ type Document = {
   url: string;
   title: string;
   file?: File | null;
+  id?: number;
 };
 
 type Props = {
   value?: Document[];
   onChange?: (value: Document[]) => void;
+  onDelete?: (id: number) => void;
+  onUpdate?: (value: Document) => void;
   containerClassName?: string;
 };
 
-export const DocumentsUpload: React.FC<Props> = ({ onChange, containerClassName, value = [] }) => {
+export const DocumentsUpload: React.FC<Props> = ({
+  onChange,
+  onDelete,
+  onUpdate,
+  containerClassName,
+  value = []
+}) => {
   const { open, handleOpen, handleClose } = useModal();
 
   const [files, setFiles] = useState<Document[]>(value);
@@ -85,11 +94,21 @@ export const DocumentsUpload: React.FC<Props> = ({ onChange, containerClassName,
             return res;
           }, []);
 
+          const updateID = selectedFile.id;
+
+          if (updateID) {
+            onUpdate?.(values as Document);
+          }
+
           onChange?.(newFiles);
           return newFiles;
         });
       } else {
-        setFiles((oldFiles) => oldFiles.concat(values));
+        setFiles((oldFiles) => {
+          const newFiles = oldFiles.concat(values);
+          onChange?.(newFiles);
+          return newFiles;
+        });
       }
 
       handleCloseForm();
@@ -100,6 +119,13 @@ export const DocumentsUpload: React.FC<Props> = ({ onChange, containerClassName,
     setFiles((oldFiles) => {
       const newFiles = oldFiles.filter((_, i) => i !== index);
       onChange?.(newFiles);
+
+      const deleteID = oldFiles[index]?.id;
+
+      if (deleteID) {
+        onDelete?.(deleteID);
+      }
+
       return newFiles;
     });
   };
@@ -114,10 +140,21 @@ export const DocumentsUpload: React.FC<Props> = ({ onChange, containerClassName,
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     setFiles((oldFiles) => {
       const newFiles = arrayMove(oldFiles, oldIndex, newIndex);
+
+      const update = newFiles[newIndex];
+
+      if (update.id && update) {
+        onUpdate?.(update);
+      }
+
       onChange?.(newFiles);
       return newFiles;
     });
   };
+
+  useEffect(() => {
+    setFiles(value);
+  }, [value]);
 
   return (
     <Box className={clsx(containerClassName, "flex flex-col gap-4")}>

@@ -1,8 +1,8 @@
 import { Grid, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
 import { curry } from "rambda";
 import React, { forwardRef } from "react";
 import { Text } from "~/shared/components/Text";
+import { DatePicker } from "~/shared/components/DatePicker";
 import { getEventValueHandler } from "~/shared/lib/events";
 
 type Props = {
@@ -34,7 +34,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               label={<Text>Name</Text>}
               value={params?.published_at ?? null}
               onChange={curry(handleChangeFilter)("name")}
-              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
           </Grid>
         </Grid>

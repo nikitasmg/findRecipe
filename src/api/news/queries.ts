@@ -34,6 +34,10 @@ export const NewsFragment = gql`
       title
       description
     }
+    meta {
+      auto_title
+      auto_description
+    }
     created_at
     updated_at
     published_at
