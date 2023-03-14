@@ -2,10 +2,8 @@ import { Box } from "@mui/material";
 import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Text } from "../Text";
 import { Link } from "../Link";
-import { Button } from "../Button";
 import { LinkButton } from "../LinkButton";
 import { ButtonDelete } from "../ButtonDelete";
 
