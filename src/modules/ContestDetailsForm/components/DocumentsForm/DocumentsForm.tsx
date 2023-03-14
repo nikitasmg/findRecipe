@@ -6,11 +6,11 @@ import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { Text } from "~/shared/components/Text";
 
 type FormFields = {
-  "uploadDocuments.notice"?: File | null;
-  "uploadDocuments.tender_documentation"?: File | null;
-  "uploadDocuments.open_protocol"?: File | null;
-  "uploadDocuments.application_protocol"?: File | null;
-  "uploadDocuments.results"?: File | null;
+  "uploadDocuments.0"?: File | null;
+  "uploadDocuments.1"?: File | null;
+  "uploadDocuments.2"?: File | null;
+  "uploadDocuments.3"?: File | null;
+  "uploadDocuments.4"?: File | null;
 };
 
 type Props = {
@@ -22,65 +22,73 @@ export const DocumentsForm: React.FC<Props> = ({ register, control, setValue }) 
   <Box className='flex flex-col gap-6 items-start'>
     <Controller
       control={control}
-      name='uploadDocuments.notice'
-      render={({ field: { value } }) => (
-        <MuiFileInput
-          label={<Text>Notice</Text>}
-          value={value}
-          {...register("uploadDocuments.notice")}
-          onChange={curry(setValue)("uploadDocuments.notice")}
-        />
+      name='uploadDocuments.0'
+      render={({ field }) => (
+        <>
+          {console.log(field)}
+          <MuiFileInput
+            label={<Text>Notice</Text>}
+            hideSizeText
+            {...field}
+            {...register("uploadDocuments.0")}
+            onChange={curry(setValue)("uploadDocuments.0")}
+          />
+        </>
       )}
     />
 
     <Controller
       control={control}
-      name='uploadDocuments.tender_documentation'
-      render={({ field: { value } }) => (
+      name='uploadDocuments.1'
+      render={({ field }) => (
         <MuiFileInput
           label={<Text>Tender documentation</Text>}
-          value={value}
-          {...register("uploadDocuments.tender_documentation")}
-          onChange={curry(setValue)("uploadDocuments.tender_documentation")}
+          hideSizeText
+          {...field}
+          {...register("uploadDocuments.1")}
+          onChange={curry(setValue)("uploadDocuments.1")}
         />
       )}
     />
 
     <Controller
       control={control}
-      name='uploadDocuments.open_protocol'
+      name='uploadDocuments.2'
       render={({ field: { value } }) => (
         <MuiFileInput
           label={<Text>Envelope opening protocol</Text>}
+          hideSizeText
           value={value}
-          {...register("uploadDocuments.open_protocol")}
-          onChange={curry(setValue)("uploadDocuments.open_protocol")}
+          {...register("uploadDocuments.2")}
+          onChange={curry(setValue)("uploadDocuments.2")}
         />
       )}
     />
 
     <Controller
       control={control}
-      name='uploadDocuments.application_protocol'
+      name='uploadDocuments.3'
       render={({ field: { value } }) => (
         <MuiFileInput
           label={<Text>Protocol for consideration and evaluation of applications</Text>}
+          hideSizeText
           value={value}
-          {...register("uploadDocuments.application_protocol")}
-          onChange={curry(setValue)("uploadDocuments.application_protocol")}
+          {...register("uploadDocuments.3")}
+          onChange={curry(setValue)("uploadDocuments.3")}
         />
       )}
     />
 
     <Controller
       control={control}
-      name='uploadDocuments.results'
+      name='uploadDocuments.4'
       render={({ field: { value } }) => (
         <MuiFileInput
           label={<Text>Results</Text>}
           value={value}
-          {...register("uploadDocuments.results")}
-          onChange={curry(setValue)("uploadDocuments.results")}
+          hideSizeText
+          {...register("uploadDocuments.4")}
+          onChange={curry(setValue)("uploadDocuments.4")}
         />
       )}
     />

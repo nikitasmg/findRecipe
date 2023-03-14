@@ -7,6 +7,7 @@ import {
   PagesEditAnoBiomed,
   PagesEditApparatUpravleniya,
   PagesEditCommon,
+  PagesEditContacts,
   PagesEditControl,
   PagesEditDocuments,
   PagesEditEvents,
@@ -63,6 +64,10 @@ const EditLogosPage = lazy(() =>
 
 const EditAnoBiomedPage = lazy(() =>
   import("~/pages/edit/ano-biomed").then((module) => ({ default: module.EditAnoBiomedPage }))
+);
+
+const EditContactsPage = lazy(() =>
+  import("~/pages/edit/contacts").then((module) => ({ default: module.EditContactsPage }))
 );
 
 export const PagesEditRouting = [
@@ -219,6 +224,15 @@ export const PagesEditRouting = [
     element={
       <BaseProtectedLayout>
         <EditAnoBiomedPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='contacts'
+    path={PagesEditContacts}
+    element={
+      <BaseProtectedLayout>
+        <EditContactsPage />
       </BaseProtectedLayout>
     }
   />

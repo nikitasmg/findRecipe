@@ -78,6 +78,8 @@ export const PagesEditLogos = "/pages/edit/logos";
 
 export const PagesEditAnoBiomed = "/pages/edit/ano-biomed";
 
+export const PagesEditContacts = "/pages/edit/contacts";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";

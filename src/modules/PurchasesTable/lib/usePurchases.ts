@@ -27,7 +27,8 @@ export const usePurchases = () => {
     handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
-    resetFilters
+    resetFilters,
+    resetTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -99,6 +100,7 @@ export const usePurchases = () => {
     resetFilters,
     isLoading,
     rows,
-    onSortEnd
+    onSortEnd,
+    resetTitle
   };
 };

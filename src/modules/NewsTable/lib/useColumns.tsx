@@ -56,15 +56,17 @@ export const useColumns = (
           onSortClick={getClickHandler("id")}
           sortProps={getActiveProps("id")}
         />
-      )
+      ),
+      style: { width: 50 },
+      align: "center"
     },
     {
       id: "imageUrl",
       label: <TableHeadCell title='Image' cellId='imageUrl' />,
-      minWidth: 220,
+      style: { minWidth: 50 },
       render: (value, row) => (
         <img
-          className='w-[220px] h-auto'
+          className='w-[50px] h-auto'
           loading='lazy'
           src={(value as string) ?? ""}
           alt={row.name as string}
@@ -76,13 +78,13 @@ export const useColumns = (
       id: "name",
       label: (
         <TableHeadCell
-          title='Title'
+          title='Heading'
           cellId='name'
           onSortClick={getClickHandler("name")}
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 250,
+      style: { minWidth: 250 },
       render: (value, row) => {
         return (
           <Link className='transition-all' to={`${NewsPageEdit.replace(":id", row.id as string)}`}>
@@ -98,11 +100,11 @@ export const useColumns = (
         <TableHeadCell
           title='Category'
           cellId='category'
-          onSortClick={getClickHandler("category")}
-          sortProps={getActiveProps("category")}
+          onSortClick={getClickHandler("category.sort")}
+          sortProps={getActiveProps("category.sort")}
         />
       ),
-      minWidth: 80,
+      style: { minWidth: 80 },
       render: (value) => {
         const category = value as NewsCategory | null;
 
@@ -116,12 +118,14 @@ export const useColumns = (
         <TableHeadCell
           title='Published at'
           cellId='published_at'
+          align='center'
           onSortClick={getClickHandler("published_at")}
           sortProps={getActiveProps("published_at")}
         />
       ),
-      minWidth: 250,
-      format: formatDate
+      style: { minWidth: 170 },
+      format: formatDate,
+      align: "center"
     },
 
     {
@@ -135,7 +139,7 @@ export const useColumns = (
           sortProps={getActiveProps("on_index")}
         />
       ),
-      minWidth: 200,
+      style: { minWidth: 120 },
       align: "center",
       render: (value, row) => (
         <Switch

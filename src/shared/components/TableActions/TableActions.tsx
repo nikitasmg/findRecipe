@@ -13,6 +13,7 @@ type Props = {
   searchProps: {
     searchValue: string;
     searchChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    resetTitle: () => void;
   };
   addButtonProps?: {
     addHref?: string;
@@ -24,7 +25,7 @@ type Props = {
 };
 
 export const TableActions: React.FC<Props> = ({
-  searchProps: { searchValue, searchChange },
+  searchProps: { searchValue, searchChange, resetTitle },
   resetFilters,
   addButtonProps,
   filterModalInnerForm,
@@ -43,6 +44,7 @@ export const TableActions: React.FC<Props> = ({
           value={searchValue}
           onChange={searchChange}
           size='small'
+          handleReset={resetTitle}
         />
 
         {filterModalInnerForm && (
@@ -51,12 +53,7 @@ export const TableActions: React.FC<Props> = ({
               <FilterAltIcon />
             </Button>
 
-            <ModalFilters
-              opened={!!open}
-              handleClose={handleClose}
-              handleSuccess={handleClose}
-              handleDrop={resetFilters}
-            >
+            <ModalFilters opened={!!open} handleClose={handleClose} handleDrop={resetFilters}>
               {filterModalInnerForm}
             </ModalFilters>
           </>

@@ -40,38 +40,40 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
 
   return (
     <Box className='flex flex-col gap-6'>
-      <Controller
-        control={control}
-        name='name'
-        render={({ field: { value } }) => (
-          <FormControl fullWidth>
-            <TextField
-              label={<Text>Title</Text>}
-              value={value}
-              variant='outlined'
-              id='name'
-              {...register("name")}
-            />
-          </FormControl>
-        )}
-      />
-
-      {contentEditorKey && (
+      <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
         <Controller
           control={control}
-          name='description'
+          name='name'
           render={({ field: { value } }) => (
             <FormControl fullWidth>
-              <ContentEditor
-                apiKey={contentEditorKey}
-                value={value ?? ""}
-                {...register("description")}
-                getUploadedUrl={getUploadedUrl}
+              <TextField
+                label={<Text>Title</Text>}
+                value={value}
+                variant='outlined'
+                id='name'
+                {...register("name")}
               />
             </FormControl>
           )}
         />
-      )}
+
+        {contentEditorKey && (
+          <Controller
+            control={control}
+            name='description'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <ContentEditor
+                  apiKey={contentEditorKey}
+                  value={value ?? ""}
+                  {...register("description")}
+                  getUploadedUrl={getUploadedUrl}
+                />
+              </FormControl>
+            )}
+          />
+        )}
+      </Box>
     </Box>
   );
 };

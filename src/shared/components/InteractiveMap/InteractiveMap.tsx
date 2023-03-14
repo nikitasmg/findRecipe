@@ -3,7 +3,7 @@ import React, { Suspense, useState } from "react";
 import { MapInteractionCSS } from "react-map-interaction";
 import styles from "./InteractiveMap.module.css";
 
-const MapSVG = React.lazy(() => import("~/shared/assets/images/MapSVG"));
+const MapSVG = React.lazy(() => import("~/shared/assets/svg/MapSVG"));
 
 type Props = {
   onSelect?: (id: number) => void;

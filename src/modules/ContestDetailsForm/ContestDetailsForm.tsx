@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   ContestInput,
+  UploadDocumentInput,
   useContestByIdQuery,
   useCreateContestMutation,
   useUpdateContestMutation
@@ -49,9 +50,34 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
   const isLoading = isCreateLoading || isUpdateLoading;
 
   const onSubmit = handleSubmit((newValues) => {
+    console.log(newValues);
     const input: ContestInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
-      ...newValues
+      name: newValues.name,
+      number: newValues.number,
+      status: newValues.status,
+      deadline: newValues.deadline,
+      date: newValues.date,
+      uploadDocuments: newValues.uploadDocuments.reduce(
+        (res: [UploadDocumentInput], cur: File, i: number) => {
+          if (cur) {
+            res.push({ upload: cur, sort: i, user_name: cur.name });
+          }
+          return res;
+        },
+        []
+      ),
+      deleteDocuments: newValues.uploadDocuments.reduce((res: number[]) => {
+        const existed = values?.documents?.find((doc) =>
+          newValues.uploadDocuments?.find((upload: { sort: number }) => upload.sort === doc?.sort)
+        );
+
+        if (existed) {
+          res.push(existed?.id);
+        }
+
+        return res;
+      }, [])
     };
 
     if (isCreateMode) {
@@ -66,7 +92,13 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    initFormValues(["name", "number", "status", "deadline", "date"], setValue, values);
+    initFormValues(["name", "number", "status", "deadline", "date", "documents"], setValue, values);
+
+    values?.documents?.forEach((document, i) => {
+      const file = new File([], document?.user_name ?? "Document");
+
+      setValue(`uploadDocuments.${i}`, file);
+    });
   }, [values, isSuccess, setValue]);
 
   return (

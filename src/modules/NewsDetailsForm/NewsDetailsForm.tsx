@@ -119,6 +119,9 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
       setValue,
       values
     );
+    console.log(values);
+    setValue("seo.upsert.title", values?.seo?.title || values?.meta?.auto_title);
+    setValue("seo.upsert.description", values?.seo?.description || values?.meta?.auto_description);
   }, [values, isSuccess, setValue]);
 
   return (

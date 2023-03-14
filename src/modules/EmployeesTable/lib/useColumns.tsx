@@ -39,20 +39,6 @@ export const useColumns = (
 
   return [
     {
-      id: "sort",
-      label: (
-        <TableHeadCell
-          title='Sorting'
-          cellId='sort'
-          align='center'
-          onSortClick={getClickHandler("sort")}
-          sortProps={getActiveProps("sort")}
-        />
-      ),
-      align: "center"
-    },
-
-    {
       id: "name",
       label: (
         <TableHeadCell

@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Box, FormControl, FormControlLabel, Switch, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Switch,
+  TextareaAutosize,
+  TextField
+} from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { curry } from "rambda";
 import {
@@ -21,6 +28,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { Member } from "./components/Member";
@@ -114,7 +122,11 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
             render={({ field: { value } }) => (
               <FormControl fullWidth>
                 <TextField
-                  label={<Text>Title</Text>}
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Title</Text>
+                    </RequiredLabelWrapper>
+                  }
                   value={value}
                   variant='outlined'
                   id='name'
@@ -133,11 +145,13 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
             render={({ field: { value } }) => (
               <FormControl fullWidth>
                 <TextField
-                  label={<Text>Description</Text>}
+                  multiline
+                  fullWidth
                   value={value}
-                  variant='outlined'
-                  id='description'
-                  error={!!getError("description")}
+                  label={<Text>Description</Text>}
+                  InputProps={{
+                    inputComponent: TextareaAutosize
+                  }}
                   {...register("description")}
                 />
 

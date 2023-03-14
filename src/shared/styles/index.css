@@ -4,7 +4,7 @@
 @import "./overrides.css";
 
 html {
-  @apply h-[100%];
+  @apply h-[100%] text-xs;
 }
 
 body,

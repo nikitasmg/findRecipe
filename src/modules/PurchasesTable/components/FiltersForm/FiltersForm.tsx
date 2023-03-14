@@ -1,8 +1,8 @@
-import { FormControlLabel, Grid, Switch, TextField } from "@mui/material";
+import { FormControlLabel, Grid, Switch } from "@mui/material";
 import React, { ChangeEvent, forwardRef } from "react";
-import { Text } from "~/shared/components/Text";
-import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { ConfigTypeMap } from "dayjs";
+import { Text } from "~/shared/components/Text";
+import { DatePicker } from "~/shared/components/DatePicker";
 
 type Props = {
   params: Record<string, string> | null;
@@ -11,7 +11,7 @@ type Props = {
 
 export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
   ({ params, handleChangeFilter }, ref) => {
-    const handleCreatedAtChange = (value: ChangeEvent<HTMLInputElement> | null) => {
+    const handleCreatedAtChange = (value: unknown) => {
       handleChangeFilter?.(
         "created_atLike",
         dayjs(value as ConfigTypeMap["default"]).format("YYYY-MM-DD")
@@ -33,7 +33,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               label={<Text>Created at</Text>}
               value={params?.created_atLike ?? null}
               onChange={handleCreatedAtChange}
-              renderInput={(props) => <TextField {...props} size='small' />}
             />
           </Grid>
 

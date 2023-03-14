@@ -14,6 +14,7 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { baseRequired, getBaseEmailValidation } from "~shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
@@ -94,7 +95,11 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
-                    label={<Text>Full name</Text>}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Full name</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
                     variant='outlined'
                     id='name'
@@ -134,7 +139,6 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <NumericInput
-                    size='medium'
                     label={<Text>Additional number</Text>}
                     value={Number(value)}
                     id='additional'

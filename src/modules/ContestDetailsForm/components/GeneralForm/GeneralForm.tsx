@@ -1,12 +1,13 @@
 import React from "react";
 import { Controller, UseFormRegister, FieldErrors, Control } from "react-hook-form";
 import { Box, FormControl, MenuItem, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
 import { curry } from "rambda";
 import { ContestStatus } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
+import { DatePicker } from "~/shared/components/DatePicker";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
 
@@ -37,7 +38,11 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <TextField
-                label={<Text>Title</Text>}
+                label={
+                  <RequiredLabelWrapper>
+                    <Text>Title</Text>
+                  </RequiredLabelWrapper>
+                }
                 value={value}
                 error={!!getError("name")}
                 {...register("name", baseRequired)}
@@ -54,7 +59,6 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <NumericInput
-                size='medium'
                 label={<Text>Number</Text>}
                 value={Number(value) || 0}
                 {...register("number")}
@@ -103,7 +107,6 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
                 label={<Text>Deadline</Text>}
                 value={value ?? null}
                 onChange={curry(setValue)("deadline")}
-                renderInput={(props) => <TextField {...props} />}
               />
 
               <HelperText id='deadline' error={getError("deadline")} />
@@ -121,7 +124,6 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
                 label={<Text>Start date</Text>}
                 value={value ?? null}
                 onChange={curry(setValue)("date")}
-                renderInput={(props) => <TextField {...props} />}
               />
 
               <HelperText id='date' error={getError("date")} />

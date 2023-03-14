@@ -16,7 +16,13 @@ export const Path: React.FC<Path> = ({ children, path, title, initialExpanded })
 
   if (children) {
     return (
-      <Accordion expanded={initialExpanded} disableGutters elevation={0} square className='w-full'>
+      <Accordion
+        defaultExpanded={initialExpanded}
+        disableGutters
+        elevation={0}
+        square
+        className='w-full'
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='content-panel'

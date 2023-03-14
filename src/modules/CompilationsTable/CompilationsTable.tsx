@@ -1,5 +1,6 @@
 import {
   Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -17,7 +18,7 @@ import { useCompilationsStore } from "~/shared/stores/compilations";
 import { getColumns } from "./lib/getColumns";
 
 export const CompilationsTable: React.FC = () => {
-  const { title, handleTitleChange } = useRequestState("name");
+  const { title, handleTitleChange, resetTitle } = useRequestState("name");
 
   const compilations = useCompilationsStore((state) => state.compilations);
 
@@ -33,11 +34,12 @@ export const CompilationsTable: React.FC = () => {
           value={title}
           onChange={getEventValueHandler(handleTitleChange)}
           size='small'
+          handleReset={resetTitle}
         />
       </Box>
 
       <Fragment>
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

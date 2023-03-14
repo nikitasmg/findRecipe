@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -9,7 +10,8 @@ import {
   TableRow
 } from "@mui/material";
 import React, { useEffect } from "react";
-import { News, useNewsQuery } from "~/generated/graphql";
+import { DeepPartial } from "react-hook-form";
+import { News, SortOrder, useNewsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { NewsPageCreate } from "~/shared/routes";
@@ -32,7 +34,8 @@ export const NewsTable: React.FC = () => {
     handleChangePage,
     handleChangeOrder,
     handleFilterChange,
-    resetFilters
+    resetFilters,
+    resetTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -42,7 +45,14 @@ export const NewsTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useNewsQuery(client, variables, { refetchOnMount: true });
+  const { data, isLoading } = useNewsQuery(
+    client,
+    {
+      ...variables,
+      orderBy: [...(variables.orderBy ?? []), { column: "published_at", order: SortOrder.Desc }]
+    },
+    { refetchOnMount: "always" }
+  );
 
   const news = data?.news;
 
@@ -64,7 +74,8 @@ export const NewsTable: React.FC = () => {
         <TableActions
           searchProps={{
             searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange)
+            searchChange: getEventValueHandler(handleTitleChange),
+            resetTitle: resetTitle
           }}
           addButtonProps={{
             addHref: NewsPageCreate
@@ -75,16 +86,12 @@ export const NewsTable: React.FC = () => {
           }
         />
 
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
+                  <TableCell key={column.id} align={column.align} style={column.style}>
                     {column.label}
                   </TableCell>
                 ))}
@@ -93,13 +100,13 @@ export const NewsTable: React.FC = () => {
 
             {!isLoading && (
               <TableBody>
-                {news?.data?.map((row: News) => {
+                {news?.data?.map((row: DeepPartial<News>) => {
                   return (
                     <TableRow hover role='row' tabIndex={-1} key={row.id}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align} style={column.style}>
                             {column.render?.(value, row) ?? column.format?.(value) ?? value}
                           </TableCell>
                         );

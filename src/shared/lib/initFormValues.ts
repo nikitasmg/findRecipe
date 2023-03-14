@@ -29,6 +29,8 @@ export const prepareInitialValues = <T = Record<string, unknown> | null>(
       value = item[1].format?.(value);
     }
 
+    console.log(key, value, item);
+
     return [key, value];
   });
 };

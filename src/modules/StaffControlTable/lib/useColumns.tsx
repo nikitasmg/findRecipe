@@ -32,15 +32,16 @@ export const useColumns = (
     {
       id: "imageUrl",
       label: <TableHeadCell title='Image' cellId='imageUrl' />,
-      minWidth: 200,
+      style: { minWidth: "140px", width: "140px", textAlign: "center" },
       render: (value, row) => (
         <img
-          className='w-[220px] h-auto'
+          className='w-[50px] h-auto shrink-0'
           loading='lazy'
           src={(value as string) ?? ""}
           alt={row.name as string}
         />
-      )
+      ),
+      align: "center"
     },
 
     {
@@ -53,7 +54,7 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 250,
+      style: { width: "40%", minWidth: "250px" },
       render: (value, row) => {
         return (
           <Box
@@ -76,7 +77,8 @@ export const useColumns = (
           onSortClick={getClickHandler("description")}
           sortProps={getActiveProps("description")}
         />
-      )
+      ),
+      style: { width: "40%", minWidth: "250px" }
     },
 
     {
@@ -85,10 +87,13 @@ export const useColumns = (
         <TableHeadCell
           title='Created at'
           cellId='created_at'
+          align='center'
           onSortClick={getClickHandler("created_at")}
           sortProps={getActiveProps("created_at")}
         />
       ),
+      align: "center",
+      style: { width: "250px", minWidth: "250px", textAlign: "center" },
       format: formatDate
     }
   ];

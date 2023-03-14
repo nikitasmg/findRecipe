@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -27,7 +28,7 @@ type Props = {
 };
 
 export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
-  const { variables, title, pagination, handleTitleChange, handleChangePage } =
+  const { variables, title, pagination, handleTitleChange, handleChangePage, resetTitle } =
     useRequestState("name");
 
   const client = useGraphqlClient();
@@ -54,7 +55,7 @@ export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
           fullWidth
           value={title}
           onChange={getEventValueHandler(handleTitleChange)}
-          size='small'
+          handleReset={resetTitle}
         />
 
         <LinkButton disabled variant='outlined' href={NewsPageEdit} className='!capitalize'>
@@ -64,7 +65,7 @@ export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
       </Box>
 
       <Fragment>
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

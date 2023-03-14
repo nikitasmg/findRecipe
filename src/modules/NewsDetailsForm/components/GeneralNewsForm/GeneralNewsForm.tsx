@@ -1,4 +1,4 @@
-import { Box, FormControl, TextField } from "@mui/material";
+import { Box, FormControl, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
@@ -7,6 +7,7 @@ import { ContentEditor } from "~shared/components/ContentEditor";
 import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { baseRequired } from "~/shared/lib/validation";
@@ -54,7 +55,11 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <TextField
-                label={<Text>Title</Text>}
+                label={
+                  <RequiredLabelWrapper>
+                    <Text>Heading</Text>
+                  </RequiredLabelWrapper>
+                }
                 value={value}
                 variant='outlined'
                 id='name'
@@ -73,11 +78,15 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <TextField
-                label={<Text>Description</Text>}
+                label={<Text>News announcement</Text>}
                 value={value}
                 variant='outlined'
-                id='description'
+                multiline
+                fullWidth
                 error={!!getError("description")}
+                InputProps={{
+                  inputComponent: TextareaAutosize
+                }}
                 {...register("description")}
               />
             </FormControl>

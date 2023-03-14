@@ -1344,14 +1344,14 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: number } | null };
 
-export type AllContestFieldsFragment = { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any };
+export type AllContestFieldsFragment = { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type ContestByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ContestByIdQuery = { __typename?: 'Query', contestById?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+export type ContestByIdQuery = { __typename?: 'Query', contestById?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type ContestsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1362,21 +1362,21 @@ export type ContestsQueryVariables = Exact<{
 }>;
 
 
-export type ContestsQuery = { __typename?: 'Query', contests?: { __typename?: 'ContestPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any }> } | null };
+export type ContestsQuery = { __typename?: 'Query', contests?: { __typename?: 'ContestPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
 
 export type CreateContestMutationVariables = Exact<{
   input: ContestInput;
 }>;
 
 
-export type CreateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+export type CreateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateContestMutationVariables = Exact<{
   input: ContestInput;
 }>;
 
 
-export type UpdateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any } | null };
+export type UpdateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type DeleteContestMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1519,14 +1519,14 @@ export type DeleteKnowledgeFieldMutationVariables = Exact<{
 
 export type DeleteKnowledgeFieldMutation = { __typename?: 'Mutation', deleteKnowledgeField?: { __typename?: 'KnowledgeField', sort: number, name: string } | null };
 
-export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
+export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null };
 
 export type NewsByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type NewsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1536,7 +1536,7 @@ export type NewsQueryVariables = Exact<{
 }>;
 
 
-export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
+export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null }> } | null };
 
 export type UpdateOnIndexMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1551,14 +1551,14 @@ export type CreateNewsMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type CreateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type UpdateNewsMutationVariables = Exact<{
   input: NewsInput;
 }>;
 
 
-export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type DeleteNewsMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1870,10 +1870,15 @@ export type UpdateSettingsMutationVariables = Exact<{
   emailPress?: InputMaybe<Scalars['String']>;
   send_email_notify?: InputMaybe<Scalars['String']>;
   content_editor?: InputMaybe<Scalars['String']>;
+  vk?: InputMaybe<Scalars['String']>;
+  facebook?: InputMaybe<Scalars['String']>;
+  telegram?: InputMaybe<Scalars['String']>;
+  instagram?: InputMaybe<Scalars['String']>;
+  whatsapp?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
+export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, vk?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, facebook?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, telegram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, instagram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, whatsapp?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
 
 export type AllFieldsFragment = { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
@@ -2037,6 +2042,12 @@ export const AllContestFieldsFragmentDoc = `
   deadline
   date
   created_at
+  documents {
+    id
+    url
+    user_name
+    sort
+  }
 }
     `;
 export const AllSubdivisionsFieldsFragmentDoc = `
@@ -2130,6 +2141,10 @@ export const AllNewsFieldsFragmentDoc = `
     id
     title
     description
+  }
+  meta {
+    auto_title
+    auto_description
   }
   created_at
   updated_at
@@ -3722,7 +3737,7 @@ export const useSettingsQuery = <
       options
     );
 export const UpdateSettingsDocument = `
-    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String, $send_email_notify: String, $content_editor: String) {
+    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String, $send_email_notify: String, $content_editor: String, $vk: String, $facebook: String, $telegram: String, $instagram: String, $whatsapp: String) {
   schedule: upsertSetting(input: {id: 1, name: "phone", value: $phone}) {
     ...allSettingsFields
   }
@@ -3746,6 +3761,21 @@ export const UpdateSettingsDocument = `
   content_editor: upsertSetting(
     input: {id: 7, name: "content_editor", value: $content_editor}
   ) {
+    ...allSettingsFields
+  }
+  vk: upsertSetting(input: {id: 8, name: "vk", value: $vk}) {
+    ...allSettingsFields
+  }
+  facebook: upsertSetting(input: {id: 9, name: "facebook", value: $facebook}) {
+    ...allSettingsFields
+  }
+  telegram: upsertSetting(input: {id: 10, name: "telegram", value: $telegram}) {
+    ...allSettingsFields
+  }
+  instagram: upsertSetting(input: {id: 11, name: "instagram", value: $instagram}) {
+    ...allSettingsFields
+  }
+  whatsapp: upsertSetting(input: {id: 12, name: "whatsapp", value: $whatsapp}) {
     ...allSettingsFields
   }
 }

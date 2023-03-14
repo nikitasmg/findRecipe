@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -29,7 +30,8 @@ export const PagesTable: React.FC = () => {
     handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
-    resetFilters
+    resetFilters,
+    resetTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -61,7 +63,8 @@ export const PagesTable: React.FC = () => {
         <TableActions
           searchProps={{
             searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange)
+            searchChange: getEventValueHandler(handleTitleChange),
+            resetTitle: resetTitle
           }}
           resetFilters={resetFilters}
           filterModalInnerForm={
@@ -70,7 +73,7 @@ export const PagesTable: React.FC = () => {
         />
 
         <Fragment>
-          <TableContainer>
+          <TableContainer component={Paper}>
             <Table stickyHeader aria-label='sticky table'>
               <TableHead>
                 <TableRow>

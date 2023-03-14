@@ -23,6 +23,7 @@ import { HomePageRoute } from "~shared/routes";
 import { Button } from "~/shared/components/Button";
 import { Text } from "~shared/components/Text";
 import { HelperText } from "~shared/components/HelperText";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 
 type FormFields = {
   email: string;
@@ -33,7 +34,7 @@ export const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid }
+    formState: { errors }
   } = useForm<FormFields>({ mode: "all" });
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -77,7 +78,11 @@ export const LoginForm: React.FC = () => {
               <FormControl fullWidth>
                 <TextField
                   error={!!getError("email")}
-                  label={<Text>Email address</Text>}
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Email address</Text>
+                    </RequiredLabelWrapper>
+                  }
                   defaultValue='dev@echo-company.ru'
                   inputMode='email'
                   {...register("email", getBaseEmailValidation({ required: true }))}
@@ -92,7 +97,11 @@ export const LoginForm: React.FC = () => {
               <FormControl fullWidth>
                 <TextField
                   error={!!getError("password")}
-                  label={<Text>Password</Text>}
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Password</Text>
+                    </RequiredLabelWrapper>
+                  }
                   type={showPassword ? "text" : "password"}
                   InputProps={{
                     endAdornment: (
@@ -118,7 +127,7 @@ export const LoginForm: React.FC = () => {
             </Grid>
 
             <Grid item columns={12} xs={12}>
-              <Button fullWidth type='submit' variant='contained' disabled={isLoading || !isValid}>
+              <Button fullWidth type='submit' variant='contained' disabled={isLoading}>
                 Login
               </Button>
             </Grid>

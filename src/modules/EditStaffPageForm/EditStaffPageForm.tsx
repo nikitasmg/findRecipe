@@ -21,7 +21,7 @@ export const EditStaffPageForm: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug: "staff" });
+  const { data } = usePageBySlugQuery(client, { slug: "contacts" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client);
 

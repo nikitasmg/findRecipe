@@ -10,11 +10,11 @@ import {
   TextField
 } from "@mui/material";
 import { curry } from "rambda";
-import { DatePicker } from "@mui/x-date-pickers";
 import React, { forwardRef } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useNewsCategoriesQuery } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
+import { DatePicker } from "~/shared/components/DatePicker";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 
@@ -85,7 +85,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               label={<Text>Published at</Text>}
               value={params?.published_at ?? null}
               onChange={curry(handleChangeFilter)("published_at")}
-              renderInput={(props) => <TextField {...props} variant='outlined' />}
             />
           </Grid>
 

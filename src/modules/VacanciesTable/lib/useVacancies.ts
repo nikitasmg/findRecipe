@@ -27,7 +27,8 @@ export const useVacancies = () => {
     handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
-    resetFilters
+    resetFilters,
+    resetTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -88,6 +89,7 @@ export const useVacancies = () => {
     resetFilters,
     isLoading,
     rows,
-    onSortEnd
+    onSortEnd,
+    resetTitle
   };
 };

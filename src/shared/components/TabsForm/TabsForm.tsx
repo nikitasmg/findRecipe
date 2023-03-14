@@ -7,6 +7,7 @@ import { Text } from "../Text";
 import { TabPanel } from "../TabPanel";
 import { Button } from "../Button";
 import { LinkButton } from "../LinkButton";
+import clsx from "clsx";
 
 type Props = {
   forms: {
@@ -82,7 +83,7 @@ export const TabsForm: React.FC<Props> = ({
         </TabPanel>
       ))}
 
-      <Box className='flex flex-wrap gap-4 pt-2 mt-16'>
+      <Box className={clsx("flex flex-wrap gap-4 pt-2 mt-16")}>
         {(handleBack || backHref) && (
           <LinkButton
             startIcon={<ArrowBackIosNewIcon />}
@@ -100,7 +101,7 @@ export const TabsForm: React.FC<Props> = ({
               startIcon={<SaveIcon />}
               disabled={isLoading}
               type='submit'
-              variant='contained'
+              variant='outlined'
               size='small'
             >
               Save

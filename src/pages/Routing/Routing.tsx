@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import { BaseLayout } from "~/layouts/BaseLayout";
 import { BaseProtectedLayout } from "~/layouts/BaseProtectedLayout";
+import { GuestRoutes } from "~/modules/GuestRoutes";
 
 import {
   HomePageRoute,
@@ -103,7 +104,14 @@ const ProjectsEdit = lazy(() =>
 export const Routing: React.FC = () => {
   return (
     <Routes>
-      <Route path={LoginPageRoute} element={<Login />} />
+      <Route
+        path={LoginPageRoute}
+        element={
+          <GuestRoutes>
+            <Login />
+          </GuestRoutes>
+        }
+      />
       <Route
         path={HomePageRoute}
         element={
@@ -370,9 +378,11 @@ export const Routing: React.FC = () => {
       <Route
         path='*'
         element={
-          <BaseLayout>
-            <NoMatch />
-          </BaseLayout>
+          <GuestRoutes>
+            <BaseLayout>
+              <NoMatch />
+            </BaseLayout>
+          </GuestRoutes>
         }
       />
     </Routes>
