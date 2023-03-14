@@ -7,12 +7,25 @@ export const EventsFragment = gql`
     description
     published
     imageUrl
+    place
+    start
+    end
     created_at
+    updated_at
     image {
       id
       url
     }
     partners {
+      id
+      name
+      imageUrl
+      image {
+        id
+        url
+      }
+    }
+    organizers {
       id
       name
       imageUrl

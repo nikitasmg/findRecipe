@@ -101,6 +101,7 @@
     "lint-staged": "lint-staged",
     "lint:es": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:es:fix": "npm run lint:es -- --fix",
+    "check-types": "tsc --noemit",
     "pre-commit": "npm run lint-staged && npm run test",
     "pre-push": "npm run build",
     "changelog": "./scripts/changelog-update.sh",

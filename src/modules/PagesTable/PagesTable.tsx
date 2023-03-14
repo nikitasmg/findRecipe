@@ -64,7 +64,7 @@ export const PagesTable: React.FC = () => {
           searchProps={{
             searchValue: title,
             searchChange: getEventValueHandler(handleTitleChange),
-            resetTitle: resetTitle
+            resetTitle
           }}
           resetFilters={resetFilters}
           filterModalInnerForm={

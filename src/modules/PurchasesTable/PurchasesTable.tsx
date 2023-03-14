@@ -45,7 +45,7 @@ export const PurchasesTable: React.FC = () => {
           searchProps={{
             searchValue: title,
             searchChange: getEventValueHandler(handleTitleChange),
-            resetTitle: resetTitle
+            resetTitle
           }}
           addButtonProps={{
             addHref: PurchasesPageCreate

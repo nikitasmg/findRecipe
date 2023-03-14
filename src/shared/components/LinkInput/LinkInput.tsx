@@ -4,7 +4,6 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import { Link } from "react-router-dom";
 
 export const LinkInput: React.FC<TextFieldProps> = (props) => {
-  console.log(props);
   return (
     <TextField
       inputMode='url'

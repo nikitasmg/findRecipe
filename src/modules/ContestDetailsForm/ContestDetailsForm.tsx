@@ -50,7 +50,6 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
   const isLoading = isCreateLoading || isUpdateLoading;
 
   const onSubmit = handleSubmit((newValues) => {
-    console.log(newValues);
     const input: ContestInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       name: newValues.name,

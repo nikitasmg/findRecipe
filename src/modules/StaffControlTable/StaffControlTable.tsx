@@ -102,7 +102,7 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
         searchProps={{
           searchValue: title,
           searchChange: getEventValueHandler(handleTitleChange),
-          resetTitle: resetTitle
+          resetTitle
         }}
         addButtonProps={{
           onAddClick: handleAddClick

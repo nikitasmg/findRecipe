@@ -1,44 +1,31 @@
-import React, { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { AdditionalForm, AdditionalFormFields } from "./components/AdditionalForm";
+import { EventsPageRoute } from "~/shared/routes";
 import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  Switch,
-  TextareaAutosize,
-  TextField
-} from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
-import { curry } from "rambda";
-import {
+  Event,
   EventInput,
   useCreateEventMutation,
   useEventByIdQuery,
-  useUpdateEventMutation,
-  Document,
-  Event,
-  Partner,
-  Organizer
+  useUpdateEventMutation
 } from "~/generated/graphql";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { initFormValues } from "~/shared/lib/initFormValues";
-import { Text } from "~/shared/components/Text";
-import { getErrorMessage } from "~/shared/lib/getError";
-import { HelperText } from "~/shared/components/HelperText";
-import { Button } from "~/shared/components/Button";
-import { ImageInput } from "~/shared/components/ImageInput";
-import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
-import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
-import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
-import { Member } from "./components/Member";
-import { baseRequired } from "~/shared/lib/validation";
+import { TabsForm } from "~/shared/components/TabsForm";
+import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
+import { DocumentsForm, DocumentsFormFields } from "./components/DocumentsForm";
+
+type FormFields = GeneralFormFields &
+  AdditionalFormFields &
+  DocumentsFormFields & { uploadImage?: File | null };
 
 type Props = {
   id?: number;
 };
 
 export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
+  const [step, setStep] = useState(0);
+
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -62,30 +49,33 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
     handleSubmit,
     setValue,
     formState: { errors },
-    register
-  } = useForm({ mode: "all" });
-
-  const getError = getErrorMessage(errors);
+    register,
+    getValues
+  } = useForm<FormFields>({ mode: "all" });
 
   const onSubmit = handleSubmit(async (newValues) => {
     const input: EventInput & { imageUrl?: never } = {
       ...(Boolean(values?.id) && { id: values?.id }),
-      ...newValues,
       imageUrl: undefined,
+      uploadImage: newValues.uploadImage,
+      ...(Boolean(!newValues.imageUrl) && { deleteImage: true }),
+      place: newValues.place,
+      start: newValues.start,
+      end: newValues.end,
       ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
-      uploadDocuments: await Promise.all(
-        newValues.documents?.map(
-          async (document: { title: string; url: string }, i: number) =>
-            ({
+      ...(Boolean(newValues.uploadDocuments) && {
+        uploadDocuments: await Promise.all(
+          (newValues.uploadDocuments ?? [])?.map(
+            async (document: { title?: string; url?: string | null }, i: number) => ({
               upload: document.url ? await fileFromBlobUrl(document.url) : "",
               sort: i,
-              user_name: document.title
-            } || [])
+              user_name: document.title ?? ""
+            })
+          )
         )
-      )
+      }),
+      deleteDocuments: newValues.deleteDocuments
     };
-
-    delete (input as Event).documents;
 
     if (isCreateMode) {
       createEvent({ input });
@@ -95,163 +85,60 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
     updateEvent({ input });
   });
 
-  const getInitMemberValue = (members?: (Partner | Organizer)[]) =>
-    members?.map((member) => ({ name: member.name ?? "", avatarUrl: member.imageUrl ?? "" })) ?? [];
-
-  const handleChecked = getCheckedHandler(setValue);
-
   useEffect(() => {
     if (!isSuccess) {
       return;
     }
 
-    initFormValues(
-      ["name", "description", "published", "imageUrl", "documents", "organizers", "partners"],
-      setValue,
-      values
-    );
+    const defaultFields: (keyof FormFields)[] = [
+      "name",
+      "description",
+      "published",
+      "imageUrl",
+      "documents",
+      "organizers",
+      "partners",
+      "start",
+      "end",
+      "place"
+    ];
+
+    defaultFields.forEach((fieldName) => {
+      setValue(
+        fieldName as keyof FormFields,
+        values?.[fieldName as keyof Omit<Event, "imageThumbs">] as never
+      );
+    });
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
-      <Box className='flex flex-col lg:flex-row gap-6 mt-2'>
-        <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
-          <Controller
-            control={control}
-            name='name'
-            render={({ field: { value } }) => (
-              <FormControl fullWidth>
-                <TextField
-                  label={
-                    <RequiredLabelWrapper>
-                      <Text>Title</Text>
-                    </RequiredLabelWrapper>
-                  }
-                  value={value}
-                  variant='outlined'
-                  id='name'
-                  error={!!getError("name")}
-                  {...register("name", baseRequired)}
-                />
-
-                <HelperText id='name' error={getError("name")} />
-              </FormControl>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name='description'
-            render={({ field: { value } }) => (
-              <FormControl fullWidth>
-                <TextField
-                  multiline
-                  fullWidth
-                  value={value}
-                  label={<Text>Description</Text>}
-                  InputProps={{
-                    inputComponent: TextareaAutosize
-                  }}
-                  {...register("description")}
-                />
-
-                <HelperText id='description' error={getError("description")} />
-              </FormControl>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name='published'
-            render={({ field: { value } }) => (
-              <FormControl fullWidth>
-                <FormControlLabel
-                  control={<Switch checked={!!value} onChange={handleChecked("published")} />}
-                  label={<Text>Published</Text>}
-                />
-
-                <HelperText id='published' error={getError("published")} />
-              </FormControl>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name='documents'
-            render={({ field: { value } }) => (
-              <DocumentsUpload
-                value={value?.map((document: Document) => ({
-                  title: document.user_name ?? "",
-                  url: document.user_name ?? ""
-                }))}
-                onChange={(documents) => {
-                  setValue("documents", documents);
-                }}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name='partners'
-            render={({ field: { value } }) => (
-              <Member
-                title='Partners'
-                attachTitle='Attach partner'
-                value={getInitMemberValue(value)}
-                onChange={curry(setValue)("partners")}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name='organizers'
-            render={({ field: { value } }) => (
-              <Member
-                title='Organizers'
-                attachTitle='Attach organizer'
-                value={getInitMemberValue(value)}
-                onChange={curry(setValue)("organizers")}
-              />
-            )}
-          />
-        </Box>
-
-        <Box className='grow-[1] flex justify-center lg:w-[30%] order-first lg:order-last'>
-          <Controller
-            control={control}
-            name='imageUrl'
-            render={({ field: { value } }) => (
-              <ImageInput
-                id='general'
-                url={value}
-                {...register("imageUrl")}
-                onChange={(file) => {
-                  setValue("uploadImage", file);
-                  if (file) {
-                    setValue("imageUrl", URL.createObjectURL(file as File));
-                  }
-                }}
-                onDelete={() => {
-                  setValue("uploadImage", null);
-                  setValue("imageUrl", null);
-                }}
-              />
-            )}
-          />
-        </Box>
-      </Box>
-      <Button
-        startIcon={<SaveIcon />}
-        disabled={isLoading}
-        type='submit'
-        variant='contained'
-        className='w-fit ml-auto'
-        size='small'
-      >
-        Save
-      </Button>
-    </form>
+    <TabsForm
+      handleSubmit={onSubmit}
+      handleStepChange={setStep}
+      backHref={EventsPageRoute}
+      activeStep={step}
+      isLoading={isLoading}
+      forms={[
+        {
+          tabTitle: "General data",
+          component: (
+            <GeneralForm
+              setValue={setValue}
+              errors={errors}
+              register={register}
+              control={control}
+            />
+          )
+        },
+        {
+          tabTitle: "Additional data",
+          component: <AdditionalForm setValue={setValue} control={control} />
+        },
+        {
+          tabTitle: "Documents",
+          component: <DocumentsForm getValues={getValues} setValue={setValue} control={control} />
+        }
+      ]}
+    />
   );
 };

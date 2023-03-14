@@ -45,7 +45,7 @@ export const VacanciesTable: React.FC = () => {
           searchProps={{
             searchValue: title,
             searchChange: getEventValueHandler(handleTitleChange),
-            resetTitle: resetTitle
+            resetTitle
           }}
           addButtonProps={{
             addHref: VacanciesPageCreate

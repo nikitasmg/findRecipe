@@ -24,16 +24,13 @@ export const DocumentsForm: React.FC<Props> = ({ register, control, setValue }) 
       control={control}
       name='uploadDocuments.0'
       render={({ field }) => (
-        <>
-          {console.log(field)}
-          <MuiFileInput
-            label={<Text>Notice</Text>}
-            hideSizeText
-            {...field}
-            {...register("uploadDocuments.0")}
-            onChange={curry(setValue)("uploadDocuments.0")}
-          />
-        </>
+        <MuiFileInput
+          label={<Text>Notice</Text>}
+          hideSizeText
+          {...field}
+          {...register("uploadDocuments.0")}
+          onChange={curry(setValue)("uploadDocuments.0")}
+        />
       )}
     />
 

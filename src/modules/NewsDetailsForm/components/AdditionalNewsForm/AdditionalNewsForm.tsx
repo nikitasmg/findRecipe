@@ -153,29 +153,26 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
           control={control}
           name='tags'
           render={({ field: { value = [], onChange } }) => (
-            <>
-              {console.log(value)}
-              <TextField
-                select
-                name='tags'
-                variant='outlined'
-                label={<Text>Tags</Text>}
-                SelectProps={{
-                  multiple: true,
-                  value: value,
-                  onChange: onChange,
-                  MenuProps: {
-                    className: "h-[300px]"
-                  }
-                }}
-              >
-                {tags?.newsTags.map((tag) => (
-                  <MenuItem key={tag.id} value={tag.id}>
-                    #{tag.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </>
+            <TextField
+              select
+              name='tags'
+              variant='outlined'
+              label={<Text>Tags</Text>}
+              SelectProps={{
+                multiple: true,
+                value: value,
+                onChange: onChange,
+                MenuProps: {
+                  className: "h-[300px]"
+                }
+              }}
+            >
+              {tags?.newsTags.map((tag) => (
+                <MenuItem key={tag.id} value={tag.id}>
+                  #{tag.name}
+                </MenuItem>
+              ))}
+            </TextField>
           )}
         />
       </FormControl>

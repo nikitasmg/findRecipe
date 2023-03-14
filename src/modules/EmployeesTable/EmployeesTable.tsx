@@ -45,7 +45,7 @@ const EmployeesTable = () => {
           searchProps={{
             searchValue: title,
             searchChange: getEventValueHandler(handleTitleChange),
-            resetTitle: resetTitle
+            resetTitle
           }}
           addButtonProps={{
             addHref: EmployeesPageCreate
