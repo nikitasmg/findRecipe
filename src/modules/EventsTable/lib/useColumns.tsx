@@ -86,7 +86,7 @@ export const useColumns = (
       style: {
         width: "25%"
       },
-      render: (value) => (value as string).slice(0, 100).concat("...")
+      render: (value) => (value as string)?.slice(0, 100).concat("...")
     },
 
     {

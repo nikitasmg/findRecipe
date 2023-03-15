@@ -58,7 +58,6 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
                 }
                 value={value}
                 variant='outlined'
-                id='name'
                 error={!!getError("name")}
                 {...register("name", baseRequired)}
               />
