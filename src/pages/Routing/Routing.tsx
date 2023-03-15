@@ -12,6 +12,8 @@ import {
   NewsPageEdit,
   NewsPageRoute,
   UsersPageRoute,
+  UsersPageEdit,
+  UsersPageCreate,
   CompilationsPage,
   SettingsPage,
   CompilationEditPage,
@@ -47,6 +49,9 @@ const Login = lazy(() => import("~/pages/Login").then((module) => ({ default: mo
 const News = lazy(() => import("~/pages/News").then((module) => ({ default: module.News })));
 const Home = lazy(() => import("~/pages/Home").then((module) => ({ default: module.Home })));
 const Users = lazy(() => import("~/pages/Users").then((module) => ({ default: module.Users })));
+const UsersEdit = lazy(() =>
+  import("~/pages/UsersEdit").then((module) => ({ default: module.UsersEdit }))
+);
 const NewsEdit = lazy(() =>
   import("~/pages/NewsEdit").then((module) => ({ default: module.NewsEdit }))
 );
@@ -180,6 +185,24 @@ export const Routing: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <Users />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={UsersPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <UsersEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={UsersPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <UsersEdit />
           </BaseProtectedLayout>
         }
       />

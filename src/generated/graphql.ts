@@ -1420,7 +1420,7 @@ export type CreateContestMutationVariables = Exact<{
 }>;
 
 
-export type CreateContestMutation = { __typename?: 'Mutation', upsertContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type CreateContestMutation = { __typename?: 'Mutation', createContest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateContestMutationVariables = Exact<{
   input: ContestInput;
@@ -1458,7 +1458,7 @@ export type CreateEmployeeMutationVariables = Exact<{
 }>;
 
 
-export type CreateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
+export type CreateEmployeeMutation = { __typename?: 'Mutation', createEmployee?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
 
 export type UpdateEmployeeMutationVariables = Exact<{
   input: EmployeeInput;
@@ -1514,7 +1514,7 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateEventMutationVariables = Exact<{
   input: EventInput;
@@ -1552,7 +1552,7 @@ export type CreateKnowledgeFieldMutationVariables = Exact<{
 }>;
 
 
-export type CreateKnowledgeFieldMutation = { __typename?: 'Mutation', upsertKnowledgeField?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null };
+export type CreateKnowledgeFieldMutation = { __typename?: 'Mutation', createKnowledgeField?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null };
 
 export type UpdateKnowledgeFieldMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1610,7 +1610,7 @@ export type CreateNewsMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsMutation = { __typename?: 'Mutation', create?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type CreateNewsMutation = { __typename?: 'Mutation', createNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type UpdateNewsMutationVariables = Exact<{
   input: NewsInput;
@@ -1648,7 +1648,7 @@ export type CreateNewsCategoryMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsCategoryMutation = { __typename?: 'Mutation', upsertNewsCategory?: { __typename?: 'NewsCategory', id: number, sort: number, name: string } | null };
+export type CreateNewsCategoryMutation = { __typename?: 'Mutation', createNewsCategory?: { __typename?: 'NewsCategory', id: number, sort: number, name: string } | null };
 
 export type UpdateNewsCategoryMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1688,7 +1688,7 @@ export type CreateNewsTagMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsTagMutation = { __typename?: 'Mutation', upsertNewsTag?: { __typename?: 'NewsTag', id: number, sort: number, name: string } | null };
+export type CreateNewsTagMutation = { __typename?: 'Mutation', createNewsTag?: { __typename?: 'NewsTag', id: number, sort: number, name: string } | null };
 
 export type UpdateNewsTagMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1727,7 +1727,7 @@ export type CreateOrganizerMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type CreateOrganizerMutation = { __typename?: 'Mutation', createOrganizer?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdateOrganizerMutationVariables = Exact<{
   input: OrganizerInput;
@@ -1795,7 +1795,7 @@ export type CreatePartnerMutationVariables = Exact<{
 }>;
 
 
-export type CreatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type CreatePartnerMutation = { __typename?: 'Mutation', createPartner?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdatePartnerMutationVariables = Exact<{
   input: PartnerInput;
@@ -1835,7 +1835,7 @@ export type CreateProjectMutationVariables = Exact<{
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type UpdateProjectMutationVariables = Exact<{
   input: ProjectInput;
@@ -1881,7 +1881,7 @@ export type CreatePurchaseMutationVariables = Exact<{
 }>;
 
 
-export type CreatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+export type CreatePurchaseMutation = { __typename?: 'Mutation', createPurchase?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
 
 export type UpdatePurchaseMutationVariables = Exact<{
   input: PurchaseInput;
@@ -1961,7 +1961,7 @@ export type CreateStaffControlMutationVariables = Exact<{
 }>;
 
 
-export type CreateStaffControlMutation = { __typename?: 'Mutation', upsertStaffControl?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type CreateStaffControlMutation = { __typename?: 'Mutation', createStaffControl?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdateStaffControlMutationVariables = Exact<{
   input: StaffControlInput;
@@ -2004,7 +2004,7 @@ export type CreateSubdivisionMutationVariables = Exact<{
 }>;
 
 
-export type CreateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
+export type CreateSubdivisionMutation = { __typename?: 'Mutation', createSubdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
 
 export type UpdateSubdivisionMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2029,7 +2029,14 @@ export type UploadMutationVariables = Exact<{
 
 export type UploadMutation = { __typename?: 'Mutation', upload?: string | null };
 
-export type AllUsersFieldsFragment = { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null };
+export type AllUsersFieldsFragment = { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null, created_at: any, updated_at: any };
+
+export type UserByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type UserByIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null, created_at: any, updated_at: any } | null };
 
 export type UsersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2039,12 +2046,33 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users?: { __typename?: 'UserPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null }> } | null };
+export type UsersQuery = { __typename?: 'Query', users?: { __typename?: 'UserPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null, created_at: any, updated_at: any }> } | null };
+
+export type CreateUserMutationVariables = Exact<{
+  input: UserInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null, created_at: any, updated_at: any } | null };
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', upsertUser?: { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null, created_at: any, updated_at: any } | null };
+
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser?: { __typename?: 'User', id: number } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null, created_at: any, updated_at: any } };
 
 export type AllVacanciesFieldsFragment = { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean };
 
@@ -2076,7 +2104,7 @@ export type CreateVacancyMutationVariables = Exact<{
 }>;
 
 
-export type CreateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
+export type CreateVacancyMutation = { __typename?: 'Mutation', createVacancy?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
 
 export type UpdateVacancyMutationVariables = Exact<{
   input: VacancyInput;
@@ -2376,6 +2404,8 @@ export const AllUsersFieldsFragmentDoc = `
   name
   email
   email_verified_at
+  created_at
+  updated_at
 }
     `;
 export const AllVacanciesFieldsFragmentDoc = `
@@ -2482,7 +2512,7 @@ export const useContestsQuery = <
     );
 export const CreateContestDocument = `
     mutation createContest($input: ContestInput!) {
-  upsertContest(input: $input) {
+  createContest: upsertContest(input: $input) {
     ...allContestFields
   }
 }
@@ -2584,7 +2614,7 @@ export const useEmployeesQuery = <
     );
 export const CreateEmployeeDocument = `
     mutation createEmployee($input: EmployeeInput!) {
-  upsertEmployee(input: $input) {
+  createEmployee: upsertEmployee(input: $input) {
     ...allEmployeeFields
   }
 }
@@ -2733,7 +2763,7 @@ export const useUpdateEventPublishedMutation = <
     );
 export const CreateEventDocument = `
     mutation createEvent($input: EventInput!) {
-  upsertEvent(input: $input) {
+  createEvent: upsertEvent(input: $input) {
     ...allEventsFields
   }
 }
@@ -2835,7 +2865,7 @@ export const useKnowledgeFieldsQuery = <
     );
 export const CreateKnowledgeFieldDocument = `
     mutation createKnowledgeField($sort: Int!, $name: String!) {
-  upsertKnowledgeField(input: {sort: $sort, name: $name}) {
+  createKnowledgeField: upsertKnowledgeField(input: {sort: $sort, name: $name}) {
     ...allKnowledgeAreasFields
   }
 }
@@ -2985,7 +3015,7 @@ export const useUpdatePublishedNewsMutation = <
     );
 export const CreateNewsDocument = `
     mutation createNews($input: NewsInput!) {
-  create: upsertNews(input: $input) {
+  createNews: upsertNews(input: $input) {
     ...allNewsFields
   }
 }
@@ -3087,7 +3117,7 @@ export const useNewsCategoriesQuery = <
     );
 export const CreateNewsCategoryDocument = `
     mutation createNewsCategory($sort: Int!, $name: String!) {
-  upsertNewsCategory(input: {sort: $sort, name: $name}) {
+  createNewsCategory: upsertNewsCategory(input: {sort: $sort, name: $name}) {
     ...allNewsCategoriesFields
   }
 }
@@ -3190,7 +3220,7 @@ export const useNewsTagsQuery = <
     );
 export const CreateNewsTagDocument = `
     mutation createNewsTag($sort: Int!, $name: String!) {
-  upsertNewsTag(input: {sort: $sort, name: $name}) {
+  createNewsTag: upsertNewsTag(input: {sort: $sort, name: $name}) {
     ...allNewsTagsFields
   }
 }
@@ -3293,7 +3323,7 @@ export const useOrganizersQuery = <
     );
 export const CreateOrganizerDocument = `
     mutation createOrganizer($input: OrganizerInput!) {
-  upsertOrganizer(input: $input) {
+  createOrganizer: upsertOrganizer(input: $input) {
     ...allOrganizerFields
   }
 }
@@ -3482,7 +3512,7 @@ export const usePartnersQuery = <
     );
 export const CreatePartnerDocument = `
     mutation createPartner($input: PartnerInput!) {
-  upsertPartner(input: $input) {
+  createPartner: upsertPartner(input: $input) {
     ...allPartnerFields
   }
 }
@@ -3591,7 +3621,7 @@ export const useProjectsQuery = <
     );
 export const CreateProjectDocument = `
     mutation createProject($input: ProjectInput!) {
-  upsertProject(input: $input) {
+  createProject: upsertProject(input: $input) {
     ...allProjectsFields
   }
 }
@@ -3713,7 +3743,7 @@ export const useUpdatePurchasePublishedMutation = <
     );
 export const CreatePurchaseDocument = `
     mutation createPurchase($input: PurchaseInput!) {
-  upsertPurchase(input: $input) {
+  createPurchase: upsertPurchase(input: $input) {
     ...allPurchasesFields
   }
 }
@@ -3935,7 +3965,7 @@ export const useStaffControlsQuery = <
     );
 export const CreateStaffControlDocument = `
     mutation createStaffControl($input: StaffControlInput!) {
-  upsertStaffControl(input: $input) {
+  createStaffControl: upsertStaffControl(input: $input) {
     ...allFields
   }
 }
@@ -4070,7 +4100,7 @@ export const useSubdivisionsQuery = <
     );
 export const CreateSubdivisionDocument = `
     mutation createSubdivision($sort: Int!, $name: String!) {
-  upsertSubdivision(input: {sort: $sort, name: $name}) {
+  createSubdivision: upsertSubdivision(input: {sort: $sort, name: $name}) {
     ...allSubdivisionsFields
   }
 }
@@ -4147,6 +4177,27 @@ export const useUploadMutation = <
       (variables?: UploadMutationVariables) => fetcher<UploadMutation, UploadMutationVariables>(client, UploadDocument, variables, headers)(),
       options
     );
+export const UserByIdDocument = `
+    query userById($id: Int!) {
+  userById(id: $id) {
+    ...allUsersFields
+  }
+}
+    ${AllUsersFieldsFragmentDoc}`;
+export const useUserByIdQuery = <
+      TData = UserByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: UserByIdQueryVariables,
+      options?: UseQueryOptions<UserByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<UserByIdQuery, TError, TData>(
+      ['userById', variables],
+      fetcher<UserByIdQuery, UserByIdQueryVariables>(client, UserByIdDocument, variables, headers),
+      options
+    );
 export const UsersDocument = `
     query users($orderBy: [OrderByClause!], $filter: [FilterByClause!], $first: Int = 30, $page: Int) {
   users(orderBy: $orderBy, filter: $filter, first: $first, page: $page) {
@@ -4173,6 +4224,66 @@ export const useUsersQuery = <
     useQuery<UsersQuery, TError, TData>(
       variables === undefined ? ['users'] : ['users', variables],
       fetcher<UsersQuery, UsersQueryVariables>(client, UsersDocument, variables, headers),
+      options
+    );
+export const CreateUserDocument = `
+    mutation createUser($input: UserInput!) {
+  createUser: upsertUser(input: $input) {
+    ...allUsersFields
+  }
+}
+    ${AllUsersFieldsFragmentDoc}`;
+export const useCreateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
+      ['createUser'],
+      (variables?: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(client, CreateUserDocument, variables, headers)(),
+      options
+    );
+export const UpdateUserDocument = `
+    mutation updateUser($input: UserInput!) {
+  upsertUser(input: $input) {
+    ...allUsersFields
+  }
+}
+    ${AllUsersFieldsFragmentDoc}`;
+export const useUpdateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
+      ['updateUser'],
+      (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(client, UpdateUserDocument, variables, headers)(),
+      options
+    );
+export const DeleteUserDocument = `
+    mutation deleteUser($id: Int!) {
+  deleteUser(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteUserMutation, TError, DeleteUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteUserMutation, TError, DeleteUserMutationVariables, TContext>(
+      ['deleteUser'],
+      (variables?: DeleteUserMutationVariables) => fetcher<DeleteUserMutation, DeleteUserMutationVariables>(client, DeleteUserDocument, variables, headers)(),
       options
     );
 export const MeDocument = `
@@ -4260,7 +4371,7 @@ export const useUpdateVacancyPublishedMutation = <
     );
 export const CreateVacancyDocument = `
     mutation createVacancy($input: VacancyInput!) {
-  upsertVacancy(input: $input) {
+  createVacancy: upsertVacancy(input: $input) {
     ...allVacanciesFields
   }
 }

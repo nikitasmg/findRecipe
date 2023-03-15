@@ -12,7 +12,9 @@ export const LoginPageRoute = "/login";
 
 export const UsersPageRoute = "/users";
 
-export const UsersPageEdit = `${UsersPageRoute}/edit`;
+export const UsersPageEdit = `${UsersPageRoute}/edit/:id`;
+
+export const UsersPageCreate = `${UsersPageRoute}/create`;
 
 export const ProfilePage = "/profile";
 
