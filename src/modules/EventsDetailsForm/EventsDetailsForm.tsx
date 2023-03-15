@@ -63,6 +63,9 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
   const onSubmit = handleSubmit(async (newValues) => {
     const input: EventInput & { imageUrl?: never } = {
       ...(Boolean(values?.id) && { id: values?.id }),
+      name: newValues.name,
+      description: newValues.description,
+      published: newValues.published,
       imageUrl: undefined,
       uploadImage: newValues.uploadImage,
       ...(Boolean(!newValues.imageUrl) && { deleteImage: true }),
