@@ -80,6 +80,10 @@ export const PagesEditAnoBiomed = "/pages/edit/ano-biomed";
 
 export const PagesEditContacts = "/pages/edit/contacts";
 
+export const PagesEditNtcInSurgut = "/pages/edit/ntc-in-surgut";
+
+export const PagesEditGrants = "/pages/edit/grants";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";
