@@ -12,7 +12,9 @@ export const LoginPageRoute = "/login";
 
 export const UsersPageRoute = "/users";
 
-export const UsersPageEdit = `${UsersPageRoute}/edit`;
+export const UsersPageEdit = `${UsersPageRoute}/edit/:id`;
+
+export const UsersPageCreate = `${UsersPageRoute}/create`;
 
 export const ProfilePage = "/profile";
 
@@ -79,6 +81,10 @@ export const PagesEditLogos = "/pages/edit/logos";
 export const PagesEditAnoBiomed = "/pages/edit/ano-biomed";
 
 export const PagesEditContacts = "/pages/edit/contacts";
+
+export const PagesEditNtcInSurgut = "/pages/edit/ntc-in-surgut";
+
+export const PagesEditGrants = "/pages/edit/grants";
 
 export const InteractiveMapFormRoute = "/interactive-map";
 

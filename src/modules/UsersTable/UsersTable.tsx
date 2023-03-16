@@ -1,7 +1,6 @@
 import {
   Box,
   CircularProgress,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -9,67 +8,72 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import { User, useUsersQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
-import { NewsPageEdit } from "~/shared/routes";
+import { UsersPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
-import { LinkButton } from "~/shared/components/LinkButton";
-import { Text } from "~/shared/components/Text";
 import { TablePagination } from "~/shared/components/TablePagination";
-import { SearchInput } from "~/shared/components/SearchInput";
 import { Panel } from "~shared/components/Panel/Panel";
-import { getColumns } from "./lib/getColumns";
+import { useProjectsStore } from "~stores/projects";
+import { TableActions } from "~shared/components/TableActions";
+import { useColumns } from "~/modules/UsersTable/lib/useColumns";
 
-type Props = {
-  onUsersCountChange?: (count: number) => void;
-};
-
-export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
-  const { variables, title, pagination, handleTitleChange, handleChangePage, resetTitle } =
-    useRequestState("name");
+const UsersTable: React.FC = () => {
+  const {
+    variables,
+    title,
+    activeOrder,
+    pagination,
+    handleTitleChange,
+    handleChangePage,
+    handleChangeOrder,
+    resetTitle
+  } = useRequestState("name");
 
   const client = useGraphqlClient();
 
-  const { data, isLoading } = useUsersQuery(
-    client,
-    {
-      ...variables
-    },
-    { refetchOnMount: "always" }
-  );
+  const { setCount, setLoading } = useProjectsStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
-  const users = data?.users;
+  const { data, isLoading } = useUsersQuery(client, variables, {
+    refetchOnMount: "always"
+  });
 
-  const total = users?.paginatorInfo.total ?? 0;
+  const users = data?.users?.data;
 
-  const columns = getColumns();
+  const paginatorInfo = data?.users?.paginatorInfo;
+
+  const total = paginatorInfo?.total ?? 0;
+
+  const columns = useColumns(activeOrder, handleChangeOrder);
 
   useEffect(() => {
-    onUsersCountChange?.(total);
-  }, [total, onUsersCountChange]);
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(total);
+  }, [total, setCount]);
 
   return (
     <Panel>
-      <Box className='flex items-stretch gap-2 p-4 flex-col sm:flex-row'>
-        <SearchInput
-          label={<Text>Fast search</Text>}
-          fullWidth
-          value={title}
-          onChange={getEventValueHandler(handleTitleChange)}
-          handleReset={resetTitle}
+      <Box className='flex flex-col gap-6 p-4'>
+        <TableActions
+          searchProps={{
+            searchValue: title,
+            searchChange: getEventValueHandler(handleTitleChange),
+            resetTitle
+          }}
+          addButtonProps={{
+            addHref: UsersPageCreate
+          }}
         />
 
-        <LinkButton disabled variant='outlined' href={NewsPageEdit} className='!capitalize'>
-          <AddBoxRoundedIcon />
-          <Text>Add</Text>
-        </LinkButton>
-      </Box>
-
-      <Fragment>
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
@@ -87,7 +91,7 @@ export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
 
             {!isLoading && (
               <TableBody>
-                {users?.data?.map((row: Partial<User>) => {
+                {users?.map((row: User) => {
                   return (
                     <TableRow hover role='row' tabIndex={-1} key={row.id}>
                       {columns.map((column) => {
@@ -104,6 +108,7 @@ export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
               </TableBody>
             )}
           </Table>
+
           {isLoading && (
             <Box className='flex h-[20vh] w-full justify-center items-center'>
               <CircularProgress />
@@ -111,12 +116,16 @@ export const UsersTable: React.FC<Props> = ({ onUsersCountChange }) => {
           )}
         </TableContainer>
 
-        <TablePagination
-          totalPages={users?.paginatorInfo.lastPage ?? 1}
-          page={pagination.page || 1}
-          onChangePagination={handleChangePage}
-        />
-      </Fragment>
+        {!isLoading && (
+          <TablePagination
+            totalPages={paginatorInfo?.lastPage ?? 1}
+            page={pagination.page || 1}
+            onChangePagination={handleChangePage}
+          />
+        )}
+      </Box>
     </Panel>
   );
 };
+
+export default UsersTable;

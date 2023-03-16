@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { UsersTable } from "./UsersTable";
+import UsersTable from "./UsersTable";
 
 export default {
   title: "modules/UsersTable",
