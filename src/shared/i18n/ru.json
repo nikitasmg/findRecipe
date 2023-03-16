@@ -25,6 +25,8 @@
   "Language": "Язык",
   "Entities": "Сущности",
   "Users": "Пользователи",
+  "User editing": "Редактирование пользователя",
+  "User creating": "Создание пользователя",
   "Enter id": "Введите id",
   "Enter title": "Введите название",
   "Enter category": "Введите категорию",
