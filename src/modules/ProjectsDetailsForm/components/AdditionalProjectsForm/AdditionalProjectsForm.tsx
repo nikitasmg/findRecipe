@@ -42,7 +42,11 @@ export const AdditionalProjectsForm: React.FC<Props> = ({
 
   const { mutateAsync: upload } = useUploadMutation(client);
 
-  const { data } = useSettingByNameQuery(client, { name: "content_editor" });
+  const { data } = useSettingByNameQuery(
+    client,
+    { name: "content_editor" },
+    { refetchOnMount: "always" }
+  );
 
   const contentEditorKey = data?.settingByName?.value;
 

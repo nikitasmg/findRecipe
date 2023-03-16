@@ -32,7 +32,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
   const { data, isSuccess } = useContestByIdQuery(
     client,
     { id: Number(id) },
-    { enabled: !isCreateMode }
+    { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 
   const { mutateAsync: createContest, isLoading: isCreateLoading } = useCreateContestMutation(

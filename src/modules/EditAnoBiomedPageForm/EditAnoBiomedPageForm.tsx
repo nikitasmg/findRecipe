@@ -25,7 +25,7 @@ export const EditAnoBiomedPageForm: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug: "ano-biomed" });
+  const { data } = usePageBySlugQuery(client, { slug: "ano-biomed" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack

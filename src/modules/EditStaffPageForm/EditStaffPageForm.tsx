@@ -24,7 +24,7 @@ export const EditStaffPageForm: React.FC = () => {
 
   const goBack = useNavigationBack();
 
-  const { data } = usePageBySlugQuery(client, { slug: "staff" });
+  const { data } = usePageBySlugQuery(client, { slug: "staff" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack

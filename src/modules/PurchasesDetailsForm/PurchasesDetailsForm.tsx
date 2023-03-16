@@ -55,9 +55,13 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   const { mutateAsync: upload } = useUploadMutation(client);
 
-  const { data: { settingByName } = {} } = useSettingByNameQuery(client, {
-    name: "content_editor"
-  });
+  const { data: { settingByName } = {} } = useSettingByNameQuery(
+    client,
+    {
+      name: "content_editor"
+    },
+    { refetchOnMount: "always" }
+  );
 
   const contentEditorKey = settingByName?.value;
 

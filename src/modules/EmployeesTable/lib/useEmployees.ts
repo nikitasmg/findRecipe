@@ -36,11 +36,7 @@ export const useEmployees = () => {
 
   const { data: subdivisionsData } = useSubdivisionsQuery(client);
 
-  const { data, isLoading } = useEmployeesQuery(
-    client,
-    { orderBy: variables.orderBy, filter: variables.filter },
-    { refetchOnMount: "always" }
-  );
+  const { data, isLoading } = useEmployeesQuery(client, variables, { refetchOnMount: "always" });
 
   const subdivisions = subdivisionsData?.subdivisions;
 

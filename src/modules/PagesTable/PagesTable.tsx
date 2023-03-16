@@ -41,7 +41,7 @@ export const PagesTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = usePagesQuery(client, variables, { refetchOnMount: true });
+  const { data, isLoading } = usePagesQuery(client, variables, { refetchOnMount: "always" });
 
   const pages = data?.pages;
 

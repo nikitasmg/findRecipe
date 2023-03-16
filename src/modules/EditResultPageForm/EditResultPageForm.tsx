@@ -24,7 +24,7 @@ export const EditResultPageForm: React.FC = () => {
 
   const goBack = useNavigationBack();
 
-  const { data } = usePageBySlugQuery(client, { slug: "result" });
+  const { data } = usePageBySlugQuery(client, { slug: "result" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack
