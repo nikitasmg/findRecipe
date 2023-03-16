@@ -10,6 +10,8 @@ export const PhoneInput: React.FC<MuiTelInputProps> = ({ className, ...props }) 
       defaultCountry='RU'
       disableDropdown
       onlyCountries={["RU"]}
+      size='small'
+      fullWidth
       {...props}
     />
   );

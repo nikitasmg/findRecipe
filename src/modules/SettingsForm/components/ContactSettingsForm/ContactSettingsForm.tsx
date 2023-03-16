@@ -95,7 +95,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
                 fullWidth
                 variant='outlined'
                 value={value}
-                label={<Text>Email</Text>}
+                label={<Text>Fund email</Text>}
                 error={!!getError("email")}
                 {...register("email", getBaseEmailValidation())}
               />
