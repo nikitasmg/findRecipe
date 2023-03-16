@@ -1,4 +1,4 @@
-import { Box, FormControl, TextField } from "@mui/material";
+import { Box, FormControl, InputLabel, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -63,6 +63,9 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
             name='description'
             render={({ field: { value } }) => (
               <FormControl fullWidth>
+                <InputLabel className='bg-white pl-2 pr-5' sx={{ marginLeft: -0.5 }}>
+                  <Text>Description</Text>
+                </InputLabel>
                 <ContentEditor
                   apiKey={contentEditorKey}
                   value={value ?? ""}

@@ -12,7 +12,8 @@ import {
   EmployeesPage,
   VacanciesPage,
   PurchasesPage,
-  StaffControlPageRoute
+  StaffControlPageRoute,
+  ProjectsPageRoute
 } from "~shared/routes";
 
 const paths = [
@@ -42,6 +43,10 @@ const paths = [
       {
         title: <Text component='span'>Contests</Text>,
         path: ContestPageRoute
+      },
+      {
+        title: <Text component='span'>Projects</Text>,
+        path: ProjectsPageRoute
       }
     ]
   },
