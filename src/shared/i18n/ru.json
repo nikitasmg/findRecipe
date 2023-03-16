@@ -191,5 +191,7 @@
   "Successfully update": "Успешно обновлено",
   "Successfully delete": "Успешно удалено",
   "Invalid file type": "Неверный тип файла",
-  "Additional description": "Дополнительное описание"
+  "Additional description": "Дополнительное описание",
+  "Edit NTC in Surgut page": "Редактировать страницу НТЦ в Сургуте",
+  "Edit grant support page": "Редактировать страницу грантовой поддержки"
 }

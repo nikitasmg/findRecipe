@@ -12,11 +12,13 @@ import {
   PagesEditDocuments,
   PagesEditEvents,
   PagesEditGeneralnyyDirektor,
+  PagesEditGrants,
   PagesEditIndex,
   PagesEditLogos,
   PagesEditNablyudatelnyySovet,
   PagesEditNauchnoKonsultacionnyySovet,
   PagesEditNews,
+  PagesEditNtcInSurgut,
   PagesEditOrders,
   PagesEditPopechitelskiySovet,
   PagesEditResult,
@@ -68,6 +70,14 @@ const EditAnoBiomedPage = lazy(() =>
 
 const EditContactsPage = lazy(() =>
   import("~/pages/edit/contacts").then((module) => ({ default: module.EditContactsPage }))
+);
+
+const EditNtcSurgutPage = lazy(() =>
+  import("~/pages/edit/ntc-in-surgut").then((module) => ({ default: module.EditNtcInSurgutPage }))
+);
+
+const EditGrantsPage = lazy(() =>
+  import("~/pages/edit/grants").then((module) => ({ default: module.EditGrantsPage }))
 );
 
 export const PagesEditRouting = [
@@ -233,6 +243,24 @@ export const PagesEditRouting = [
     element={
       <BaseProtectedLayout>
         <EditContactsPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='ntc-in-surgut'
+    path={PagesEditNtcInSurgut}
+    element={
+      <BaseProtectedLayout>
+        <EditNtcSurgutPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='grants'
+    path={PagesEditGrants}
+    element={
+      <BaseProtectedLayout>
+        <EditGrantsPage />
       </BaseProtectedLayout>
     }
   />
