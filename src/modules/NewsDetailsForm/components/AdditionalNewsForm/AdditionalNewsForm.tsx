@@ -46,9 +46,9 @@ type Props = {
 export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue, control }) => {
   const client = useGraphqlClient();
 
-  const { data: categories } = useNewsCategoriesQuery(client);
+  const { data: categories } = useNewsCategoriesQuery(client, {}, { refetchOnMount: "always" });
 
-  const { data: tags } = useNewsTagsQuery(client);
+  const { data: tags } = useNewsTagsQuery(client, {}, { refetchOnMount: "always" });
 
   const getError = getErrorMessage(errors);
 

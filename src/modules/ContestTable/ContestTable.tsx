@@ -44,7 +44,7 @@ export const ContestTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useContestsQuery(client, variables, { refetchOnMount: true });
+  const { data, isLoading } = useContestsQuery(client, variables, { refetchOnMount: "always" });
 
   const contests = data?.contests;
 

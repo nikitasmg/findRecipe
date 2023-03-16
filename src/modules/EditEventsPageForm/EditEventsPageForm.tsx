@@ -24,7 +24,7 @@ export const EditEventsPageForm: React.FC = () => {
 
   const goBack = useNavigationBack();
 
-  const { data } = usePageBySlugQuery(client, { slug: "events" });
+  const { data } = usePageBySlugQuery(client, { slug: "events" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack

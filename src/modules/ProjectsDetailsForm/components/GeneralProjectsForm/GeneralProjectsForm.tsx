@@ -30,7 +30,11 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, control
 
   const client = useGraphqlClient();
 
-  const { data: knowledgeFields } = useKnowledgeFieldsQuery(client);
+  const { data: knowledgeFields } = useKnowledgeFieldsQuery(
+    client,
+    {},
+    { refetchOnMount: "always" }
+  );
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>

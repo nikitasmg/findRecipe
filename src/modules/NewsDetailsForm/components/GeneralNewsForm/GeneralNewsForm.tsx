@@ -33,7 +33,11 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
 
   const { mutateAsync: upload } = useUploadMutation(client);
 
-  const { data } = useSettingByNameQuery(client, { name: "content_editor" });
+  const { data } = useSettingByNameQuery(
+    client,
+    { name: "content_editor" },
+    { refetchOnMount: "always" }
+  );
 
   const contentEditorKey = data?.settingByName?.value;
 

@@ -28,7 +28,7 @@ export const EditControlItemPageForm: React.FC<Props> = ({ slug }) => {
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug });
+  const { data } = usePageBySlugQuery(client, { slug }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack

@@ -24,9 +24,13 @@ type Props = {
 export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue }) => {
   const client = useGraphqlClient();
 
-  const { data: { settingByName } = {} } = useSettingByNameQuery(client, {
-    name: "content_editor"
-  });
+  const { data: { settingByName } = {} } = useSettingByNameQuery(
+    client,
+    {
+      name: "content_editor"
+    },
+    { refetchOnMount: "always" }
+  );
 
   const { mutateAsync: upload } = useUploadMutation(client);
 

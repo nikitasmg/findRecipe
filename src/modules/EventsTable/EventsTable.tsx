@@ -45,7 +45,7 @@ export const EventsTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useEventsQuery(client, variables, { refetchOnMount: true });
+  const { data, isLoading } = useEventsQuery(client, variables, { refetchOnMount: "always" });
 
   const events = data?.events;
 

@@ -24,7 +24,7 @@ export const EditDocumentsPageForm: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug: "documents" });
+  const { data } = usePageBySlugQuery(client, { slug: "documents" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack
