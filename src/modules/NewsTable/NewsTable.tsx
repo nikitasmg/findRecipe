@@ -84,12 +84,6 @@ export const NewsTable: React.FC = () => {
           filterModalInnerForm={
             <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
           }
-          filterControl={{
-            filters: Object.entries(params ?? {}).reduce((filters, [key, value]) => {
-              console.log(key, value);
-              return filters;
-            }, [])
-          }}
         />
 
         <TableContainer component={Paper}>
