@@ -25,7 +25,7 @@ export const useColumns = (
 
   const { mutateAsync: updatePublished } = useUpdatePublishedNewsMutation(client);
 
-  const { data } = useNewsCategoriesQuery(client);
+  const { data } = useNewsCategoriesQuery(client, {}, { refetchOnMount: "always" });
 
   const categories = data?.newsCategories.reduce((res, cur) => {
     res[cur.id] = cur.name;

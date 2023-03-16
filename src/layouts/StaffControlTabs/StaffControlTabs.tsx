@@ -14,7 +14,7 @@ export const StaffControlTabs = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = useStaffControlPagesBySlugQuery(client);
+  const { data } = useStaffControlPagesBySlugQuery(client, {}, { refetchOnMount: "always" });
 
   const pageIds = useMemo(
     () => [

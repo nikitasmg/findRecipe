@@ -25,7 +25,7 @@ export const EditCommonPageForm: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug: "common" });
+  const { data } = usePageBySlugQuery(client, { slug: "common" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack

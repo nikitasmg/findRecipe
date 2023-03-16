@@ -24,7 +24,7 @@ export const EditLogosPageForm: React.FC = () => {
 
   const goBack = useNavigationBack();
 
-  const { data } = usePageBySlugQuery(client, { slug: "logos" });
+  const { data } = usePageBySlugQuery(client, { slug: "logos" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack

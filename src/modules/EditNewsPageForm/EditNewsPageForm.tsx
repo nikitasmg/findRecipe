@@ -24,7 +24,7 @@ export const EditNewsPageForm: React.FC = () => {
 
   const goBack = useNavigationBack();
 
-  const { data } = usePageBySlugQuery(client, { slug: "news" });
+  const { data } = usePageBySlugQuery(client, { slug: "news" }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack

@@ -191,5 +191,6 @@
   "Successfully update": "Успешно обновлено",
   "Successfully delete": "Успешно удалено",
   "Invalid file type": "Неверный тип файла",
-  "Additional description": "Дополнительное описание"
+  "Additional description": "Дополнительное описание",
+  "Sort by": "Сортировать по"
 }
