@@ -37,7 +37,14 @@ import {
   StaffControlPageRoute,
   ProjectsPageRoute,
   ProjectsPageEdit,
-  ProjectsPageCreate
+  ProjectsPageCreate,
+  DocumentsPageRoute,
+  ActivityResultPageRoute,
+  ActivityResultPageCreate,
+  ActivityResultPageEdit,
+  ReportsPageRoute,
+  ReportsPageCreate,
+  ReportsPageEdit
 } from "~shared/routes";
 
 import { PagesEditRouting } from "./PagesEditRouting";
@@ -104,6 +111,21 @@ const Projects = lazy(() =>
 );
 const ProjectsEdit = lazy(() =>
   import("~/pages/ProjectsEdit").then((module) => ({ default: module.ProjectsEdit }))
+);
+const Documents = lazy(() =>
+  import("~/pages/Documents").then((module) => ({ default: module.Documents }))
+);
+const ActivityResult = lazy(() =>
+  import("~/pages/ActivityResult").then((module) => ({ default: module.ActivityResult }))
+);
+const ActivityResultEdit = lazy(() =>
+  import("~/pages/ActivityResultEdit").then((module) => ({ default: module.ActivityResultEdit }))
+);
+const Reports = lazy(() =>
+  import("~/pages/Reports").then((module) => ({ default: module.Reports }))
+);
+const ReportsEdit = lazy(() =>
+  import("~/pages/ReportsEdit").then((module) => ({ default: module.ReportsEdit }))
 );
 
 export const Routing: React.FC = () => {
@@ -392,6 +414,69 @@ export const Routing: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <ProjectsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={DocumentsPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Documents />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ActivityResultPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <ActivityResult />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ActivityResultPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <ActivityResultEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ActivityResultPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <ActivityResultEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ReportsPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Reports />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ReportsPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <ReportsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ReportsPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <ReportsEdit />
           </BaseProtectedLayout>
         }
       />

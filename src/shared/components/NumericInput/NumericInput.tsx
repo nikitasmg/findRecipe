@@ -10,13 +10,13 @@ import styles from "./NumericInput.module.css";
 type Props = {
   max?: number | string;
   min?: number | string;
-  value: number;
+  value?: number;
 } & TextFieldProps;
 
 export const NumericInput: React.FC<Props> = ({
   max = Infinity,
-  min,
-  value,
+  min = 0,
+  value = 0,
   onChange,
   name,
   ...props
