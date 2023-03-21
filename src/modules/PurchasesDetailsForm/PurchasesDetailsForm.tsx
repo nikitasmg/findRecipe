@@ -163,9 +163,9 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                     label={<Text>Link</Text>}
                     value={value}
                     type='url'
-                    id='url'
                     error={!!getError("url")}
                     {...register("url")}
+                    onChange={(e) => setValue("url", e.target.value)}
                   />
 
                   <HelperText id='url' error={getError("url")} />

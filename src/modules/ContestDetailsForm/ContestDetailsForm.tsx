@@ -86,7 +86,6 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
         return res;
       }, [])
     };
-
     if (isCreateMode) {
       createContest({ input });
       return;

@@ -10,4 +10,4 @@
  * getBooleanPresentationForBackend(false)
  * @returns {"1" | "0"}
  */
-export const getBooleanPresentationForBackend = (value: unknown) => (value ? "1" : "0");
+export const getBooleanPresentationForBackend = (value: unknown) => (value ? "1" : "");
