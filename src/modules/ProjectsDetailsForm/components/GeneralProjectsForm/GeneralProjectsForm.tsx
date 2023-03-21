@@ -8,6 +8,7 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { ContestsSelect } from "~/modules/ProjectsDetailsForm/components/ContestsSelect";
 import { useKnowledgeFieldsQuery } from "~/generated/graphql";
 import { baseRequired } from "~shared/lib/validation";
+import { DatePicker } from "@mui/x-date-pickers";
 
 type FormFields = {
   name?: string;
@@ -16,6 +17,9 @@ type FormFields = {
   number?: string;
   leader?: string;
   organization?: string;
+  deadline?: string;
+  grnti_number?: string;
+  status_text?: string;
 };
 
 type Props = {
@@ -25,7 +29,7 @@ type Props = {
   control?: Control<FormFields, unknown>;
 };
 
-export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, control }) => {
+export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValue, control }) => {
   const getError = getErrorMessage(errors);
 
   const client = useGraphqlClient();
@@ -43,6 +47,27 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, control
           <Grid item xs={12}>
             <Controller
               control={control}
+              name='number'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    label={<Text>Number</Text>}
+                    value={value}
+                    variant='outlined'
+                    id='number'
+                    error={!!getError("number")}
+                    {...register("number")}
+                  />
+
+                  <HelperText id='number' error={getError("number")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Controller
+              control={control}
               name='name'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
@@ -56,71 +81,6 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, control
                   />
 
                   <HelperText id='name' error={getError("name")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <Controller
-                control={control}
-                name='contest'
-                render={({ field: { value, onChange } }) => {
-                  const currentValue = value as unknown as number;
-                  return <ContestsSelect onFormChange={onChange} initValue={currentValue} />;
-                }}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <Controller
-                control={control}
-                name='knowledge_field'
-                render={({ field: { value = [], onChange } }) => (
-                  <TextField
-                    select
-                    name='knowledge_field'
-                    id='knowledge_field'
-                    variant='outlined'
-                    label={<Text>Knowledge fields</Text>}
-                    SelectProps={{
-                      value: `${value}`,
-                      onChange: onChange
-                    }}
-                  >
-                    <MenuItem key={"empty"} value={""}>
-                      <Text>Not selected</Text>
-                    </MenuItem>
-                    {knowledgeFields?.knowledgeFields.map((knowledgeField) => (
-                      <MenuItem key={`${knowledgeField.id}`} value={`${knowledgeField.id}`}>
-                        {knowledgeField.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='number'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={<Text>Project number</Text>}
-                    value={value}
-                    variant='outlined'
-                    id='number'
-                    error={!!getError("number")}
-                    {...register("number")}
-                  />
-
-                  <HelperText id='number' error={getError("number")} />
                 </FormControl>
               )}
             />
@@ -163,6 +123,117 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, control
                   />
 
                   <HelperText id='organization' error={getError("organization")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='deadline'
+              render={({ field: { value } }) => (
+                <FormControl error={getError("deadline")} fullWidth>
+                  <DatePicker
+                    className='w-full'
+                    views={["year"]}
+                    label={<Text>Period of execution</Text>}
+                    value={value ? new Date(`${value}`) : null}
+                    onChange={(value) => {
+                      setValue("deadline", new Date(value as Date).getFullYear());
+                    }}
+                    renderInput={(props) => (
+                      <TextField {...props} variant='outlined' size='small' />
+                    )}
+                  />
+
+                  <HelperText id='deadline' error={getError("deadline")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <Controller
+                control={control}
+                name='contest'
+                render={({ field: { value, onChange } }) => {
+                  const currentValue = value as unknown as number;
+                  return <ContestsSelect onFormChange={onChange} initValue={currentValue} />;
+                }}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <Controller
+                control={control}
+                name='knowledge_field'
+                render={({ field: { value = [], onChange } }) => (
+                  <TextField
+                    select
+                    name='knowledge_field'
+                    id='knowledge_field'
+                    variant='outlined'
+                    label={<Text>Knowledge field</Text>}
+                    SelectProps={{
+                      value: `${value}`,
+                      onChange: onChange
+                    }}
+                  >
+                    <MenuItem key={"empty"} value={""}>
+                      <Text>Not selected</Text>
+                    </MenuItem>
+                    {knowledgeFields?.knowledgeFields.map((knowledgeField) => (
+                      <MenuItem key={`${knowledgeField.id}`} value={`${knowledgeField.id}`}>
+                        {knowledgeField.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='grnti_number'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    label={<Text>GRNTI code</Text>}
+                    value={value}
+                    variant='outlined'
+                    id='grnti_number'
+                    error={!!getError("grnti_number")}
+                    {...register("grnti_number")}
+                  />
+
+                  <HelperText id='grnti_number' error={getError("grnti_number")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='status_text'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    label={<Text>Status</Text>}
+                    value={value}
+                    variant='outlined'
+                    id='status_text'
+                    error={!!getError("status_text")}
+                    {...register("status_text")}
+                  />
+
+                  <HelperText id='status_text' error={getError("status_text")} />
                 </FormControl>
               )}
             />

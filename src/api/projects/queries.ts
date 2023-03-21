@@ -32,6 +32,9 @@ export const ProjectsFragment = gql`
     publications
     result_annotation
     year
+    grnti_number
+    status_text
+    deadline
     meta {
       title
       description
