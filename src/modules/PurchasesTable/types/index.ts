@@ -1,10 +1,10 @@
 import { Purchase } from "~/generated/graphql";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 export interface Column {
   id: keyof Purchase;
   label: JSX.Element | string;
-  minWidth?: number;
+  style?: CSSProperties;
   align?: "right" | "center";
   render?: (_value: unknown, row: Record<string, unknown>) => ReactNode;
   format?: (_value: string) => string;
