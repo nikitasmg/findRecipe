@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useMemo, useState } from "react";
 import { Box, Tab, Tabs } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
-import { useStaffControlPagesBySlugQuery } from "~/generated/graphql";
+import { useStaffControlItemsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { StaffControlTable } from "~/modules/StaffControlTable";
 import { Text } from "~shared/components/Text";
@@ -14,16 +14,17 @@ export const StaffControlTabs = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = useStaffControlPagesBySlugQuery(client, {}, { refetchOnMount: "always" });
+  const { data } = useStaffControlItemsQuery(client, {}, { refetchOnMount: "always" });
 
-  const pageIds = useMemo(
-    () => [
-      data?.popechitelskiy?.id,
-      data?.konsultacionnyy?.id,
-      data?.direktor?.id,
-      data?.apparat?.id,
-      data?.nablyudatelnyy?.id
-    ],
+  const pageIds: number[] = useMemo(
+    () =>
+      data?.pages[0].children?.reduce((res: number[], cur) => {
+        if (cur?.id) {
+          res.push(cur.id);
+        }
+
+        return res;
+      }, []) ?? [],
     [data]
   );
 
@@ -32,28 +33,14 @@ export const StaffControlTabs = () => {
     setSearch((old) => ({ ...old, page_id: pageIds[tab] }));
   };
 
-  const tabs = [
-    {
-      tabTitle: "Board of Trustees",
-      component: <StaffControlTable pageId={pageIds[0]} />
-    },
-    {
-      tabTitle: "Supervisory Board",
-      component: <StaffControlTable pageId={pageIds[1]} />
-    },
-    {
-      tabTitle: "CEO",
-      component: <StaffControlTable pageId={pageIds[2]} />
-    },
-    {
-      tabTitle: "Management Department",
-      component: <StaffControlTable pageId={pageIds[3]} />
-    },
-    {
-      tabTitle: "Scientific Advisory Board",
-      component: <StaffControlTable pageId={pageIds[4]} />
-    }
-  ];
+  const tabs = useMemo(
+    () =>
+      data?.pages[0].children?.map((item) => ({
+        tabTitle: item?.name,
+        component: <StaffControlTable pageId={item?.id} />
+      })),
+    [data]
+  );
 
   useLayoutEffect(() => {
     const pageId = Number(search.get("page_id"));
@@ -85,13 +72,13 @@ export const StaffControlTabs = () => {
             onChange={handleTabChange}
             aria-label='tabs'
           >
-            {tabs.map(({ tabTitle }, index) => (
+            {tabs?.map(({ tabTitle }, index) => (
               <Tab
                 key={tabTitle}
                 label={
                   <Box className='flex items-center'>
                     <Text className='normal-case' component='span'>
-                      {tabTitle}
+                      {tabTitle ?? ""}
                     </Text>
                   </Box>
                 }
@@ -102,7 +89,7 @@ export const StaffControlTabs = () => {
           </Tabs>
         </Box>
 
-        {tabs.map(({ component }, index) => (
+        {tabs?.map(({ component }, index) => (
           <TabPanel className='mt-8' key={index} value={step} index={index}>
             {index === step && component}
           </TabPanel>

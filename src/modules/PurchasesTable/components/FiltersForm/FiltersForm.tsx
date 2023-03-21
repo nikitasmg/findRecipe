@@ -1,8 +1,9 @@
 import { FormControlLabel, Grid, Switch } from "@mui/material";
-import React, { ChangeEvent, forwardRef } from "react";
-import dayjs, { ConfigTypeMap } from "dayjs";
+import { curry } from "rambda";
+import React, { forwardRef } from "react";
 import { Text } from "~/shared/components/Text";
 import { DatePicker } from "~/shared/components/DatePicker";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 
 type Props = {
   params: Record<string, string> | null;
@@ -11,16 +12,13 @@ type Props = {
 
 export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
   ({ params, handleChangeFilter }, ref) => {
-    const handleCreatedAtChange = (value: unknown) => {
-      handleChangeFilter?.(
-        "created_atLike",
-        dayjs(value as ConfigTypeMap["default"]).format("YYYY-MM-DD")
-      );
-    };
+    const getChangeHandler = curry(handleChangeFilter);
 
-    const handlePublishedChange = (event: ChangeEvent<HTMLInputElement>) => {
-      handleChangeFilter?.("published", event.target.checked ? "1" : "0");
-    };
+    const handleChecked = getCheckedHandler(handleChangeFilter);
+
+    const handlePublishedChange = handleChecked("published");
+
+    const handleCreatedAtChange = getChangeHandler("created_atLike");
 
     const switchValue = params?.published && Boolean(+params?.published);
 

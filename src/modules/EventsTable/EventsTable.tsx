@@ -17,11 +17,13 @@ import { getEventValueHandler } from "~/shared/lib/events";
 import { EventsPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { TablePagination } from "~/shared/components/TablePagination";
-import { Panel } from "~shared/components/Panel";
-import { useColumns } from "./lib/useColumns";
-import { FiltersForm } from "./components/FiltersForm";
-import { useEventsStore } from "~/shared/stores/events";
 import { TableActions } from "~/shared/components/TableActions";
+import { Panel } from "~shared/components/Panel";
+import { useEventsStore } from "~/shared/stores/events";
+import { formatDayJsForFilters } from "~/shared/lib/formatDate";
+import { getBooleanPresentationForBackend } from "~/shared/lib/getBooleanPresentationForBackend";
+import { FiltersForm } from "./components/FiltersForm";
+import { useColumns } from "./lib/useColumns";
 
 export const EventsTable: React.FC = () => {
   const {
@@ -36,7 +38,12 @@ export const EventsTable: React.FC = () => {
     handleFilterChange,
     resetFilters,
     resetTitle
-  } = useRequestState("name");
+  } = useRequestState("name", {
+    filterFormats: {
+      created_atLike: formatDayJsForFilters,
+      published: getBooleanPresentationForBackend
+    }
+  });
 
   const client = useGraphqlClient();
 
@@ -45,7 +52,9 @@ export const EventsTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useEventsQuery(client, variables, { refetchOnMount: "always" });
+  const { data, isLoading } = useEventsQuery(client, variables, {
+    refetchOnMount: "always"  
+  });
 
   const events = data?.events;
 

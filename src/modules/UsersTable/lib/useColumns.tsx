@@ -5,7 +5,7 @@ import { Link } from "~/shared/components/Link";
 import { UsersPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
-import { formatDate } from "~shared/lib/formatDate";
+import { formatDateForTable } from "~shared/lib/formatDate";
 
 export const useColumns = (
   activeOrder?: ActiveOrder,
@@ -92,7 +92,7 @@ export const useColumns = (
           sortProps={getActiveProps("created_at")}
         />
       ),
-      format: formatDate
+      format: formatDateForTable
     }
   ];
 };

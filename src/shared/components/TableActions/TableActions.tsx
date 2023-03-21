@@ -8,6 +8,7 @@ import { Text } from "../Text";
 import { Button } from "../Button";
 import { ModalFilters } from "../ModalFilters";
 import { LinkButton } from "../LinkButton";
+import { FiltersControl, Props as FiltersControlProps } from "../FiltersControl";
 
 type Props = {
   searchProps: {
@@ -22,6 +23,7 @@ type Props = {
   resetFilters?: () => void;
   searchTitle?: string;
   filterModalInnerForm?: ReactNode;
+  filterControl?: FiltersControlProps;
 };
 
 export const TableActions: React.FC<Props> = ({
@@ -29,47 +31,50 @@ export const TableActions: React.FC<Props> = ({
   resetFilters,
   addButtonProps,
   filterModalInnerForm,
-  searchTitle = "Fast search"
+  searchTitle = "Fast search",
+  filterControl
 }) => {
   const { open, handleOpen, handleClose } = useModal();
 
   const handleOpenFilters = () => handleOpen();
 
   return (
-    <Box className='flex items-stretch justify-between gap-2 flex-col sm:flex-row'>
-      <Box className='flex items-stretch justify-between gap-2 sm:w-[400px]'>
-        <SearchInput
-          label={<Text>{searchTitle}</Text>}
-          className='w-full'
-          value={searchValue}
-          onChange={searchChange}
-          size='small'
-          handleReset={resetTitle}
-        />
+    <Box className='flex flex-col gap-6'>
+      <Box className='flex items-stretch justify-between gap-2 flex-col sm:flex-row'>
+        <Box className='flex items-stretch justify-between gap-2 sm:w-[400px]'>
+          <SearchInput
+            label={<Text>{searchTitle}</Text>}
+            className='w-full'
+            value={searchValue}
+            onChange={searchChange}
+            size='small'
+            handleReset={resetTitle}
+          />
 
-        {filterModalInnerForm && (
-          <>
-            <Button onClick={handleOpenFilters} variant='outlined'>
-              <FilterAltIcon />
-            </Button>
+          {filterModalInnerForm && (
+            <>
+              <Button onClick={handleOpenFilters} variant='outlined'>
+                <FilterAltIcon />
+              </Button>
 
-            <ModalFilters opened={!!open} handleClose={handleClose} handleDrop={resetFilters}>
-              {filterModalInnerForm}
-            </ModalFilters>
-          </>
+              <ModalFilters opened={!!open} handleClose={handleClose} handleDrop={resetFilters}>
+                {filterModalInnerForm}
+              </ModalFilters>
+            </>
+          )}
+        </Box>
+        {addButtonProps && (
+          <LinkButton
+            variant='outlined'
+            onClick={addButtonProps?.onAddClick}
+            href={addButtonProps?.addHref}
+            startIcon={<AddBoxRoundedIcon />}
+          >
+            Add
+          </LinkButton>
         )}
       </Box>
-
-      {addButtonProps && (
-        <LinkButton
-          variant='outlined'
-          onClick={addButtonProps?.onAddClick}
-          href={addButtonProps?.addHref}
-          startIcon={<AddBoxRoundedIcon />}
-        >
-          Add
-        </LinkButton>
-      )}
+      <FiltersControl {...filterControl} />
     </Box>
   );
 };

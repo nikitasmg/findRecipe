@@ -56,12 +56,37 @@ export const Pages = gql`
   }
 `;
 
+export const PagesTree = gql`
+  ${PagesFragment}
+
+  query pagesTree($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+    pages(orderBy: $orderBy, filter: $filter) {
+      id
+      name
+      parent_id
+      slug
+      sort
+      children {
+        id
+      }
+    }
+  }
+`;
+
 export const UpdatePage = gql`
   ${PagesFragment}
 
   mutation updatePage($input: PageInput!) {
     upsertPage(input: $input) {
       ...allPageFields
+    }
+  }
+`;
+
+export const UpdatePageParent = gql`
+  mutation updatePageParent($id: Int!, $parent_id: Int!) {
+    upsertPage(input: { id: $id, parent_id: $parent_id }) {
+      id
     }
   }
 `;

@@ -35,9 +35,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
 
     const client = useGraphqlClient();
 
-    const { data: categories } = useNewsCategoriesQuery(client);
+    const { data: categories } = useNewsCategoriesQuery(client, {}, { refetchOnMount: "always" });
 
-    const { data: tags } = useNewsTagsQuery(client);
+    const { data: tags } = useNewsTagsQuery(client, {}, { refetchOnMount: "always" });
 
     const handleTagChange = (e: SelectChangeEvent<unknown>) =>
       handleChangeFilter("tags", e.target.value);
@@ -112,8 +112,8 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             <DatePicker
               className='w-full'
               label={<Text>Published at</Text>}
-              value={params?.published_at ?? null}
-              onChange={curry(handleChangeFilter)("published_at")}
+              value={params?.published_atLike ?? null}
+              onChange={curry(handleChangeFilter)("published_atLike")}
             />
           </Grid>
 

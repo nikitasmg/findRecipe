@@ -65,23 +65,6 @@ export const useColumns = (
       }
     },
     {
-      id: "imageUrl",
-      label: <TableHeadCell title='Image' cellId='imageUrl' />,
-      style: {
-        minWidth: "220px"
-      },
-      render: (value, row) => {
-        return (
-          <img
-            className='w-[220px] h-auto'
-            loading='lazy'
-            src={(value as string) ?? ""}
-            alt={row.name as string}
-          />
-        );
-      }
-    },
-    {
       id: "description",
       label: (
         <TableHeadCell

@@ -47,8 +47,8 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}
-              value={params?.created_at ?? null}
-              onChange={curry(handleChangeFilter)("created_at")}
+              value={params?.created_atLike ?? null}
+              onChange={curry(handleChangeFilter)("created_atLike")}
             />
           </Grid>
 

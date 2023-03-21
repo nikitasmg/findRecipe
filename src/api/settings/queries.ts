@@ -55,19 +55,19 @@ export const UpdateSettings = gql`
     $instagram: String
     $whatsapp: String
   ) {
-    schedule: upsertSetting(input: { id: 1, name: "phone", value: $phone }) {
+    phone: upsertSetting(input: { id: 1, name: "phone", value: $phone }) {
       ...allSettingsFields
     }
-    phone: upsertSetting(input: { id: 2, name: "email", value: $email }) {
+    email: upsertSetting(input: { id: 2, name: "email", value: $email }) {
       ...allSettingsFields
     }
-    address: upsertSetting(input: { id: 3, name: "emailPress", value: $emailPress }) {
+    emailPress: upsertSetting(input: { id: 3, name: "emailPress", value: $emailPress }) {
       ...allSettingsFields
     }
-    email: upsertSetting(input: { id: 4, name: "address", value: $address }) {
+    address: upsertSetting(input: { id: 4, name: "address", value: $address }) {
       ...allSettingsFields
     }
-    emailPress: upsertSetting(input: { id: 5, name: "schedule", value: $schedule }) {
+    schedule: upsertSetting(input: { id: 5, name: "schedule", value: $schedule }) {
       ...allSettingsFields
     }
 

@@ -1,15 +1,16 @@
 import { curry } from "rambda";
+import { useEffect, useState } from "react";
+import { arrayMove } from "react-sortable-hoc";
 import {
   Purchase,
   UpdatePurchaseMutationVariables,
   usePurchasesQuery,
   useUpdatePurchaseMutation
 } from "~/generated/graphql";
-import { useEffect, useState } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
-import { arrayMove } from "react-sortable-hoc";
 import { usePurchasesStore } from "~stores/purchases";
+import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 
 export const usePurchases = () => {
   const [rows, setRows] = useState<Purchase[]>([]);
@@ -29,7 +30,11 @@ export const usePurchases = () => {
     handleFilterChange,
     resetFilters,
     resetTitle
-  } = useRequestState("name");
+  } = useRequestState("name", {
+    filterFormats: {
+      created_atLike: formatDayJsForFilters
+    }
+  });
 
   const client = useGraphqlClient();
 

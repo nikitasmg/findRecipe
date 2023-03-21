@@ -197,5 +197,8 @@
   "Additional description": "Дополнительное описание",
   "Sort by": "Сортировать по",
   "Edit NTC in Surgut page": "Редактировать страницу НТЦ в Сургуте",
-  "Edit grant support page": "Редактировать страницу грантовой поддержки"
+  "Edit grant support page": "Редактировать страницу грантовой поддержки",
+  "Not Found": "Ничего не найдено",
+  "Gallery": "Галерея",
+  "Image format invalid": "Недопустимый формат изображения"
 }

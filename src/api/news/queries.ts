@@ -18,6 +18,8 @@ export const NewsFragment = gql`
     gallery {
       id
       url
+      alt
+      sort
     }
     category {
       id

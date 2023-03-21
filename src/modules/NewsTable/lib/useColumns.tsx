@@ -10,7 +10,7 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
-import { formatDate } from "~/shared/lib/formatDate";
+import { formatDateForTable } from "~/shared/lib/formatDate";
 import { NewsPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
@@ -127,7 +127,7 @@ export const useColumns = (
         />
       ),
       style: { minWidth: 170 },
-      format: formatDate,
+      format: formatDateForTable,
       align: "center"
     },
 

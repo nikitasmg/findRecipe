@@ -44,7 +44,6 @@ export const useColumns = (
         <TableHeadCell
           title='Full name'
           cellId='name'
-          align='center'
           onSortClick={getClickHandler("name")}
           sortProps={getActiveProps("name")}
         />

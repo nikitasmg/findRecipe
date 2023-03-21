@@ -12,13 +12,14 @@ import {
 import React, { useEffect } from "react";
 import { Contest, useContestsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { getEventValueHandler } from "~/shared/lib/events";
 import { ContestPageCreate } from "~/shared/routes";
 import { useContestStore } from "~/shared/stores/contest";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { TablePagination } from "~/shared/components/TablePagination";
 import { Panel } from "~shared/components/Panel";
 import { TableActions } from "~/shared/components/TableActions";
+import { formatDayJsForFilters } from "~/shared/lib/formatDate";
+import { getEventValueHandler } from "~/shared/lib/events";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 
@@ -35,7 +36,13 @@ export const ContestTable: React.FC = () => {
     handleFilterChange,
     resetFilters,
     resetTitle
-  } = useRequestState("name");
+  } = useRequestState("name", {
+    filterFormats: {
+      created_atLike: formatDayJsForFilters,
+      dateLike: formatDayJsForFilters,
+      deadlineLike: formatDayJsForFilters
+    }
+  });
 
   const client = useGraphqlClient();
 
