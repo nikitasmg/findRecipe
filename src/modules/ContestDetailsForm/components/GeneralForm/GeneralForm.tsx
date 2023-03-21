@@ -83,8 +83,10 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
               <TextField
                 select
                 label={<Text>Status</Text>}
+                name='status'
                 SelectProps={{
                   value: value,
+                  name: "status",
                   onChange: onChange
                 }}
               >
