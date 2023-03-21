@@ -869,29 +869,44 @@ export type PartnerInput = {
 /** https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=0%3A1&t=nnLdQLBhEJ10FXQM-0 */
 export type Project = {
   __typename?: 'Project';
+  /** Аннотация проекта */
   annotation?: Maybe<Scalars['String']>;
   contest?: Maybe<Contest>;
+  /** Конкурс */
   contest_id?: Maybe<Scalars['Int']>;
   created_at: Scalars['DateTime'];
+  /** Срок выполнения */
   deadline?: Maybe<Scalars['String']>;
+  /** Код ГРНТИ */
   grnti_number?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  information?: Maybe<Scalars['String']>;
   knowledge_field?: Maybe<KnowledgeField>;
+  /** Область знаний */
   knowledge_field_id?: Maybe<Scalars['Int']>;
+  /** Руководитель */
   leader?: Maybe<Scalars['String']>;
+  /** Звание руководителя */
   leader_rank?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
+  /** Номер */
   number: Scalars['String'];
+  /** Организация финансирования, регион */
   organization?: Maybe<Scalars['String']>;
+  /** Планируемые результаты */
   plan_results?: Maybe<Scalars['String']>;
+  /** Список публикаций по результатам проекта */
   publications?: Maybe<Scalars['String']>;
+  /** Аннотация полученных итоговых результатов */
   result_annotation?: Maybe<Scalars['String']>;
+  /** Возможность практического использования результатов */
+  result_usage?: Maybe<Scalars['String']>;
   seo?: Maybe<Seo>;
   slug: Scalars['String'];
+  /** Статус */
   status_text?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
+  /** Год проекта */
   year?: Maybe<Scalars['Int']>;
 };
 
@@ -902,7 +917,6 @@ export type ProjectInput = {
   deadline?: InputMaybe<Scalars['String']>;
   grnti_number?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
-  information?: InputMaybe<Scalars['String']>;
   knowledge_field?: InputMaybe<KnowledgeFieldBelongsTo>;
   knowledge_field_id?: InputMaybe<Scalars['Int']>;
   leader?: InputMaybe<Scalars['String']>;
@@ -913,6 +927,7 @@ export type ProjectInput = {
   plan_results?: InputMaybe<Scalars['String']>;
   publications?: InputMaybe<Scalars['String']>;
   result_annotation?: InputMaybe<Scalars['String']>;
+  result_usage?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<SeoBelongsTo>;
   slug?: InputMaybe<Scalars['String']>;
   status_text?: InputMaybe<Scalars['String']>;
@@ -994,6 +1009,7 @@ export type Query = {
   purchases: Array<Purchase>;
   reportById?: Maybe<Report>;
   reports: Array<Report>;
+  search: SearchResult;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
@@ -1222,6 +1238,12 @@ export type QueryReportsArgs = {
 };
 
 
+export type QuerySearchArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  query: Scalars['String'];
+};
+
+
 export type QuerySettingByIdArgs = {
   id: Scalars['Int'];
 };
@@ -1333,6 +1355,19 @@ export type ReportInput = {
   name?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
+export type SearchResult = {
+  __typename?: 'SearchResult';
+  contests: Array<Maybe<Contest>>;
+  events: Array<Maybe<Event>>;
+  news: Array<Maybe<News>>;
+  organizers: Array<Maybe<Organizer>>;
+  partners: Array<Maybe<Partner>>;
+  projects: Array<Maybe<Project>>;
+  purchases: Array<Maybe<Purchase>>;
+  reports: Array<Maybe<Report>>;
+  vacancies: Array<Maybe<Vacancy>>;
 };
 
 export type Seo = {
@@ -1971,14 +2006,14 @@ export type DeletePartnerMutationVariables = Exact<{
 
 export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id: number } | null };
 
-export type AllProjectsFieldsFragment = { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
+export type AllProjectsFieldsFragment = { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
 
 export type ProjectByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ProjectByIdQuery = { __typename?: 'Query', projectById?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type ProjectByIdQuery = { __typename?: 'Query', projectById?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type ProjectsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<QueryProjectsOrderByRelationOrderByClause> | QueryProjectsOrderByRelationOrderByClause>;
@@ -1988,21 +2023,21 @@ export type ProjectsQueryVariables = Exact<{
 }>;
 
 
-export type ProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
+export type ProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
 
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type UpdateProjectMutationVariables = Exact<{
   input: ProjectInput;
 }>;
 
 
-export type UpdateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type UpdateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type DeleteProjectMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2505,11 +2540,11 @@ export const AllProjectsFieldsFragmentDoc = `
   leader
   leader_rank
   organization
-  information
   annotation
   plan_results
   publications
   result_annotation
+  result_usage
   year
   grnti_number
   status_text

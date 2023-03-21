@@ -8,6 +8,7 @@ import { getErrorMessage } from "~/shared/lib/getError";
 type FormFields = {
   result_annotation?: string;
   publications?: string;
+  result_usage?: string;
 };
 
 type Props = {
@@ -65,6 +66,31 @@ export const ReportProjectsForm: React.FC<Props> = ({ register, errors, control 
                   />
 
                   <HelperText id='publications' error={getError("publications")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='result_usage'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    multiline
+                    label={<Text>Practical use</Text>}
+                    value={value}
+                    variant='outlined'
+                    InputProps={{
+                      inputComponent: TextareaAutosize
+                    }}
+                    id='result_usage'
+                    error={!!getError("result_usage")}
+                    {...register("result_usage")}
+                  />
+
+                  <HelperText id='result_usage' error={getError("result_usage")} />
                 </FormControl>
               )}
             />

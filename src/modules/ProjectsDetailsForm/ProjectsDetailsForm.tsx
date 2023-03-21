@@ -97,7 +97,8 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
         "annotation",
         "plan_results",
         "result_annotation",
-        "publications"
+        "publications",
+        "result_usage"
       ],
       setValue,
       values
