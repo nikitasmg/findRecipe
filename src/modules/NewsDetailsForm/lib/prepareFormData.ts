@@ -44,7 +44,6 @@ export const prepareFormData = async (
             .filter((tag) => not(newValues.tags?.includes(tag))) ?? []
       })
     },
-    ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
     uploadGalleryImages: newValues.uploadGalleryImages,
     deleteGalleryImages: newValues.deleteGalleryImages,
     updateGallery: newValues.updateGallery

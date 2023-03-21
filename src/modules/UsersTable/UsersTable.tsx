@@ -16,7 +16,7 @@ import { UsersPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { TablePagination } from "~/shared/components/TablePagination";
 import { Panel } from "~shared/components/Panel/Panel";
-import { useProjectsStore } from "~stores/projects";
+import { useUsersStore } from "~/shared/stores/users";
 import { TableActions } from "~shared/components/TableActions";
 import { useColumns } from "~/modules/UsersTable/lib/useColumns";
 
@@ -34,7 +34,7 @@ const UsersTable: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { setCount, setLoading } = useProjectsStore((state) => ({
+  const { setCount, setLoading } = useUsersStore((state) => ({
     setLoading: state.setLoading,
     setCount: state.setCount
   }));
