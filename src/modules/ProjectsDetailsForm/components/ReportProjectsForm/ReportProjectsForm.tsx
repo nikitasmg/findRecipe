@@ -6,18 +6,19 @@ import { Text } from "~/shared/components/Text";
 import { getErrorMessage } from "~/shared/lib/getError";
 
 type FormFields = {
-  annotation?: string;
-  plan_results?: string;
   result_annotation?: string;
+  publications?: string;
+  result_usage?: string;
 };
 
 type Props = {
   register: UseFormRegister<Partial<FormFields>>;
   errors: FieldErrors<FormFields>;
+  setValue: (name: string, value: unknown) => void;
   control?: Control<FormFields, unknown>;
 };
 
-export const AdditionalProjectsForm: React.FC<Props> = ({ register, errors, control }) => {
+export const ReportProjectsForm: React.FC<Props> = ({ register, errors, control }) => {
   const getError = getErrorMessage(errors);
 
   return (
@@ -27,23 +28,23 @@ export const AdditionalProjectsForm: React.FC<Props> = ({ register, errors, cont
           <Grid item xs={12}>
             <Controller
               control={control}
-              name='annotation'
+              name='result_annotation'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
                     multiline
-                    label={<Text>Annotation</Text>}
+                    label={<Text>Result annotation</Text>}
                     value={value}
                     variant='outlined'
                     InputProps={{
                       inputComponent: TextareaAutosize
                     }}
-                    id='annotation'
-                    error={!!getError("annotation")}
-                    {...register("annotation")}
+                    id='result_annotation'
+                    error={!!getError("result_annotation")}
+                    {...register("result_annotation")}
                   />
 
-                  <HelperText id='annotation' error={getError("annotation")} />
+                  <HelperText id='result_annotation' error={getError("result_annotation")} />
                 </FormControl>
               )}
             />
@@ -52,23 +53,44 @@ export const AdditionalProjectsForm: React.FC<Props> = ({ register, errors, cont
           <Grid item xs={12}>
             <Controller
               control={control}
-              name='plan_results'
+              name='publications'
+              render={({ field: { value } }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    label={<Text>Publications</Text>}
+                    value={value}
+                    variant='outlined'
+                    id='publications'
+                    error={!!getError("publications")}
+                    {...register("publications")}
+                  />
+
+                  <HelperText id='publications' error={getError("publications")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='result_usage'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
                     multiline
-                    label={<Text>Plan results</Text>}
+                    label={<Text>Practical use</Text>}
                     value={value}
                     variant='outlined'
                     InputProps={{
                       inputComponent: TextareaAutosize
                     }}
-                    id='plan_results'
-                    error={!!getError("plan_results")}
-                    {...register("plan_results")}
+                    id='result_usage'
+                    error={!!getError("result_usage")}
+                    {...register("result_usage")}
                   />
 
-                  <HelperText id='plan_results' error={getError("plan_results")} />
+                  <HelperText id='result_usage' error={getError("result_usage")} />
                 </FormControl>
               )}
             />

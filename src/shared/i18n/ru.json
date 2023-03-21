@@ -170,6 +170,7 @@
   "Edit ano-biomed page": "АНО Биомед",
   "Social": "Социальные сети",
   "Knowledge fields": "Области знаний",
+  "Knowledge field": "Область знаний",
   "Projects": "Проекты",
   "count projects": "количество проектов",
   "Successfully completed": "Успешно выполнено",
@@ -181,7 +182,7 @@
   "Information": "Информация",
   "Annotation": "Аннотация",
   "Plan results": "Планируемый результат",
-  "Result annotation": "Аннтоация результата",
+  "Result annotation": "Аннотация результата",
   "Year": "Год",
   "News announcement": "Анонс новости",
   "Edit contacts page": "Редактировать страницу контактов",
@@ -200,5 +201,12 @@
   "Edit grant support page": "Редактировать страницу грантовой поддержки",
   "Not Found": "Ничего не найдено",
   "Gallery": "Галерея",
-  "Image format invalid": "Недопустимый формат изображения"
+  "Image format invalid": "Недопустимый формат изображения",
+  "General information": "Общие сведения",
+  "Information from application": "Информация из заявки",
+  "Reporting materials": "Отчетные материалы",
+  "Period of execution": "Срок выполнения",
+  "GRNTI code": "Код ГРНТИ",
+  "Publications": "Публикации",
+  "Practical use": "Практическое использование"
 }

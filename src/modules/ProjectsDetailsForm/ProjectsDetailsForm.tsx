@@ -14,6 +14,7 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { AdditionalProjectsForm } from "./components/AdditionalProjectsForm";
 import { GeneralProjectsForm } from "./components/GeneralProjectsForm";
 import { SeoProjectsForm } from "./components/SeoProjectsForm";
+import { ReportProjectsForm } from "~/modules/ProjectsDetailsForm/components/ReportProjectsForm";
 
 type Props = {
   id?: number;
@@ -53,11 +54,11 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
     handleSubmit,
     formState: { errors },
     setValue,
-    control,
-    setError
+    control
   } = useForm({ mode: "all" });
 
   const onSubmit = handleSubmit(async (newValues) => {
+    console.log("newValues", newValues);
     const input: ProjectInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
@@ -65,7 +66,7 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
       knowledge_field: { connect: Number(newValues.knowledge_field) },
       contest_id: newValues.contest,
       contest: { connect: newValues.contest },
-      year: newValues.year
+      deadline: `${newValues.deadline}`
     };
 
     if (isCreateMode) {
@@ -90,10 +91,14 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
         "leader",
         "organization",
         "information",
+        "deadline",
+        "grnti_number",
+        "status_text",
         "annotation",
         "plan_results",
         "result_annotation",
-        "year"
+        "publications",
+        "result_usage"
       ],
       setValue,
       values
@@ -109,7 +114,7 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
       isLoading={isLoading}
       forms={[
         {
-          tabTitle: "General data",
+          tabTitle: "General information",
           component: (
             <GeneralProjectsForm
               setValue={setValue}
@@ -120,14 +125,19 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
           )
         },
         {
-          tabTitle: "Additional data",
+          tabTitle: "Information from application",
           component: (
-            <AdditionalProjectsForm
+            <AdditionalProjectsForm errors={errors} register={register} control={control} />
+          )
+        },
+        {
+          tabTitle: "Reporting materials",
+          component: (
+            <ReportProjectsForm
               setValue={setValue}
               errors={errors}
               register={register}
               control={control}
-              setError={setError}
             />
           )
         },
