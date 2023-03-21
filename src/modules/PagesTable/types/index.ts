@@ -9,3 +9,9 @@ export interface Column {
   format?: (_value: string) => string;
   render?: (_value: unknown, row: Record<string, unknown>) => ReactNode;
 }
+
+export type CustomData = {
+  children?: { id: number }[];
+  slug?: string;
+  sort?: number;
+};

@@ -9,6 +9,7 @@ import {
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TabsForm } from "~/shared/components/TabsForm";
+import { GalleryForm } from "~/shared/components/GalleryForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { NewsPageRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
@@ -33,7 +34,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
   const { data, isSuccess } = useNewsByIdQuery(
     client,
     { id: Number(id) },
-    { enabled: !isCreateMode, refetchOnMount: "always" }
+    { enabled: !isCreateMode, refetchOnMount: "always", cacheTime: 0 }
   );
 
   const goBack = useNavigationBack();
@@ -56,7 +57,8 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     formState: { errors, touchedFields },
     setValue,
     control,
-    setError
+    setError,
+    getValues
   } = useForm({
     mode: "all"
   });
@@ -98,7 +100,8 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
         "imageUrl",
         "on_index",
         "documents",
-        "uploadImage"
+        "uploadImage",
+        "gallery"
       ],
       setValue,
       values
@@ -142,6 +145,17 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
         {
           tabTitle: "SEO",
           component: <SeoNewsForm errors={errors} register={register} control={control} />
+        },
+        {
+          tabTitle: "Gallery",
+          component: (
+            <GalleryForm
+              getValues={getValues}
+              errors={errors}
+              setValue={setValue}
+              control={control}
+            />
+          )
         }
       ]}
     />

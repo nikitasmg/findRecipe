@@ -50,6 +50,8 @@ export const NumericInput: React.FC<Props> = ({
     onChange?.(e);
   };
 
+  const buttonColor = props.error ? "error" : "primary";
+
   return (
     <Box>
       <TextField
@@ -62,12 +64,22 @@ export const NumericInput: React.FC<Props> = ({
           inputMode: "numeric",
           value: isNaN(value) ? 0 : value,
           endAdornment: (
-            <Button onClick={handleAdd} className={styles["text-field__button"]} size='small'>
+            <Button
+              color={buttonColor}
+              onClick={handleAdd}
+              className={styles["text-field__button"]}
+              size='small'
+            >
               <AddIcon />
             </Button>
           ),
           startAdornment: (
-            <Button onClick={handleRemove} className={styles["text-field__button"]} size='small'>
+            <Button
+              color={buttonColor}
+              onClick={handleRemove}
+              className={styles["text-field__button"]}
+              size='small'
+            >
               <RemoveIcon />
             </Button>
           ),

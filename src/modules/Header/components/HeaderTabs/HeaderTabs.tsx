@@ -2,7 +2,6 @@ import { Tabs } from "@mui/material";
 import React, { SyntheticEvent, useCallback, useLayoutEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HeaderTab } from "~/shared/components/HeaderTab";
-import { useHeaderTabsStore } from "~/shared/stores/headerTabs";
 import {
   CompilationsPage,
   EmployeesPage,
@@ -100,7 +99,7 @@ const pathsResolve = tabs.reduce((res, tab, i) => {
 }, Object.create(null));
 
 export const HeaderTabs: React.FC = () => {
-  const { activeTab, setActiveTab } = useHeaderTabsStore();
+  const [activeTab, setActiveTab] = useState(0);
 
   const [activePath, setActivePath] = useState("/");
 

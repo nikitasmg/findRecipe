@@ -143,14 +143,14 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
             <Controller
               control={control}
               name='additional'
-              render={({ field: { value } }) => (
+              render={({ field }) => (
                 <FormControl fullWidth>
                   <NumericInput
                     label={<Text>Additional number</Text>}
-                    value={Number(value)}
                     id='additional'
                     error={!!getError("additional")}
                     {...register("additional")}
+                    {...field}
                   />
 
                   <HelperText id='additional' error={getError("additional")} />
@@ -182,14 +182,9 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
             <Controller
               control={control}
               name='sort'
-              render={({ field: { value } }) => (
+              render={({ field }) => (
                 <FormControl fullWidth>
-                  <NumericInput
-                    size='medium'
-                    label={<Text>Sorting</Text>}
-                    value={Number(value)}
-                    {...register("sort")}
-                  />
+                  <NumericInput label={<Text>Sorting</Text>} {...register("sort")} {...field} />
                   <HelperText id='sort' error={getError("sort")} />
                 </FormControl>
               )}

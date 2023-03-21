@@ -3,7 +3,7 @@ import { SortOrder } from "~/generated/graphql";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
 import { Text } from "~/shared/components/Text";
-import { formatDate } from "~/shared/lib/formatDate";
+import { formatDateForTable } from "~/shared/lib/formatDate";
 import { capitalize } from "~/shared/lib/capitalize";
 import { ContestPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
@@ -115,7 +115,7 @@ export const useColumns = (
         width: "140px"
       },
       align: "center",
-      format: formatDate
+      format: formatDateForTable
     },
 
     {
@@ -133,7 +133,7 @@ export const useColumns = (
         width: "155px"
       },
       align: "center",
-      format: formatDate
+      format: formatDateForTable
     },
 
     {
@@ -151,7 +151,7 @@ export const useColumns = (
         width: "100px"
       },
       align: "center",
-      format: formatDate
+      format: formatDateForTable
     }
   ];
 };

@@ -152,15 +152,15 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
             <Controller
               control={control}
               name='sort'
-              render={({ field: { value } }) => (
+              render={({ field }) => (
                 <FormControl fullWidth>
                   <NumericInput
                     label={<Text>Sorting</Text>}
-                    value={value}
                     variant='outlined'
                     id='sort'
                     error={!!getError("sort")}
                     {...register("sort")}
+                    {...field}
                   />
                   <HelperText id='sort' error={getError("sort")} />
                 </FormControl>

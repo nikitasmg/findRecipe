@@ -56,16 +56,18 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
         <Controller
           control={control}
           name='number'
-          render={({ field: { value } }) => (
+          render={({ field: { value, onChange } }) => (
             <FormControl fullWidth>
               <NumericInput
+                error={getError("number")}
                 label={
                   <RequiredLabelWrapper>
                     <Text>Number</Text>
                   </RequiredLabelWrapper>
                 }
-                value={Number(value) || 0}
+                value={Number(value)}
                 {...register("number", baseRequired)}
+                onChange={onChange}
               />
 
               <HelperText id='number' error={getError("number")} />

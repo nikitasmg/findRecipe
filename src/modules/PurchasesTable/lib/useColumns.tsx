@@ -7,7 +7,7 @@ import { PurchasesPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { formatDate } from "~shared/lib/formatDate";
+import { formatDateForTable } from "~shared/lib/formatDate";
 import { SourceLink } from "~shared/components/SourceLink";
 
 export const useColumns = (
@@ -88,7 +88,7 @@ export const useColumns = (
         />
       ),
       align: "center",
-      format: formatDate
+      format: formatDateForTable
     },
 
     {

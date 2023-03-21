@@ -5,11 +5,24 @@ import { formatFilters } from "~shared/lib/formatFilters";
 import { ActiveOrder } from "~shared/types/ActiveOrder";
 import { useTablePagination } from "./useTablePagination";
 import { useSearchParams } from "react-router-dom";
-import { getBooleanPresentationForBackend } from "../lib/getBooleanPresentationForBackend";
+
+const prepareFilters = <T>(filters: Params | null, filterFormats?: FiltersFormat<T>) => {
+  const newFilters = { ...filters };
+
+  Object.entries(filterFormats ?? {}).forEach(([key, format]) => {
+    newFilters[key] = format(newFilters[key] as T);
+  });
+
+  return formatFilters(newFilters);
+};
 
 type Params = Record<string, string>;
+type FiltersFormat<T> = Record<string, (value: T) => string>;
 
-export const useRequestState = (fastSearchFieldId: string) => {
+export const useRequestState = <T>(
+  fastSearchFieldId: string,
+  { filterFormats }: { filterFormats?: FiltersFormat<T> } = {}
+) => {
   const [search] = useSearchParams();
   const { filter: initialFilter, sort: initialSort } = [...search.entries()].reduce(
     (res, cur) => {
@@ -56,7 +69,7 @@ export const useRequestState = (fastSearchFieldId: string) => {
       : {}),
     ...(filters
       ? {
-          filter: formatFilters(filters)
+          filter: prepareFilters(filters, filterFormats)
         }
       : {})
   };
@@ -108,13 +121,10 @@ export const useRequestState = (fastSearchFieldId: string) => {
 
   const handleFilterChange = useCallback(
     (cellId: string, value: unknown) => {
-      const preparedValue =
-        typeof value === "boolean" ? getBooleanPresentationForBackend(value) : value;
-
       const newParams = { ...params, [cellId]: value } as Params;
       setParams(newParams);
 
-      const paramsForBackend = { ...params, [cellId]: preparedValue } as Params;
+      const paramsForBackend = { ...params, [cellId]: value } as Params;
 
       handleFilter(paramsForBackend);
 

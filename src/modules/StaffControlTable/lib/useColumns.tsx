@@ -1,7 +1,7 @@
 import React from "react";
 import { SortOrder, StaffControl } from "~/generated/graphql";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
-import { formatDate } from "~/shared/lib/formatDate";
+import { formatDateForTable } from "~/shared/lib/formatDate";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
 import { Box } from "@mui/material";
@@ -94,7 +94,7 @@ export const useColumns = (
       ),
       align: "center",
       style: { width: "250px", minWidth: "250px", textAlign: "center" },
-      format: formatDate
+      format: formatDateForTable
     }
   ];
 };

@@ -401,11 +401,9 @@ export const Routing: React.FC = () => {
       <Route
         path='*'
         element={
-          <GuestRoutes>
-            <BaseLayout>
-              <NoMatch />
-            </BaseLayout>
-          </GuestRoutes>
+          <BaseLayout>
+            <NoMatch />
+          </BaseLayout>
         }
       />
     </Routes>

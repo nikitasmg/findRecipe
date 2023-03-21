@@ -27,6 +27,25 @@ export type Scalars = {
   Upload: any;
 };
 
+export type ActivityResult = {
+  __typename?: 'ActivityResult';
+  created_at: Scalars['DateTime'];
+  id: Scalars['Int'];
+  measure_unit: Scalars['String'];
+  name: Scalars['String'];
+  result: Scalars['Float'];
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+};
+
+export type ActivityResultInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  measure_unit?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  result?: InputMaybe<Scalars['Float']>;
+  sort?: InputMaybe<Scalars['Int']>;
+};
+
 export type CategoryBelongsTo = {
   connect?: InputMaybe<Scalars['Int']>;
   create?: InputMaybe<NewsCategoryInput>;
@@ -92,6 +111,21 @@ export type Document = {
   url?: Maybe<Scalars['String']>;
   /** Имя файла заданное пользователем */
   user_name?: Maybe<Scalars['String']>;
+};
+
+export type DocumentGroup = {
+  __typename?: 'DocumentGroup';
+  id: Scalars['Int'];
+  linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
+  name: Scalars['String'];
+  sort: Scalars['Int'];
+};
+
+export type DocumentGroupInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
+  name?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
 };
 
 export type Employee = {
@@ -288,7 +322,9 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteActivityResult?: Maybe<ActivityResult>;
   deleteContest?: Maybe<Contest>;
+  deleteDocumentGroup?: Maybe<DocumentGroup>;
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
   deleteKnowledgeField?: Maybe<KnowledgeField>;
@@ -301,6 +337,7 @@ export type Mutation = {
   deletePartner?: Maybe<Partner>;
   deleteProject?: Maybe<Project>;
   deletePurchase?: Maybe<Purchase>;
+  deleteReport?: Maybe<Report>;
   deleteSetting?: Maybe<Setting>;
   deleteStaffControl?: Maybe<StaffControl>;
   deleteSubdivision?: Maybe<Subdivision>;
@@ -314,7 +351,9 @@ export type Mutation = {
   sendEmail: Scalars['String'];
   sendResume: Scalars['Boolean'];
   upload?: Maybe<Scalars['String']>;
+  upsertActivityResult?: Maybe<ActivityResult>;
   upsertContest?: Maybe<Contest>;
+  upsertDocumentGroup?: Maybe<DocumentGroup>;
   upsertEmployee?: Maybe<Employee>;
   upsertEvent?: Maybe<Event>;
   upsertKnowledgeField?: Maybe<KnowledgeField>;
@@ -327,6 +366,7 @@ export type Mutation = {
   upsertPartner?: Maybe<Partner>;
   upsertProject?: Maybe<Project>;
   upsertPurchase?: Maybe<Purchase>;
+  upsertReport?: Maybe<Report>;
   upsertSetting?: Maybe<Setting>;
   upsertStaffControl?: Maybe<StaffControl>;
   upsertSubdivision?: Maybe<Subdivision>;
@@ -335,7 +375,17 @@ export type Mutation = {
 };
 
 
+export type MutationDeleteActivityResultArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationDeleteContestArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteDocumentGroupArgs = {
   id: Scalars['Int'];
 };
 
@@ -396,6 +446,11 @@ export type MutationDeleteProjectArgs = {
 
 
 export type MutationDeletePurchaseArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteReportArgs = {
   id: Scalars['Int'];
 };
 
@@ -463,8 +518,18 @@ export type MutationUploadArgs = {
 };
 
 
+export type MutationUpsertActivityResultArgs = {
+  input: ActivityResultInput;
+};
+
+
 export type MutationUpsertContestArgs = {
   input: ContestInput;
+};
+
+
+export type MutationUpsertDocumentGroupArgs = {
+  input: DocumentGroupInput;
 };
 
 
@@ -525,6 +590,11 @@ export type MutationUpsertProjectArgs = {
 
 export type MutationUpsertPurchaseArgs = {
   input: PurchaseInput;
+};
+
+
+export type MutationUpsertReportArgs = {
+  input: ReportInput;
 };
 
 
@@ -803,6 +873,8 @@ export type Project = {
   contest?: Maybe<Contest>;
   contest_id?: Maybe<Scalars['Int']>;
   created_at: Scalars['DateTime'];
+  deadline?: Maybe<Scalars['String']>;
+  grnti_number?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   information?: Maybe<Scalars['String']>;
   knowledge_field?: Maybe<KnowledgeField>;
@@ -818,6 +890,7 @@ export type Project = {
   result_annotation?: Maybe<Scalars['String']>;
   seo?: Maybe<Seo>;
   slug: Scalars['String'];
+  status_text?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
   year?: Maybe<Scalars['Int']>;
 };
@@ -826,6 +899,8 @@ export type ProjectInput = {
   annotation?: InputMaybe<Scalars['String']>;
   contest?: InputMaybe<ContestBelongsTo>;
   contest_id?: InputMaybe<Scalars['Int']>;
+  deadline?: InputMaybe<Scalars['String']>;
+  grnti_number?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   information?: InputMaybe<Scalars['String']>;
   knowledge_field?: InputMaybe<KnowledgeFieldBelongsTo>;
@@ -840,6 +915,7 @@ export type ProjectInput = {
   result_annotation?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<SeoBelongsTo>;
   slug?: InputMaybe<Scalars['String']>;
+  status_text?: InputMaybe<Scalars['String']>;
   year?: InputMaybe<Scalars['Int']>;
 };
 
@@ -880,8 +956,12 @@ export type PurchaseInput = {
 
 export type Query = {
   __typename?: 'Query';
+  activityResultById?: Maybe<ActivityResult>;
+  activityResults: Array<ActivityResult>;
   contestById?: Maybe<Contest>;
   contests?: Maybe<ContestPaginator>;
+  documentGroupById?: Maybe<DocumentGroup>;
+  documentGroups: Array<DocumentGroup>;
   employeeById?: Maybe<Employee>;
   employees: Array<Employee>;
   eventById?: Maybe<Event>;
@@ -912,6 +992,8 @@ export type Query = {
   projects?: Maybe<ProjectPaginator>;
   purchaseById?: Maybe<Purchase>;
   purchases: Array<Purchase>;
+  reportById?: Maybe<Report>;
+  reports: Array<Report>;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
@@ -927,6 +1009,17 @@ export type Query = {
 };
 
 
+export type QueryActivityResultByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryActivityResultsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
 export type QueryContestByIdArgs = {
   id: Scalars['Int'];
 };
@@ -938,6 +1031,17 @@ export type QueryContestsArgs = {
   orderBy?: InputMaybe<Array<OrderByClause>>;
   page?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<ContestStatus>;
+};
+
+
+export type QueryDocumentGroupByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryDocumentGroupsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
 
@@ -971,6 +1075,7 @@ export type QueryKnowledgeFieldByIdArgs = {
 
 
 export type QueryKnowledgeFieldsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -1018,6 +1123,7 @@ export type QueryNewsBySlugArgs = {
 
 
 export type QueryNewsCategoriesArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -1033,6 +1139,7 @@ export type QueryNewsTagByIdArgs = {
 
 
 export type QueryNewsTagsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -1043,6 +1150,7 @@ export type QueryOrganizerByIdArgs = {
 
 
 export type QueryOrganizersArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -1069,6 +1177,7 @@ export type QueryPartnerByIdArgs = {
 
 
 export type QueryPartnersArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
@@ -1097,6 +1206,17 @@ export type QueryPurchaseByIdArgs = {
 
 
 export type QueryPurchasesArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryReportByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryReportsArgs = {
   filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
@@ -1191,6 +1311,30 @@ export type QueryProjectsOrderByRelationOrderByClause = {
   order: SortOrder;
 };
 
+export type Report = {
+  __typename?: 'Report';
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  image?: Maybe<Image>;
+  imageThumbs?: Maybe<ImageThumbs>;
+  imageUrl?: Maybe<Scalars['String']>;
+  linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
+  name: Scalars['String'];
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+};
+
+export type ReportInput = {
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
+  name?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
 export type Seo = {
   __typename?: 'Seo';
   description?: Maybe<Scalars['String']>;
@@ -1217,7 +1361,7 @@ export type Setting = {
 
 export type SettingInput = {
   id?: InputMaybe<Scalars['Int']>;
-  name: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
   value?: InputMaybe<Scalars['String']>;
 };
 
@@ -1570,14 +1714,14 @@ export type DeleteKnowledgeFieldMutationVariables = Exact<{
 
 export type DeleteKnowledgeFieldMutation = { __typename?: 'Mutation', deleteKnowledgeField?: { __typename?: 'KnowledgeField', sort: number, name: string } | null };
 
-export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null };
+export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null };
 
 export type NewsByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type NewsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1587,7 +1731,7 @@ export type NewsQueryVariables = Exact<{
 }>;
 
 
-export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null }> } | null };
+export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null }> } | null };
 
 export type UpdateOnIndexMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1610,14 +1754,14 @@ export type CreateNewsMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsMutation = { __typename?: 'Mutation', createNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type CreateNewsMutation = { __typename?: 'Mutation', createNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type UpdateNewsMutationVariables = Exact<{
   input: NewsInput;
 }>;
 
 
-export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type DeleteNewsMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1767,12 +1911,28 @@ export type PagesQueryVariables = Exact<{
 
 export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, name: string, description?: string | null, imageUrl?: string | null, slug: string }> };
 
+export type PagesTreeQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type PagesTreeQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, name: string, parent_id?: number | null, slug: string, sort: number, children?: Array<{ __typename?: 'Page', id: number } | null> | null }> };
+
 export type UpdatePageMutationVariables = Exact<{
   input: PageInput;
 }>;
 
 
 export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
+
+export type UpdatePageParentMutationVariables = Exact<{
+  id: Scalars['Int'];
+  parent_id: Scalars['Int'];
+}>;
+
+
+export type UpdatePageParentMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number } | null };
 
 export type AllPartnerFieldsFragment = { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
@@ -1937,7 +2097,7 @@ export type UpdateSettingsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: 'Mutation', schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, vk?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, facebook?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, telegram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, instagram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, whatsapp?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
+export type UpdateSettingsMutation = { __typename?: 'Mutation', phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, vk?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, facebook?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, telegram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, instagram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, whatsapp?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
 
 export type AllFieldsFragment = { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
@@ -1977,10 +2137,10 @@ export type DeleteStaffControlMutationVariables = Exact<{
 
 export type DeleteStaffControlMutation = { __typename?: 'Mutation', deleteStaffControl?: { __typename?: 'StaffControl', id: number } | null };
 
-export type StaffControlPagesBySlugQueryVariables = Exact<{ [key: string]: never; }>;
+export type StaffControlItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type StaffControlPagesBySlugQuery = { __typename?: 'Query', popechitelskiy?: { __typename?: 'Page', id: number } | null, nablyudatelnyy?: { __typename?: 'Page', id: number } | null, direktor?: { __typename?: 'Page', id: number } | null, apparat?: { __typename?: 'Page', id: number } | null, konsultacionnyy?: { __typename?: 'Page', id: number } | null };
+export type StaffControlItemsQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', name: string, children?: Array<{ __typename?: 'Page', name: string, id: number } | null> | null }> };
 
 export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: number, name: string, sort: number };
 
@@ -2232,6 +2392,8 @@ export const AllNewsFieldsFragmentDoc = `
   gallery {
     id
     url
+    alt
+    sort
   }
   category {
     id
@@ -3448,6 +3610,34 @@ export const usePagesQuery = <
       fetcher<PagesQuery, PagesQueryVariables>(client, PagesDocument, variables, headers),
       options
     );
+export const PagesTreeDocument = `
+    query pagesTree($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  pages(orderBy: $orderBy, filter: $filter) {
+    id
+    name
+    parent_id
+    slug
+    sort
+    children {
+      id
+    }
+  }
+}
+    `;
+export const usePagesTreeQuery = <
+      TData = PagesTreeQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: PagesTreeQueryVariables,
+      options?: UseQueryOptions<PagesTreeQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<PagesTreeQuery, TError, TData>(
+      variables === undefined ? ['pagesTree'] : ['pagesTree', variables],
+      fetcher<PagesTreeQuery, PagesTreeQueryVariables>(client, PagesTreeDocument, variables, headers),
+      options
+    );
 export const UpdatePageDocument = `
     mutation updatePage($input: PageInput!) {
   upsertPage(input: $input) {
@@ -3466,6 +3656,26 @@ export const useUpdatePageMutation = <
     useMutation<UpdatePageMutation, TError, UpdatePageMutationVariables, TContext>(
       ['updatePage'],
       (variables?: UpdatePageMutationVariables) => fetcher<UpdatePageMutation, UpdatePageMutationVariables>(client, UpdatePageDocument, variables, headers)(),
+      options
+    );
+export const UpdatePageParentDocument = `
+    mutation updatePageParent($id: Int!, $parent_id: Int!) {
+  upsertPage(input: {id: $id, parent_id: $parent_id}) {
+    id
+  }
+}
+    `;
+export const useUpdatePageParentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePageParentMutation, TError, UpdatePageParentMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePageParentMutation, TError, UpdatePageParentMutationVariables, TContext>(
+      ['updatePageParent'],
+      (variables?: UpdatePageParentMutationVariables) => fetcher<UpdatePageParentMutation, UpdatePageParentMutationVariables>(client, UpdatePageParentDocument, variables, headers)(),
       options
     );
 export const PartnerByIdDocument = `
@@ -3866,19 +4076,21 @@ export const useSettingsQuery = <
     );
 export const UpdateSettingsDocument = `
     mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String, $send_email_notify: String, $content_editor: String, $vk: String, $facebook: String, $telegram: String, $instagram: String, $whatsapp: String) {
-  schedule: upsertSetting(input: {id: 1, name: "phone", value: $phone}) {
+  phone: upsertSetting(input: {id: 1, name: "phone", value: $phone}) {
     ...allSettingsFields
   }
-  phone: upsertSetting(input: {id: 2, name: "email", value: $email}) {
+  email: upsertSetting(input: {id: 2, name: "email", value: $email}) {
     ...allSettingsFields
   }
-  address: upsertSetting(input: {id: 3, name: "emailPress", value: $emailPress}) {
+  emailPress: upsertSetting(
+    input: {id: 3, name: "emailPress", value: $emailPress}
+  ) {
     ...allSettingsFields
   }
-  email: upsertSetting(input: {id: 4, name: "address", value: $address}) {
+  address: upsertSetting(input: {id: 4, name: "address", value: $address}) {
     ...allSettingsFields
   }
-  emailPress: upsertSetting(input: {id: 5, name: "schedule", value: $schedule}) {
+  schedule: upsertSetting(input: {id: 5, name: "schedule", value: $schedule}) {
     ...allSettingsFields
   }
   send_email_notify: upsertSetting(
@@ -4023,37 +4235,29 @@ export const useDeleteStaffControlMutation = <
       (variables?: DeleteStaffControlMutationVariables) => fetcher<DeleteStaffControlMutation, DeleteStaffControlMutationVariables>(client, DeleteStaffControlDocument, variables, headers)(),
       options
     );
-export const StaffControlPagesBySlugDocument = `
-    query staffControlPagesBySlug {
-  popechitelskiy: pageBySlug(slug: "popechitelskiy-sovet") {
-    id
-  }
-  nablyudatelnyy: pageBySlug(slug: "nablyudatelnyy-sovet") {
-    id
-  }
-  direktor: pageBySlug(slug: "generalnyy-direktor") {
-    id
-  }
-  apparat: pageBySlug(slug: "apparat-upravleniya") {
-    id
-  }
-  konsultacionnyy: pageBySlug(slug: "nauchno-konsultacionnyy-sovet") {
-    id
+export const StaffControlItemsDocument = `
+    query staffControlItems {
+  pages(filter: [{column: "slug", value: "control"}]) {
+    name
+    children {
+      name
+      id
+    }
   }
 }
     `;
-export const useStaffControlPagesBySlugQuery = <
-      TData = StaffControlPagesBySlugQuery,
+export const useStaffControlItemsQuery = <
+      TData = StaffControlItemsQuery,
       TError = unknown
     >(
       client: GraphQLClient,
-      variables?: StaffControlPagesBySlugQueryVariables,
-      options?: UseQueryOptions<StaffControlPagesBySlugQuery, TError, TData>,
+      variables?: StaffControlItemsQueryVariables,
+      options?: UseQueryOptions<StaffControlItemsQuery, TError, TData>,
       headers?: RequestInit['headers']
     ) =>
-    useQuery<StaffControlPagesBySlugQuery, TError, TData>(
-      variables === undefined ? ['staffControlPagesBySlug'] : ['staffControlPagesBySlug', variables],
-      fetcher<StaffControlPagesBySlugQuery, StaffControlPagesBySlugQueryVariables>(client, StaffControlPagesBySlugDocument, variables, headers),
+    useQuery<StaffControlItemsQuery, TError, TData>(
+      variables === undefined ? ['staffControlItems'] : ['staffControlItems', variables],
+      fetcher<StaffControlItemsQuery, StaffControlItemsQueryVariables>(client, StaffControlItemsDocument, variables, headers),
       options
     );
 export const SubdivisionByIdDocument = `

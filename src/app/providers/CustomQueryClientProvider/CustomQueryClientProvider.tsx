@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryCache = new QueryClient({
+const queryCacheClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
@@ -13,5 +13,5 @@ const queryCache = new QueryClient({
 });
 
 export const CustomQueryClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  return <QueryClientProvider client={queryCache}>{children}</QueryClientProvider>;
+  return <QueryClientProvider client={queryCacheClient}>{children}</QueryClientProvider>;
 };

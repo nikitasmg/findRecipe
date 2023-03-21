@@ -64,22 +64,14 @@ export const DeleteStaffControl = gql`
   }
 `;
 
-export const StaffControlPagesBySlug = gql`
-  query staffControlPagesBySlug {
-    popechitelskiy: pageBySlug(slug: "popechitelskiy-sovet") {
-      id
-    }
-    nablyudatelnyy: pageBySlug(slug: "nablyudatelnyy-sovet") {
-      id
-    }
-    direktor: pageBySlug(slug: "generalnyy-direktor") {
-      id
-    }
-    apparat: pageBySlug(slug: "apparat-upravleniya") {
-      id
-    }
-    konsultacionnyy: pageBySlug(slug: "nauchno-konsultacionnyy-sovet") {
-      id
+export const StaffControlPages = gql`
+  query staffControlItems {
+    pages(filter: [{ column: "slug", value: "control" }]) {
+      name
+      children {
+        name
+        id
+      }
     }
   }
 `;

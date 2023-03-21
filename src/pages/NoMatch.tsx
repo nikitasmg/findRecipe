@@ -1,8 +1,9 @@
 import { Box, Container, Grid } from "@mui/material";
 import React from "react";
 import { Text } from "~/shared/components/Text";
-import { LinkButton } from "../shared/components/LinkButton/LinkButton";
+import { LinkButton } from "~/shared/components/LinkButton";
 import { HomePageRoute } from "~/shared/routes";
+import notFound from "~/shared/assets/images/not-found-icon.jpg";
 
 export const NoMatch: React.FC = () => {
   return (
@@ -19,12 +20,7 @@ export const NoMatch: React.FC = () => {
             </LinkButton>
           </Grid>
           <Grid xs={12} md={4} className='hidden md:flex justify-center'>
-            <img
-              src='https://icon-library.com/images/404-error-icon/404-error-icon-15.jpg'
-              alt=''
-              width={512}
-              height={512}
-            />
+            <img src={notFound} alt='not found' width={512} height={512} />
           </Grid>
         </Grid>
       </Container>

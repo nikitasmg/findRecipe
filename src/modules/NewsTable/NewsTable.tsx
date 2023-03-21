@@ -13,13 +13,15 @@ import React, { useEffect } from "react";
 import { DeepPartial } from "react-hook-form";
 import { News, SortOrder, useNewsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { getEventValueHandler } from "~/shared/lib/events";
 import { NewsPageCreate } from "~/shared/routes";
 import { useNewsStore } from "~/shared/stores/news";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { TablePagination } from "~/shared/components/TablePagination";
 import { Panel } from "~shared/components/Panel";
 import { TableActions } from "~/shared/components/TableActions";
+import { EmptyView } from "~/shared/components/EmptyView";
+import { formatDayJsForFilters } from "~/shared/lib/formatDate";
+import { getEventValueHandler } from "~/shared/lib/events";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 
@@ -36,7 +38,11 @@ export const NewsTable: React.FC = () => {
     handleFilterChange,
     resetFilters,
     resetTitle
-  } = useRequestState("name");
+  } = useRequestState("name", {
+    filterFormats: {
+      published_atLike: formatDayJsForFilters
+    }
+  });
 
   const client = useGraphqlClient();
 
@@ -117,6 +123,8 @@ export const NewsTable: React.FC = () => {
               </TableBody>
             )}
           </Table>
+
+          {!news?.data.length && !isLoading && <EmptyView />}
 
           {isLoading && (
             <Box className='flex h-[20vh] w-full justify-center items-center'>

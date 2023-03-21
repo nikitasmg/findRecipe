@@ -83,8 +83,8 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             <DatePicker
               className='w-full'
               label={<Text>Deadline</Text>}
-              value={params?.deadline ?? null}
-              onChange={curry(handleChangeFilter)("deadline")}
+              value={params?.deadlineLike ?? null}
+              onChange={curry(handleChangeFilter)("deadlineLike")}
             />
           </Grid>
 
@@ -92,8 +92,8 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             <DatePicker
               className='w-full'
               label={<Text>Start date</Text>}
-              value={params?.date ?? null}
-              onChange={curry(handleChangeFilter)("date")}
+              value={params?.dateLike ?? null}
+              onChange={curry(handleChangeFilter)("dateLike")}
             />
           </Grid>
 
@@ -101,8 +101,8 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}
-              value={params?.created_at ?? null}
-              onChange={curry(handleChangeFilter)("created_at")}
+              value={params?.created_atLike ?? null}
+              onChange={curry(handleChangeFilter)("created_atLike")}
             />
           </Grid>
         </Grid>
