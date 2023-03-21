@@ -32,7 +32,7 @@ export const useColumns = (
     {
       id: "imageUrl",
       label: <TableHeadCell title='Image' cellId='imageUrl' />,
-      style: { minWidth: "140px", width: "140px", textAlign: "center" },
+      style: { width: "140px", textAlign: "center" },
       render: (value, row) => (
         <img
           className='w-[50px] h-auto shrink-0'
@@ -54,7 +54,6 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      style: { width: "40%", minWidth: "250px" },
       render: (value, row) => {
         return (
           <Box
@@ -78,7 +77,7 @@ export const useColumns = (
           sortProps={getActiveProps("description")}
         />
       ),
-      style: { width: "40%", minWidth: "250px" }
+      style: { width: "250px" }
     },
 
     {
@@ -93,7 +92,7 @@ export const useColumns = (
         />
       ),
       align: "center",
-      style: { width: "250px", minWidth: "250px", textAlign: "center" },
+      style: { width: "250px", textAlign: "center" },
       format: formatDateForTable
     }
   ];

@@ -38,7 +38,10 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
-      align: "center"
+      align: "center",
+      style: {
+        width: "50px"
+      }
     },
     {
       id: "number",
@@ -49,7 +52,10 @@ export const useColumns = (
           onSortClick={getClickHandler("number")}
           sortProps={getActiveProps("number")}
         />
-      )
+      ),
+      style: {
+        width: "200px"
+      }
     },
     {
       id: "name",
@@ -61,7 +67,6 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 250,
       render: (value, row) => {
         return (
           <Link
@@ -82,7 +87,10 @@ export const useColumns = (
           onSortClick={getClickHandler("leader")}
           sortProps={getActiveProps("leader")}
         />
-      )
+      ),
+      style: {
+        width: "200px"
+      }
     },
     {
       id: "contest",
@@ -96,6 +104,9 @@ export const useColumns = (
       ),
       render: (value) => {
         return (value as Contest)?.name;
+      },
+      style: {
+        width: "200px"
       }
     },
     {
@@ -107,7 +118,10 @@ export const useColumns = (
           onSortClick={getClickHandler("organization")}
           sortProps={getActiveProps("organization")}
         />
-      )
+      ),
+      style: {
+        width: "200px"
+      }
     }
   ];
 };

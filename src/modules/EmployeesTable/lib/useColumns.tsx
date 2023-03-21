@@ -48,7 +48,6 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 150,
       render: (value, row) => {
         return (
           <Link
@@ -67,13 +66,13 @@ export const useColumns = (
         <TableHeadCell
           title='Position'
           cellId='position'
-          align='center'
           onSortClick={getClickHandler("position")}
           sortProps={getActiveProps("position")}
         />
       ),
-      minWidth: 150,
-      align: "center"
+      style: {
+        width: "150px"
+      }
     },
 
     {
@@ -82,13 +81,14 @@ export const useColumns = (
         <TableHeadCell
           title='Additional number'
           cellId='additional'
-          align='center'
           onSortClick={getClickHandler("additional")}
           sortProps={getActiveProps("additional")}
         />
       ),
       align: "center",
-      minWidth: 250
+      style: {
+        width: "200px"
+      }
     },
 
     {
@@ -97,12 +97,13 @@ export const useColumns = (
         <TableHeadCell
           title='Email'
           cellId='email'
-          align='center'
           onSortClick={getClickHandler("email")}
           sortProps={getActiveProps("email")}
         />
       ),
-      minWidth: 150
+      style: {
+        width: "150px"
+      }
     },
 
     {
@@ -111,12 +112,13 @@ export const useColumns = (
         <TableHeadCell
           title='Subdivision'
           cellId='subdivision'
-          align='center'
           onSortClick={getClickHandler("subdivision_id")}
           sortProps={getActiveProps("subdivision_id")}
         />
       ),
-      minWidth: 200,
+      style: {
+        width: "200px"
+      },
       render: (value, row) => (
         <SelectSubdivision
           employeeId={row.id as string}

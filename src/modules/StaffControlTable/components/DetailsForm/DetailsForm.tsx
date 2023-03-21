@@ -1,4 +1,4 @@
-import { Box, Drawer, TextareaAutosize, TextField } from "@mui/material";
+import { Box, Drawer, FormControl, TextareaAutosize, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import RemoveIcon from "@mui/icons-material/Delete";
@@ -7,28 +7,50 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   StaffControl,
   useCreateStaffControlMutation,
+  useDeleteStaffControlMutation,
   useUpdateStaffControlMutation
 } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
 import { Button } from "~/shared/components/Button";
 import { ImageInput } from "~/shared/components/ImageInput";
+import { HelperText } from "~/shared/components/HelperText";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { getErrorMessage } from "~/shared/lib/getError";
+import { baseRequired } from "~/shared/lib/validation";
 
 type FormFields = {
   name?: string;
   description?: string;
   imageUrl?: string | null;
   uploadImage?: File | null;
+  deleteImage?: boolean;
 };
 
 type Props = {
   open: boolean;
   handleCloseForm: () => void;
+  onDelete: (item?: Partial<StaffControl> | null) => void;
   pageId?: string | number;
-  activeStaff?: StaffControl | null;
+  activeStaff?: Partial<StaffControl> | null;
 };
 
-export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaff, pageId }) => {
-  const { handleSubmit, control, register, reset, setValue } = useForm<FormFields>({ mode: "all" });
+export const DetailsForm: React.FC<Props> = ({
+  handleCloseForm,
+  open,
+  onDelete,
+  activeStaff,
+  pageId
+}) => {
+  const {
+    handleSubmit,
+    control,
+    register,
+    reset,
+    setValue,
+    formState: { errors }
+  } = useForm<FormFields>({ mode: "all" });
+
+  const getError = getErrorMessage(errors);
 
   const isCreate = !activeStaff;
 
@@ -38,10 +60,16 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
 
   const { mutateAsync: update, isLoading: isUpdateLoading } = useUpdateStaffControlMutation(client);
 
-  const isLoading = isCreateLoading || isUpdateLoading;
+  const { mutateAsync: remove, isLoading: isDeleteLoading } = useDeleteStaffControlMutation(client);
+
+  const isLoading = isCreateLoading || isUpdateLoading || isDeleteLoading;
 
   const onSubmit = handleSubmit((newValues) => {
-    const input = { ...newValues, page_id: Number(pageId) };
+    const input = {
+      ...(Boolean(!isCreate) && { id: activeStaff?.id }),
+      ...newValues,
+      page_id: Number(pageId)
+    };
 
     delete (input as StaffControl).imageUrl;
 
@@ -52,6 +80,16 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
 
     update({ input }).then(handleCloseForm);
   });
+
+  const handleRemove = () => {
+    if (!isCreate && activeStaff.id) {
+      remove({ id: activeStaff.id });
+    }
+
+    onDelete(activeStaff);
+
+    handleCloseForm();
+  };
 
   const title = isCreate ? "Create staff control" : "Edit staff control";
 
@@ -87,7 +125,7 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
                 setValue("uploadImage", file as File);
               }}
               onDelete={() => {
-                setValue("uploadImage", null);
+                setValue("deleteImage", true);
                 setValue("imageUrl", null);
               }}
             />
@@ -98,7 +136,20 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
           control={control}
           name='name'
           render={({ field: { value } }) => (
-            <TextField label={<Text>Name</Text>} value={value} {...register("name")} />
+            <FormControl>
+              <TextField
+                label={
+                  <RequiredLabelWrapper>
+                    <Text>Name</Text>
+                  </RequiredLabelWrapper>
+                }
+                error={getError("name")}
+                value={value}
+                {...register("name", baseRequired)}
+              />
+
+              <HelperText id='name' error={getError("name")} />
+            </FormControl>
           )}
         />
 
@@ -126,7 +177,7 @@ export const DetailsForm: React.FC<Props> = ({ handleCloseForm, open, activeStaf
             type='button'
             variant='outlined'
             startIcon={<RemoveIcon />}
-            onClick={handleCloseForm}
+            onClick={handleRemove}
           >
             Delete
           </Button>
