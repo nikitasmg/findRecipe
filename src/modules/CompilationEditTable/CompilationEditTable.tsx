@@ -45,7 +45,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
 
   const handleAddClick = () => {
     setRows((oldRows) => {
-      const newRow = { id: "new", sort: 0, name: "" };
+      const newRow = { id: "new", sort: rows.length + 1, name: "" };
       setEditRow(newRow);
       return [...oldRows, newRow];
     });
@@ -67,7 +67,10 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    create({ sort: 0, name: newValues?.name ?? "" });
+    const newRow = { sort: rows.length + 1, name: newValues?.name ?? "" };
+
+    create(newRow);
+    setRows((rows) => rows.slice(0, -1).concat({ id: "new", ...newRow }));
   };
 
   return (

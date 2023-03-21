@@ -61,7 +61,7 @@ const compilationsHooks = [
     },
     create: {
       hook: useCreateNewsCategoryMutation,
-      key: "upsertNewsCategory"
+      key: "createNewsCategory"
     },
     update: {
       hook: useUpdateNewsCategoryMutation,
@@ -79,7 +79,7 @@ const compilationsHooks = [
     },
     create: {
       hook: useCreateNewsTagMutation,
-      key: "upsertNewsTag"
+      key: "createNewsTag"
     },
     update: {
       hook: useUpdateNewsTagMutation,
@@ -97,7 +97,7 @@ const compilationsHooks = [
     },
     create: {
       hook: useCreateSubdivisionMutation,
-      key: "upsertSubdivision"
+      key: "createSubdivision"
     },
     update: {
       hook: useUpdateSubdivisionMutation,
@@ -115,7 +115,7 @@ const compilationsHooks = [
     },
     create: {
       hook: useCreateKnowledgeFieldMutation,
-      key: "upsertKnowledgeField"
+      key: "createKnowledgeField"
     },
     update: {
       hook: useUpdateKnowledgeFieldMutation,

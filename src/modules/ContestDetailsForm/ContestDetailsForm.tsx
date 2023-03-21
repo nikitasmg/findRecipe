@@ -61,7 +61,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
     const input: ContestInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       name: newValues.name,
-      number: newValues.number,
+      number: Number(newValues.number),
       status: newValues.status,
       deadline: newValues.deadline,
       date: dayjs(newValues.date).format("YYYY-MM-DD"),
