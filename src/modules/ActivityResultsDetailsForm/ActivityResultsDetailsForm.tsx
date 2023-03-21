@@ -1,20 +1,11 @@
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  Switch,
-  TextareaAutosize,
-  TextField
-} from "@mui/material";
+import { Box, FormControl, Grid, TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
-  useCreateVacancyMutation,
-  useUpdateVacancyMutation,
-  useVacancyByIdQuery
+  useActivityResultByIdQuery,
+  useUpdateActivityResultMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
@@ -23,36 +14,36 @@ import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { baseRequired } from "~/shared/lib/validation";
-import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { useCreateActivityResultMutation } from "../../generated/graphql";
 
-interface IVacanciesDetailsForm {
+interface Props {
   id?: number;
 }
 
-export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) => {
+export const ActivityResultsDetailsForm: React.FC<Props> = ({ id }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
 
-  const { data, isSuccess } = useVacancyByIdQuery(
+  const { data, isSuccess } = useActivityResultByIdQuery(
     client,
     { id: Number(id) },
     { enabled: !isCreateMode, refetchOnMount: "always" }
   );
 
-  const values = data?.vacancyById;
+  const values = data?.activityResultById;
 
   const goBack = useNavigationBack();
 
-  const { mutateAsync: createVacancy, isLoading: isCreateLoading } = useCreateVacancyMutation(
+  const { mutateAsync: create, isLoading: isCreateLoading } = useCreateActivityResultMutation(
     client,
     { onSuccess: goBack }
   );
 
-  const { mutateAsync: updateVacancy, isLoading: isUpdateLoading } = useUpdateVacancyMutation(
+  const { mutateAsync: update, isLoading: isUpdateLoading } = useUpdateActivityResultMutation(
     client,
     { onSuccess: goBack }
   );
@@ -77,21 +68,19 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
     };
 
     if (isCreateMode) {
-      createVacancy({ input });
+      create({ input });
       return;
     }
 
-    updateVacancy({ input });
+    update({ input });
   });
-
-  const handleChecked = getCheckedHandler(setValue);
 
   useEffect(() => {
     if (!isSuccess) {
       return;
     }
 
-    initFormValues(["name", "description", "sort", "published"], setValue, values);
+    initFormValues(["name", "result", "measure_unit", "sort"], setValue, values);
   }, [values, isSuccess, setValue]);
 
   return (
@@ -107,7 +96,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                   <TextField
                     label={
                       <RequiredLabelWrapper>
-                        <Text>Title</Text>
+                        <Text>Indicator title</Text>
                       </RequiredLabelWrapper>
                     }
                     value={value}
@@ -123,22 +112,49 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
           <Grid item xs={12}>
             <Controller
               control={control}
-              name='description'
+              name='result'
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    fullWidth
+                    type='number'
+                    inputMode='numeric'
+                    inputProps={{
+                      step: "0.01"
+                    }}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Indicator statistics</Text>
+                      </RequiredLabelWrapper>
+                    }
+                    {...field}
+                    error={!!getError("result")}
+                    {...register("result", baseRequired)}
+                  />
+
+                  <HelperText id='result' error={getError("result")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='measure_unit'
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
-                    id='description'
-                    multiline
-                    fullWidth
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Measure unit</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
-                    label={<Text>Description</Text>}
-                    InputProps={{
-                      inputComponent: TextareaAutosize
-                    }}
-                    {...register("description")}
+                    error={!!getError("measure_unit")}
+                    {...register("measure_unit", baseRequired)}
                   />
 
-                  <HelperText id='description' error={getError("description")} />
+                  <HelperText id='measure_unit' error={getError("measure_unit")} />
                 </FormControl>
               )}
             />
@@ -162,22 +178,6 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='published'
-              render={({ field: { value } }) => (
-                <FormControl>
-                  <FormControlLabel
-                    control={<Switch checked={!!value} onChange={handleChecked("published")} />}
-                    label={<Text>Published</Text>}
-                  />
-
-                  <HelperText id='published' error={getError("published")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
         </Grid>
       </Box>
       <Box className='w-full flex'>
@@ -185,6 +185,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
           startIcon={<SaveIcon />}
           disabled={isLoading}
           type='submit'
+          variant='contained'
           className='w-fit ml-auto'
           size='small'
         >

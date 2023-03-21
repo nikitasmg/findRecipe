@@ -208,5 +208,19 @@
   "Period of execution": "Срок выполнения",
   "GRNTI code": "Код ГРНТИ",
   "Publications": "Публикации",
-  "Practical use": "Практическое использование"
+  "Practical use": "Практическое использование",
+  "count documents": "количество документов",
+  "Activity results": "Результаты деятельности",
+  "count activity results": "количество",
+  "Result": "Результат",
+  "Measure unit": "Единица измерения",
+  "Activity result editing": "Редактирование результата деятельности",
+  "Activity result creating": "Создание результата деятельности",
+  "Reports": "Отчеты",
+  "count reports": "количество отчетов",
+  "Reports editing": "Редактирование отчета",
+  "Reports creating": "Создание отчета",
+  "Indicator title": "Заголовок показателя",
+  "Indicator statistics": "Статистика показателя",
+  "Short description": "Краткое описание"
 }

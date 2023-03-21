@@ -13,36 +13,36 @@ const Template: ComponentStory<typeof PathsPanel> = (args) => <PathsPanel {...ar
 export const Default = Template.bind({});
 Default.args = {
   paths: [
-    { title: "Label 1", path: "/label1" },
+    { label: "Label 1", path: "/label1" },
     {
-      title: "Label 2",
+      label: "Label 2",
       path: "/label2",
       children: [
         {
-          title: "Label 3",
+          label: "Label 3",
           path: "/label3"
         },
         {
-          title: "Label 4",
+          label: "Label 4",
           path: "/label4"
         }
       ]
     },
     {
-      title: "Label 5",
+      label: "Label 5",
       children: [
         {
-          title: "Label 6",
+          label: "Label 6",
           path: "/label6"
         },
         {
-          title: "Label 7",
+          label: "Label 7",
           path: "/label7"
         }
       ]
     },
     {
-      title: "Label 8"
+      label: "Label 8"
     }
   ]
 };

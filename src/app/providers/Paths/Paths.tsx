@@ -1,6 +1,4 @@
-import React from "react";
 import { createCtx } from "~/shared/lib/context";
-import { Text } from "~/shared/components/Text";
 import {
   HomePageRoute,
   NewsPageRoute,
@@ -13,67 +11,87 @@ import {
   VacanciesPage,
   PurchasesPage,
   StaffControlPageRoute,
-  ProjectsPageRoute
+  ProjectsPageRoute,
+  DocumentsPageRoute,
+  PagesRoute,
+  ReportsPageRoute,
+  ActivityResultPageRoute
 } from "~shared/routes";
 
 const paths = [
   {
-    title: <Text component='span'>Home</Text>,
+    label: "Home",
     path: HomePageRoute
   },
   {
-    title: <Text component='span'>Entities</Text>,
+    label: "Entities",
     children: [
       {
-        title: <Text component='span'>News</Text>,
+        label: "News",
         path: NewsPageRoute
       },
       {
-        title: <Text component='span'>Events</Text>,
+        label: "Events",
         path: EventsPageRoute
       },
       {
-        title: <Text component='span'>Users</Text>,
+        label: "Users",
         path: UsersPageRoute
       },
       {
-        title: <Text component='span'>Interactive map</Text>,
+        label: "Interactive map",
         path: InteractiveMapFormRoute
       },
       {
-        title: <Text component='span'>Contests</Text>,
+        label: "Contests",
         path: ContestPageRoute
       },
       {
-        title: <Text component='span'>Projects</Text>,
+        label: "Projects",
         path: ProjectsPageRoute
+      },
+      {
+        label: "Documents",
+        path: DocumentsPageRoute
       }
     ]
   },
   {
-    title: <Text component='span'>About fund</Text>,
+    label: "About fund",
     children: [
       {
-        title: <Text component='span'>Employees</Text>,
+        label: "Employees",
         path: EmployeesPage
       },
       {
-        title: <Text component='span'>Vacancies</Text>,
+        label: "Vacancies",
         path: VacanciesPage
       },
       {
-        title: <Text component='span'>Purchases</Text>,
+        label: "Purchases",
         path: PurchasesPage
       },
       {
-        title: <Text component='span'>Staff control</Text>,
+        label: "Staff control",
         path: StaffControlPageRoute
+      },
+      {
+        label: "Reports",
+        path: ReportsPageRoute
+      },
+      {
+        label: "Activity results",
+        path: ActivityResultPageRoute
       }
     ]
   },
   {
-    title: <Text component='span'>Compilations</Text>,
+    label: "Compilations",
     path: CompilationsPage
+  },
+  {
+    label: "Pages",
+    path: PagesRoute
   }
 ];
 
