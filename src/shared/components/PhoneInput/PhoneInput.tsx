@@ -12,6 +12,9 @@ export const PhoneInput: React.FC<MuiTelInputProps> = ({ className, ...props }) 
       onlyCountries={["RU"]}
       size='small'
       fullWidth
+      inputProps={{
+        maxlength: 16
+      }}
       {...props}
     />
   );
