@@ -14,6 +14,10 @@ export const emailValidation = (value: string) =>
 
 export const baseRequired = { required: "This is required" };
 
+export const isEmpty = (value: string) => value.replace(/\s/gi, "").length === 0;
+
+export const isContainsNumbers = (value: string) => /\d/.test(value);
+
 export const getBaseEmailValidation = <FormFields>(
   { required }: { required: boolean } = { required: false }
 ) => ({
@@ -35,4 +39,15 @@ export const getBaseUrlValidation = <FormFields>(
 export const getBasePasswordValidation = () => ({
   ...baseRequired,
   minLength: { value: 6, message: "Min length of password is 6" }
+});
+
+export const getFullNameValidation = <FormFields>(
+  { required }: { required: boolean } = { required: false }
+) => ({
+  ...(Boolean(required) && baseRequired),
+  validate: {
+    checkEmpty: (value: string) => (value && isEmpty(value) ? "Empty field" : true),
+    checkNumbers: (value: string) =>
+      value && isContainsNumbers(value) ? "Field contains numbers" : true
+  } as BaseValidate<FormFields>
 });

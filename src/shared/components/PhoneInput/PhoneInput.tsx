@@ -1,21 +1,21 @@
-import clsx from "clsx";
-import { MuiTelInput, MuiTelInputProps } from "mui-tel-input";
-import React from "react";
-import styles from "./PhoneInput.module.css";
+import React, { ChangeEvent, ReactNode } from "react";
+import InputMask, { Props } from "react-input-mask";
+import { TextField } from "@mui/material";
 
-export const PhoneInput: React.FC<MuiTelInputProps> = ({ className, ...props }) => {
+interface PhoneInputProps {
+  value?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  label: string | ReactNode;
+}
+
+export const PhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, label }) => {
+  const children = (() => (
+    <TextField label={label} fullWidth size='small' />
+  )) as unknown as Props["children"];
+
   return (
-    <MuiTelInput
-      className={clsx(className, styles.telInput)}
-      defaultCountry='RU'
-      disableDropdown
-      onlyCountries={["RU"]}
-      size='small'
-      fullWidth
-      inputProps={{
-        maxlength: 16
-      }}
-      {...props}
-    />
+    <InputMask mask='+7 (999) 999-99-99' maskChar='' value={value} onChange={onChange}>
+      {children}
+    </InputMask>
   );
 };

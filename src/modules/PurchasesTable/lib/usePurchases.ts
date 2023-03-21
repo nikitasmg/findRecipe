@@ -41,7 +41,7 @@ export const usePurchases = () => {
   const { data, isLoading } = usePurchasesQuery(
     client,
     { orderBy: variables.orderBy, filter: variables.filter },
-    { refetchOnMount: "always" }
+    { refetchOnMount: "always", cacheTime: 0 }
   );
 
   const purchases = data?.purchases;

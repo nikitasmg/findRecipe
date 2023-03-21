@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { FormControl, Grid, TextareaAutosize, TextField } from "@mui/material";
 import { Text } from "~shared/components/Text";
@@ -25,8 +25,8 @@ type Props = {
 export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValue, control }) => {
   const getError = getErrorMessage(errors);
 
-  const handlePhoneChange = (phone: string) => {
-    setValue("phone", phone);
+  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue("phone", event?.target?.value);
   };
 
   return (
@@ -77,7 +77,6 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
             <PhoneInput
               value={value}
               label={<Text component='span'>Contact phone</Text>}
-              variant='outlined'
               onChange={handlePhoneChange}
             />
           )}

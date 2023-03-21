@@ -200,5 +200,7 @@
   "Edit grant support page": "Редактировать страницу грантовой поддержки",
   "Not Found": "Ничего не найдено",
   "Gallery": "Галерея",
-  "Image format invalid": "Недопустимый формат изображения"
+  "Image format invalid": "Недопустимый формат изображения",
+  "Empty field": "Пустое поле",
+  "Field contains numbers": "Поле содержит цифры"
 }
