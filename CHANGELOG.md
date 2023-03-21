@@ -1,1 +1,105 @@
- - <ins>2023-02-08</ins> **[`b476fb3`](https://gitlab.dev.echo-company.ru/seleznev/template-v3/-/commit/b476fb3e60858e98d33f75c16a19d23d92d3b26a)** Initialize project using Create React App
+ - <ins>2023-03-22</ins> **[`0e0bdab`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/0e0bdab75a287e598383b0124c47397fdff1eb70)** feat: reports and activity
+ - <ins>2023-03-21</ins> **[`fec1aaa`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/fec1aaa0076f1e41182f017c0badeaa0afc2c85a)** Добавление поля Практическое использование в форме проектов
+ - <ins>2023-03-21</ins> **[`0668e71`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/0668e71b6a3bf6d5dc6168bbe58b03939057894e)** Изменение структуры форм в карточке проекта, добавление новых полей
+ - <ins>2023-03-21</ins> **[`b074173`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/b074173447406a85b971a2780ccfdeb03b1e146f)** fix: filters
+ - <ins>2023-03-21</ins> **[`cd26640`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/cd26640b5c0707ac50eee6c2cf659298ec8e37ea)** fix: max phone length
+ - <ins>2023-03-21</ins> **[`74c286a`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/74c286a2fdd643ed05d4c2342311f5b430903d62)** fix compilations
+ - <ins>2023-03-21</ins> **[`4d53fb7`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/4d53fb74516d1f944508afb753fce0264357ad39)** pages and gallery updates
+ - <ins>2023-03-16</ins> **[`2944cbc`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/2944cbc44a8b066ea57db62e189c9ea4e18ee1f3)** Правки из баг-репорта ID 47-52
+ - <ins>2023-03-16</ins> **[`ba21178`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/ba21178550ac8107bc380118b1d479df34ca7d64)** fix: remove not working
+ - <ins>2023-03-16</ins> **[`2700072`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/27000724edbc4e1232add47296ced4e9d013a3f8)** fix: updating
+ - <ins>2023-03-15</ins> **[`32568eb`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/32568eb9fe7dd41c5f93bff8c250acb53a8ef1f3)** Добавлены формы редактирования в разделе Страницы для Грантовая поддержка и НТЦ в Сургуте
+ - <ins>2023-03-15</ins> **[`b8dc051`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/b8dc051c1d97c96b580e96128fdf062723e5b418)** Поправлена таблица пользователей, добавлена форма редактирования/создания
+ - <ins>2023-03-15</ins> **[`d3a45a0`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/d3a45a03b0695c553645f25760e1fb1f7e2431ce)** fix: saving events
+ - <ins>2023-03-15</ins> **[`08b638a`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/08b638a8991c77ab53cc8639757e5ce3c10d923d)** feat: additional description about page
+ - <ins>2023-03-15</ins> **[`5ba6581`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/5ba65819f6ab034110fc18d36c4635c3b4c89fbb)** feat: remove unussed
+ - <ins>2023-03-15</ins> **[`d5cd8df`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/d5cd8df58bba78fb1dc0ead4a9aae4677440bac9)** feat: refetch news details
+ - <ins>2023-03-15</ins> **[`365f6c0`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/365f6c08ec8eed38c60227116027062c0940cfe1)** feat: label, descriptions
+ - <ins>2023-03-14</ins> **[`9aa2c22`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/9aa2c22a254a006933012a90780e77d62fd398bf)** fix: restyle contests
+ - <ins>2023-03-14</ins> **[`99e00bd`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/99e00bdf9ba53691a6c83ddfbd5edb0e95e60889)** fix: restyle events table
+ - <ins>2023-03-14</ins> **[`3d0cd7f`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/3d0cd7f16b81ed80750ca2cc95a6343be3c51ea4)** fix: events
+ - <ins>2023-03-14</ins> **[`02fca42`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/02fca4209bd6cc2b3483bcf63da88fb99339133a)** fix: remove unussed
+ - <ins>2023-03-14</ins> **[`c657ca8`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/c657ca8878e0197884c6455df4e0d3d05cdd6910)** fix: major fixes
+ - <ins>2023-03-13</ins> **[`25c2d9e`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/25c2d9e9af06dd0be30dae90cc466e168dbc0c81)** Правки
+ - <ins>2023-03-13</ins> **[`2c69f9f`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/2c69f9fd8226f3884c3187ae66781d1f63c12274)** refactor: setting add social
+ - <ins>2023-03-12</ins> **[`369994e`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/369994ea50894d21080304e3da3f9b0d11a3f358)** Правки
+ - <ins>2023-03-12</ins> **[`32a7fa2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/32a7fa2fa64afd9b32a9f3e13bf506a34beb3828)** Добавлено: справочник Области знаний, страница Проекты
+ - <ins>2023-03-10</ins> **[`59d262e`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/59d262edd7de5d127416da53fd46843ab795e5d5)** feat: int id
+ - <ins>2023-03-10</ins> **[`6f153fe`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6f153fe52a4babc81090a896be954d5dc931bd2e)** feat: base required
+ - <ins>2023-03-10</ins> **[`6ddef73`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6ddef73ddac0f2e9160d465179beef60388ccf52)** fix: lazy import map
+ - <ins>2023-03-10</ins> **[`7af4803`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/7af4803703c1cfaf1d490326e03355e874838f72)** fix: remove unussed
+ - <ins>2023-03-10</ins> **[`3c978d2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/3c978d2423cb22ee1f291514e59d1f9b498133c2)** feat: edit ano-biomed page
+ - <ins>2023-03-10</ins> **[`9ab49c6`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/9ab49c68a5ea92b60b3f2963693be1f90f514cdf)** feat: edit logos page
+ - <ins>2023-03-10</ins> **[`df52f36`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/df52f36c5c2cc7c88f977524659196ed3a983329)** feat: edit documents page
+ - <ins>2023-03-10</ins> **[`869ec63`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/869ec6374ba871596913f1b130eca63ebb2b47e7)** feat: edit result page
+ - <ins>2023-03-10</ins> **[`6bbe433`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6bbe433225a2d2ec4b8f12f4bd9135bec0dbbc16)** feat: edit orders page
+ - <ins>2023-03-10</ins> **[`dbcb9e9`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/dbcb9e98b04833546b3d95357e472a85a58f553e)** feat: edit staff page
+ - <ins>2023-03-10</ins> **[`84a03d7`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/84a03d7306ea881d987463cba81f2da5f7b32ac3)** feat: control items pages
+ - <ins>2023-03-10</ins> **[`8faad70`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/8faad7072d3a052656756e3ec136fbf19e0856d0)** feat: staff control
+ - <ins>2023-03-10</ins> **[`df06909`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/df06909a8b86f077143c26b2cccff7f210798717)** feat: add about fund page editing
+ - <ins>2023-03-10</ins> **[`6f2f95a`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6f2f95a24f1d9e57faacb002346438c7cfcc68d6)** feat: add contests files
+ - <ins>2023-03-09</ins> **[`dda6a9f`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/dda6a9f8fc58e90e215764581f7f4040af2fb0f7)** fix: contests table
+ - <ins>2023-03-09</ins> **[`c8e1c79`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/c8e1c7927474a3cd8c3aced1a61c75f48e2653c1)** fix: remove unusesed
+ - <ins>2023-03-09</ins> **[`d99a550`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/d99a550264b899b7322ce8f8ae2933e6e82bc200)** feat: add contests
+ - <ins>2023-03-09</ins> **[`640a56c`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/640a56cfef2821673d420d351b6c977a017d69e3)** Правки в закупках
+ - <ins>2023-03-09</ins> **[`676a14b`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/676a14bb3fd72b9b802e9b8540a831b0ee30d4d2)** fix: fixes news, contacts, modules
+ - <ins>2023-03-08</ins> **[`c0ee16b`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/c0ee16bc4c33103ef6e829fd8bcc21df4b2532e1)** Добавлена страница Закупок
+ - <ins>2023-03-07</ins> **[`a9f16eb`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/a9f16ebad5ef543226c94354c8cfe7f05c2140a0)** fix: header tabs width
+ - <ins>2023-03-07</ins> **[`6006bef`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6006bef08836f3da80900bd796cacde93963e23e)** feat: Edit pages news and events
+ - <ins>2023-03-06</ins> **[`cce56bf`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/cce56bf569401245f06d6e8a5043f04ef0084b83)** Правки в сотрудниках и вакансиях
+ - <ins>2023-03-06</ins> **[`489a550`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/489a550feec7a674d74f707e0a53fa4a52adbadf)** Добавлена страница Вакансии
+ - <ins>2023-03-06</ins> **[`3bd630b`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/3bd630bf9ff75fed26e271436d01e1bd5d62f15e)** feat: update events
+ - <ins>2023-03-05</ins> **[`f5ddac4`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/f5ddac468854637c067eba5fd2b269ebdc782bc1)** Добавлено: справочник Подразделения, страница Сотрудники
+ - <ins>2023-03-02</ins> **[`c53a467`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/c53a467b42f52903c4a6daaff65f953e5620dcc8)** feat: fix fast action news and events
+ - <ins>2023-03-02</ins> **[`dba08ea`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/dba08eae59ff2f69184e9d065a468c88aa3933b0)** feat: events edititing without compilations
+ - <ins>2023-03-02</ins> **[`5f037e2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/5f037e2d72030b114515b23ef499999bb1ec8fce)** feat: events table
+ - <ins>2023-03-02</ins> **[`cbf7405`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/cbf740524ec6c348d7cbe575f173d73d66d78877)** feat: base events layout
+ - <ins>2023-03-02</ins> **[`ce25ff3`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/ce25ff39458eb7e7324cdb76d398e397e09b6625)** fix: backdrop visibility
+ - <ins>2023-03-02</ins> **[`a7b40c1`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/a7b40c1b03cd436a8568b3df02e62dc181004654)** fix: files uploading
+ - <ins>2023-03-01</ins> **[`6bb6dfb`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6bb6dfb67a7ebbc8c32cd1ea7811362a8b6285a5)** feat: news table updates
+ - <ins>2023-02-28</ins> **[`6000dd2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6000dd237d4125466623439f3cabe677d8a16e4d)** Поправил валидацию email, добавил корректную textarea
+ - <ins>2023-02-28</ins> **[`e1d0bf8`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/e1d0bf89c2b38683045da93001eefc3c0a793f71)** Поправил зависимость юзэффекта
+ - <ins>2023-02-27</ins> **[`b83f819`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/b83f8195a9d5ee4b11fc7fda5cf23911c80328ab)** Сделана страница настроек с формой "Контакты"
+ - <ins>2023-02-27</ins> **[`e613d58`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/e613d58cf6c6ad317689029f273d959c935c27e2)** fix: users roles
+ - <ins>2023-02-27</ins> **[`c067eae`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/c067eaeeeb26f8dfbf7dc8e0a0864a31a4d23438)** feat: table filters drop
+ - <ins>2023-02-27</ins> **[`bd74ab5`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/bd74ab5030c7c11411c1f55be48c85dc7e9d23e7)** feat: table pagination
+ - <ins>2023-02-27</ins> **[`8729168`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/8729168ed7e981368973b0be303a9c49c45e2b76)** feat: color links
+ - <ins>2023-02-27</ins> **[`80aa3cf`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/80aa3cf2f279bc3f838c5985d31624716dbdcac9)** feat: date format
+ - <ins>2023-02-27</ins> **[`470ba2c`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/470ba2ccf1d17354ef6838bee962077475be7954)** feat: compilations
+ - <ins>2023-02-22</ins> **[`2a71483`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/2a714833c0388d4418b6a1114b2733f0c142424a)** feat: news
+ - <ins>2023-02-21</ins> **[`6a06e80`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6a06e801c69cd574c52133c54d5adca50462367a)** feat: doc
+ - <ins>2023-02-21</ins> **[`30510df`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/30510dfc194deea374c296ac595fe54349c97ea2)** fix: fix run app
+ - <ins>2023-02-21</ins> **[`74478f1`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/74478f18771d6f46e577256b312140444ef80361)** feat: remove serve stories
+ - <ins>2023-02-21</ins> **[`1f20777`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/1f2077746b6d25cf9cc05c1c12e785c15b6deb82)** feat: serve stories
+ - <ins>2023-02-21</ins> **[`6a1883c`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6a1883c72011ceed8de17ebdcbb3d1550d326abe)** feat: update app
+ - <ins>2023-02-21</ins> **[`9c45c38`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/9c45c38c83761fd19cdbcf36cb4a9cee54cd74bb)** feat: update app providers
+ - <ins>2023-02-21</ins> **[`109e710`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/109e71042201b5e2ffba6ef7cdd11ad48ca2e190)** feat: update shared
+ - <ins>2023-02-21</ins> **[`5377f48`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/5377f48156f4e4780c86e21454f4e7fe794d1de2)** feat: update pages
+ - <ins>2023-02-21</ins> **[`103d49d`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/103d49d1c9624238824703df6f128b9eba712881)** feat: update modules
+ - <ins>2023-02-21</ins> **[`6a7f300`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6a7f300d174d3648d46d87aa685e277dc3fa1cf8)** feat: update layouts
+ - <ins>2023-02-21</ins> **[`5489e24`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/5489e2457e85a0275487b9238309c61c691bcf07)** feat: update generated
+ - <ins>2023-02-21</ins> **[`8f1a721`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/8f1a721d8ad5cf60f6ace59609fef5be7ab588ae)** feat: update api
+ - <ins>2023-02-14</ins> **[`3db1663`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/3db1663ec54ddd0ac97ac4a7da263dee056809ac)** Search input
+ - <ins>2023-02-14</ins> **[`e23081f`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/e23081f8e2e182cc99040306c6b21e66c7448d5c)** Fix lint
+ - <ins>2023-02-14</ins> **[`1be4c5d`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/1be4c5d430210334458e994047ca2e1ff05a96f1)** Fix sorting
+ - <ins>2023-02-14</ins> **[`6b7f689`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6b7f689c5f30b847c0fbea75cf89861069656e06)** News Table
+ - <ins>2023-02-13</ins> **[`b9526c5`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/b9526c5026c13afbed6944eba486a50cc3769b90)** Update deploy
+ - <ins>2023-02-13</ins> **[`174a1ae`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/174a1ae361b76b16dbc7104e9aaba74153cedee3)** PM2 serve
+ - <ins>2023-02-13</ins> **[`1575358`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/1575358dea040c06ad35075101183321d2aee5cb)** Add serve script
+ - <ins>2023-02-13</ins> **[`48d6461`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/48d646139c0ce55aa1e7f4cccf1839567eef1670)** Fix test start
+ - <ins>2023-02-13</ins> **[`be7afb5`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/be7afb502d74be8a1dfbf47fdddf3a5bd5bba90d)** Fix lint errors
+ - <ins>2023-02-13</ins> **[`2f82253`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/2f8225300a6e15ddc5bbcc45efaf50b8be5c80dd)** Add BaseLayout
+ - <ins>2023-02-10</ins> **[`2ff2b90`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/2ff2b90fba6555a2fcc3c6a53fa06e28b203ffdc)** login-form: Add login form
+ - <ins>2023-02-13</ins> **[`bb2ca17`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/bb2ca171459cd96b9a7b2b5ed72e3957fe17a272)** Update deploy
+ - <ins>2023-02-13</ins> **[`fb08886`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/fb0888656db57554eb2b636be8efc1df98694795)** Update ci
+ - <ins>2023-02-13</ins> **[`3848d63`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/3848d63715b0bee3a9172f9d9cb1060a6af866d5)** Update ci
+ - <ins>2023-02-13</ins> **[`d32f453`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/d32f45362ebd481b591ed851cd802919e1a00b43)** Update deploy script
+ - <ins>2023-02-13</ins> **[`fbca886`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/fbca886dbc7795a9db8d9d04f39b496068f34428)** Update deploy script
+ - <ins>2023-02-13</ins> **[`56ad35a`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/56ad35ab8d61bce85ce81a33296bb8402e76e0c0)** Update deploy script
+ - <ins>2023-02-13</ins> **[`d48c4ba`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/d48c4baf7c925a9316d878e9e6a077c9bbf736e4)** Update ci
+ - <ins>2023-02-13</ins> **[`0780a2d`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/0780a2df7733e7c99d14cf92cd899d5bac65648d)** Update cd
+ - <ins>2023-02-13</ins> **[`e55026d`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/e55026d1effa93a4e8cbe20bc2f10a38577eff21)** Update deploy stage
+ - <ins>2023-02-08</ins> **[`3c627f7`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/3c627f73116a4424b19fd071e5913dfe1744effd)** ci initialize
+ - <ins>2023-02-08</ins> **[`537ac2a`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/537ac2af90572bf0103523ffa55a3e0c61c5fcca)** initialize change log script
+ - <ins>2023-02-08</ins> **[`b58cbf2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/b58cbf22b5eb5b9620d59142ddd4c4991aceae83)** initialize project
+ - <ins>2023-02-08</ins> **[`b476fb3`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/b476fb3e60858e98d33f75c16a19d23d92d3b26a)** Initialize project using Create React App
