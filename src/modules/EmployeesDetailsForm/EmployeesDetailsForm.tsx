@@ -15,7 +15,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { baseRequired, getBaseEmailValidation } from "~shared/lib/validation";
+import { getBaseEmailValidation, getFullNameValidation } from "~shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
@@ -67,7 +67,11 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
     const input: EmployeeInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
-      subdivision: { connect: newValues.subdivision },
+      subdivision: {
+        connect: !isNaN(Number(newValues.subdivision))
+          ? newValues.subdivision
+          : newValues.subdivision.id
+      },
       sort: newValues.sort ? Number(newValues.sort) : 0
     };
 
@@ -111,7 +115,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
                     variant='outlined'
                     id='name'
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", getFullNameValidation({ required: true }))}
                   />
 
                   <HelperText id='name' error={getError("name")} />

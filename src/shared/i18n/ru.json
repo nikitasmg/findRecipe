@@ -230,5 +230,7 @@
   "Edit document": "Редактировать документ",
   "Create document": "Создать документ",
   "Edit contests page": "Редактировать страницу конкурсов",
-  "Edit projects page": "Редактировать страницу проектов"
+  "Edit projects page": "Редактировать страницу проектов",
+  "Empty field": "Пустое поле",
+  "Field contains numbers": "Поле содержит цифры"
 }
