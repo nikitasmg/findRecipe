@@ -226,5 +226,7 @@
   "files": "файлов",
   "Document groups": "Группы документов",
   "Document manager": "Менеджер документов",
-  "Upload document": "Загрузить документ"
+  "Upload document": "Загрузить документ",
+  "Empty field": "Пустое поле",
+  "Field contains numbers": "Поле содержит цифры"
 }
