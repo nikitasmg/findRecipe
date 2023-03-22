@@ -22,7 +22,9 @@ import {
   PagesEditOrders,
   PagesEditPopechitelskiySovet,
   PagesEditResult,
-  PagesEditStaff
+  PagesEditStaff,
+  PagesEditContests,
+  PagesEditProjects
 } from "~/shared/routes";
 
 const EditIndexPage = lazy(() =>
@@ -78,6 +80,14 @@ const EditNtcSurgutPage = lazy(() =>
 
 const EditGrantsPage = lazy(() =>
   import("~/pages/edit/grants").then((module) => ({ default: module.EditGrantsPage }))
+);
+
+const EditContestsPage = lazy(() =>
+  import("~/pages/edit/contests").then((module) => ({ default: module.EditContestsPage }))
+);
+
+const EditProjectsPage = lazy(() =>
+  import("~/pages/edit/projects").then((module) => ({ default: module.EditProjectsPage }))
 );
 
 export const PagesEditRouting = [
@@ -261,6 +271,24 @@ export const PagesEditRouting = [
     element={
       <BaseProtectedLayout>
         <EditGrantsPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='contests'
+    path={PagesEditContests}
+    element={
+      <BaseProtectedLayout>
+        <EditContestsPage />
+      </BaseProtectedLayout>
+    }
+  />,
+  <Route
+    key='projects'
+    path={PagesEditProjects}
+    element={
+      <BaseProtectedLayout>
+        <EditProjectsPage />
       </BaseProtectedLayout>
     }
   />

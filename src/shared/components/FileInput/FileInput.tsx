@@ -1,7 +1,8 @@
-import { Box, Input, Typography } from "@mui/material";
+import { Box, Icon, Input, Typography } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CancelIcon from "@mui/icons-material/Cancel";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Text } from "../Text";
 
 type Props = {
@@ -55,14 +56,18 @@ export const FileInput: React.FC<Props> = ({
   return (
     <>
       {!isPreview && (
-        <Box className='flex items-center relative w-[310px] h-[100px] transition bg-gray-200 hover:bg-gray-300 hover:underline rounded-xl p-6'>
+        <Box className='flex items-center relative w-[310px] h-[100px] transition hover:bg-gray-200 rounded-xl border-dashed border-2 border-primary'>
           <Input
-            className='!absolute top-0 left-0 w-full h-full opacity-0 z-2'
+            inputProps={{
+              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2"
+            }}
+            className='!absolute w-full h-full opacity-0'
             type='file'
             id={id}
             onChange={handleFile}
           />
-          <label htmlFor={id} className='w-full text-center'>
+          <label htmlFor={id} className='w-full text-center text-primary text-lg cursor-pointer'>
+            <Icon className='w-auto h-[50px]' component={CloudUploadIcon} />
             <Text>Upload or drop file</Text>
           </label>
         </Box>
