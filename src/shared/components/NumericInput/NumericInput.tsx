@@ -24,7 +24,7 @@ export const NumericInput: React.FC<Props> = ({
   const handleAdd = () => {
     onChange?.({
       target: {
-        value: Math.min(+max, +value + 1),
+        value: Math.min(+max, +(value || 0) + 1),
         name: name ?? ""
       }
     } as unknown as ChangeEvent<HTMLInputElement>);
@@ -33,7 +33,9 @@ export const NumericInput: React.FC<Props> = ({
   const handleRemove = () => {
     onChange?.({
       target: {
-        value: String(Number.isInteger(min) ? Math.max(min as number, +value - 1) : +value - 1),
+        value: String(
+          Number.isInteger(min) ? Math.max(min as number, +(value || 0) - 1) : +(value || 0) - 1
+        ),
         name: name ?? ""
       }
     } as unknown as ChangeEvent<HTMLInputElement>);

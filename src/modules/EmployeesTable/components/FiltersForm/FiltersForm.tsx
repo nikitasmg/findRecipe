@@ -39,6 +39,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             <NumericInput
               value={Number(params?.additional)}
               label={<Text>Additional number</Text>}
+              name='additional'
               onChange={getChangeHandler("additional")}
             />
           </Grid>

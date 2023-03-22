@@ -33,6 +33,8 @@ export const DocumentCard: React.FC<Props> = ({ title, format, onCardClick }) =>
       elevation={3}
       onClick={onCardClick}
       className='w-[160px] h-[160px] p-4 relative flex flex-col gap-4 items-center justify-end text-gray-400 rounded-xl hover:bg-slate-200'
+      onKeyPress={onCardClick}
+      tabIndex={0}
     >
       <Box className='w-full flex justify-center relative'>
         <DescriptionIcon className='w-[50%] h-auto' />

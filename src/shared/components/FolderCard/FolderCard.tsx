@@ -37,6 +37,8 @@ export const FolderCard: React.FC<Props> = ({
       onDragLeave={handleLeaveFile}
       onDrop={handleLeaveFile}
       onClick={onCardClick}
+      onKeyPress={onCardClick}
+      tabIndex={0}
       className='w-[160px] h-[160px] p-4 relative flex flex-col items-center justify-end text-gray-400 rounded-xl hover:bg-slate-200'
     >
       <InfoIcon
