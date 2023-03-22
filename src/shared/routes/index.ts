@@ -86,6 +86,10 @@ export const PagesEditNtcInSurgut = "/pages/edit/ntc-in-surgut";
 
 export const PagesEditGrants = "/pages/edit/grants";
 
+export const PagesEditContests = "/pages/edit/contests";
+
+export const PagesEditProjects = "/pages/edit/projects";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";
