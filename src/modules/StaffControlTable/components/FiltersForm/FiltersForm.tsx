@@ -21,16 +21,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
           <Grid item columns={12} xs={12}>
             <TextField
               fullWidth
-              value={params?.id}
-              label={<Text>Enter id</Text>}
-              onChange={getChangeHandler("id")}
-              variant='outlined'
-            />
-          </Grid>
-
-          <Grid item columns={12} xs={12}>
-            <TextField
-              fullWidth
               value={params?.description}
               label={<Text>Description</Text>}
               onChange={getChangeHandler("description")}
@@ -42,8 +32,8 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}
-              value={params?.created_at ?? null}
-              onChange={curry(handleChangeFilter)("created_at")}
+              value={params?.created_atLike ?? null}
+              onChange={curry(handleChangeFilter)("created_atLike")}
             />
           </Grid>
         </Grid>

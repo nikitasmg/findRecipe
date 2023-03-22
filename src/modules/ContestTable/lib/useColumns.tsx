@@ -57,9 +57,6 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      style: {
-        minWidth: "200px"
-      },
       render: (value, row) => {
         return (
           <Link
@@ -97,6 +94,9 @@ export const useColumns = (
           sortProps={getActiveProps("status")}
         />
       ),
+      style: {
+        width: "100px"
+      },
       render: (value) => <Text>{capitalize(value as string)}</Text>
     },
 
@@ -111,8 +111,7 @@ export const useColumns = (
         />
       ),
       style: {
-        minWidth: "140px",
-        width: "140px"
+        width: "150px"
       },
       align: "center",
       format: formatDateForTable
@@ -129,8 +128,7 @@ export const useColumns = (
         />
       ),
       style: {
-        minWidth: "155px",
-        width: "155px"
+        width: "175px"
       },
       align: "center",
       format: formatDateForTable
@@ -147,7 +145,6 @@ export const useColumns = (
         />
       ),
       style: {
-        minWidth: "100px",
         width: "100px"
       },
       align: "center",

@@ -67,11 +67,7 @@ const EmployeesTable = () => {
                 <CellDragHandle disabled />
 
                 {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
+                  <TableCell key={column.id} align={column.align} style={column.style}>
                     {column.label}
                   </TableCell>
                 ))}

@@ -1,102 +1,8 @@
 import { Tabs } from "@mui/material";
 import React, { SyntheticEvent, useCallback, useLayoutEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { usePaths } from "~/app/providers/Paths";
 import { HeaderTab } from "~/shared/components/HeaderTab";
-import {
-  CompilationsPage,
-  EmployeesPage,
-  EventsPageRoute,
-  HomePageRoute,
-  NewsPageRoute,
-  PurchasesPage,
-  UsersPageRoute,
-  VacanciesPage,
-  PagesRoute,
-  InteractiveMapFormRoute,
-  ContestPageRoute,
-  StaffControlPageRoute,
-  ProjectsPageRoute
-} from "~shared/routes";
-
-const tabs: HeaderTab[] = [
-  {
-    label: "Home",
-    path: HomePageRoute
-  },
-  {
-    label: "Entities",
-    children: [
-      {
-        label: "News",
-        path: NewsPageRoute
-      },
-      {
-        label: "Events",
-        path: EventsPageRoute
-      },
-      {
-        label: "Users",
-        path: UsersPageRoute
-      },
-      {
-        label: "Interactive map",
-        path: InteractiveMapFormRoute
-      },
-      {
-        label: "Contests",
-        path: ContestPageRoute
-      },
-      {
-        label: "Projects",
-        path: ProjectsPageRoute
-      }
-    ]
-  },
-  {
-    label: "About fund",
-    children: [
-      {
-        label: "Employees",
-        path: EmployeesPage
-      },
-      {
-        label: "Vacancies",
-        path: VacanciesPage
-      },
-      {
-        label: "Purchases",
-        path: PurchasesPage
-      },
-      {
-        label: "Staff control",
-        path: StaffControlPageRoute
-      }
-    ]
-  },
-  {
-    label: "Compilations",
-    path: CompilationsPage
-  },
-  {
-    label: "Pages",
-    path: PagesRoute
-  }
-];
-
-const pathsResolve = tabs.reduce((res, tab, i) => {
-  if (tab.path) {
-    res[tab.path] = i;
-  }
-
-  tab.children?.forEach((child) => {
-    if (!child.path) {
-      return;
-    }
-    res[child.path] = i;
-  });
-
-  return res;
-}, Object.create(null));
 
 export const HeaderTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -107,17 +13,34 @@ export const HeaderTabs: React.FC = () => {
 
   const location = useLocation();
 
+  const paths = usePaths();
+
+  const pathsResolve = paths.reduce((res, tab, i) => {
+    if (tab.path) {
+      res[tab.path] = i;
+    }
+
+    tab.children?.forEach((child) => {
+      if (!child.path) {
+        return;
+      }
+      res[child.path] = i;
+    });
+
+    return res;
+  }, Object.create(null));
+
   const handleTabChange = useCallback(
     (_: SyntheticEvent<Element, Event> | null, value: number) => {
       setActiveTab(value);
 
-      if (!tabs[value].path) {
+      if (!paths[value].path) {
         return;
       }
 
-      history(tabs[value].path ?? "");
+      history(paths[value].path ?? "");
     },
-    [history, setActiveTab]
+    [history, setActiveTab, paths]
   );
 
   const handleSelectTab = useCallback(
@@ -133,7 +56,7 @@ export const HeaderTabs: React.FC = () => {
 
     setActiveTab(initialValue);
     setActivePath(path);
-  }, [location.pathname, setActiveTab]);
+  }, [location.pathname, setActiveTab, paths, pathsResolve]);
 
   return (
     <Tabs
@@ -143,7 +66,7 @@ export const HeaderTabs: React.FC = () => {
       value={activeTab}
       onChange={handleTabChange}
     >
-      {tabs.map((tab, i) => (
+      {paths.map((tab, i) => (
         <HeaderTab
           key={tab.label}
           activePath={activePath}
