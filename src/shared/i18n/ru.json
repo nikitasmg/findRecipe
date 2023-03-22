@@ -222,5 +222,9 @@
   "Reports creating": "Создание отчета",
   "Indicator title": "Заголовок показателя",
   "Indicator statistics": "Статистика показателя",
-  "Short description": "Краткое описание"
+  "Short description": "Краткое описание",
+  "files": "файлов",
+  "Document groups": "Группы документов",
+  "Document manager": "Менеджер документов",
+  "Upload document": "Загрузить документ"
 }
