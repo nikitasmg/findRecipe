@@ -5,7 +5,8 @@ import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
   useActivityResultByIdQuery,
-  useUpdateActivityResultMutation
+  useUpdateActivityResultMutation,
+  useCreateActivityResultMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
@@ -17,7 +18,6 @@ import { baseRequired } from "~/shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
-import { useCreateActivityResultMutation } from "../../generated/graphql";
 
 interface Props {
   id?: number;

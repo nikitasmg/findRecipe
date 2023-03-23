@@ -7,12 +7,12 @@ import { LinkedDocument, LinkedDocumentInput } from "~/generated/graphql";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
+import { getFileName } from "~/shared/lib/getFileName";
 import { Button } from "../Button";
 import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
 import { FileInput } from "../FileInput";
-import { getFileName } from "../../lib/getFileName";
 
 type Props = {
   open: boolean;
