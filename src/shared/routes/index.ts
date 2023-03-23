@@ -92,6 +92,8 @@ export const PagesEditProjects = "/pages/edit/projects";
 
 export const InteractiveMapFormRoute = "/interactive-map";
 
+export const InteractiveMapPageEdit = "/interactive-map/edit/:id";
+
 export const PurchasesPage = "/purchases";
 
 export const PurchasesPageEdit = `${PurchasesPage}/edit/:id`;

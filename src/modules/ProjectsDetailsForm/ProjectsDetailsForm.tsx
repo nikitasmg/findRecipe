@@ -58,7 +58,6 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
   } = useForm({ mode: "all" });
 
   const onSubmit = handleSubmit(async (newValues) => {
-    console.log("newValues", newValues);
     const input: ProjectInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,

@@ -240,5 +240,12 @@
   "No": "Нет",
   "No options": "Не найдено",
   "Blocks": "Блоки",
-  "Document category": "Категория документа"
+  "Document category": "Категория документа",
+  "Characteristics": "Xарактеристики",
+  "Area": "Площадь",
+  "Floors": "Этажи",
+  "Map object editing": "Редактировать объект на карте",
+  "News description": "Описание новости",
+  "Object name": "Название объекта",
+  "Learn more": "Узнать больше"
 }
