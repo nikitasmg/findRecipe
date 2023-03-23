@@ -1,5 +1,5 @@
 import React from "react";
-import { EditControlPageForm } from "~/modules/EditControlPageForm";
+import { EditControlPageForm } from "~/layouts/EditControlPageForm";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";

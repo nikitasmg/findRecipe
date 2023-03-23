@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { usePageBySlugQuery, useUpdatePageMutation } from "~/generated/graphql";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { PagesRoute } from "~/shared/routes";
+import { LinkedDocumentForm } from "../LinkedDocumentForm";
 import { BlocksForm } from "./components/BlocksForm";
-import { DocumentsForm } from "./components/DocumentsForm";
 import { GeneralPageForm } from "./components/GeneralPageForm";
 import { SeoForm } from "./components/SeoForm";
 
 type Props = {
   slug: string;
+  isDocumentsExist?: boolean;
+  render?: (form: Partial<UseFormReturn>) => JSX.Element;
 };
 
-export const PagesForm: React.FC<Props> = ({ slug }) => {
+export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) => {
   const [step, setStep] = useState(0);
 
   const {
@@ -23,6 +25,7 @@ export const PagesForm: React.FC<Props> = ({ slug }) => {
     setValue,
     control,
     register,
+    getValues,
     formState: { errors }
   } = useForm();
 
@@ -41,7 +44,12 @@ export const PagesForm: React.FC<Props> = ({ slug }) => {
   const onSubmit = handleSubmit((newValues) => {
     const input = {
       id: values?.id,
-      ...newValues
+      name: newValues.name,
+      description: newValues.description,
+      params: JSON.stringify(newValues.params),
+      parent_id: newValues.parent_id,
+      uploadImage: newValues.uploadImage,
+      ...(Boolean(newValues.deleteImage) && { deleteImage: true })
     };
 
     updatePage({ input });
@@ -55,7 +63,50 @@ export const PagesForm: React.FC<Props> = ({ slug }) => {
       "children",
       values?.children?.map((child) => child?.id)
     );
+
+    if (values?.params) {
+      setValue("params", JSON.parse(values?.params));
+    }
   }, [values, setValue]);
+
+  const getForms = () => {
+    const forms = [
+      {
+        tabTitle: "General data",
+        component: (
+          <GeneralPageForm
+            setValue={setValue}
+            errors={errors}
+            register={register}
+            control={control}
+          />
+        )
+      }
+    ];
+
+    if (render) {
+      forms.push({
+        tabTitle: "Blocks",
+        component: <BlocksForm setValue={setValue} control={control} render={render} />
+      });
+    }
+
+    if (isDocumentsExist) {
+      forms.push({
+        tabTitle: "Documents",
+        component: (
+          <LinkedDocumentForm getValues={getValues} setValue={setValue} control={control} />
+        )
+      });
+    }
+
+    forms.push({
+      tabTitle: "SEO",
+      component: <SeoForm errors={errors} register={register} control={control} />
+    });
+
+    return forms;
+  };
 
   return (
     <TabsForm
@@ -64,24 +115,7 @@ export const PagesForm: React.FC<Props> = ({ slug }) => {
       backHref={PagesRoute}
       activeStep={step}
       isLoading={isLoading}
-      forms={[
-        {
-          tabTitle: "General data",
-          component: <GeneralPageForm errors={errors} register={register} control={control} />
-        },
-        {
-          tabTitle: "Blocks",
-          component: <BlocksForm setValue={setValue} control={control} />
-        },
-        {
-          tabTitle: "Documents",
-          component: <DocumentsForm setValue={setValue} control={control} />
-        },
-        {
-          tabTitle: "SEO",
-          component: <SeoForm errors={errors} register={register} control={control} />
-        }
-      ]}
+      forms={getForms()}
     />
   );
 };

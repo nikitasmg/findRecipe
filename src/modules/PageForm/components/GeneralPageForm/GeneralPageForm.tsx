@@ -4,6 +4,7 @@ import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-fo
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
 import { ContentEditor } from "~/shared/components/ContentEditor";
+import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 
@@ -16,10 +17,11 @@ export type GeneralFormFields = {
 type Props = {
   register: UseFormRegister<Partial<GeneralFormFields>>;
   errors: FieldErrors<GeneralFormFields>;
+  setValue: (name: string, value: unknown) => void;
   control?: Control<GeneralFormFields, unknown>;
 };
 
-export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
+export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue }) => {
   const client = useGraphqlClient();
 
   const { data: { settingByName } = {} } = useSettingByNameQuery(
@@ -45,7 +47,7 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
-      <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>
+      <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
         <Controller
           control={control}
           name='name'
@@ -78,6 +80,28 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
             )}
           />
         )}
+      </Box>
+
+      <Box className='grow-[1] flex justify-center lg:w-[30%] order-first lg:order-last'>
+        <Controller
+          control={control}
+          name='imageUrl'
+          render={({ field: { value } }) => (
+            <ImageInput
+              id='general'
+              url={value}
+              {...register("imageUrl")}
+              onChange={(file) => {
+                setValue("uploadImage", file);
+              }}
+              onDelete={() => {
+                setValue("uploadImage", null);
+                setValue("deleteImage", true);
+                setValue("imageUrl", null);
+              }}
+            />
+          )}
+        />
       </Box>
     </Box>
   );

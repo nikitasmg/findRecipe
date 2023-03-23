@@ -20,6 +20,7 @@ export const PagesFragment = gql`
       auto_title
       auto_description
     }
+    params
     children {
       id
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { EditCommonPageForm } from "~/modules/EditCommonPageForm";
+import { EditCommonPageForm } from "~/layouts/EditCommonPageForm";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";

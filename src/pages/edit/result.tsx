@@ -1,5 +1,5 @@
 import React from "react";
-import { EditResultPageForm } from "~/modules/EditResultPageForm";
+import { EditResultPageForm } from "~/layouts/EditResultPageForm";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";

@@ -1,36 +1,22 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { Control, Controller } from "react-hook-form";
-import { Document } from "~/generated/graphql";
-import { DocumentsUpload } from "~/shared/components/DocumentsUpload";
+import { Control } from "react-hook-form";
 
-type FormFields = {
-  documents?: Document[];
+type Params = Record<string, unknown>;
+
+type FormFields<T = Params> = {
+  params?: T;
 };
 
-type Props = {
+type FormProps<T = Params> = {
   setValue: (name: string, value: unknown) => void;
-  control?: Control<FormFields, unknown>;
+  control?: Control<FormFields<T>, unknown>;
 };
 
-export const BlocksForm: React.FC<Props> = ({ setValue, control }) => {
-  return (
-    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
-      <Controller
-        control={control}
-        name='documents'
-        render={({ field: { value } }) => (
-          <DocumentsUpload
-            value={value?.map((document) => ({
-              title: document.user_name ?? "",
-              url: document.user_name ?? ""
-            }))}
-            onChange={(documents) => {
-              setValue("uploadDocuments", documents);
-            }}
-          />
-        )}
-      />
-    </Box>
-  );
+type Props<T = Params> = FormProps<T> & {
+  render: (form: FormProps<T>) => JSX.Element;
+};
+
+export const BlocksForm: React.FC<Props> = ({ render, ...props }) => {
+  return <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>{render(props)}</Box>;
 };

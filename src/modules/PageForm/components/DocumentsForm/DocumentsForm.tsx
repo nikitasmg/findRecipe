@@ -15,7 +15,7 @@ type Props = {
 
 export const DocumentsForm: React.FC<Props> = ({ setValue, control }) => {
   return (
-    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>
       <Controller
         control={control}
         name='documents'
