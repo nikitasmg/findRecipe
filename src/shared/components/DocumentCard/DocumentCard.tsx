@@ -22,6 +22,8 @@ enum FormatBackground {
   "bmp" = "bg-orange-400",
   "webp" = "bg-orange-400",
   "gif" = "bg-orange-400",
+  "ppt" = "bg-red-500",
+  "pptx" = "bg-red-500",
   "default" = "bg-zinc-400"
 }
 
