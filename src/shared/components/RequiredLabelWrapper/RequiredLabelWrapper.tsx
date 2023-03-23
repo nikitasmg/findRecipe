@@ -5,7 +5,7 @@ export const RequiredLabelWrapper: React.FC<PropsWithChildren> = ({ children }) 
   return (
     <Box className='flex'>
       {children}
-      <Typography className='!text-red-500 text-2xl'>&nbsp;*</Typography>
+      <Typography className='!text-mainError text-2xl'>&nbsp;*</Typography>
     </Box>
   );
 };

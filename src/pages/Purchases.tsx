@@ -18,12 +18,12 @@ export const Purchases: React.FC = () => {
         <Text className='px-4' component='p'>
           Purchases
         </Text>
-        <Text className='text-gray-600' component='span'>
+        <Text className='text-secondaryText' component='span'>
           count purchases
         </Text>
         &nbsp;
         {isLoading && <CircularProgress size={16} />}
-        {!isLoading && <Text className='text-gray-600'>{`${count}`}</Text>}
+        {!isLoading && <Text className='text-secondaryText'>{`${count}`}</Text>}
       </PageTitle>
       <PurchasesTable />
     </PageWrapper>

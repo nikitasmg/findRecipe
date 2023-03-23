@@ -1,5 +1,5 @@
 import { Box, Drawer, FormControl, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Controller, useForm } from "react-hook-form";
@@ -12,17 +12,25 @@ import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
 import { FileInput } from "../FileInput";
+import { getFileName } from "../../lib/getFileName";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  create?: (document: Omit<LinkedDocumentInput, "id">) => Promise<void>;
-  update?: (document: LinkedDocumentInput) => Promise<void>;
+  create?: (document: Omit<LinkedDocumentInput, "id">) => void;
+  update?: (document: LinkedDocumentInput) => void;
   onRemove?: (id: LinkedDocumentInput["id"]) => void;
   document?: LinkedDocument | null;
 };
 
-export const DocumentDetailsDialog: React.FC<Props> = ({ open, onClose, document, onRemove }) => {
+export const DocumentDetailsDialog: React.FC<Props> = ({
+  open,
+  onClose,
+  document,
+  onRemove,
+  create,
+  update
+}) => {
   const {
     register,
     control,
@@ -34,8 +42,21 @@ export const DocumentDetailsDialog: React.FC<Props> = ({ open, onClose, document
 
   const getError = getErrorMessage(errors);
 
+  const isCreate = !document?.id;
+
   const onSubmit = handleSubmit((newValues) => {
-    console.log(newValues);
+    const input = {
+      ...(Boolean(isCreate) && { id: document?.id }),
+      ...(Boolean(newValues.file) && { upload: newValues.file }),
+      user_name: `${newValues.title}.${newValues.format}`
+    };
+
+    if (isCreate) {
+      create?.(input);
+      return;
+    }
+
+    update?.(input);
   });
 
   const handleDelete = () => {
@@ -45,6 +66,12 @@ export const DocumentDetailsDialog: React.FC<Props> = ({ open, onClose, document
 
     onClose();
   };
+
+  useEffect(() => {
+    setValue("title", getFileName(document?.user_name ?? ""));
+    setValue("url", document?.url);
+    setValue("format", getFileFormat(document?.user_name ?? ""));
+  }, [document, setValue]);
 
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>
@@ -96,6 +123,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({ open, onClose, document
                 setValue("url", "");
                 setValue("file", null);
                 setValue("title", "");
+                setValue("format", "");
               }}
             />
           )}

@@ -15,12 +15,12 @@ export const PageTableTitle: React.FC<Props> = ({ title, countTitle, count, isLo
     <PageTitle>
       <Text component='p'>{title}</Text>
       <Box component='p' className='flex items-end'>
-        <Text className='text-gray-600' component='span'>
+        <Text className='text-secondaryText' component='span'>
           {countTitle}
         </Text>
         &nbsp;
         {isLoading && <CircularProgress size={16} />}
-        {!isLoading && <Text className='text-gray-600' component='span'>{`${count}`}</Text>}
+        {!isLoading && <Text className='text-secondaryText' component='span'>{`${count}`}</Text>}
       </Box>
     </PageTitle>
   );

@@ -67,7 +67,7 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control }) => {
             name='description'
             render={({ field: { value } }) => (
               <FormControl fullWidth>
-                <InputLabel className='bg-white pl-2 pr-5' sx={{ marginLeft: -0.5 }}>
+                <InputLabel className='pl-2 pr-5' sx={{ marginLeft: -0.5 }}>
                   <Text>Description</Text>
                 </InputLabel>
                 <ContentEditor
