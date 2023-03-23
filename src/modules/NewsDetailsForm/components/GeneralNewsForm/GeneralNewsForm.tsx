@@ -105,11 +105,6 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
             name='content'
             render={({ field: { value } }) => (
               <FormControl error={!!getError("content")} fullWidth>
-                <InputLabel error={!!getError("content")} className='relative'>
-                  <RequiredLabelWrapper>
-                    <Text>News description</Text>
-                  </RequiredLabelWrapper>
-                </InputLabel>
                 <ContentEditor
                   error={!!getError("content")}
                   apiKey={contentEditorKey}

@@ -1,0 +1,5 @@
+.editor_error {
+  & :global(.tox) {
+    @apply border-red-600 text-red-600;
+  }
+}

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Box, Skeleton } from "@mui/material";
+import clsx from "clsx";
 import { createEvent } from "./lib/createEvent";
 import { getNativeFileUrl } from "./lib/getNativeFileUrl";
+import styles from "./ContentEditor.module.scss";
 
 type Props = {
   value: string;
@@ -14,7 +16,7 @@ type Props = {
 };
 
 export const ContentEditor: React.FC<Props> = React.memo(
-  ({ value: initialValue, name, apiKey, onChange, getUploadedUrl }) => {
+  ({ value: initialValue, name, apiKey, onChange, getUploadedUrl, error }) => {
     const [localValue, setValue] = useState("");
 
     const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +26,11 @@ export const ContentEditor: React.FC<Props> = React.memo(
     }, [onChange, localValue, name]);
 
     return (
-      <Box className='relative min-h-[600px]'>
+      <Box
+        className={clsx("relative min-h-[600px]", {
+          [styles.editor_error]: error
+        })}
+      >
         {(!apiKey || isLoading) && (
           <Skeleton
             className='absolute top-0 left-0 h-full w-full z-999'
