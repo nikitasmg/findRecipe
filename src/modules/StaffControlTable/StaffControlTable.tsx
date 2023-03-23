@@ -9,6 +9,7 @@ import {
   TableRow
 } from "@mui/material";
 import React, { MouseEventHandler, useEffect, useState } from "react";
+import { compose, equals, not } from "rambda";
 import {
   StaffControl,
   useStaffControlsQuery,
@@ -22,6 +23,7 @@ import { getEventValueHandler } from "~/shared/lib/events";
 import { resortArray } from "~/shared/lib/resortArray";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { useModal } from "~/shared/hooks/useModal";
+import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 import { DetailsForm } from "./components/DetailsForm";
@@ -31,9 +33,9 @@ type Props = {
 };
 
 export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
-  const [rows, setRows] = useState<StaffControl[]>([]);
+  const [rows, setRows] = useState<Partial<StaffControl>[]>([]);
 
-  const [activeRow, setActiveRow] = useState<StaffControl | null>();
+  const [activeRow, setActiveRow] = useState<Partial<StaffControl> | null>();
 
   const { open, handleClose, handleOpen } = useModal();
 
@@ -47,7 +49,11 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
     handleFilterChange,
     resetFilters,
     resetTitle
-  } = useRequestState("name");
+  } = useRequestState("name", {
+    filterFormats: {
+      created_atLike: formatDayJsForFilters
+    }
+  });
 
   const client = useGraphqlClient();
 
@@ -78,9 +84,8 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
 
     if (rows[oldIndex]?.id) {
       input.id = rows[oldIndex]?.id;
+      update({ input });
     }
-
-    update({ input });
 
     setRows((rows) => resortArray(oldIndex, newIndex, rows));
   };
@@ -90,11 +95,23 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
     handleOpen();
   };
 
+  const handleDelete = (item?: Partial<StaffControl> | null) => {
+    if (!item) {
+      return;
+    }
+
+    setRows((rows) => rows.filter(compose(not, equals(item))));
+  };
+
   useEffect(() => {
     if (!params?.page_id) {
       handleFilterChange("page_id", pageId);
     }
   }, [params, pageId, handleFilterChange]);
+
+  useEffect(() => {
+    setRows(staffControls ?? []);
+  }, [staffControls]);
 
   return (
     <Box className='flex flex-col gap-6'>
@@ -129,7 +146,7 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
 
           {!isLoading && (
             <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
-              {staffControls?.map((row: Partial<StaffControl>, i) => {
+              {rows?.map((row: Partial<StaffControl>, i) => {
                 return (
                   <Row index={i} key={row.id}>
                     <CellDragHandle />
@@ -161,6 +178,7 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
         open={!!open}
         handleCloseForm={handleCloseForm}
         pageId={pageId}
+        onDelete={handleDelete}
       />
     </Box>
   );

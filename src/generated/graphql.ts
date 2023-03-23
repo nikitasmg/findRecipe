@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -869,29 +869,44 @@ export type PartnerInput = {
 /** https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=0%3A1&t=nnLdQLBhEJ10FXQM-0 */
 export type Project = {
   __typename?: 'Project';
+  /** Аннотация проекта */
   annotation?: Maybe<Scalars['String']>;
   contest?: Maybe<Contest>;
+  /** Конкурс */
   contest_id?: Maybe<Scalars['Int']>;
   created_at: Scalars['DateTime'];
+  /** Срок выполнения */
   deadline?: Maybe<Scalars['String']>;
+  /** Код ГРНТИ */
   grnti_number?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  information?: Maybe<Scalars['String']>;
   knowledge_field?: Maybe<KnowledgeField>;
+  /** Область знаний */
   knowledge_field_id?: Maybe<Scalars['Int']>;
+  /** Руководитель */
   leader?: Maybe<Scalars['String']>;
+  /** Звание руководителя */
   leader_rank?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
+  /** Номер */
   number: Scalars['String'];
+  /** Организация финансирования, регион */
   organization?: Maybe<Scalars['String']>;
+  /** Планируемые результаты */
   plan_results?: Maybe<Scalars['String']>;
+  /** Список публикаций по результатам проекта */
   publications?: Maybe<Scalars['String']>;
+  /** Аннотация полученных итоговых результатов */
   result_annotation?: Maybe<Scalars['String']>;
+  /** Возможность практического использования результатов */
+  result_usage?: Maybe<Scalars['String']>;
   seo?: Maybe<Seo>;
   slug: Scalars['String'];
+  /** Статус */
   status_text?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
+  /** Год проекта */
   year?: Maybe<Scalars['Int']>;
 };
 
@@ -902,7 +917,6 @@ export type ProjectInput = {
   deadline?: InputMaybe<Scalars['String']>;
   grnti_number?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
-  information?: InputMaybe<Scalars['String']>;
   knowledge_field?: InputMaybe<KnowledgeFieldBelongsTo>;
   knowledge_field_id?: InputMaybe<Scalars['Int']>;
   leader?: InputMaybe<Scalars['String']>;
@@ -913,6 +927,7 @@ export type ProjectInput = {
   plan_results?: InputMaybe<Scalars['String']>;
   publications?: InputMaybe<Scalars['String']>;
   result_annotation?: InputMaybe<Scalars['String']>;
+  result_usage?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<SeoBelongsTo>;
   slug?: InputMaybe<Scalars['String']>;
   status_text?: InputMaybe<Scalars['String']>;
@@ -994,6 +1009,7 @@ export type Query = {
   purchases: Array<Purchase>;
   reportById?: Maybe<Report>;
   reports: Array<Report>;
+  search: SearchResult;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
@@ -1222,6 +1238,12 @@ export type QueryReportsArgs = {
 };
 
 
+export type QuerySearchArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  query: Scalars['String'];
+};
+
+
 export type QuerySettingByIdArgs = {
   id: Scalars['Int'];
 };
@@ -1333,6 +1355,19 @@ export type ReportInput = {
   name?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
+export type SearchResult = {
+  __typename?: 'SearchResult';
+  contests: Array<Maybe<Contest>>;
+  events: Array<Maybe<Event>>;
+  news: Array<Maybe<News>>;
+  organizers: Array<Maybe<Organizer>>;
+  partners: Array<Maybe<Partner>>;
+  projects: Array<Maybe<Project>>;
+  purchases: Array<Maybe<Purchase>>;
+  reports: Array<Maybe<Report>>;
+  vacancies: Array<Maybe<Vacancy>>;
 };
 
 export type Seo = {
@@ -1526,6 +1561,44 @@ export type VacancyInput = {
   sort?: InputMaybe<Scalars['Int']>;
 };
 
+export type AllActivityResultsFieldsFragment = { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any };
+
+export type ActivityResultByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ActivityResultByIdQuery = { __typename?: 'Query', activityResultById?: { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any } | null };
+
+export type ActivityResultsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type ActivityResultsQuery = { __typename?: 'Query', activityResults: Array<{ __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any }> };
+
+export type CreateActivityResultMutationVariables = Exact<{
+  input: ActivityResultInput;
+}>;
+
+
+export type CreateActivityResultMutation = { __typename?: 'Mutation', createActivityResult?: { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any } | null };
+
+export type UpdateActivityResultMutationVariables = Exact<{
+  input: ActivityResultInput;
+}>;
+
+
+export type UpdateActivityResultMutation = { __typename?: 'Mutation', upsertActivityResult?: { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any } | null };
+
+export type DeleteActivityResultMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteActivityResultMutation = { __typename?: 'Mutation', deleteActivityResult?: { __typename?: 'ActivityResult', id: number } | null };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -1579,6 +1652,44 @@ export type DeleteContestMutationVariables = Exact<{
 
 
 export type DeleteContestMutation = { __typename?: 'Mutation', deleteContest?: { __typename?: 'Contest', id: number } | null };
+
+export type AllDocumentGroupsFieldsFragment = { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string } | null> | null };
+
+export type DocumentGroupByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DocumentGroupByIdQuery = { __typename?: 'Query', documentGroupById?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string } | null> | null } | null };
+
+export type DocumentGroupsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type DocumentGroupsQuery = { __typename?: 'Query', documentGroups: Array<{ __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string } | null> | null }> };
+
+export type CreateDocumentGroupMutationVariables = Exact<{
+  input: DocumentGroupInput;
+}>;
+
+
+export type CreateDocumentGroupMutation = { __typename?: 'Mutation', createDocumentGroup?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string } | null> | null } | null };
+
+export type UpdateDocumentGroupMutationVariables = Exact<{
+  input: DocumentGroupInput;
+}>;
+
+
+export type UpdateDocumentGroupMutation = { __typename?: 'Mutation', upsertDocumentGroup?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string } | null> | null } | null };
+
+export type DeleteDocumentGroupMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteDocumentGroupMutation = { __typename?: 'Mutation', deleteDocumentGroup?: { __typename?: 'DocumentGroup', id: number } | null };
 
 export type AllEmployeeFieldsFragment = { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
 
@@ -1713,6 +1824,44 @@ export type DeleteKnowledgeFieldMutationVariables = Exact<{
 
 
 export type DeleteKnowledgeFieldMutation = { __typename?: 'Mutation', deleteKnowledgeField?: { __typename?: 'KnowledgeField', sort: number, name: string } | null };
+
+export type AllLinkedDocumentFieldsFragment = { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null };
+
+export type LinkedDocumentByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type LinkedDocumentByIdQuery = { __typename?: 'Query', linkedDocumentById?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null };
+
+export type LinkedDocumentsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type LinkedDocumentsQuery = { __typename?: 'Query', linkedDocuments: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null }> };
+
+export type CreateLinkedDocumentMutationVariables = Exact<{
+  input: LinkedDocumentInput;
+}>;
+
+
+export type CreateLinkedDocumentMutation = { __typename?: 'Mutation', createLinkedDocument?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null };
+
+export type UpdateLinkedDocumentMutationVariables = Exact<{
+  input: LinkedDocumentInput;
+}>;
+
+
+export type UpdateLinkedDocumentMutation = { __typename?: 'Mutation', upsertLinkedDocument?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null };
+
+export type DeleteLinkedDocumentMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteLinkedDocumentMutation = { __typename?: 'Mutation', deleteLinkedDocument?: { __typename?: 'LinkedDocument', id: number } | null };
 
 export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null };
 
@@ -1971,14 +2120,14 @@ export type DeletePartnerMutationVariables = Exact<{
 
 export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id: number } | null };
 
-export type AllProjectsFieldsFragment = { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
+export type AllProjectsFieldsFragment = { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
 
 export type ProjectByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ProjectByIdQuery = { __typename?: 'Query', projectById?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type ProjectByIdQuery = { __typename?: 'Query', projectById?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type ProjectsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<QueryProjectsOrderByRelationOrderByClause> | QueryProjectsOrderByRelationOrderByClause>;
@@ -1988,21 +2137,21 @@ export type ProjectsQueryVariables = Exact<{
 }>;
 
 
-export type ProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
+export type ProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
 
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type UpdateProjectMutationVariables = Exact<{
   input: ProjectInput;
 }>;
 
 
-export type UpdateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, information?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, year?: number | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type UpdateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, slug: string, leader?: string | null, leader_rank?: string | null, organization?: string | null, annotation?: string | null, plan_results?: string | null, publications?: string | null, result_annotation?: string | null, result_usage?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
 
 export type DeleteProjectMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2056,6 +2205,44 @@ export type DeletePurchaseMutationVariables = Exact<{
 
 
 export type DeletePurchaseMutation = { __typename?: 'Mutation', deletePurchase?: { __typename?: 'Purchase', id: number } | null };
+
+export type AllReportsFieldsFragment = { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null };
+
+export type ReportByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ReportByIdQuery = { __typename?: 'Query', reportById?: { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type ReportsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type ReportsQuery = { __typename?: 'Query', reports: Array<{ __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null }> };
+
+export type CreateReportMutationVariables = Exact<{
+  input: ReportInput;
+}>;
+
+
+export type CreateReportMutation = { __typename?: 'Mutation', createReport?: { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type UpdateReportMutationVariables = Exact<{
+  input: ReportInput;
+}>;
+
+
+export type UpdateReportMutation = { __typename?: 'Mutation', upsertReport?: { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type DeleteReportMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteReportMutation = { __typename?: 'Mutation', deleteReport?: { __typename?: 'Report', id: number } | null };
 
 export type AllSettingsFieldsFragment = { __typename?: 'Setting', id: number, name: string, value?: string | null };
 
@@ -2280,6 +2467,16 @@ export type DeleteVacancyMutationVariables = Exact<{
 
 export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: number } | null };
 
+export const AllActivityResultsFieldsFragmentDoc = `
+    fragment allActivityResultsFields on ActivityResult {
+  id
+  name
+  result
+  measure_unit
+  sort
+  created_at
+}
+    `;
 export const AllContestFieldsFragmentDoc = `
     fragment allContestFields on Contest {
   id
@@ -2294,6 +2491,19 @@ export const AllContestFieldsFragmentDoc = `
     url
     user_name
     sort
+  }
+}
+    `;
+export const AllDocumentGroupsFieldsFragmentDoc = `
+    fragment allDocumentGroupsFields on DocumentGroup {
+  id
+  name
+  sort
+  linked_documents {
+    id
+    sort
+    user_name
+    url
   }
 }
     `;
@@ -2371,6 +2581,14 @@ export const AllKnowledgeAreasFieldsFragmentDoc = `
     fragment allKnowledgeAreasFields on KnowledgeField {
   id
   name
+  sort
+}
+    `;
+export const AllLinkedDocumentFieldsFragmentDoc = `
+    fragment allLinkedDocumentFields on LinkedDocument {
+  id
+  url
+  user_name
   sort
 }
     `;
@@ -2505,12 +2723,15 @@ export const AllProjectsFieldsFragmentDoc = `
   leader
   leader_rank
   organization
-  information
   annotation
   plan_results
   publications
   result_annotation
+  result_usage
   year
+  grnti_number
+  status_text
+  deadline
   meta {
     title
     description
@@ -2536,6 +2757,22 @@ export const AllPurchasesFieldsFragmentDoc = `
   published
   created_at
   updated_at
+}
+    `;
+export const AllReportsFieldsFragmentDoc = `
+    fragment allReportsFields on Report {
+  id
+  name
+  description
+  sort
+  imageUrl
+  linked_documents {
+    id
+    url
+    user_name
+    sort
+  }
+  created_at
 }
     `;
 export const AllSettingsFieldsFragmentDoc = `
@@ -2579,6 +2816,108 @@ export const AllVacanciesFieldsFragmentDoc = `
   published
 }
     `;
+export const ActivityResultByIdDocument = `
+    query activityResultById($id: Int!) {
+  activityResultById(id: $id) {
+    ...allActivityResultsFields
+  }
+}
+    ${AllActivityResultsFieldsFragmentDoc}`;
+export const useActivityResultByIdQuery = <
+      TData = ActivityResultByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: ActivityResultByIdQueryVariables,
+      options?: UseQueryOptions<ActivityResultByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ActivityResultByIdQuery, TError, TData>(
+      ['activityResultById', variables],
+      fetcher<ActivityResultByIdQuery, ActivityResultByIdQueryVariables>(client, ActivityResultByIdDocument, variables, headers),
+      options
+    );
+export const ActivityResultsDocument = `
+    query activityResults($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  activityResults(orderBy: $orderBy, filter: $filter) {
+    ...allActivityResultsFields
+  }
+}
+    ${AllActivityResultsFieldsFragmentDoc}`;
+export const useActivityResultsQuery = <
+      TData = ActivityResultsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ActivityResultsQueryVariables,
+      options?: UseQueryOptions<ActivityResultsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ActivityResultsQuery, TError, TData>(
+      variables === undefined ? ['activityResults'] : ['activityResults', variables],
+      fetcher<ActivityResultsQuery, ActivityResultsQueryVariables>(client, ActivityResultsDocument, variables, headers),
+      options
+    );
+export const CreateActivityResultDocument = `
+    mutation createActivityResult($input: ActivityResultInput!) {
+  createActivityResult: upsertActivityResult(input: $input) {
+    ...allActivityResultsFields
+  }
+}
+    ${AllActivityResultsFieldsFragmentDoc}`;
+export const useCreateActivityResultMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateActivityResultMutation, TError, CreateActivityResultMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateActivityResultMutation, TError, CreateActivityResultMutationVariables, TContext>(
+      ['createActivityResult'],
+      (variables?: CreateActivityResultMutationVariables) => fetcher<CreateActivityResultMutation, CreateActivityResultMutationVariables>(client, CreateActivityResultDocument, variables, headers)(),
+      options
+    );
+export const UpdateActivityResultDocument = `
+    mutation updateActivityResult($input: ActivityResultInput!) {
+  upsertActivityResult(input: $input) {
+    ...allActivityResultsFields
+  }
+}
+    ${AllActivityResultsFieldsFragmentDoc}`;
+export const useUpdateActivityResultMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateActivityResultMutation, TError, UpdateActivityResultMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateActivityResultMutation, TError, UpdateActivityResultMutationVariables, TContext>(
+      ['updateActivityResult'],
+      (variables?: UpdateActivityResultMutationVariables) => fetcher<UpdateActivityResultMutation, UpdateActivityResultMutationVariables>(client, UpdateActivityResultDocument, variables, headers)(),
+      options
+    );
+export const DeleteActivityResultDocument = `
+    mutation deleteActivityResult($id: Int!) {
+  deleteActivityResult(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteActivityResultMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteActivityResultMutation, TError, DeleteActivityResultMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteActivityResultMutation, TError, DeleteActivityResultMutationVariables, TContext>(
+      ['deleteActivityResult'],
+      (variables?: DeleteActivityResultMutationVariables) => fetcher<DeleteActivityResultMutation, DeleteActivityResultMutationVariables>(client, DeleteActivityResultDocument, variables, headers)(),
+      options
+    );
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password)
@@ -2730,6 +3069,108 @@ export const useDeleteContestMutation = <
     useMutation<DeleteContestMutation, TError, DeleteContestMutationVariables, TContext>(
       ['deleteContest'],
       (variables?: DeleteContestMutationVariables) => fetcher<DeleteContestMutation, DeleteContestMutationVariables>(client, DeleteContestDocument, variables, headers)(),
+      options
+    );
+export const DocumentGroupByIdDocument = `
+    query documentGroupById($id: Int!) {
+  documentGroupById(id: $id) {
+    ...allDocumentGroupsFields
+  }
+}
+    ${AllDocumentGroupsFieldsFragmentDoc}`;
+export const useDocumentGroupByIdQuery = <
+      TData = DocumentGroupByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: DocumentGroupByIdQueryVariables,
+      options?: UseQueryOptions<DocumentGroupByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<DocumentGroupByIdQuery, TError, TData>(
+      ['documentGroupById', variables],
+      fetcher<DocumentGroupByIdQuery, DocumentGroupByIdQueryVariables>(client, DocumentGroupByIdDocument, variables, headers),
+      options
+    );
+export const DocumentGroupsDocument = `
+    query documentGroups($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  documentGroups(orderBy: $orderBy, filter: $filter) {
+    ...allDocumentGroupsFields
+  }
+}
+    ${AllDocumentGroupsFieldsFragmentDoc}`;
+export const useDocumentGroupsQuery = <
+      TData = DocumentGroupsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: DocumentGroupsQueryVariables,
+      options?: UseQueryOptions<DocumentGroupsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<DocumentGroupsQuery, TError, TData>(
+      variables === undefined ? ['documentGroups'] : ['documentGroups', variables],
+      fetcher<DocumentGroupsQuery, DocumentGroupsQueryVariables>(client, DocumentGroupsDocument, variables, headers),
+      options
+    );
+export const CreateDocumentGroupDocument = `
+    mutation createDocumentGroup($input: DocumentGroupInput!) {
+  createDocumentGroup: upsertDocumentGroup(input: $input) {
+    ...allDocumentGroupsFields
+  }
+}
+    ${AllDocumentGroupsFieldsFragmentDoc}`;
+export const useCreateDocumentGroupMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateDocumentGroupMutation, TError, CreateDocumentGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateDocumentGroupMutation, TError, CreateDocumentGroupMutationVariables, TContext>(
+      ['createDocumentGroup'],
+      (variables?: CreateDocumentGroupMutationVariables) => fetcher<CreateDocumentGroupMutation, CreateDocumentGroupMutationVariables>(client, CreateDocumentGroupDocument, variables, headers)(),
+      options
+    );
+export const UpdateDocumentGroupDocument = `
+    mutation updateDocumentGroup($input: DocumentGroupInput!) {
+  upsertDocumentGroup(input: $input) {
+    ...allDocumentGroupsFields
+  }
+}
+    ${AllDocumentGroupsFieldsFragmentDoc}`;
+export const useUpdateDocumentGroupMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateDocumentGroupMutation, TError, UpdateDocumentGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateDocumentGroupMutation, TError, UpdateDocumentGroupMutationVariables, TContext>(
+      ['updateDocumentGroup'],
+      (variables?: UpdateDocumentGroupMutationVariables) => fetcher<UpdateDocumentGroupMutation, UpdateDocumentGroupMutationVariables>(client, UpdateDocumentGroupDocument, variables, headers)(),
+      options
+    );
+export const DeleteDocumentGroupDocument = `
+    mutation deleteDocumentGroup($id: Int!) {
+  deleteDocumentGroup(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteDocumentGroupMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteDocumentGroupMutation, TError, DeleteDocumentGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteDocumentGroupMutation, TError, DeleteDocumentGroupMutationVariables, TContext>(
+      ['deleteDocumentGroup'],
+      (variables?: DeleteDocumentGroupMutationVariables) => fetcher<DeleteDocumentGroupMutation, DeleteDocumentGroupMutationVariables>(client, DeleteDocumentGroupDocument, variables, headers)(),
       options
     );
 export const EmployeeByIdDocument = `
@@ -3084,6 +3525,108 @@ export const useDeleteKnowledgeFieldMutation = <
     useMutation<DeleteKnowledgeFieldMutation, TError, DeleteKnowledgeFieldMutationVariables, TContext>(
       ['deleteKnowledgeField'],
       (variables?: DeleteKnowledgeFieldMutationVariables) => fetcher<DeleteKnowledgeFieldMutation, DeleteKnowledgeFieldMutationVariables>(client, DeleteKnowledgeFieldDocument, variables, headers)(),
+      options
+    );
+export const LinkedDocumentByIdDocument = `
+    query linkedDocumentById($id: Int!) {
+  linkedDocumentById(id: $id) {
+    ...allLinkedDocumentFields
+  }
+}
+    ${AllLinkedDocumentFieldsFragmentDoc}`;
+export const useLinkedDocumentByIdQuery = <
+      TData = LinkedDocumentByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: LinkedDocumentByIdQueryVariables,
+      options?: UseQueryOptions<LinkedDocumentByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<LinkedDocumentByIdQuery, TError, TData>(
+      ['linkedDocumentById', variables],
+      fetcher<LinkedDocumentByIdQuery, LinkedDocumentByIdQueryVariables>(client, LinkedDocumentByIdDocument, variables, headers),
+      options
+    );
+export const LinkedDocumentsDocument = `
+    query linkedDocuments($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  linkedDocuments(orderBy: $orderBy, filter: $filter) {
+    ...allLinkedDocumentFields
+  }
+}
+    ${AllLinkedDocumentFieldsFragmentDoc}`;
+export const useLinkedDocumentsQuery = <
+      TData = LinkedDocumentsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: LinkedDocumentsQueryVariables,
+      options?: UseQueryOptions<LinkedDocumentsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<LinkedDocumentsQuery, TError, TData>(
+      variables === undefined ? ['linkedDocuments'] : ['linkedDocuments', variables],
+      fetcher<LinkedDocumentsQuery, LinkedDocumentsQueryVariables>(client, LinkedDocumentsDocument, variables, headers),
+      options
+    );
+export const CreateLinkedDocumentDocument = `
+    mutation createLinkedDocument($input: LinkedDocumentInput!) {
+  createLinkedDocument: upsertLinkedDocument(input: $input) {
+    ...allLinkedDocumentFields
+  }
+}
+    ${AllLinkedDocumentFieldsFragmentDoc}`;
+export const useCreateLinkedDocumentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateLinkedDocumentMutation, TError, CreateLinkedDocumentMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateLinkedDocumentMutation, TError, CreateLinkedDocumentMutationVariables, TContext>(
+      ['createLinkedDocument'],
+      (variables?: CreateLinkedDocumentMutationVariables) => fetcher<CreateLinkedDocumentMutation, CreateLinkedDocumentMutationVariables>(client, CreateLinkedDocumentDocument, variables, headers)(),
+      options
+    );
+export const UpdateLinkedDocumentDocument = `
+    mutation updateLinkedDocument($input: LinkedDocumentInput!) {
+  upsertLinkedDocument(input: $input) {
+    ...allLinkedDocumentFields
+  }
+}
+    ${AllLinkedDocumentFieldsFragmentDoc}`;
+export const useUpdateLinkedDocumentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateLinkedDocumentMutation, TError, UpdateLinkedDocumentMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateLinkedDocumentMutation, TError, UpdateLinkedDocumentMutationVariables, TContext>(
+      ['updateLinkedDocument'],
+      (variables?: UpdateLinkedDocumentMutationVariables) => fetcher<UpdateLinkedDocumentMutation, UpdateLinkedDocumentMutationVariables>(client, UpdateLinkedDocumentDocument, variables, headers)(),
+      options
+    );
+export const DeleteLinkedDocumentDocument = `
+    mutation deleteLinkedDocument($id: Int!) {
+  deleteLinkedDocument(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteLinkedDocumentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteLinkedDocumentMutation, TError, DeleteLinkedDocumentMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteLinkedDocumentMutation, TError, DeleteLinkedDocumentMutationVariables, TContext>(
+      ['deleteLinkedDocument'],
+      (variables?: DeleteLinkedDocumentMutationVariables) => fetcher<DeleteLinkedDocumentMutation, DeleteLinkedDocumentMutationVariables>(client, DeleteLinkedDocumentDocument, variables, headers)(),
       options
     );
 export const NewsByIdDocument = `
@@ -4009,6 +4552,108 @@ export const useDeletePurchaseMutation = <
     useMutation<DeletePurchaseMutation, TError, DeletePurchaseMutationVariables, TContext>(
       ['deletePurchase'],
       (variables?: DeletePurchaseMutationVariables) => fetcher<DeletePurchaseMutation, DeletePurchaseMutationVariables>(client, DeletePurchaseDocument, variables, headers)(),
+      options
+    );
+export const ReportByIdDocument = `
+    query reportById($id: Int!) {
+  reportById(id: $id) {
+    ...allReportsFields
+  }
+}
+    ${AllReportsFieldsFragmentDoc}`;
+export const useReportByIdQuery = <
+      TData = ReportByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: ReportByIdQueryVariables,
+      options?: UseQueryOptions<ReportByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ReportByIdQuery, TError, TData>(
+      ['reportById', variables],
+      fetcher<ReportByIdQuery, ReportByIdQueryVariables>(client, ReportByIdDocument, variables, headers),
+      options
+    );
+export const ReportsDocument = `
+    query reports($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  reports(orderBy: $orderBy, filter: $filter) {
+    ...allReportsFields
+  }
+}
+    ${AllReportsFieldsFragmentDoc}`;
+export const useReportsQuery = <
+      TData = ReportsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ReportsQueryVariables,
+      options?: UseQueryOptions<ReportsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ReportsQuery, TError, TData>(
+      variables === undefined ? ['reports'] : ['reports', variables],
+      fetcher<ReportsQuery, ReportsQueryVariables>(client, ReportsDocument, variables, headers),
+      options
+    );
+export const CreateReportDocument = `
+    mutation createReport($input: ReportInput!) {
+  createReport: upsertReport(input: $input) {
+    ...allReportsFields
+  }
+}
+    ${AllReportsFieldsFragmentDoc}`;
+export const useCreateReportMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateReportMutation, TError, CreateReportMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateReportMutation, TError, CreateReportMutationVariables, TContext>(
+      ['createReport'],
+      (variables?: CreateReportMutationVariables) => fetcher<CreateReportMutation, CreateReportMutationVariables>(client, CreateReportDocument, variables, headers)(),
+      options
+    );
+export const UpdateReportDocument = `
+    mutation updateReport($input: ReportInput!) {
+  upsertReport(input: $input) {
+    ...allReportsFields
+  }
+}
+    ${AllReportsFieldsFragmentDoc}`;
+export const useUpdateReportMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateReportMutation, TError, UpdateReportMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateReportMutation, TError, UpdateReportMutationVariables, TContext>(
+      ['updateReport'],
+      (variables?: UpdateReportMutationVariables) => fetcher<UpdateReportMutation, UpdateReportMutationVariables>(client, UpdateReportDocument, variables, headers)(),
+      options
+    );
+export const DeleteReportDocument = `
+    mutation deleteReport($id: Int!) {
+  deleteReport(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteReportMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteReportMutation, TError, DeleteReportMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteReportMutation, TError, DeleteReportMutationVariables, TContext>(
+      ['deleteReport'],
+      (variables?: DeleteReportMutationVariables) => fetcher<DeleteReportMutation, DeleteReportMutationVariables>(client, DeleteReportDocument, variables, headers)(),
       options
     );
 export const SettingByIdDocument = `

@@ -46,7 +46,6 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 250,
       render: (value, row) => {
         return (
           <Link
@@ -69,7 +68,9 @@ export const useColumns = (
           sortProps={getActiveProps("url")}
         />
       ),
-      minWidth: 200,
+      style: {
+        width: "250px"
+      },
       render: (value) => (
         <SourceLink className='transition-all' to={value as string} target='_blank'>
           {value as string}
@@ -83,12 +84,16 @@ export const useColumns = (
         <TableHeadCell
           title='Created at'
           cellId='created_at'
+          align='center'
           onSortClick={getClickHandler("created_at")}
           sortProps={getActiveProps("created_at")}
         />
       ),
       align: "center",
-      format: formatDateForTable
+      format: formatDateForTable,
+      style: {
+        width: "100px"
+      }
     },
 
     {
@@ -102,7 +107,9 @@ export const useColumns = (
           sortProps={getActiveProps("published")}
         />
       ),
-      minWidth: 200,
+      style: {
+        width: "200px"
+      },
       align: "center",
       render: (value, row) => {
         return (

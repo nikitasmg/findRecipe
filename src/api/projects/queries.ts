@@ -26,12 +26,15 @@ export const ProjectsFragment = gql`
     leader
     leader_rank
     organization
-    information
     annotation
     plan_results
     publications
     result_annotation
+    result_usage
     year
+    grnti_number
+    status_text
+    deadline
     meta {
       title
       description

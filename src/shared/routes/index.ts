@@ -86,6 +86,10 @@ export const PagesEditNtcInSurgut = "/pages/edit/ntc-in-surgut";
 
 export const PagesEditGrants = "/pages/edit/grants";
 
+export const PagesEditContests = "/pages/edit/contests";
+
+export const PagesEditProjects = "/pages/edit/projects";
+
 export const InteractiveMapFormRoute = "/interactive-map";
 
 export const PurchasesPage = "/purchases";
@@ -107,3 +111,17 @@ export const ProjectsPageRoute = "/projects";
 export const ProjectsPageEdit = `${ProjectsPageRoute}/edit/:id`;
 
 export const ProjectsPageCreate = `${ProjectsPageRoute}/create`;
+
+export const DocumentsPageRoute = "/documents";
+
+export const ActivityResultPageRoute = "/activity-result";
+
+export const ActivityResultPageEdit = `${ActivityResultPageRoute}/edit/:id`;
+
+export const ActivityResultPageCreate = `${ActivityResultPageRoute}/create`;
+
+export const ReportsPageRoute = "/reports";
+
+export const ReportsPageEdit = `${ReportsPageRoute}/edit/:id`;
+
+export const ReportsPageCreate = `${ReportsPageRoute}/create`;

@@ -3,15 +3,16 @@ import React from "react";
 import clsx from "clsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "../Link";
+import { Text } from "../Text";
 
 export type Path = {
-  title: React.ReactNode;
+  label: string;
   path?: string;
   children?: Path[];
   initialExpanded?: boolean;
 };
 
-export const Path: React.FC<Path> = ({ children, path, title, initialExpanded }) => {
+export const Path: React.FC<Path> = ({ children, path, label, initialExpanded }) => {
   const presentationClassNames = clsx({ underline: !!path, "!text-black": !path });
 
   if (children) {
@@ -30,7 +31,7 @@ export const Path: React.FC<Path> = ({ children, path, title, initialExpanded })
           className='flex-row-reverse'
         >
           <Link className={presentationClassNames} to={path ?? ""}>
-            {title}
+            <Text component='span'>{label}</Text>
           </Link>
         </AccordionSummary>
         <AccordionDetails className='flex flex-col'>{children.map(Path)}</AccordionDetails>
@@ -40,7 +41,7 @@ export const Path: React.FC<Path> = ({ children, path, title, initialExpanded })
 
   return (
     <Link className={clsx("px-10 py-[12px]", presentationClassNames)} to={path ?? ""}>
-      {title}
+      <Text component='span'>{label}</Text>
     </Link>
   );
 };

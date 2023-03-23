@@ -111,11 +111,6 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
                       </RequiredLabelWrapper>
                     }
                     value={value}
-                    variant='outlined'
-                    InputLabelProps={{
-                      shrink: !!value
-                    }}
-                    id='name'
                     error={!!getError("name")}
                     {...register("name", baseRequired)}
                   />
@@ -190,7 +185,6 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
           startIcon={<SaveIcon />}
           disabled={isLoading}
           type='submit'
-          variant='contained'
           className='w-fit ml-auto'
           size='small'
         >

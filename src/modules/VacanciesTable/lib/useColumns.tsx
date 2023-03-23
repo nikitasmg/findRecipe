@@ -7,6 +7,7 @@ import { Link } from "~/shared/components/Link";
 import { VacanciesPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
+import { formatDescriptionForTable } from "~/shared/lib/formatDescriptionForTable";
 
 export const useColumns = (
   activeOrder?: ActiveOrder,
@@ -44,7 +45,6 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      minWidth: 250,
       render: (value, row) => {
         return (
           <Link
@@ -67,12 +67,10 @@ export const useColumns = (
           sortProps={getActiveProps("description")}
         />
       ),
-      minWidth: 250,
-      render: (value) => {
-        const text = value as string;
-
-        return text.length > 100 ? text.slice(0, 100) + "..." : text;
-      }
+      style: {
+        width: "350px"
+      },
+      format: formatDescriptionForTable
     },
 
     {
@@ -86,7 +84,9 @@ export const useColumns = (
           sortProps={getActiveProps("published")}
         />
       ),
-      minWidth: 200,
+      style: {
+        width: "140px"
+      },
       align: "center",
       render: (value, row) => {
         return (

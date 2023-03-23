@@ -27,6 +27,7 @@ export const ContestsSelect: React.FC<ContestsSelect> = ({ initValue = 0, onForm
           name='contest'
           id='contest'
           variant='outlined'
+          size='small'
           label={<Text>Contest</Text>}
           InputLabelProps={{
             shrink: true
