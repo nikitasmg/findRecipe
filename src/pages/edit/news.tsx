@@ -1,5 +1,5 @@
 import React from "react";
-import { EditNewsPageForm } from "~/modules/EditNewsPageForm";
+import { EditNewsPageForm } from "~/layouts/EditNewsPageForm";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";

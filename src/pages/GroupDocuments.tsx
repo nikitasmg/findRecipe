@@ -9,7 +9,7 @@ import { PageWrapper } from "~/shared/components/PageWrapper";
 import { DocumentsPageRoute } from "~shared/routes";
 import { useNavigationBack } from "~shared/hooks/useBackClick";
 import { useDocumentGroupByIdQuery } from "../generated/graphql";
-import { LinkedDocumentView } from "~/modules/LinkedDocumentView";
+import { LinkedDocumentView } from "~/modules/LinkedGroupDocumentView";
 
 export const GroupDocuments: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,7 +41,7 @@ export const GroupDocuments: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='p-4'>
+        <Box className='flex flex-col gap-10 p-4'>
           <Box className='flex flex-col gap-6 items-center'>
             <DetailsHead
               title={!isLoading ? data?.documentGroupById?.name ?? "Group" : ""}

@@ -16,6 +16,14 @@ export const PagesFragment = gql`
       title
       description
     }
+    meta {
+      auto_title
+      auto_description
+    }
+    params
+    children {
+      id
+    }
     parent_id
     created_at
     updated_at

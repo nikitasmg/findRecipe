@@ -3,7 +3,7 @@ import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
 import { Text } from "~/shared/components/Text";
-import { EditNtcInSurgutPageForm } from "~/modules/EditNtcInSurgutPageForm";
+import { EditNtcInSurgutPageForm } from "~/layouts/EditNtcInSurgutPageForm";
 
 export const EditNtcInSurgutPage: React.FC = () => (
   <PageWrapper>

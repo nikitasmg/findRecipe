@@ -1,5 +1,5 @@
 import React from "react";
-import { EditAnoBiomedPageForm } from "~/modules/EditAnoBiomedPageForm";
+import { EditAnoBiomedPageForm } from "~/layouts/EditAnoBiomedPageForm";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";

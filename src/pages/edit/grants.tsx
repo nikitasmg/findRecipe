@@ -3,7 +3,7 @@ import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
 import { Text } from "~/shared/components/Text";
-import { EditGrantsPageForm } from "~/modules/EditGrantsPageForm";
+import { EditGrantsPageForm } from "~/layouts/EditGrantsPageForm";
 
 export const EditGrantsPage: React.FC = () => (
   <PageWrapper>
