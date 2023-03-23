@@ -1,8 +1,13 @@
-import { Box, Drawer, FormControl, TextField } from "@mui/material";
+import { Box, Drawer, FormControl, MenuItem, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Controller, useForm } from "react-hook-form";
-import { LinkedDocument, LinkedDocumentInput } from "~/generated/graphql";
+import {
+  DocumentGroup,
+  DocumentGroupInput,
+  LinkedDocument,
+  LinkedDocumentInput
+} from "~/generated/graphql";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
@@ -17,8 +22,11 @@ import { SaveButton } from "../SaveButton";
 type Props = {
   open: boolean;
   onClose: () => void;
-  create?: (document: Omit<LinkedDocumentInput, "id">) => void;
-  update?: (document: LinkedDocumentInput) => void;
+  groups: Pick<DocumentGroup, "id" | "name">[];
+  onGroupUpdate: (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => void;
+  groupId?: DocumentGroup["id"];
+  create?: (document: Omit<LinkedDocumentInput, "id">) => Promise<number>;
+  update?: (document: LinkedDocumentInput) => Promise<number>;
   onRemove?: (id: LinkedDocumentInput["id"]) => void;
   document?: LinkedDocument | null;
 };
@@ -26,10 +34,13 @@ type Props = {
 export const DocumentDetailsDialog: React.FC<Props> = ({
   open,
   onClose,
+  groups,
+  groupId,
   document,
   onRemove,
   create,
-  update
+  update,
+  onGroupUpdate
 }) => {
   const {
     register,
@@ -49,20 +60,47 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     e.stopPropagation();
     e.preventDefault();
 
-    handleSubmit((newValues) => {
+    handleSubmit(async (newValues) => {
       const input = {
         ...(Boolean(!isCreate) && { id: document?.id }),
         ...(Boolean(newValues.file) && { upload: newValues.file }),
         user_name: `${newValues.title}.${newValues.format}`
       };
 
+      let connectId: number | null = null;
+
       if (isCreate) {
-        create?.(input);
-        onClose?.();
+        await create?.(input).then((id) => {
+          connectId = id;
+        });
+      } else {
+        await update?.(input).then((id) => {
+          connectId = id;
+        });
+      }
+
+      if (!newValues.groupId && !groupId) {
         return;
       }
 
-      update?.(input);
+      if (groupId) {
+        onGroupUpdate({
+          id: groupId,
+          linked_documents: {
+            disconnect: [String(connectId)]
+          }
+        });
+      }
+
+      if (newValues.groupId) {
+        onGroupUpdate({
+          id: newValues.groupId,
+          linked_documents: {
+            connect: [String(connectId)]
+          }
+        });
+      }
+
       onClose?.();
     })(e);
   };
@@ -79,7 +117,8 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     setValue("title", getFileName(document?.user_name ?? ""));
     setValue("url", document?.url);
     setValue("format", getFileFormat(document?.user_name ?? ""));
-  }, [document, setValue]);
+    setValue("groupId", groupId);
+  }, [document, setValue, groupId]);
 
   useEffect(() => reset, [reset]);
 
@@ -141,6 +180,33 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
 
               <HelperText id='url' error={getError("url")} />
             </FormControl>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name='groupId'
+          render={({ field: { value, onChange } }) => (
+            <TextField
+              select
+              name='groupId'
+              variant='outlined'
+              label={<Text>Document category</Text>}
+              SelectProps={{
+                value: value ?? "",
+                name: "groupId",
+                onChange: onChange
+              }}
+            >
+              <MenuItem key={"empty"} value={""}>
+                <Text>Not selected</Text>
+              </MenuItem>
+              {groups.map((group) => (
+                <MenuItem key={group.id} value={group.id}>
+                  {group.name}
+                </MenuItem>
+              ))}
+            </TextField>
           )}
         />
 

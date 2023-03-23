@@ -13,7 +13,8 @@ import {
   useCreateLinkedDocumentMutation,
   useUpdateDocumentGroupMutation,
   DocumentGroupInput,
-  useLinkedDocumentsQuery
+  useLinkedDocumentsQuery,
+  useDocumentGroupsQuery
 } from "~/generated/graphql";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
@@ -38,7 +39,7 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
   const { data, isLoading } = useDocumentGroupByIdQuery(
     client,
     { id: groupId },
-    { enabled: !!groupId }
+    { enabled: !!groupId, refetchOnMount: "always" }
   );
 
   const { data: allData } = useLinkedDocumentsQuery(client);
@@ -50,6 +51,14 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
   const { mutateAsync: create } = useCreateLinkedDocumentMutation(client);
 
   const { mutateAsync: updateGroup } = useUpdateDocumentGroupMutation(client);
+
+  const { data: groupsData, refetch } = useDocumentGroupsQuery(
+    client,
+    {},
+    { refetchOnMount: "always" }
+  );
+
+  const groups = groupsData?.documentGroups ?? [];
 
   const group = data?.documentGroupById;
 
@@ -85,6 +94,8 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
 
       return newDocuments;
     });
+
+    return Promise.resolve(Number(input.id));
   };
 
   const handleDelete = (id: LinkedDocumentInput["id"]) => {
@@ -121,6 +132,10 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     };
 
     updateGroup({ input });
+  };
+
+  const onGroupUpdate = (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => {
+    updateGroup({ input }).then(() => refetch());
   };
 
   const handleSelectDocument = (
@@ -211,11 +226,14 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
       )}
 
       <DocumentDetailsDialog
+        groups={groups}
+        groupId={groupId}
         open={!!open}
         onClose={onClose}
         document={activeDocument}
         update={handleUpdate}
         onRemove={handleDelete}
+        onGroupUpdate={onGroupUpdate}
       />
     </Box>
   );

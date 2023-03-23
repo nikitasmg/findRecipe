@@ -1,11 +1,14 @@
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   LinkedDocument,
   LinkedDocumentInput,
   useUpdateLinkedDocumentMutation,
-  useDeleteLinkedDocumentMutation
+  useDeleteLinkedDocumentMutation,
+  useDocumentGroupsQuery,
+  DocumentGroupInput,
+  useUpdateDocumentGroupMutation
 } from "~/generated/graphql";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
@@ -39,6 +42,26 @@ export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) =>
 
   const { mutateAsync: remove } = useDeleteLinkedDocumentMutation(client);
 
+  const { mutateAsync: updateGroup } = useUpdateDocumentGroupMutation(client);
+
+  const { data, refetch } = useDocumentGroupsQuery(
+    client,
+    {},
+    { refetchOnMount: "always", cacheTime: 0 }
+  );
+
+  const groups = useMemo(() => data?.documentGroups ?? [], [data]);
+
+  const groupWithActiveDocument = useMemo(() => {
+    if (!activeDocument) {
+      return activeDocument;
+    }
+
+    return groups.find((group) => {
+      return group.linked_documents?.find((doc) => doc?.id === activeDocument?.id);
+    });
+  }, [activeDocument, groups]);
+
   const handleUpdate = (input: LinkedDocumentInput) => {
     update({ input });
 
@@ -61,6 +84,8 @@ export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) =>
 
       return newDocuments;
     });
+
+    return Promise.resolve(Number(input.id));
   };
 
   const handleDelete = (id: LinkedDocumentInput["id"]) => {
@@ -71,6 +96,10 @@ export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) =>
     remove({ id });
 
     setDocuments((currentDocuments) => currentDocuments.filter((doc) => doc.id !== id));
+  };
+
+  const onGroupUpdate = (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => {
+    updateGroup({ input }).then(() => refetch());
   };
 
   return (
@@ -89,11 +118,14 @@ export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) =>
       </Box>
 
       <DocumentDetailsDialog
+        groups={groups}
+        groupId={groupWithActiveDocument?.id}
         open={!!open}
         onClose={onClose}
         document={activeDocument}
         update={handleUpdate}
         onRemove={handleDelete}
+        onGroupUpdate={onGroupUpdate}
       />
     </Box>
   );

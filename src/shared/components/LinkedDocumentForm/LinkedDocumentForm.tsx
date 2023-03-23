@@ -1,5 +1,5 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Control, Controller, UseFormGetValues } from "react-hook-form";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
@@ -7,7 +7,9 @@ import {
   LinkedDocumentInput,
   CreateLinkedDocumentMutation,
   UpdateLinkedDocumentMutation,
-  DeleteLinkedDocumentMutation
+  DeleteLinkedDocumentMutation,
+  DocumentGroup,
+  DocumentGroupInput
 } from "~/generated/graphql";
 import { DocumentCard } from "../DocumentCard";
 import { UploadDocumentsButton } from "../UploadDocumentsButton";
@@ -31,6 +33,10 @@ type Props = {
   create: ({ input }: { input: LinkedDocumentInput }) => Promise<CreateLinkedDocumentMutation>;
   update: ({ input }: { input: LinkedDocumentInput }) => Promise<UpdateLinkedDocumentMutation>;
   remove: ({ id }: { id: LinkedDocument["id"] }) => Promise<DeleteLinkedDocumentMutation>;
+  groups: Pick<DocumentGroup, "id" | "name">[];
+  onGroupUpdate: (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => void;
+  groupId?: DocumentGroup["id"];
+  onActiveChange?: (active?: LinkedDocument | null) => void;
 };
 
 export const LinkedDocumentForm: React.FC<Props> = ({
@@ -40,6 +46,10 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   setValue,
   getValues,
   control,
+  groups,
+  onGroupUpdate,
+  onActiveChange,
+  groupId,
   allDocuments = []
 }) => {
   const [activeDocument, setActiveDocument] = useState<LinkedDocument | null>();
@@ -91,6 +101,8 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     }
 
     handleClose();
+
+    return Promise.resolve(Number(input.id));
   };
 
   const handleDelete = (id: LinkedDocumentInput["id"]) => {
@@ -142,6 +154,10 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   };
 
   const options = allDocuments?.map((doc) => ({ label: doc.user_name, value: doc }));
+
+  useEffect(() => {
+    onActiveChange?.(activeDocument);
+  }, [activeDocument, onActiveChange]);
 
   return (
     <Box className='flex flex-col gap-4'>
@@ -198,6 +214,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
       />
 
       <DocumentDetailsDialog
+        groups={groups}
+        onGroupUpdate={onGroupUpdate}
+        groupId={groupId}
         open={!!open}
         onClose={onClose}
         document={activeDocument}
