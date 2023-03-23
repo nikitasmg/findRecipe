@@ -36,9 +36,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
           <Grid item columns={12} xs={12}>
             <TextField
               fullWidth
-              value={params?.description}
+              value={params?.descriptionLike}
               label={<Text>Description</Text>}
-              onChange={getChangeHandler("description")}
+              onChange={getChangeHandler("descriptionLike")}
               variant='outlined'
             />
           </Grid>
