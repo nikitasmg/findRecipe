@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { LinkedDocument, useLinkedDocumentsQuery } from "~/generated/graphql";
+import {
+  LinkedDocument,
+  useLinkedDocumentsQuery,
+  useCreateLinkedDocumentMutation
+} from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { useDocumentsStore } from "~/shared/stores/documents";
 import { Groups } from "./components/Groups";
 import { LinkedDocuments } from "./components/LinkedDocuments";
-import { UploadDocumentsButton } from "./components/UploadDocumentsButton";
+import { UploadDocumentsButton } from "../../shared/components/UploadDocumentsButton";
 
 export const LinkedDocumentsPreview: React.FC = () => {
   const [documents, setDocuments] = useState<LinkedDocument[]>([]);
@@ -14,6 +18,8 @@ export const LinkedDocumentsPreview: React.FC = () => {
   const client = useGraphqlClient();
 
   const { data, isLoading } = useLinkedDocumentsQuery(client);
+
+  const { mutateAsync: create } = useCreateLinkedDocumentMutation(client);
 
   const { setCount, setLoading } = useDocumentsStore((state) => ({
     setLoading: state.setLoading,
@@ -42,7 +48,7 @@ export const LinkedDocumentsPreview: React.FC = () => {
         <Text component='h1' variant='h4' whiteSpace='nowrap'>
           Document manager
         </Text>
-        <UploadDocumentsButton onUpload={onUpload} />
+        <UploadDocumentsButton onUpload={onUpload} create={create} />
       </Box>
       <Groups />
       <LinkedDocuments documents={documents} setDocuments={setDocuments} />

@@ -1,11 +1,13 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useDocumentGroupsQuery, DocumentGroup } from "~/generated/graphql";
 import { DocumentGroupDetailsDialog } from "~/shared/components/DocumentGroupDetailsDialog";
 import { FolderCard } from "~/shared/components/FolderCard";
 import { Text } from "~/shared/components/Text";
 import { useModal } from "~/shared/hooks/useModal";
+import { GroupDocumentsRoute } from "~/shared/routes";
 import { AddGroup } from "../AddGroup";
 
 export const Groups = () => {
@@ -14,6 +16,8 @@ export const Groups = () => {
   const [activeGroup, setActiveGroup] = useState<DocumentGroup | null>(null);
 
   const { open, handleClose, handleOpen } = useModal();
+
+  const history = useNavigate();
 
   const client = useGraphqlClient();
 
@@ -26,6 +30,10 @@ export const Groups = () => {
   const getEditClickHandler = (group: DocumentGroup) => () => {
     setActiveGroup(group);
     handleOpen();
+  };
+
+  const getCardClickHandler = (group: DocumentGroup) => () => {
+    history(GroupDocumentsRoute.replace(":id", String(group.id)));
   };
 
   useEffect(() => {
@@ -44,6 +52,7 @@ export const Groups = () => {
             title={group.name}
             countFiles={group.linked_documents?.length}
             onInfoClick={getEditClickHandler(group)}
+            onCardClick={getCardClickHandler(group)}
           />
         ))}
       </Box>

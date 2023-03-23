@@ -44,7 +44,8 @@ import {
   ActivityResultPageEdit,
   ReportsPageRoute,
   ReportsPageCreate,
-  ReportsPageEdit
+  ReportsPageEdit,
+  GroupDocumentsRoute
 } from "~shared/routes";
 
 import { PagesEditRouting } from "./PagesEditRouting";
@@ -126,6 +127,11 @@ const Reports = lazy(() =>
 );
 const ReportsEdit = lazy(() =>
   import("~/pages/ReportsEdit").then((module) => ({ default: module.ReportsEdit }))
+);
+const GroupDocuments = lazy(() =>
+  import("~/pages/GroupDocuments").then((module) => ({
+    default: module.GroupDocuments
+  }))
 );
 
 export const Routing: React.FC = () => {
@@ -477,6 +483,15 @@ export const Routing: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <ReportsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={GroupDocumentsRoute}
+        element={
+          <BaseProtectedLayout>
+            <GroupDocuments />
           </BaseProtectedLayout>
         }
       />

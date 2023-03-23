@@ -28,6 +28,12 @@ export const FolderCard: React.FC<Props> = ({
 
   const folderClassName = "w-[40%] h-auto";
 
+  const onClickInfo: React.MouseEventHandler<SVGSVGElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onInfoClick?.();
+  };
+
   return (
     <Paper
       elevation={3}
@@ -44,7 +50,7 @@ export const FolderCard: React.FC<Props> = ({
       <InfoIcon
         className='absolute top-4 right-4 text-gray-700'
         tabIndex={0}
-        onClick={onInfoClick}
+        onClick={onClickInfo}
         onKeyPress={onInfoClick}
       />
       {isMovePreview && withMovePreview ? (
