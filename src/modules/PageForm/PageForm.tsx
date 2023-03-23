@@ -6,10 +6,16 @@ import { TabsForm } from "~/shared/components/TabsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { PagesRoute } from "~/shared/routes";
-import { GeneralPageForm } from "./components/GeneralPageForm/GeneralPageForm";
-import { SeoForm } from "./components/SeoForm/SeoForm";
+import { BlocksForm } from "./components/BlocksForm";
+import { DocumentsForm } from "./components/DocumentsForm";
+import { GeneralPageForm } from "./components/GeneralPageForm";
+import { SeoForm } from "./components/SeoForm";
 
-export const EditIndexPageForm: React.FC = () => {
+type Props = {
+  slug: string;
+};
+
+export const PagesForm: React.FC<Props> = ({ slug }) => {
   const [step, setStep] = useState(0);
 
   const {
@@ -20,11 +26,11 @@ export const EditIndexPageForm: React.FC = () => {
     formState: { errors }
   } = useForm();
 
-  const client = useGraphqlClient();
-
   const goBack = useNavigationBack();
 
-  const { data } = usePageBySlugQuery(client, { slug: "index" }, { refetchOnMount: "always" });
+  const client = useGraphqlClient();
+
+  const { data } = usePageBySlugQuery(client, { slug }, { refetchOnMount: "always" });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack
@@ -42,9 +48,13 @@ export const EditIndexPageForm: React.FC = () => {
   });
 
   useEffect(() => {
-    initFormValues(["name", "description"], setValue, values);
-    setValue("seo.upsert.title", values?.seo?.title);
-    setValue("seo.upsert.description", values?.seo?.description);
+    initFormValues(["name", "description", "imageUrl", "params", "parent_id"], setValue, values);
+    setValue("seo.upsert.title", values?.seo?.title || values?.meta?.auto_title);
+    setValue("seo.upsert.description", values?.seo?.description || values?.meta?.auto_description);
+    setValue(
+      "children",
+      values?.children?.map((child) => child?.id)
+    );
   }, [values, setValue]);
 
   return (
@@ -58,6 +68,14 @@ export const EditIndexPageForm: React.FC = () => {
         {
           tabTitle: "General data",
           component: <GeneralPageForm errors={errors} register={register} control={control} />
+        },
+        {
+          tabTitle: "Blocks",
+          component: <BlocksForm setValue={setValue} control={control} />
+        },
+        {
+          tabTitle: "Documents",
+          component: <DocumentsForm setValue={setValue} control={control} />
         },
         {
           tabTitle: "SEO",

@@ -52,6 +52,29 @@ export type CategoryBelongsTo = {
   disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type Cluster = {
+  __typename?: 'Cluster';
+  column_one_name: Scalars['String'];
+  column_one_text: Scalars['String'];
+  column_two_name: Scalars['String'];
+  column_two_text: Scalars['String'];
+  created_at: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+};
+
+export type ClusterInput = {
+  column_one_name?: InputMaybe<Scalars['String']>;
+  column_one_text?: InputMaybe<Scalars['String']>;
+  column_two_name?: InputMaybe<Scalars['String']>;
+  column_two_text?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+};
+
 /**
  * Конкурсы. Базовая сущность, на основе которой создается проект
  *
@@ -312,6 +335,31 @@ export type LogProperties = {
   old?: Maybe<Scalars['JSON']>;
 };
 
+export type MapObject = {
+  __typename?: 'MapObject';
+  area: Scalars['Float'];
+  characteristics: Scalars['String'];
+  created_at: Scalars['DateTime'];
+  floors: Scalars['Int'];
+  gross_boma_area: Scalars['Float'];
+  id: Scalars['Int'];
+  learn_more: Scalars['String'];
+  linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
+  name: Scalars['String'];
+  updated_at: Scalars['DateTime'];
+};
+
+export type MapObjectInput = {
+  area?: InputMaybe<Scalars['Float']>;
+  characteristics?: InputMaybe<Scalars['String']>;
+  floors?: InputMaybe<Scalars['Int']>;
+  gross_boma_area?: InputMaybe<Scalars['Float']>;
+  id?: InputMaybe<Scalars['Int']>;
+  learn_more?: InputMaybe<Scalars['String']>;
+  linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type Meta = {
   __typename?: 'Meta';
   auto_description: Scalars['String'];
@@ -323,12 +371,14 @@ export type Meta = {
 export type Mutation = {
   __typename?: 'Mutation';
   deleteActivityResult?: Maybe<ActivityResult>;
+  deleteCluster?: Maybe<Cluster>;
   deleteContest?: Maybe<Contest>;
   deleteDocumentGroup?: Maybe<DocumentGroup>;
   deleteEmployee?: Maybe<Employee>;
   deleteEvent?: Maybe<Event>;
   deleteKnowledgeField?: Maybe<KnowledgeField>;
   deleteLinkedDocument?: Maybe<LinkedDocument>;
+  deleteMapObject?: Maybe<MapObject>;
   deleteNews?: Maybe<News>;
   deleteNewsCategory?: Maybe<NewsCategory>;
   deleteNewsTag?: Maybe<NewsTag>;
@@ -352,12 +402,14 @@ export type Mutation = {
   sendResume: Scalars['Boolean'];
   upload?: Maybe<Scalars['String']>;
   upsertActivityResult?: Maybe<ActivityResult>;
+  upsertCluster?: Maybe<Cluster>;
   upsertContest?: Maybe<Contest>;
   upsertDocumentGroup?: Maybe<DocumentGroup>;
   upsertEmployee?: Maybe<Employee>;
   upsertEvent?: Maybe<Event>;
   upsertKnowledgeField?: Maybe<KnowledgeField>;
   upsertLinkedDocument?: Maybe<LinkedDocument>;
+  upsertMapObject?: Maybe<MapObject>;
   upsertNews?: Maybe<News>;
   upsertNewsCategory?: Maybe<NewsCategory>;
   upsertNewsTag?: Maybe<NewsTag>;
@@ -376,6 +428,11 @@ export type Mutation = {
 
 
 export type MutationDeleteActivityResultArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteClusterArgs = {
   id: Scalars['Int'];
 };
 
@@ -406,6 +463,11 @@ export type MutationDeleteKnowledgeFieldArgs = {
 
 
 export type MutationDeleteLinkedDocumentArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteMapObjectArgs = {
   id: Scalars['Int'];
 };
 
@@ -523,6 +585,11 @@ export type MutationUpsertActivityResultArgs = {
 };
 
 
+export type MutationUpsertClusterArgs = {
+  input: ClusterInput;
+};
+
+
 export type MutationUpsertContestArgs = {
   input: ContestInput;
 };
@@ -550,6 +617,11 @@ export type MutationUpsertKnowledgeFieldArgs = {
 
 export type MutationUpsertLinkedDocumentArgs = {
   input: LinkedDocumentInput;
+};
+
+
+export type MutationUpsertMapObjectArgs = {
+  input: MapObjectInput;
 };
 
 
@@ -973,6 +1045,8 @@ export type Query = {
   __typename?: 'Query';
   activityResultById?: Maybe<ActivityResult>;
   activityResults: Array<ActivityResult>;
+  clusterById?: Maybe<Cluster>;
+  clusters: Array<Cluster>;
   contestById?: Maybe<Contest>;
   contests?: Maybe<ContestPaginator>;
   documentGroupById?: Maybe<DocumentGroup>;
@@ -987,6 +1061,8 @@ export type Query = {
   linkedDocuments: Array<LinkedDocument>;
   logById?: Maybe<Log>;
   logs?: Maybe<LogPaginator>;
+  mapObjectById?: Maybe<MapObject>;
+  mapObjects: Array<MapObject>;
   me: User;
   news?: Maybe<NewsPaginator>;
   newsById?: Maybe<News>;
@@ -1031,6 +1107,17 @@ export type QueryActivityResultByIdArgs = {
 
 
 export type QueryActivityResultsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryClusterByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryClustersArgs = {
   filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
 };
@@ -1117,6 +1204,17 @@ export type QueryLogsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
   page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryMapObjectByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryMapObjectsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
 };
 
 
@@ -2036,21 +2134,21 @@ export type DeleteOrganizerMutationVariables = Exact<{
 
 export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id: number } | null };
 
-export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null };
+export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null };
 
 export type PageByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
+export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null } | null };
 
 export type PageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
+export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null } | null };
 
 export type PagesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2073,7 +2171,7 @@ export type UpdatePageMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null } | null };
+export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null } | null };
 
 export type UpdatePageParentMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2679,6 +2777,13 @@ export const AllPageFieldsFragmentDoc = `
   seo {
     title
     description
+  }
+  meta {
+    auto_title
+    auto_description
+  }
+  children {
+    id
   }
   parent_id
   created_at

@@ -109,7 +109,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   };
 
   const handleSelectDocument = (
-    e: SyntheticEvent<Element>,
+    _: SyntheticEvent<Element>,
     option: string | { value: LinkedDocument } | null
   ) => {
     if (typeof option !== "object" || !option?.value) {
@@ -123,7 +123,6 @@ export const LinkedDocumentForm: React.FC<Props> = ({
 
     setValue("documents", currentDocuments.concat(document));
     setValue("connectDocuments", newConnect);
-    (e.target as HTMLInputElement).value = "";
   };
 
   const getUnlinkDocumentHandler = (document: LinkedDocument) => () => {

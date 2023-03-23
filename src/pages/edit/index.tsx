@@ -1,5 +1,5 @@
 import React from "react";
-import { EditIndexPageForm } from "~/modules/EditIndexPageForm";
+import { EditIndexPageForm } from "~/layouts/EditIndexPageForm";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";

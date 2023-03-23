@@ -1,6 +1,6 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
 import { compose, prop } from "rambda";
-import React, { useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
@@ -12,13 +12,15 @@ import {
   useDeleteLinkedDocumentMutation,
   useCreateLinkedDocumentMutation,
   useUpdateDocumentGroupMutation,
-  DocumentGroupInput
+  DocumentGroupInput,
+  useLinkedDocumentsQuery
 } from "~/generated/graphql";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
 import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";
 import { useModal } from "~/shared/hooks/useModal";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
+import { Text } from "~/shared/components/Text";
 
 type Props = {
   groupId: DocumentGroup["id"];
@@ -38,6 +40,8 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     { id: groupId },
     { enabled: !!groupId }
   );
+
+  const { data: allData } = useLinkedDocumentsQuery(client);
 
   const { mutateAsync: update } = useUpdateLinkedDocumentMutation(client);
 
@@ -119,6 +123,29 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     updateGroup({ input });
   };
 
+  const handleSelectDocument = (
+    _: SyntheticEvent<Element>,
+    option: string | { value: LinkedDocument } | null
+  ) => {
+    if (typeof option !== "object" || !option?.value) {
+      return;
+    }
+
+    const input: DocumentGroupInput = {
+      id: groupId,
+      linked_documents: {
+        connect: [String(option.value.id)]
+      }
+    };
+
+    updateGroup({ input });
+
+    setDocuments((cur) => cur.concat(option.value));
+  };
+
+  const options =
+    allData?.linkedDocuments?.map((doc) => ({ label: doc.user_name, value: doc })) ?? [];
+
   useEffect(() => {
     if (!group?.linked_documents) {
       return;
@@ -128,9 +155,33 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
   }, [group]);
 
   return (
-    <Box className='flex flex-col gap-4 pt-6'>
-      <Box className='flex flex-wrap justify-end gap-6'>
-        <UploadDocumentsButton onUpload={onUpload} create={create} />
+    <Box className='flex flex-col gap-4'>
+      <Box className='flex flex-col gap-4 md:items-stretch md:flex-row items-center'>
+        <Autocomplete
+          disablePortal
+          id='documents'
+          freeSolo
+          className='w-full'
+          options={options}
+          noOptionsText={<Text>No options</Text>}
+          size='small'
+          onChange={handleSelectDocument}
+          renderOption={(props, option) => (
+            <Box component='li' {...props}>
+              {option.label}
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              InputLabelProps={{
+                shrink: true
+              }}
+              label={<Text>Documents</Text>}
+            />
+          )}
+        />
+        <UploadDocumentsButton className='shrink-0' create={create} onUpload={onUpload} />
       </Box>
 
       <Box className='flex flex-wrap gap-4'>
