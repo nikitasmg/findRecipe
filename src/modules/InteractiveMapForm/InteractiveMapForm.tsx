@@ -18,7 +18,7 @@ export const InteractiveMapForm: React.FC = () => {
   return (
     <Box className='flex flex-col gap-6' component='form'>
       <Box className='w-full flex justify-center border rounded'>
-        <Box className='w-full max-w-[900px] h-[400px]'>
+        <Box className='w-full h-fit pb-2'>
           <InteractiveMap onSelect={curry(setValue)("object_id")} />
         </Box>
       </Box>

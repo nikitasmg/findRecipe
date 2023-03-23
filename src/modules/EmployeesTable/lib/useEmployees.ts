@@ -1,6 +1,7 @@
 import { curry } from "rambda";
 import {
   Employee,
+  SortOrder,
   UpdateEmployeeMutationVariables,
   useEmployeesQuery,
   useSubdivisionsQuery,
@@ -36,7 +37,14 @@ export const useEmployees = () => {
 
   const { data: subdivisionsData } = useSubdivisionsQuery(client);
 
-  const { data, isLoading } = useEmployeesQuery(client, variables, { refetchOnMount: "always" });
+  const { data, isLoading } = useEmployeesQuery(
+    client,
+    {
+      ...variables,
+      orderBy: [...(variables.orderBy ?? []), { column: "sort", order: SortOrder.Asc }]
+    },
+    { refetchOnMount: "always" }
+  );
 
   const subdivisions = subdivisionsData?.subdivisions;
 
