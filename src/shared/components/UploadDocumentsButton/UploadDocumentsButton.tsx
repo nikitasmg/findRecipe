@@ -39,7 +39,7 @@ export const UploadDocumentsButton: React.FC<Props> = ({ onUpload, create }) => 
     <Box>
       <Button variant='outlined' component='label' startIcon={<CloudUploadIcon />}>
         <Text>Upload document</Text>
-        <input hidden accept='image/*' multiple type='file' onChange={onChange} />
+        <input hidden multiple type='file' onChange={onChange} />
       </Button>
     </Box>
   );
