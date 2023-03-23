@@ -1,14 +1,24 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { LinkedDocument, useLinkedDocumentsQuery } from "~/generated/graphql";
+import {
+  LinkedDocument,
+  LinkedDocumentInput,
+  useUpdateLinkedDocumentMutation,
+  useDeleteLinkedDocumentMutation
+} from "~/generated/graphql";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
 import { Text } from "~/shared/components/Text";
 import { useModal } from "~/shared/hooks/useModal";
-import { useDocumentsStore } from "~/shared/stores/documents";
+import { getFileFormat } from "~/shared/lib/getFileFormat";
 
-export const LinkedDocuments: React.FC = () => {
+type Props = {
+  documents: LinkedDocument[];
+  setDocuments: React.Dispatch<React.SetStateAction<LinkedDocument[]>>;
+};
+
+export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) => {
   const [activeDocument, setActiveDocument] = useState<LinkedDocument | null>();
 
   const { open, handleClose, handleOpen } = useModal();
@@ -25,22 +35,39 @@ export const LinkedDocuments: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data, isLoading } = useLinkedDocumentsQuery(client);
+  const { mutateAsync: update } = useUpdateLinkedDocumentMutation(client);
 
-  const documents = data?.linkedDocuments;
+  const { mutateAsync: remove } = useDeleteLinkedDocumentMutation(client);
 
-  const { setCount, setLoading } = useDocumentsStore((state) => ({
-    setLoading: state.setLoading,
-    setCount: state.setCount
-  }));
+  const handleUpdate = (input: LinkedDocumentInput) => {
+    update({ input });
 
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading, setLoading]);
+    setDocuments((currentDocuments) => {
+      const newDocuments = [...currentDocuments];
 
-  useEffect(() => {
-    setCount(documents?.length ?? 0);
-  }, [documents, setCount]);
+      const updatedDocumentIndex = newDocuments.findIndex((doc) => doc.id === input.id);
+
+      if (~updatedDocumentIndex) {
+        newDocuments[updatedDocumentIndex] = {
+          id: Number(input.id),
+          user_name: input.user_name,
+          url: URL.createObjectURL(input.upload)
+        };
+      }
+
+      return newDocuments;
+    });
+  };
+
+  const handleDelete = (id: LinkedDocumentInput["id"]) => {
+    if (!id) {
+      return;
+    }
+
+    remove({ id });
+
+    setDocuments((currentDocuments) => currentDocuments.filter((doc) => doc.id !== id));
+  };
 
   return (
     <Box className='flex flex-col gap-4'>
@@ -51,13 +78,19 @@ export const LinkedDocuments: React.FC = () => {
           <DocumentCard
             key={document.id}
             title={document.user_name ?? ""}
-            format='pdf'
+            format={getFileFormat(document.user_name ?? "")}
             onCardClick={getHandlerSelectDocument(document)}
           />
         ))}
       </Box>
 
-      <DocumentDetailsDialog open={!!open} onClose={onClose} document={activeDocument} />
+      <DocumentDetailsDialog
+        open={!!open}
+        onClose={onClose}
+        document={activeDocument}
+        update={handleUpdate}
+        onRemove={handleDelete}
+      />
     </Box>
   );
 };

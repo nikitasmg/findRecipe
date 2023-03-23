@@ -13,7 +13,7 @@ export type Path = {
 };
 
 export const Path: React.FC<Path> = ({ children, path, label, initialExpanded }) => {
-  const presentationClassNames = clsx({ underline: !!path, "!text-black": !path });
+  const presentationClassNames = clsx({ underline: !!path, "!text-mainText": !path });
 
   if (children) {
     return (

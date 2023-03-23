@@ -24,7 +24,7 @@ export const NavigationMenu: React.FC<Props> = ({ opened, handleClose }) => {
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
-      <div className='flex flex-col p-2 bg-white border-b-2'>
+      <div className='flex flex-col p-2 bg-mainBg border-b-2'>
         {paths.map((path, i) => (
           <Path key={i} {...path} />
         ))}

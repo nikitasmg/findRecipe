@@ -1,8 +1,6 @@
 import React from "react";
 import * as R from "rambda";
 import {
-  Backdrop,
-  CircularProgress,
   Container,
   FormControl,
   Grid,
@@ -65,12 +63,6 @@ export const LoginForm: React.FC = () => {
 
   return (
     <Paper elevation={12} className='sm:!max-w-[450px] relative'>
-      {isLoading && (
-        <Backdrop className='z-50 !absolute text-white' open>
-          <CircularProgress color='inherit' />
-        </Backdrop>
-      )}
-
       <Container>
         <form className='py-10 px-2 border-box' onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>

@@ -2,7 +2,6 @@ import { Box, ButtonProps, Tooltip, tooltipClasses, TooltipProps } from "@mui/ma
 import React from "react";
 import { styled } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useModal } from "~/shared/hooks/useModal";
 import { Button } from "../Button";
 import { Text } from "../Text";
@@ -42,9 +41,8 @@ export const ButtonDelete: React.FC<ButtonProps> = ({ onClick, ...buttonProps })
               color='success'
               size='small'
               onClick={handleClose}
-              startIcon={<ArrowBackIcon />}
             >
-              Cancel
+              No
             </Button>
 
             <Button
@@ -55,7 +53,7 @@ export const ButtonDelete: React.FC<ButtonProps> = ({ onClick, ...buttonProps })
               onClick={onClick}
               startIcon={<DeleteIcon />}
             >
-              Delete
+              Yes
             </Button>
           </Box>
         </Box>

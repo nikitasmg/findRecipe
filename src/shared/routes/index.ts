@@ -125,3 +125,5 @@ export const ReportsPageRoute = "/reports";
 export const ReportsPageEdit = `${ReportsPageRoute}/edit/:id`;
 
 export const ReportsPageCreate = `${ReportsPageRoute}/create`;
+
+export const GroupDocumentsRoute = `${DocumentsPageRoute}/group-documents/:id`;

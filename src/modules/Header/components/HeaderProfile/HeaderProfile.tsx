@@ -59,12 +59,12 @@ export const HeaderProfile: React.FC = () => {
     <Fragment>
       <Button className='!hidden md:!flex' onClick={handleClick}>
         {loaderVisible && <CircularProgress />}
-        <Typography className='text-black'>{name}</Typography>
+        <Typography className='text-mainText'>{name}</Typography>
 
         {isEmptyProfile && <ManageAccountsIcon />}
 
         <ExpandMoreIcon
-          className={clsx("transition-transform duration-500 ease-in-out transform text-black", {
+          className={clsx("transition-transform duration-500 ease-in-out transform text-mainText", {
             "rotate-180": open,
             "rotate-0": !open
           })}

@@ -41,7 +41,7 @@ export const TableHeadCell: React.FC<PropsWithChildren<Props>> = ({
         <Fragment>
           <Box className={clsx("flex items-center", { "justify-center": align === "center" })}>
             <Button
-              className={clsx("!block !min-w-fit text-black p-0", {
+              className={clsx("!block !min-w-fit text-mainText p-0", {
                 "cursor-default": !handleClickSort,
                 "!text-primary": sortProps?.active
               })}
