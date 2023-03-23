@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, TextareaAutosize, TextField } from "@mui/material";
+import { Box, FormControl, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
@@ -105,11 +105,6 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
             name='content'
             render={({ field: { value } }) => (
               <FormControl error={!!getError("content")} fullWidth>
-                <InputLabel error={!!getError("content")} className='relative'>
-                  <RequiredLabelWrapper>
-                    <Text>News description</Text>
-                  </RequiredLabelWrapper>
-                </InputLabel>
                 <ContentEditor
                   error={!!getError("content")}
                   apiKey={contentEditorKey}

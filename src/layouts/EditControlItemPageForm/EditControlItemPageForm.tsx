@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const EditControlItemPageForm: React.FC<Props> = ({ slug }) => {
-  return <PageForm slug={slug} />;
+  return <PageForm slug={slug} isDocumentsExist />;
 };
