@@ -1,4 +1,4 @@
-import { Box, FormControl, TextareaAutosize, TextField } from "@mui/material";
+import { Box, FormControl, InputLabel, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
@@ -94,7 +94,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 }}
                 {...register("description", baseRequired)}
               />
-              <HelperText id='name' error={getError("name")} />
+              <HelperText id='description' error={getError("description")} />
             </FormControl>
           )}
         />
@@ -104,13 +104,21 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
             control={control}
             name='content'
             render={({ field: { value } }) => (
-              <FormControl fullWidth>
+              <FormControl error={!!getError("content")} fullWidth>
+                <InputLabel error={!!getError("content")} className='relative'>
+                  <RequiredLabelWrapper>
+                    <Text>News description</Text>
+                  </RequiredLabelWrapper>
+                </InputLabel>
                 <ContentEditor
+                  error={!!getError("content")}
                   apiKey={contentEditorKey}
                   value={value ?? ""}
-                  {...register("content")}
+                  {...register("content", baseRequired)}
                   getUploadedUrl={getUploadedUrl}
                 />
+
+                <HelperText id='content' error={getError("content")} />
               </FormControl>
             )}
           />

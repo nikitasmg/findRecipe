@@ -394,6 +394,7 @@ export type Mutation = {
   /** Нельзя удалить суперпользователя, ID=1 */
   deleteUser?: Maybe<User>;
   deleteVacancy?: Maybe<Vacancy>;
+  deleteVideoBroadcast?: Maybe<VideoBroadcast>;
   login: Scalars['String'];
   logout?: Maybe<User>;
   requestPasswordReset: Scalars['String'];
@@ -424,6 +425,7 @@ export type Mutation = {
   upsertSubdivision?: Maybe<Subdivision>;
   upsertUser?: Maybe<User>;
   upsertVacancy?: Maybe<Vacancy>;
+  upsertVideoBroadcast?: Maybe<VideoBroadcast>;
 };
 
 
@@ -538,6 +540,11 @@ export type MutationDeleteUserArgs = {
 
 
 export type MutationDeleteVacancyArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteVideoBroadcastArgs = {
   id: Scalars['Int'];
 };
 
@@ -694,6 +701,11 @@ export type MutationUpsertVacancyArgs = {
   input: VacancyInput;
 };
 
+
+export type MutationUpsertVideoBroadcastArgs = {
+  input: VideoBroadcastInput;
+};
+
 export type News = {
   __typename?: 'News';
   category?: Maybe<NewsCategory>;
@@ -835,6 +847,7 @@ export type Page = {
   id: Scalars['Int'];
   image?: Maybe<Image>;
   imageUrl?: Maybe<Scalars['String']>;
+  linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
   params?: Maybe<Scalars['JSON']>;
@@ -877,6 +890,7 @@ export type PageInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
   params?: InputMaybe<Scalars['JSON']>;
   parent?: InputMaybe<PageParentBelongsTo>;
@@ -1098,6 +1112,8 @@ export type Query = {
   users?: Maybe<UserPaginator>;
   vacancies: Array<Vacancy>;
   vacancyById?: Maybe<Vacancy>;
+  videoBroadcastById?: Maybe<VideoBroadcast>;
+  videoBroadcasts: Array<VideoBroadcast>;
 };
 
 
@@ -1408,6 +1424,17 @@ export type QueryVacancyByIdArgs = {
   id: Scalars['Int'];
 };
 
+
+export type QueryVideoBroadcastByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryVideoBroadcastsArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
 /** Aggregate specification for Query.projects.orderBy.contest. */
 export type QueryProjectsOrderByContest = {
   /** The aggregate function to apply to the column. */
@@ -1657,6 +1684,21 @@ export type VacancyInput = {
   name?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['Int']>;
+};
+
+export type VideoBroadcast = {
+  __typename?: 'VideoBroadcast';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  sort: Scalars['Int'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type VideoBroadcastInput = {
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  url?: InputMaybe<Scalars['String']>;
 };
 
 export type AllActivityResultsFieldsFragment = { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any };
@@ -1960,6 +2002,37 @@ export type DeleteLinkedDocumentMutationVariables = Exact<{
 
 
 export type DeleteLinkedDocumentMutation = { __typename?: 'Mutation', deleteLinkedDocument?: { __typename?: 'LinkedDocument', id: number } | null };
+
+export type AllMapObjectsFieldsFragment = { __typename?: 'MapObject', id: number, name: string, characteristics: string, area: number, gross_boma_area: number, floors: number, learn_more: string, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null };
+
+export type MapObjectByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type MapObjectByIdQuery = { __typename?: 'Query', mapObjectById?: { __typename?: 'MapObject', id: number, name: string, characteristics: string, area: number, gross_boma_area: number, floors: number, learn_more: string, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type MapObjectsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type MapObjectsQuery = { __typename?: 'Query', mapObjects: Array<{ __typename?: 'MapObject', id: number, name: string, characteristics: string, area: number, gross_boma_area: number, floors: number, learn_more: string, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null }> };
+
+export type UpdateMapObjectMutationVariables = Exact<{
+  input: MapObjectInput;
+}>;
+
+
+export type UpdateMapObjectMutation = { __typename?: 'Mutation', upsertMapObject?: { __typename?: 'MapObject', id: number, name: string, characteristics: string, area: number, gross_boma_area: number, floors: number, learn_more: string, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+
+export type DeleteMapObjectMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteMapObjectMutation = { __typename?: 'Mutation', deleteMapObject?: { __typename?: 'MapObject', id: number } | null };
 
 export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null };
 
@@ -2688,6 +2761,25 @@ export const AllLinkedDocumentFieldsFragmentDoc = `
   url
   user_name
   sort
+}
+    `;
+export const AllMapObjectsFieldsFragmentDoc = `
+    fragment allMapObjectsFields on MapObject {
+  id
+  name
+  characteristics
+  area
+  gross_boma_area
+  floors
+  learn_more
+  linked_documents {
+    id
+    url
+    user_name
+    sort
+  }
+  created_at
+  updated_at
 }
     `;
 export const AllNewsFieldsFragmentDoc = `
@@ -3733,6 +3825,88 @@ export const useDeleteLinkedDocumentMutation = <
     useMutation<DeleteLinkedDocumentMutation, TError, DeleteLinkedDocumentMutationVariables, TContext>(
       ['deleteLinkedDocument'],
       (variables?: DeleteLinkedDocumentMutationVariables) => fetcher<DeleteLinkedDocumentMutation, DeleteLinkedDocumentMutationVariables>(client, DeleteLinkedDocumentDocument, variables, headers)(),
+      options
+    );
+export const MapObjectByIdDocument = `
+    query mapObjectById($id: Int!) {
+  mapObjectById(id: $id) {
+    ...allMapObjectsFields
+  }
+}
+    ${AllMapObjectsFieldsFragmentDoc}`;
+export const useMapObjectByIdQuery = <
+      TData = MapObjectByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: MapObjectByIdQueryVariables,
+      options?: UseQueryOptions<MapObjectByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MapObjectByIdQuery, TError, TData>(
+      ['mapObjectById', variables],
+      fetcher<MapObjectByIdQuery, MapObjectByIdQueryVariables>(client, MapObjectByIdDocument, variables, headers),
+      options
+    );
+export const MapObjectsDocument = `
+    query mapObjects($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  mapObjects(orderBy: $orderBy, filter: $filter) {
+    ...allMapObjectsFields
+  }
+}
+    ${AllMapObjectsFieldsFragmentDoc}`;
+export const useMapObjectsQuery = <
+      TData = MapObjectsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: MapObjectsQueryVariables,
+      options?: UseQueryOptions<MapObjectsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MapObjectsQuery, TError, TData>(
+      variables === undefined ? ['mapObjects'] : ['mapObjects', variables],
+      fetcher<MapObjectsQuery, MapObjectsQueryVariables>(client, MapObjectsDocument, variables, headers),
+      options
+    );
+export const UpdateMapObjectDocument = `
+    mutation updateMapObject($input: MapObjectInput!) {
+  upsertMapObject(input: $input) {
+    ...allMapObjectsFields
+  }
+}
+    ${AllMapObjectsFieldsFragmentDoc}`;
+export const useUpdateMapObjectMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateMapObjectMutation, TError, UpdateMapObjectMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateMapObjectMutation, TError, UpdateMapObjectMutationVariables, TContext>(
+      ['updateMapObject'],
+      (variables?: UpdateMapObjectMutationVariables) => fetcher<UpdateMapObjectMutation, UpdateMapObjectMutationVariables>(client, UpdateMapObjectDocument, variables, headers)(),
+      options
+    );
+export const DeleteMapObjectDocument = `
+    mutation deleteMapObject($id: Int!) {
+  deleteMapObject(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteMapObjectMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteMapObjectMutation, TError, DeleteMapObjectMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteMapObjectMutation, TError, DeleteMapObjectMutationVariables, TContext>(
+      ['deleteMapObject'],
+      (variables?: DeleteMapObjectMutationVariables) => fetcher<DeleteMapObjectMutation, DeleteMapObjectMutationVariables>(client, DeleteMapObjectDocument, variables, headers)(),
       options
     );
 export const NewsByIdDocument = `

@@ -8,6 +8,7 @@ type Props = {
   value: string;
   apiKey: string;
   name: string;
+  error?: boolean;
   onChange?: (event: { target: { value: string; name: string } }) => void;
   getUploadedUrl?: (blobUrl: string) => Promise<string>;
 };

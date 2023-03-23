@@ -1,5 +1,5 @@
 import React from "react";
-import { InteractiveMapForm } from "~/modules/InteractiveMapForm";
+import { InteractiveMap as Map } from "~/modules/InteractiveMap";
 import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Text } from "~/shared/components/Text";
@@ -12,7 +12,7 @@ export const InteractiveMap: React.FC = () => {
         <Text className='px-4'>Interactive map</Text>
       </PageTitle>
       <Panel>
-        <InteractiveMapForm />
+        <Map />
       </Panel>
     </PageWrapper>
   );
