@@ -2,6 +2,7 @@ import { curry } from "rambda";
 import { useEffect, useState } from "react";
 import { arrayMove } from "react-sortable-hoc";
 import {
+  SortOrder,
   UpdateVacancyMutationVariables,
   useUpdateVacancyMutation,
   useVacanciesQuery,
@@ -10,7 +11,6 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useVacanciesStore } from "~stores/vacancies";
 import { useRequestState } from "~shared/hooks/useRequestState";
-import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 export const useVacancies = () => {
   const [rows, setRows] = useState<Vacancy[]>([]);
@@ -36,15 +36,16 @@ export const useVacancies = () => {
 
   const { data, isLoading } = useVacanciesQuery(
     client,
-    { orderBy: variables.orderBy, filter: variables.filter },
+    {
+      orderBy: [...(variables.orderBy ?? []), { column: "sort", order: SortOrder.Asc }],
+      filter: variables.filter
+    },
     { refetchOnMount: "always" }
   );
 
   const vacancies = data?.vacancies;
 
-  const goBack = useNavigationBack();
-
-  const { mutateAsync: updateVacancy } = useUpdateVacancyMutation(client, { onSuccess: goBack });
+  const { mutateAsync: updateVacancy } = useUpdateVacancyMutation(client);
 
   const getUpdatedRows = curry((id: string, newValues: Vacancy, rows: Vacancy[]) =>
     rows.reduce((res: Vacancy[], row) => {
@@ -65,7 +66,7 @@ export const useVacancies = () => {
   };
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    update({ input: { ...rows[oldIndex], sort: newIndex } });
+    update({ input: { ...rows[oldIndex], sort: newIndex + 1 } });
 
     setRows((rows) => arrayMove(rows, oldIndex, newIndex));
   };

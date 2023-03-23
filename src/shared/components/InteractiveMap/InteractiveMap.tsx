@@ -1,33 +1,29 @@
-import clsx from "clsx";
-import React, { Suspense, useState } from "react";
-import { MapInteractionCSS } from "react-map-interaction";
-import styles from "./InteractiveMap.module.css";
-
-const MapSVG = React.lazy(() => import("~/shared/assets/svg/MapSVG"));
+import React, { useCallback, useRef } from "react";
+import QuickPinchZoom, { make3dTransformValue, UpdateAction } from "react-quick-pinch-zoom";
+import { MapSVG } from "../MapSVG";
 
 type Props = {
   onSelect?: (id: number) => void;
 };
 
 export const InteractiveMap: React.FC<Props> = () => {
-  const [map, setMap] = useState({
-    scale: 0.4,
-    translation: { x: 0, y: 0 }
-  });
+  const imgRef = useRef<HTMLDivElement>(null);
+
+  const onUpdate = useCallback(({ x, y, scale }: UpdateAction) => {
+    const { current: img } = imgRef;
+
+    if (img) {
+      const value = make3dTransformValue({ x, y, scale });
+
+      img.style.setProperty("transform", value);
+    }
+  }, []);
 
   return (
-    <MapInteractionCSS
-      showControls
-      minScale={0.4}
-      maxScale={1}
-      plusBtnClass={styles.btn}
-      minusBtnClass={clsx(styles["btn-minus"], styles.btn)}
-      value={map}
-      onChange={setMap}
-    >
-      <Suspense>
+    <QuickPinchZoom onUpdate={onUpdate} wheelScaleFactor={500} maxZoom={2.5}>
+      <div ref={imgRef}>
         <MapSVG />
-      </Suspense>
-    </MapInteractionCSS>
+      </div>
+    </QuickPinchZoom>
   );
 };
