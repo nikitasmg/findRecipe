@@ -9,7 +9,6 @@ import {
   TextareaAutosize,
   TextField
 } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
   useCreateVacancyMutation,
@@ -19,7 +18,6 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
-import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { baseRequired } from "~/shared/lib/validation";
@@ -27,6 +25,7 @@ import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { SaveButton } from "~/shared/components/SaveButton";
 
 interface IVacanciesDetailsForm {
   id?: number;
@@ -181,15 +180,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
         </Grid>
       </Box>
       <Box className='w-full flex'>
-        <Button
-          startIcon={<SaveIcon />}
-          disabled={isLoading}
-          type='submit'
-          className='w-fit ml-auto'
-          size='small'
-        >
-          Save
-        </Button>
+        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

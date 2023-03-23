@@ -2,7 +2,6 @@ import { Box, Drawer, FormControl, TextareaAutosize, TextField } from "@mui/mate
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import RemoveIcon from "@mui/icons-material/Delete";
-import SaveIcon from "@mui/icons-material/Save";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   StaffControl,
@@ -14,6 +13,7 @@ import { Text } from "~/shared/components/Text";
 import { Button } from "~/shared/components/Button";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { HelperText } from "~/shared/components/HelperText";
+import { SaveButton } from "~/shared/components/SaveButton";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
@@ -182,16 +182,7 @@ export const DetailsForm: React.FC<Props> = ({
             Delete
           </Button>
 
-          <Button
-            className='flex-1'
-            color='primary'
-            type='submit'
-            variant='outlined'
-            startIcon={<SaveIcon />}
-            disabled={isLoading}
-          >
-            Save
-          </Button>
+          <SaveButton className='flex-1' disabled={isLoading} />
         </Box>
       </Box>
     </Drawer>

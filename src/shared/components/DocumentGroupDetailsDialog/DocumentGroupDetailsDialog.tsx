@@ -1,6 +1,5 @@
 import { Box, Drawer, FormControl, TextField } from "@mui/material";
 import React, { useEffect } from "react";
-import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Controller, useForm } from "react-hook-form";
 import { DocumentGroup, DocumentGroupInput } from "~/generated/graphql";
@@ -10,6 +9,7 @@ import { Button } from "../Button";
 import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
+import { SaveButton } from "../SaveButton";
 
 type Props = {
   open: boolean;
@@ -107,15 +107,7 @@ export const DocumentGroupDetailsDialog: React.FC<Props> = ({
             </Button>
           )}
 
-          <Button
-            className='flex-1'
-            color='primary'
-            type='submit'
-            variant='outlined'
-            startIcon={<SaveIcon />}
-          >
-            Save
-          </Button>
+          <SaveButton className='flex-1' />
         </Box>
       </Box>
     </Drawer>

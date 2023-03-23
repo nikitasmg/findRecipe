@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, FormControlLabel, Grid, Switch, TextField } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
   useCreatePurchaseMutation,
@@ -13,11 +12,11 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
-import { Button } from "~/shared/components/Button";
 import { ContentEditor } from "~shared/components/ContentEditor";
 import { NumericInput } from "~shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { LinkInput } from "~/shared/components/LinkInput";
+import { SaveButton } from "~/shared/components/SaveButton";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
@@ -210,16 +209,7 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
         </Grid>
       </Box>
       <Box className='w-full flex'>
-        <Button
-          startIcon={<SaveIcon />}
-          disabled={isLoading}
-          type='submit'
-          variant='contained'
-          className='w-fit ml-auto'
-          size='small'
-        >
-          Save
-        </Button>
+        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

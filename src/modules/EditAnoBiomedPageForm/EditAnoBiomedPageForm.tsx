@@ -36,7 +36,11 @@ export const EditAnoBiomedPageForm: React.FC = () => {
   const onSubmit = handleSubmit((newValues) => {
     const input = {
       id: values?.id,
-      ...newValues
+      ...newValues,
+      linked_documents: {
+        connect: newValues.connectDocuments ?? [],
+        disconnect: newValues.disconnectDocuments ?? []
+      }
     };
 
     updatePage({ input });

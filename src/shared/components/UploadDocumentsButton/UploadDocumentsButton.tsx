@@ -11,9 +11,16 @@ import { Text } from "~/shared/components/Text";
 type Props = {
   onUpload: (documents: LinkedDocument[]) => void;
   create: ({ input }: { input: LinkedDocumentInput }) => Promise<CreateLinkedDocumentMutation>;
+  multiple?: boolean;
+  className?: string;
 };
 
-export const UploadDocumentsButton: React.FC<Props> = ({ onUpload, create }) => {
+export const UploadDocumentsButton: React.FC<Props> = ({
+  onUpload,
+  create,
+  className,
+  multiple = true
+}) => {
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const files = Array.from(e.target.files ?? []).map((file) => ({
       user_name: file.name,
@@ -36,10 +43,15 @@ export const UploadDocumentsButton: React.FC<Props> = ({ onUpload, create }) => 
   };
 
   return (
-    <Box>
-      <Button variant='outlined' component='label' startIcon={<CloudUploadIcon />}>
+    <Box className={className}>
+      <Button
+        className='h-full'
+        variant='outlined'
+        component='label'
+        startIcon={<CloudUploadIcon />}
+      >
         <Text>Upload document</Text>
-        <input hidden multiple type='file' onChange={onChange} />
+        <input hidden multiple={multiple} type='file' onChange={onChange} />
       </Button>
     </Box>
   );

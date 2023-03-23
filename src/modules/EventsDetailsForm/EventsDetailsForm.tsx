@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { AdditionalForm, AdditionalFormFields } from "./components/AdditionalForm";
 import { EventsPageRoute } from "~/shared/routes";
 import {
@@ -12,13 +11,13 @@ import {
   useUpdateEventMutation
 } from "~/generated/graphql";
 import { TabsForm } from "~/shared/components/TabsForm";
-import { DocumentsForm, DocumentsFormFields } from "~/shared/components/DocumentsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
+import { LinkedDocumentsFormFields, LinkedDocumentForm } from "../LinkedDocumentForm";
 
 type FormFields = GeneralFormFields &
   AdditionalFormFields &
-  DocumentsFormFields & { uploadImage?: File | null };
+  LinkedDocumentsFormFields & { uploadImage?: File | null };
 
 type Props = {
   id?: number;
@@ -73,18 +72,10 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
       start: newValues.start,
       end: newValues.end,
       ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
-      ...(Boolean(newValues.uploadDocuments) && {
-        uploadDocuments: await Promise.all(
-          (newValues.uploadDocuments ?? [])?.map(
-            async (document: { title?: string; url?: string | null }, i: number) => ({
-              upload: document.url ? await fileFromBlobUrl(document.url) : "",
-              sort: i,
-              user_name: document.title ?? ""
-            })
-          )
-        )
-      }),
-      deleteDocuments: newValues.deleteDocuments
+      linked_documents: {
+        connect: newValues.connectDocuments ?? [],
+        disconnect: newValues.disconnectDocuments ?? []
+      }
     };
 
     if (isCreateMode) {
@@ -119,6 +110,17 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
         values?.[fieldName as keyof Omit<Event, "imageThumbs">] as never
       );
     });
+
+    setValue(
+      "documents",
+      values?.linked_documents?.reduce((res, cur) => {
+        if (cur) {
+          res.push(cur);
+        }
+
+        return res;
+      }, Array(0))
+    );
   }, [values, isSuccess, setValue]);
 
   return (
@@ -146,7 +148,9 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
         },
         {
           tabTitle: "Documents",
-          component: <DocumentsForm getValues={getValues} setValue={setValue} control={control} />
+          component: (
+            <LinkedDocumentForm setValue={setValue} getValues={getValues} control={control} />
+          )
         }
       ]}
     />

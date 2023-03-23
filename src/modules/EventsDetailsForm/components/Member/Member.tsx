@@ -1,12 +1,12 @@
 import React, { BaseSyntheticEvent, Fragment, useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import BackspaceIcon from "@mui/icons-material/Backspace";
-import SaveIcon from "@mui/icons-material/Save";
 import { Controller, useForm } from "react-hook-form";
 import { Box, Drawer, TextField, Typography } from "@mui/material";
 import { AvatarInput } from "~/shared/components/AvatarInput";
 import { Button } from "~/shared/components/Button";
 import { Text } from "~/shared/components/Text";
+import { SaveButton } from "~/shared/components/SaveButton";
 import { useModal } from "~/shared/hooks/useModal";
 
 type FormFields = {
@@ -152,15 +152,7 @@ export const Member: React.FC<Props> = ({ title, attachTitle, value = [], onChan
               Back
             </Button>
 
-            <Button
-              className='flex-1'
-              color='primary'
-              type='submit'
-              variant='outlined'
-              startIcon={<SaveIcon />}
-            >
-              Save
-            </Button>
+            <SaveButton className='flex-1' />
           </Box>
         </Box>
       </Drawer>

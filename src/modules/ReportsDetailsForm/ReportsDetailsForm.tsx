@@ -10,11 +10,11 @@ import {
   useUpdateReportMutation
 } from "~/generated/graphql";
 import { TabsForm } from "~/shared/components/TabsForm";
-import { DocumentsForm, DocumentsFormFields } from "~/shared/components/DocumentsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
+import { LinkedDocumentForm, LinkedDocumentsFormFields } from "../LinkedDocumentForm";
 
-type FormFields = GeneralFormFields & DocumentsFormFields & { uploadImage?: File | null };
+type FormFields = GeneralFormFields & LinkedDocumentsFormFields & { uploadImage?: File | null };
 
 type Props = {
   id?: number;
@@ -84,7 +84,6 @@ export const ReportsDetailsForm: React.FC<Props> = ({ id }) => {
       "description",
       "created_at",
       "imageUrl",
-      "documents",
       "sort"
     ];
 
@@ -94,6 +93,17 @@ export const ReportsDetailsForm: React.FC<Props> = ({ id }) => {
         values?.[fieldName as keyof Omit<Report, "image" | "imageThumbs" | "updated_at">] as never
       );
     });
+
+    setValue(
+      "documents",
+      values?.linked_documents?.reduce((res, cur) => {
+        if (cur) {
+          res.push(cur);
+        }
+
+        return res;
+      }, Array(0))
+    );
   }, [values, isSuccess, setValue]);
 
   return (
@@ -117,7 +127,9 @@ export const ReportsDetailsForm: React.FC<Props> = ({ id }) => {
         },
         {
           tabTitle: "Documents",
-          component: <DocumentsForm getValues={getValues} setValue={setValue} control={control} />
+          component: (
+            <LinkedDocumentForm setValue={setValue} getValues={getValues} control={control} />
+          )
         }
       ]}
     />

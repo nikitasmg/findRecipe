@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, Grid, TextField } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
   useActivityResultByIdQuery,
@@ -11,9 +10,9 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
-import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { SaveButton } from "~/shared/components/SaveButton";
 import { baseRequired } from "~/shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
@@ -181,16 +180,7 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id }) => {
         </Grid>
       </Box>
       <Box className='w-full flex'>
-        <Button
-          startIcon={<SaveIcon />}
-          disabled={isLoading}
-          type='submit'
-          variant='contained'
-          className='w-fit ml-auto'
-          size='small'
-        >
-          Save
-        </Button>
+        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

@@ -1,11 +1,10 @@
 import { Box, FormControl, TextField } from "@mui/material";
 import React from "react";
 import { curry } from "rambda";
-import SaveIcon from "@mui/icons-material/Save";
 import { Controller, useForm } from "react-hook-form";
 import { InteractiveMap } from "~/shared/components/InteractiveMap";
 import { Text } from "~/shared/components/Text";
-import { Button } from "~/shared/components/Button";
+import { SaveButton } from "~/shared/components/SaveButton";
 
 type FormFields = {
   object_id?: string;
@@ -72,15 +71,7 @@ export const InteractiveMapForm: React.FC = () => {
           </FormControl>
         )}
       />
-      <Button
-        startIcon={<SaveIcon />}
-        type='submit'
-        variant='contained'
-        className='w-fit ml-auto'
-        size='small'
-      >
-        Save
-      </Button>
+      <SaveButton className='w-fit ml-auto' />
     </Box>
   );
 };

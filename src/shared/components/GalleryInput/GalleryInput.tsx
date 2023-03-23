@@ -23,10 +23,10 @@ import React, {
 import { GalleryImage } from "~/generated/graphql";
 import { useModal } from "~/shared/hooks/useModal";
 import { getFileName } from "~/shared/lib/getFileName";
-import { MultipleImageInput } from "../MultipleImageInput";
-import { Button } from "../Button";
-import { Text } from "../Text";
 import { resortArray } from "~/shared/lib/resortArray";
+import { MultipleImageInput } from "../MultipleImageInput";
+import { Text } from "../Text";
+import { SaveButton } from "../SaveButton";
 
 const SortableItem = SortableElement<PropsWithChildren<ImageListItemProps>>(
   ({ children, ...props }: PropsWithChildren<ImageListItemProps>) => (
@@ -216,9 +216,7 @@ export const GalleryInput: React.FC<Props> = ({
               label={<Text>Title</Text>}
             />
 
-            <Button type='submit' variant='outlined'>
-              Save
-            </Button>
+            <SaveButton />
           </Box>
         </DialogContent>
       </Dialog>
