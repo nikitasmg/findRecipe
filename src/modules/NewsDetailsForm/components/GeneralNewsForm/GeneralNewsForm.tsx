@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, TextareaAutosize, TextField } from "@mui/material";
+import { Box, FormControl, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
