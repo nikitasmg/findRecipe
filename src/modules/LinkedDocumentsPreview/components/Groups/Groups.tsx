@@ -42,7 +42,7 @@ export const Groups = () => {
 
   return (
     <Box className='flex flex-col gap-4'>
-      <Text>Document groups</Text>
+      <Text variant='h6'>Document groups</Text>
       <Box className='flex flex-wrap w-full gap-4'>
         <AddGroup onCreate={onCreate} />
 

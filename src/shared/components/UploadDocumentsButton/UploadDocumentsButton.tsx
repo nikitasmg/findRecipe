@@ -50,7 +50,7 @@ export const UploadDocumentsButton: React.FC<Props> = ({
         component='label'
         startIcon={<CloudUploadIcon />}
       >
-        <Text>Upload document</Text>
+        <Text>Upload documents</Text>
         <input hidden multiple={multiple} type='file' onChange={onChange} />
       </Button>
     </Box>

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import { SortableContainer } from "react-sortable-hoc";
 import {
   LinkedDocument,
   useLinkedDocumentsQuery,
@@ -11,17 +12,26 @@ import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton
 import { useDocumentsStore } from "~/shared/stores/documents";
 import { Groups } from "./components/Groups";
 import { LinkedDocuments } from "./components/LinkedDocuments";
+import { useRequestState } from "~/shared/hooks/useRequestState";
+
+export const DocumentsContainerSortable = SortableContainer<{ children: ReactNode }>(
+  ({ children }: { children: ReactNode }) => (
+    <Box className='flex flex-col gap-10 p-4'>{children}</Box>
+  )
+);
 
 export const LinkedDocumentsPreview: React.FC = () => {
   const [documents, setDocuments] = useState<LinkedDocument[]>([]);
 
+  const { variables, activeOrder, handleChangeOrder } = useRequestState("name");
+
   const client = useGraphqlClient();
 
-  const { data, isLoading } = useLinkedDocumentsQuery(
-    client,
-    {},
-    { refetchOnMount: "always", cacheTime: 0 }
-  );
+  const { data, isLoading } = useLinkedDocumentsQuery(client, variables, {
+    refetchOnMount: "always",
+    cacheTime: 0
+  });
+  
 
   const { mutateAsync: create } = useCreateLinkedDocumentMutation(client);
 
@@ -47,7 +57,7 @@ export const LinkedDocumentsPreview: React.FC = () => {
   }, [data]);
 
   return (
-    <Box className='flex flex-col gap-10 p-4'>
+    <DocumentsContainerSortable axis='xy' distance={10} useDragHandle onSortEnd={() => undefined}>
       <Box className='flex flex-wrap justify-between gap-6'>
         <Text component='h1' variant='h4' whiteSpace='nowrap'>
           Document manager
@@ -55,7 +65,14 @@ export const LinkedDocumentsPreview: React.FC = () => {
         <UploadDocumentsButton onUpload={onUpload} create={create} />
       </Box>
       <Groups />
-      <LinkedDocuments documents={documents} setDocuments={setDocuments} />
-    </Box>
+
+      <LinkedDocuments
+        isLoading={isLoading}
+        activeOrder={activeOrder}
+        handleChangeOrder={handleChangeOrder}
+        documents={documents}
+        setDocuments={setDocuments}
+      />
+    </DocumentsContainerSortable>
   );
 };
