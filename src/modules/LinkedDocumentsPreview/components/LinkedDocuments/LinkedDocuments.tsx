@@ -57,8 +57,6 @@ export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) =>
       return activeDocument;
     }
 
-    console.log(groups);
-
     return groups.find((group) => {
       return group.linked_documents?.find((doc) => doc?.id === activeDocument?.id);
     });

@@ -1,5 +1,5 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Control, Controller, UseFormGetValues } from "react-hook-form";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
@@ -36,6 +36,7 @@ type Props = {
   groups: Pick<DocumentGroup, "id" | "name">[];
   onGroupUpdate: (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => void;
   groupId?: DocumentGroup["id"];
+  onActiveChange?: (active?: LinkedDocument | null) => void;
 };
 
 export const LinkedDocumentForm: React.FC<Props> = ({
@@ -47,6 +48,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   control,
   groups,
   onGroupUpdate,
+  onActiveChange,
   groupId,
   allDocuments = []
 }) => {
@@ -152,6 +154,10 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   };
 
   const options = allDocuments?.map((doc) => ({ label: doc.user_name, value: doc }));
+
+  useEffect(() => {
+    onActiveChange?.(activeDocument);
+  }, [activeDocument, onActiveChange]);
 
   return (
     <Box className='flex flex-col gap-4'>
