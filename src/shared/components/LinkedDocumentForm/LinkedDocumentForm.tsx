@@ -7,7 +7,9 @@ import {
   LinkedDocumentInput,
   CreateLinkedDocumentMutation,
   UpdateLinkedDocumentMutation,
-  DeleteLinkedDocumentMutation
+  DeleteLinkedDocumentMutation,
+  DocumentGroup,
+  DocumentGroupInput
 } from "~/generated/graphql";
 import { DocumentCard } from "../DocumentCard";
 import { UploadDocumentsButton } from "../UploadDocumentsButton";
@@ -31,6 +33,9 @@ type Props = {
   create: ({ input }: { input: LinkedDocumentInput }) => Promise<CreateLinkedDocumentMutation>;
   update: ({ input }: { input: LinkedDocumentInput }) => Promise<UpdateLinkedDocumentMutation>;
   remove: ({ id }: { id: LinkedDocument["id"] }) => Promise<DeleteLinkedDocumentMutation>;
+  groups: Pick<DocumentGroup, "id" | "name">[];
+  onGroupUpdate: (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => void;
+  groupId?: DocumentGroup["id"];
 };
 
 export const LinkedDocumentForm: React.FC<Props> = ({
@@ -40,6 +45,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   setValue,
   getValues,
   control,
+  groups,
+  onGroupUpdate,
+  groupId,
   allDocuments = []
 }) => {
   const [activeDocument, setActiveDocument] = useState<LinkedDocument | null>();
@@ -91,6 +99,8 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     }
 
     handleClose();
+
+    return Promise.resolve(Number(input.id));
   };
 
   const handleDelete = (id: LinkedDocumentInput["id"]) => {
@@ -198,6 +208,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
       />
 
       <DocumentDetailsDialog
+        groups={groups}
+        onGroupUpdate={onGroupUpdate}
+        groupId={groupId}
         open={!!open}
         onClose={onClose}
         document={activeDocument}

@@ -17,7 +17,11 @@ export const LinkedDocumentsPreview: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data, isLoading } = useLinkedDocumentsQuery(client);
+  const { data, isLoading } = useLinkedDocumentsQuery(
+    client,
+    {},
+    { refetchOnMount: "always", cacheTime: 0 }
+  );
 
   const { mutateAsync: create } = useCreateLinkedDocumentMutation(client);
 

@@ -21,7 +21,7 @@ export const Groups = () => {
 
   const client = useGraphqlClient();
 
-  const { data } = useDocumentGroupsQuery(client);
+  const { data } = useDocumentGroupsQuery(client, {}, { refetchOnMount: "always" });
 
   const onCreate = (newGroup: DocumentGroup) => {
     setGroups((cur) => cur.slice().concat(newGroup));
