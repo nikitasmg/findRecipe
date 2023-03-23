@@ -1,12 +1,11 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import React, { ReactNode, useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import SaveIcon from "@mui/icons-material/Save";
 import ErrorIcon from "@mui/icons-material/Error";
 import { Text } from "../Text";
 import { TabPanel } from "../TabPanel";
-import { Button } from "../Button";
 import { LinkButton } from "../LinkButton";
+import { SaveButton } from "../SaveButton";
 
 type Props = {
   forms: {
@@ -96,15 +95,7 @@ export const TabsForm: React.FC<Props> = ({
         )}
         {isSaveVisible && (
           <Box className='flex gap-4 w-full sm:w-auto ml-auto'>
-            <Button
-              startIcon={<SaveIcon />}
-              disabled={isLoading}
-              type='submit'
-              variant='outlined'
-              size='small'
-            >
-              Save
-            </Button>
+            <SaveButton disabled={isLoading} />
           </Box>
         )}
       </Box>

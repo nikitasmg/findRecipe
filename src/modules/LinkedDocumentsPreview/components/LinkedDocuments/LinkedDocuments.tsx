@@ -48,10 +48,14 @@ export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) =>
       const updatedDocumentIndex = newDocuments.findIndex((doc) => doc.id === input.id);
 
       if (~updatedDocumentIndex) {
+        const url = input.upload
+          ? URL.createObjectURL(input.upload)
+          : newDocuments[updatedDocumentIndex].url;
+
         newDocuments[updatedDocumentIndex] = {
           id: Number(input.id),
           user_name: input.user_name,
-          url: URL.createObjectURL(input.upload)
+          url
         };
       }
 
@@ -71,7 +75,7 @@ export const LinkedDocuments: React.FC<Props> = ({ documents, setDocuments }) =>
 
   return (
     <Box className='flex flex-col gap-4'>
-      <Text>Documents</Text>
+      {!!documents.length && <Text>Documents</Text>}
 
       <Box className='flex flex-wrap w-full gap-4'>
         {documents?.map((document) => (

@@ -7,10 +7,10 @@ import {
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
+import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";
 import { useDocumentsStore } from "~/shared/stores/documents";
 import { Groups } from "./components/Groups";
 import { LinkedDocuments } from "./components/LinkedDocuments";
-import { UploadDocumentsButton } from "../../shared/components/UploadDocumentsButton";
 
 export const LinkedDocumentsPreview: React.FC = () => {
   const [documents, setDocuments] = useState<LinkedDocument[]>([]);

@@ -68,10 +68,14 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
       const updatedDocumentIndex = newDocuments.findIndex((doc) => doc.id === input.id);
 
       if (~updatedDocumentIndex) {
+        const url = input.upload
+          ? URL.createObjectURL(input.upload)
+          : newDocuments[updatedDocumentIndex].url;
+
         newDocuments[updatedDocumentIndex] = {
           id: Number(input.id),
           user_name: input.user_name,
-          url: URL.createObjectURL(input.upload)
+          url
         };
       }
 

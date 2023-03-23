@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, Grid, MenuItem, TextField } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
 import {
   EmployeeInput,
   useCreateEmployeeMutation,
@@ -12,8 +11,8 @@ import {
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
-import { Button } from "~/shared/components/Button";
 import { NumericInput } from "~/shared/components/NumericInput";
+import { SaveButton } from "~/shared/components/SaveButton";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getBaseEmailValidation, getFullNameValidation } from "~shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
@@ -227,15 +226,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
             </FormControl>
           </Grid>
         </Grid>
-        <Button
-          startIcon={<SaveIcon />}
-          disabled={isLoading}
-          type='submit'
-          variant='contained'
-          className='w-fit ml-auto'
-        >
-          Save
-        </Button>
+        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

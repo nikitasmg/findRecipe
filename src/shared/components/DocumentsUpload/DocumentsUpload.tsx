@@ -2,7 +2,6 @@ import { Box, Drawer, TextField, Typography } from "@mui/material";
 import React, { BaseSyntheticEvent, ReactNode, useState } from "react";
 import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import SaveIcon from "@mui/icons-material/Save";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -13,6 +12,7 @@ import { Button } from "../Button";
 import { Text } from "../Text";
 import { FileInput } from "../FileInput";
 import { DragHandle } from "../SortableTable";
+import { SaveButton } from "../SaveButton";
 
 export const DocumentsContainerSortable = SortableContainer<{ children: ReactNode }>(
   ({ children }: { children: ReactNode }) => <Box className='flex flex-col gap-4'>{children}</Box>
@@ -225,15 +225,7 @@ export const DocumentsUpload: React.FC<Props> = ({
               Back
             </Button>
 
-            <Button
-              className='flex-1'
-              color='primary'
-              type='submit'
-              variant='outlined'
-              startIcon={<SaveIcon />}
-            >
-              Save
-            </Button>
+            <SaveButton className='flex-1' />
           </Box>
         </Box>
       </Drawer>

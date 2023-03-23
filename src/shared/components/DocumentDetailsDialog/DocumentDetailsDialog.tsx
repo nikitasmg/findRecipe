@@ -1,18 +1,18 @@
 import { Box, Drawer, FormControl, TextField } from "@mui/material";
 import React, { useEffect } from "react";
-import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Controller, useForm } from "react-hook-form";
 import { LinkedDocument, LinkedDocumentInput } from "~/generated/graphql";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
+import { getFileName } from "~/shared/lib/getFileName";
 import { Button } from "../Button";
 import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
 import { FileInput } from "../FileInput";
-import { getFileName } from "../../lib/getFileName";
+import { SaveButton } from "../SaveButton";
 
 type Props = {
   open: boolean;
@@ -37,27 +37,35 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     setValue,
     formState: { errors },
     handleSubmit,
-    getValues
+    getValues,
+    reset
   } = useForm({ mode: "all" });
 
   const getError = getErrorMessage(errors);
 
   const isCreate = !document?.id;
 
-  const onSubmit = handleSubmit((newValues) => {
-    const input = {
-      ...(Boolean(isCreate) && { id: document?.id }),
-      ...(Boolean(newValues.file) && { upload: newValues.file }),
-      user_name: `${newValues.title}.${newValues.format}`
-    };
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
 
-    if (isCreate) {
-      create?.(input);
-      return;
-    }
+    handleSubmit((newValues) => {
+      const input = {
+        ...(Boolean(!isCreate) && { id: document?.id }),
+        ...(Boolean(newValues.file) && { upload: newValues.file }),
+        user_name: `${newValues.title}.${newValues.format}`
+      };
 
-    update?.(input);
-  });
+      if (isCreate) {
+        create?.(input);
+        onClose?.();
+        return;
+      }
+
+      update?.(input);
+      onClose?.();
+    })(e);
+  };
 
   const handleDelete = () => {
     if (document?.id) {
@@ -73,9 +81,11 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     setValue("format", getFileFormat(document?.user_name ?? ""));
   }, [document, setValue]);
 
+  useEffect(() => reset, [reset]);
+
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>
-      <Box className='flex flex-col gap-10 p-6' component='form' onSubmitCapture={onSubmit}>
+      <Box className='flex flex-col gap-10 p-6' component='form' onSubmit={onSubmit}>
         <Text variant='h5'>{document ? "Edit document" : "Create document"}</Text>
 
         <Controller
@@ -103,29 +113,34 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
         <Controller
           control={control}
           name='url'
+          rules={baseRequired}
           render={({ field: { value } }) => (
-            <FileInput
-              id='file-input'
-              url={value}
-              fileName={getValues("title")}
-              onFileChange={(file) => {
-                setValue("file", file);
+            <FormControl fullWidth error={!!getError("title")}>
+              <FileInput
+                id='file-input'
+                url={value}
+                fileName={getValues("title")}
+                onFileChange={(file) => {
+                  setValue("file", file);
 
-                const format = getFileFormat(file?.name ?? "");
+                  const format = getFileFormat(file?.name ?? "");
 
-                setValue("format", format);
-                setValue("title", file?.name ?? "");
-              }}
-              onUrlChange={(url = "") => {
-                setValue("url", url);
-              }}
-              onDelete={() => {
-                setValue("url", "");
-                setValue("file", null);
-                setValue("title", "");
-                setValue("format", "");
-              }}
-            />
+                  setValue("format", format);
+                  setValue("title", getFileName(file?.name ?? ""));
+                }}
+                onUrlChange={(url = "") => {
+                  setValue("url", url);
+                }}
+                onDelete={() => {
+                  setValue("url", "");
+                  setValue("file", null);
+                  setValue("title", "");
+                  setValue("format", "");
+                }}
+              />
+
+              <HelperText id='url' error={getError("url")} />
+            </FormControl>
           )}
         />
 
@@ -143,15 +158,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
             </Button>
           )}
 
-          <Button
-            className='flex-1'
-            color='primary'
-            type='submit'
-            variant='outlined'
-            startIcon={<SaveIcon />}
-          >
-            Save
-          </Button>
+          <SaveButton className='flex-1' />
         </Box>
       </Box>
     </Drawer>
