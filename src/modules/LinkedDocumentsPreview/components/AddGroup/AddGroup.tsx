@@ -28,7 +28,7 @@ export const AddGroup: React.FC<Props> = ({ onCreate }) => {
         return;
       }
 
-      onCreate(newGroup.createDocumentGroup);
+      onCreate(newGroup.createDocumentGroup as DocumentGroup);
     });
     handleClose();
   };

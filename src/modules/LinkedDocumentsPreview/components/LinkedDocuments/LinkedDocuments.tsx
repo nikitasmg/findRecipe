@@ -14,6 +14,7 @@ import {
   SortOrder,
   useCreateLinkedDocumentMutation
 } from "~/generated/graphql";
+import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
@@ -35,10 +36,10 @@ export const DocumentWrapperSortable = SortableElement<{ children: ReactNode }>(
 
 type Props = {
   activeOrder: ActiveOrder;
-  documents: LinkedDocument[];
+  documents: LinkedDocumentsWithoutUpdated[];
   isLoading: boolean;
   handleChangeOrder: (order: ActiveOrder) => void;
-  setDocuments: React.Dispatch<React.SetStateAction<LinkedDocument[]>>;
+  setDocuments: React.Dispatch<React.SetStateAction<LinkedDocumentsWithoutUpdated[]>>;
 };
 
 export const LinkedDocuments: React.FC<Props> = ({
@@ -48,7 +49,7 @@ export const LinkedDocuments: React.FC<Props> = ({
   isLoading,
   handleChangeOrder
 }) => {
-  const [activeDocument, setActiveDocument] = useState<LinkedDocument | null>();
+  const [activeDocument, setActiveDocument] = useState<LinkedDocumentsWithoutUpdated | null>();
 
   const { open, handleClose, handleOpen } = useModal();
 
@@ -57,7 +58,7 @@ export const LinkedDocuments: React.FC<Props> = ({
     handleClose();
   };
 
-  const getHandlerSelectDocument = (document: LinkedDocument | null) => () => {
+  const getHandlerSelectDocument = (document: LinkedDocumentsWithoutUpdated | null) => () => {
     setActiveDocument(document);
     handleOpen();
   };
@@ -90,7 +91,9 @@ export const LinkedDocuments: React.FC<Props> = ({
     });
   }, [activeDocument, groups]);
 
-  const handleUpdate = (input: LinkedDocumentInput) => {
+  const handleUpdate = (
+    input: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+  ) => {
     update({ input });
 
     setDocuments((currentDocuments) => {
@@ -106,7 +109,9 @@ export const LinkedDocuments: React.FC<Props> = ({
         newDocuments[updatedDocumentIndex] = {
           id: Number(input.id),
           user_name: input.user_name,
-          url
+          url,
+          published: !!input.published,
+          created_at: input.created_at
         };
       }
 
@@ -116,7 +121,7 @@ export const LinkedDocuments: React.FC<Props> = ({
     return Promise.resolve(Number(input.id));
   };
 
-  const handleCreate = (document: Omit<LinkedDocumentInput, "id">) => {
+  const handleCreate = (document: LinkedDocumentInput) => {
     return create({ input: document })
       .then((data) => {
         setDocuments((currentDocuments) => {
@@ -195,6 +200,12 @@ export const LinkedDocuments: React.FC<Props> = ({
           onSortClick={getClickHandler("user_name")}
           sortProps={getActiveProps("user_name")}
         />
+        <TableHeadCell
+          title='Date create'
+          cellId='created_at'
+          onSortClick={getClickHandler("created_at")}
+          sortProps={getActiveProps("created_at")}
+        />
       </Box>
 
       <Box className='flex flex-wrap w-full gap-4'>
@@ -214,17 +225,19 @@ export const LinkedDocuments: React.FC<Props> = ({
         ))}
       </Box>
 
-      <DocumentDetailsDialog
-        groups={groups}
-        groupId={groupWithActiveDocument?.id}
-        open={!!open}
-        onClose={onClose}
-        document={activeDocument}
-        create={handleCreate}
-        update={handleUpdate}
-        onRemove={handleDelete}
-        onGroupUpdate={onGroupUpdate}
-      />
+      {open && (
+        <DocumentDetailsDialog
+          groups={groups}
+          groupId={groupWithActiveDocument?.id}
+          open={!!open}
+          onClose={onClose}
+          document={activeDocument}
+          create={handleCreate}
+          update={handleUpdate}
+          onRemove={handleDelete}
+          onGroupUpdate={onGroupUpdate}
+        />
+      )}
     </Box>
   );
 };

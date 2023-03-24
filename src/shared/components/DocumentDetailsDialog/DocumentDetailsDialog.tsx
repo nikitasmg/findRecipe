@@ -1,4 +1,12 @@
-import { Box, Drawer, FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  FormControl,
+  FormControlLabel,
+  MenuItem,
+  Switch,
+  TextField
+} from "@mui/material";
 import React, { useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Controller, useForm } from "react-hook-form";
@@ -8,16 +16,19 @@ import {
   LinkedDocument,
   LinkedDocumentInput
 } from "~/generated/graphql";
+import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { getFileName } from "~/shared/lib/getFileName";
+import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { Button } from "../Button";
 import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
 import { FileInput } from "../FileInput";
 import { SaveButton } from "../SaveButton";
+import { DatePicker } from "../DatePicker";
 
 type Props = {
   open: boolean;
@@ -25,10 +36,12 @@ type Props = {
   groups: Pick<DocumentGroup, "id" | "name">[];
   onGroupUpdate: (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => void;
   groupId?: DocumentGroup["id"];
-  create?: (document: Omit<LinkedDocumentInput, "id">) => Promise<number>;
-  update?: (document: LinkedDocumentInput) => Promise<number>;
+  create?: (document: LinkedDocumentInput) => Promise<number>;
+  update?: (
+    document: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+  ) => Promise<number>;
   onRemove?: (id: LinkedDocumentInput["id"]) => void;
-  document?: LinkedDocument | null;
+  document?: LinkedDocumentsWithoutUpdated | null;
 };
 
 export const DocumentDetailsDialog: React.FC<Props> = ({
@@ -48,8 +61,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     setValue,
     formState: { errors },
     handleSubmit,
-    getValues,
-    reset
+    getValues
   } = useForm({ mode: "all" });
 
   const getError = getErrorMessage(errors);
@@ -64,16 +76,20 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
       const input = {
         ...(Boolean(!isCreate) && { id: document?.id }),
         ...(Boolean(newValues.file) && { upload: newValues.file }),
-        user_name: `${newValues.title}.${newValues.format}`
+        user_name: `${newValues.title}.${newValues.format}`,
+        published: newValues.published,
+        created_at: newValues.created_at
       };
 
       let connectId: number | null = null;
 
       if (isCreate) {
+        delete input.created_at;
         await create?.(input).then((id) => {
           connectId = id;
         });
       } else {
+        delete input.created_at;
         await update?.(input).then((id) => {
           connectId = id;
         });
@@ -113,14 +129,16 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     onClose();
   };
 
+  const handleChecked = getCheckedHandler(setValue);
+
   useEffect(() => {
     setValue("title", getFileName(document?.user_name ?? ""));
     setValue("url", document?.url);
     setValue("format", getFileFormat(document?.user_name ?? ""));
     setValue("groupId", groupId);
+    setValue("published", document?.published);
+    setValue("created_at", document?.created_at);
   }, [document, setValue, groupId]);
-
-  useEffect(() => reset, [reset]);
 
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>
@@ -207,6 +225,31 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                 </MenuItem>
               ))}
             </TextField>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name='published'
+          render={({ field: { value } }) => (
+            <FormControlLabel
+              control={<Switch checked={!!value} onChange={handleChecked("published")} />}
+              label={<Text>Published</Text>}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name='created_at'
+          render={({ field: { value, onChange } }) => (
+            <DatePicker
+              disabled
+              onChange={onChange}
+              className='w-full'
+              label={<Text>Date create</Text>}
+              value={value ?? null}
+            />
           )}
         />
 

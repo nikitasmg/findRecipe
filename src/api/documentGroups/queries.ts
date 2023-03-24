@@ -10,6 +10,8 @@ export const DocumentGroupsFragment = gql`
       sort
       user_name
       url
+      created_at
+      published
     }
   }
 `;

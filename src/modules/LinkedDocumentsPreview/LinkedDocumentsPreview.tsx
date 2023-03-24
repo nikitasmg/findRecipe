@@ -6,6 +6,7 @@ import {
   useLinkedDocumentsQuery,
   useCreateLinkedDocumentMutation
 } from "~/generated/graphql";
+import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";
@@ -21,7 +22,7 @@ export const DocumentsContainerSortable = SortableContainer<{ children: ReactNod
 );
 
 export const LinkedDocumentsPreview: React.FC = () => {
-  const [documents, setDocuments] = useState<LinkedDocument[]>([]);
+  const [documents, setDocuments] = useState<LinkedDocumentsWithoutUpdated[]>([]);
 
   const { variables, activeOrder, handleChangeOrder } = useRequestState("name");
 
@@ -31,7 +32,6 @@ export const LinkedDocumentsPreview: React.FC = () => {
     refetchOnMount: "always",
     cacheTime: 0
   });
-  
 
   const { mutateAsync: create } = useCreateLinkedDocumentMutation(client);
 

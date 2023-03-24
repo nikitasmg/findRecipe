@@ -11,17 +11,18 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { DeepPartial } from "react-hook-form";
 import { MapObject, useMapObjectsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableActions } from "~/shared/components/TableActions";
 import { InteractiveMap as Map } from "~/shared/components/InteractiveMap";
 import { getEventValueHandler } from "~/shared/lib/events";
+import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { InteractiveMapPageEdit } from "~/shared/routes";
 import { FiltersForm } from "./components/FiltersForm";
 import { useColumns } from "./lib/useColumns";
 import { ItemsGroups } from "./types";
-import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 
 export const InteractiveMap: React.FC = () => {
   const history = useNavigate();
@@ -95,14 +96,14 @@ export const InteractiveMap: React.FC = () => {
 
             {!isLoading && (
               <TableBody>
-                {mapObjects?.map((row: Partial<MapObject>) => {
+                {mapObjects?.map((row: DeepPartial<MapObject>) => {
                   return (
                     <TableRow hover role='row' tabIndex={-1} key={row.id}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align} style={column.style}>
-                            {column.render?.(value, row) ?? value}
+                            {column.render?.(value, row as MapObject) ?? value}
                           </TableCell>
                         );
                       })}
