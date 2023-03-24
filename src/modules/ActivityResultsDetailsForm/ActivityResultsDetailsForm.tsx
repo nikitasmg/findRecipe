@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, Grid, TextField } from "@mui/material";
 import {
-  EmployeeInput,
   useActivityResultByIdQuery,
   useUpdateActivityResultMutation,
   useCreateActivityResultMutation
@@ -60,9 +59,10 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id }) => {
   const getError = getErrorMessage(errors);
 
   const onSubmit = handleSubmit((newValues) => {
-    const input: EmployeeInput = {
+    const input = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
+      result: parseFloat(newValues.result),
       sort: newValues.sort ? Number(newValues.sort) : 0
     };
 
