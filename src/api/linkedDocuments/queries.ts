@@ -8,6 +8,8 @@ export const LinkedDocumentsFragment = gql`
     url
     user_name
     sort
+    published
+    created_at
   }
 `;
 

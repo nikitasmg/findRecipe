@@ -16,6 +16,7 @@ import {
   useLinkedDocumentsQuery,
   useDocumentGroupsQuery
 } from "~/generated/graphql";
+import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
 import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";
@@ -28,9 +29,9 @@ type Props = {
 };
 
 export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
-  const [documents, setDocuments] = useState<LinkedDocument[]>([]);
+  const [documents, setDocuments] = useState<LinkedDocumentsWithoutUpdated[]>([]);
 
-  const [activeDocument, setActiveDocument] = useState<LinkedDocument | null>();
+  const [activeDocument, setActiveDocument] = useState<LinkedDocumentsWithoutUpdated | null>();
 
   const { open, handleClose, handleOpen } = useModal();
 
@@ -62,7 +63,7 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
 
   const group = data?.documentGroupById;
 
-  const getHandlerSelectDocument = (document: LinkedDocument | null) => () => {
+  const getHandlerSelectDocument = (document: LinkedDocumentsWithoutUpdated | null) => () => {
     setActiveDocument(document);
     handleOpen();
   };
@@ -72,7 +73,9 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     handleClose();
   };
 
-  const handleUpdate = (input: LinkedDocumentInput) => {
+  const handleUpdate = (
+    input: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+  ) => {
     update({ input });
 
     setDocuments((currentDocuments) => {
@@ -88,7 +91,9 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
         newDocuments[updatedDocumentIndex] = {
           id: Number(input.id),
           user_name: input.user_name,
-          url
+          url,
+          published: !!input.published,
+          created_at: input.created_at
         };
       }
 
@@ -121,7 +126,7 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     updateGroup({ input });
   };
 
-  const getUnlinkDocumentHandler = (document: LinkedDocument) => () => {
+  const getUnlinkDocumentHandler = (document: LinkedDocumentsWithoutUpdated) => () => {
     setDocuments((cur) => cur.filter((doc) => doc.id !== document.id));
 
     const input: DocumentGroupInput = {
@@ -140,7 +145,7 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
 
   const handleSelectDocument = (
     _: SyntheticEvent<Element>,
-    option: string | { value: LinkedDocument } | null
+    option: string | { value: LinkedDocumentsWithoutUpdated } | null
   ) => {
     if (typeof option !== "object" || !option?.value) {
       return;

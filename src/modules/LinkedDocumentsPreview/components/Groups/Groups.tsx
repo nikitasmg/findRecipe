@@ -37,7 +37,7 @@ export const Groups = () => {
   };
 
   useEffect(() => {
-    setGroups(data?.documentGroups ?? []);
+    setGroups((data?.documentGroups as DocumentGroup[]) ?? []);
   }, [data]);
 
   return (

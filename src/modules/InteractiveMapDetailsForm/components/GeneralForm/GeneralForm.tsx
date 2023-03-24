@@ -141,7 +141,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <LinkInput
-                label={<Text>Link</Text>}
+                label={<Text>Learn more</Text>}
                 value={value}
                 type='learn_more'
                 error={!!getError("learn_more")}

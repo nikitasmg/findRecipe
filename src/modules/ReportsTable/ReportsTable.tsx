@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { arrayMove } from "react-sortable-hoc";
 import React, { useEffect, useState } from "react";
+import { DeepPartial } from "react-hook-form";
 import { Report, useReportsQuery, useUpdateReportMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
@@ -24,7 +25,7 @@ import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 
 export const ReportsTable: React.FC = () => {
-  const [rows, setRows] = useState<Partial<Report>[]>([]);
+  const [rows, setRows] = useState<DeepPartial<Report>[]>([]);
 
   const {
     variables,
@@ -117,7 +118,7 @@ export const ReportsTable: React.FC = () => {
 
             {!isLoading && (
               <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
-                {rows?.map((row: Partial<Report>, i) => {
+                {rows?.map((row: DeepPartial<Report>, i) => {
                   return (
                     <TableRowSortable index={i} key={row.id}>
                       <CellDragHandle />

@@ -11,6 +11,7 @@ import {
   DocumentGroup,
   DocumentGroupInput
 } from "~/generated/graphql";
+import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
 import { DocumentCard } from "../DocumentCard";
 import { UploadDocumentsButton } from "../UploadDocumentsButton";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
@@ -19,15 +20,18 @@ import { DocumentDetailsDialog } from "../DocumentDetailsDialog";
 import { Text } from "../Text";
 
 export type LinkedDocumentsFormFields = {
-  documents?: LinkedDocument[];
+  documents?: LinkedDocumentsWithoutUpdated[];
   connectDocuments?: string[];
   disconnectDocuments?: string[];
-  updateDocuments?: LinkedDocument[];
+  updateDocuments?: LinkedDocumentsWithoutUpdated[];
 };
 
 type Props = {
-  allDocuments: LinkedDocument[];
-  setValue: (name: keyof LinkedDocumentsFormFields, value: LinkedDocument[] | string[]) => void;
+  allDocuments: LinkedDocumentsWithoutUpdated[];
+  setValue: (
+    name: keyof LinkedDocumentsFormFields,
+    value: LinkedDocumentsWithoutUpdated[] | string[]
+  ) => void;
   getValues: UseFormGetValues<LinkedDocumentsFormFields>;
   control: Control<LinkedDocumentsFormFields, unknown>;
   create: ({ input }: { input: LinkedDocumentInput }) => Promise<CreateLinkedDocumentMutation>;
@@ -36,7 +40,7 @@ type Props = {
   groups: Pick<DocumentGroup, "id" | "name">[];
   onGroupUpdate: (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => void;
   groupId?: DocumentGroup["id"];
-  onActiveChange?: (active?: LinkedDocument | null) => void;
+  onActiveChange?: (active?: LinkedDocumentsWithoutUpdated | null) => void;
 };
 
 export const LinkedDocumentForm: React.FC<Props> = ({
@@ -52,11 +56,11 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   groupId,
   allDocuments = []
 }) => {
-  const [activeDocument, setActiveDocument] = useState<LinkedDocument | null>();
+  const [activeDocument, setActiveDocument] = useState<LinkedDocumentsWithoutUpdated | null>();
 
   const { open, handleClose, handleOpen } = useModal();
 
-  const onUpload = (documents: LinkedDocument[]) => {
+  const onUpload = (documents: LinkedDocumentsWithoutUpdated[]) => {
     const newConnect = (getValues("connectDocuments") ?? [])?.concat(
       documents.map((doc) => String(doc.id))
     );
@@ -67,7 +71,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     setValue("documents", newDocuments);
   };
 
-  const getHandlerSelectDocument = (document: LinkedDocument | null) => () => {
+  const getHandlerSelectDocument = (document: LinkedDocumentsWithoutUpdated | null) => () => {
     setActiveDocument(document);
     handleOpen();
   };
@@ -77,7 +81,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     handleClose();
   };
 
-  const handleUpdate = (input: LinkedDocumentInput) => {
+  const handleUpdate = (
+    input: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+  ) => {
     update({ input });
 
     const currentDocuments = getValues("documents") ?? [];
@@ -85,7 +91,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     const updatedDocumentIndex = currentDocuments.findIndex((doc) => doc.id === input.id);
 
     if (~updatedDocumentIndex) {
-      const newDocuments = [...currentDocuments];
+      const newDocuments = currentDocuments.slice();
 
       const url = input.upload
         ? URL.createObjectURL(input.upload)
@@ -94,7 +100,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
       newDocuments[updatedDocumentIndex] = {
         id: Number(input.id),
         user_name: input.user_name,
-        url
+        url,
+        published: !!input.published,
+        created_at: input.created_at
       };
 
       setValue("documents", newDocuments);
@@ -122,7 +130,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
 
   const handleSelectDocument = (
     _: SyntheticEvent<Element>,
-    option: string | { value: LinkedDocument } | null
+    option: string | { value: LinkedDocumentsWithoutUpdated } | null
   ) => {
     if (typeof option !== "object" || !option?.value) {
       return;
@@ -137,7 +145,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     setValue("connectDocuments", newConnect);
   };
 
-  const getUnlinkDocumentHandler = (document: LinkedDocument) => () => {
+  const getUnlinkDocumentHandler = (document: LinkedDocumentsWithoutUpdated) => () => {
     if (!document.id) {
       return;
     }
