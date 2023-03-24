@@ -49,7 +49,12 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
       params: JSON.stringify(newValues.params),
       parent_id: newValues.parent_id,
       uploadImage: newValues.uploadImage,
-      ...(Boolean(newValues.deleteImage) && { deleteImage: true })
+      ...(Boolean(newValues.deleteImage) && { deleteImage: true }),
+      seo: newValues.seo,
+      linked_documents: {
+        connect: newValues.connectDocuments ?? [],
+        disconnect: newValues.disconnectDocuments ?? []
+      }
     };
 
     updatePage({ input });
@@ -62,6 +67,17 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
     setValue(
       "children",
       values?.children?.map((child) => child?.id)
+    );
+
+    setValue(
+      "documents",
+      values?.linked_documents?.reduce((res, cur) => {
+        if (cur) {
+          res.push(cur);
+        }
+
+        return res;
+      }, Array(0))
     );
 
     if (values?.params) {
