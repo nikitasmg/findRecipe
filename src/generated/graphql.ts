@@ -2207,21 +2207,21 @@ export type DeleteOrganizerMutationVariables = Exact<{
 
 export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id: number } | null };
 
-export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null };
+export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type PageByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null } | null };
+export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type PageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null } | null };
+export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type PagesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2244,7 +2244,7 @@ export type UpdatePageMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null } | null };
+export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, slug: string, sort: number, description?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdatePageParentMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2877,6 +2877,12 @@ export const AllPageFieldsFragmentDoc = `
   params
   children {
     id
+  }
+  linked_documents {
+    id
+    url
+    user_name
+    sort
   }
   parent_id
   created_at

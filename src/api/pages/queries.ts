@@ -24,6 +24,12 @@ export const PagesFragment = gql`
     children {
       id
     }
+    linked_documents {
+      id
+      url
+      user_name
+      sort
+    }
     parent_id
     created_at
     updated_at
