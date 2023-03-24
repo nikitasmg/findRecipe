@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 import { Control, UseFormGetValues } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
-  LinkedDocument,
   useCreateLinkedDocumentMutation,
   useUpdateLinkedDocumentMutation,
   useDeleteLinkedDocumentMutation,
@@ -12,17 +11,21 @@ import {
   DocumentGroupInput,
   DocumentGroup
 } from "~/generated/graphql";
+import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
 import { LinkedDocumentForm as UiLinkedDocumentForm } from "~/shared/components/LinkedDocumentForm";
 
 export type LinkedDocumentsFormFields = {
-  documents?: LinkedDocument[];
+  documents?: LinkedDocumentsWithoutUpdated[];
   connectDocuments?: string[];
   disconnectDocuments?: string[];
-  updateDocuments?: LinkedDocument[];
+  updateDocuments?: LinkedDocumentsWithoutUpdated[];
 };
 
 type Props = {
-  setValue: (name: keyof LinkedDocumentsFormFields, value: LinkedDocument[] | string[]) => void;
+  setValue: (
+    name: keyof LinkedDocumentsFormFields,
+    value: LinkedDocumentsWithoutUpdated[] | string[]
+  ) => void;
   getValues: UseFormGetValues<LinkedDocumentsFormFields>;
   control: Control<LinkedDocumentsFormFields, unknown>;
 };
@@ -50,7 +53,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({ setValue, getValues, contr
 
   const groups = useMemo(() => groupData?.documentGroups ?? [], [groupData]);
 
-  const handleChangeData = (document?: LinkedDocument | null) => {
+  const handleChangeData = (document?: LinkedDocumentsWithoutUpdated | null) => {
     if (!document) {
       setActiveGroupId(undefined);
     }
