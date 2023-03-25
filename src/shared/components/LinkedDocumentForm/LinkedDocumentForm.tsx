@@ -146,7 +146,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
 
     setValue(
       "documents",
-      filter(compose(equals(document.id), prop("id")), getValues("documents") ?? [])
+      filter(compose(not, equals(document.id), prop("id")), getValues("documents") ?? [])
     );
 
     setValue(
