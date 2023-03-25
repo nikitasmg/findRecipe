@@ -31,9 +31,9 @@ export const SocialSettingsForm: React.FC<Props> = ({
   handleCloseForm,
   open
 }) => {
-  const [active, setActive] = useState({});
+  const [active, setActive] = useState<"vk" | "facebook" | "telegram" | "instagram" | "whatsapp">("vk");
   const { vk, facebook, telegram, instagram, whatsapp } = useWatch({ control });
-
+  
   return (
     <Grid container spacing={4}>
       {vk && (

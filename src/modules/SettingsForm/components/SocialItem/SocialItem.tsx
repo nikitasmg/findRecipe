@@ -12,6 +12,7 @@ type Props = {
   control?: Control<FormFieldsSocial, unknown>;
   setValue: (name: keyof FormFieldsSocial, value: string) => void;
   handleOpenForm: () => void;
+  setActive: (social: keyof FormFieldsSocial) => void;
   handleSubmit: () => void;
   social: "vk" | "facebook" | "telegram" | "instagram" | "whatsapp";
 };
@@ -21,6 +22,7 @@ export const SocialItem: React.FC<Props> = ({
   control,
   handleOpenForm,
   handleSubmit,
+  setActive,
   setValue,
   social
 }) => {
@@ -30,8 +32,12 @@ export const SocialItem: React.FC<Props> = ({
   };
 
   const editHandler = () => {
+    setActive(social);
     handleOpenForm();
   };
+
+  
+  
 
   return (
     <>
@@ -42,7 +48,7 @@ export const SocialItem: React.FC<Props> = ({
           render={({ field: { value } }) => (
             <TextField
               fullWidth
-              value={value}
+              value={value||""}
               label={<Text>{social}</Text>}
               {...register(social)}
             />

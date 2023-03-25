@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,7 +9,7 @@ import {
   SelectChangeEvent,
   TextField
 } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Text } from "~/shared/components/Text";
 import { Socials } from "~/shared/types/socials";
 import SaveIcon from "@mui/icons-material/Save";
@@ -18,7 +18,7 @@ import { FormFieldsSocial } from "../SocialSettingsForm";
 
 type Props = {
   open: string;
-  active: Record<string, unknown>;
+  active: "vk" | "facebook" | "telegram" | "instagram" | "whatsapp";
   handleCloseForm: () => void;
   handleSubmitProps: () => void;
   setValue: (name: keyof FormFieldsSocial, value: string) => void;
@@ -31,20 +31,30 @@ export const SocialDrawer: React.FC<Props> = ({
   handleSubmitProps,
   setValue
 }) => {
-  const isCreate = active;
-  const [social, setSocial] = useState("vk");
+  const [social, setSocial] = useState(active);
 
-  const { register, control, handleSubmit } = useForm<{ name: string; value: string }>({
+  useEffect(() => {
+    setSocial(active);
+  }, [active]);
+
+  const { register, control, reset, handleSubmit } = useForm<{ name: string; value: string }>({
     mode: "all"
   });
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSocial(event.target.value);
+    setSocial(event.target.value as keyof FormFieldsSocial);
   };
-  const onSubmit = (data) => {
+
+  const closeHandler = () => {
+    handleCloseForm();
+    reset();
+  };
+
+  const onSubmit: SubmitHandler<{ name: string; value: string }> = (data) => {
     setValue(social, data.value);
     handleSubmitProps();
     handleCloseForm();
+    reset();
   };
 
   return (
@@ -56,7 +66,7 @@ export const SocialDrawer: React.FC<Props> = ({
       >
         <Text variant='h5'>Social</Text>
         <FormControl>
-          <Select name='name' value={social} onChange={handleChange} required>
+          <Select name='name' value={social||""} onChange={handleChange} required>
             {Object.values(Socials).map((el, i) => (
               <MenuItem key={i} value={el}>
                 {el}
@@ -68,10 +78,11 @@ export const SocialDrawer: React.FC<Props> = ({
         <Controller
           control={control}
           name='value'
+          rules={{ required: true }}
           render={({ field: { value } }) => (
             <TextField
               label={<Text>{social}</Text>}
-              value={value || ""}
+              value={value||""}
               variant='standard'
               {...register("value")}
             />
@@ -85,7 +96,7 @@ export const SocialDrawer: React.FC<Props> = ({
             type='button'
             variant='outlined'
             startIcon={<BackspaceIcon />}
-            onClick={handleCloseForm}
+            onClick={closeHandler}
           >
             Back
           </Button>
