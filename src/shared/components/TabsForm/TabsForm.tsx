@@ -59,7 +59,7 @@ export const TabsForm: React.FC<Props> = ({
         >
           {forms.map(({ tabTitle, hasErrors }, index) => (
             <Tab
-              key={tabTitle}
+              key={index}
               label={
                 <Box className='flex items-center'>
                   {hasErrors && <ErrorIcon />}

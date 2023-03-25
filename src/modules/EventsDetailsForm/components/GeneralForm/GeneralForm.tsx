@@ -18,6 +18,7 @@ import { DatePicker } from "~/shared/components/DatePicker";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 export type GeneralFormFields = {
   name?: string;
@@ -41,6 +42,8 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
   const getError = getErrorMessage(errors);
 
   const handleChecked = getCheckedHandler(setValue);
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
@@ -162,6 +165,7 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
           name='imageUrl'
           render={({ field: { value } }) => (
             <ImageInput
+              addAlert={addAlert}
               id='general'
               url={value}
               {...register("imageUrl")}

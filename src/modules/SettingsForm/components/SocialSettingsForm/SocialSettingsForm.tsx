@@ -24,7 +24,7 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
           control={control}
           name='vk'
           render={({ field: { value } }) => (
-            <TextField fullWidth value={value} label={<Text>Vk</Text>} {...register("vk")} />
+            <TextField fullWidth value={value ?? ""} label={<Text>Vk</Text>} {...register("vk")} />
           )}
         />
       </Grid>
@@ -35,7 +35,7 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
           render={({ field: { value } }) => (
             <TextField
               fullWidth
-              value={value}
+              value={value ?? ""}
               label={<Text>Facebook</Text>}
               {...register("facebook")}
             />
@@ -49,7 +49,7 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
           render={({ field: { value } }) => (
             <TextField
               fullWidth
-              value={value}
+              value={value ?? ""}
               label={<Text>Telegram</Text>}
               {...register("telegram")}
             />
@@ -63,7 +63,7 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
           render={({ field: { value } }) => (
             <TextField
               fullWidth
-              value={value}
+              value={value ?? ""}
               label={<Text>Instagram</Text>}
               {...register("instagram")}
             />
@@ -77,7 +77,7 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
           render={({ field: { value } }) => (
             <TextField
               fullWidth
-              value={value}
+              value={value ?? ""}
               label={<Text>Whats App</Text>}
               {...register("whatsapp")}
             />

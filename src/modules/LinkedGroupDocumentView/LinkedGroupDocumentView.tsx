@@ -16,7 +16,7 @@ import {
   useLinkedDocumentsQuery,
   useDocumentGroupsQuery
 } from "~/generated/graphql";
-import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
+import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
 import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";

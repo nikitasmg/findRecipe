@@ -26,8 +26,6 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ tab, value, handleSelect, 
 
   const [width, setWidth] = React.useState<string>("");
 
-  const [activeTab, setActiveTab] = React.useState("");
-
   const open = Boolean(anchorEl);
 
   const id = open ? tab.label : undefined;
@@ -41,20 +39,13 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ tab, value, handleSelect, 
     setAnchorEl(null);
   };
 
-  const getItemClickHandler = (id: string) => () => {
-    setActiveTab(id);
+  const handleItemClick = () => {
     handleClose();
     handleSelect?.(value);
   };
 
   if (!tab.children) {
-    return (
-      <Tab
-        onClick={getItemClickHandler(tab.label)}
-        value={value}
-        label={<Text>{tab.label}</Text>}
-      />
-    );
+    return <Tab onClick={handleItemClick} value={value} label={<Text>{tab.label}</Text>} />;
   }
 
   return (
@@ -93,15 +84,10 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ tab, value, handleSelect, 
         TransitionComponent={Fade}
       >
         {tab.children.map((tabInner) => {
-          const isActive =
-            activeTab === tabInner.label || (activePath && activePath === tabInner.path);
+          const isActive = activePath && activePath === tabInner.path;
 
           return (
-            <MenuItem
-              className='!p-0'
-              onClick={getItemClickHandler(tabInner.label)}
-              key={tabInner.label}
-            >
+            <MenuItem className='!p-0' onClick={handleItemClick} key={tabInner.label}>
               <Link
                 className={clsx("w-full px-4 py-2", {
                   "text-primary": isActive

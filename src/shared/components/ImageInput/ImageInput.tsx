@@ -1,25 +1,23 @@
-import { Box, Icon, Input, InputProps } from "@mui/material";
+import { AlertColor, Box, Icon, Input, InputProps } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import React, { ChangeEvent, forwardRef, useEffect, useState } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useAlertsStore } from "~shared/stores/alerts";
 import { Text } from "../Text";
 
 type Props = {
   id?: string;
   onChange: (file?: File | null) => void;
+  addAlert: (severity: AlertColor, message: string) => void;
   onDelete?: () => void;
   withPreview?: boolean;
   url?: string;
 } & InputProps;
 
 export const ImageInput = forwardRef<HTMLDivElement, Props>(
-  ({ id, onChange, withPreview = true, url = "", onDelete, ...other }, ref) => {
+  ({ id, onChange, withPreview = true, url = "", onDelete, addAlert, ...other }, ref) => {
     const [selectedImage, setSelectedImage] = useState<File | null>();
 
     const [imageUrl, setImageUrl] = useState(url);
-
-    const addAlert = useAlertsStore((state) => state.addAlert);
 
     useEffect(() => {
       if (selectedImage) {

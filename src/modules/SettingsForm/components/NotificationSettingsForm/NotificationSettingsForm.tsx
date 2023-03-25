@@ -24,7 +24,7 @@ export const NotificationSettingsForm: React.FC<Props> = ({ register, control })
               id='send_email_notify'
               multiline
               fullWidth
-              value={value}
+              value={value ?? ""}
               variant='outlined'
               label={<Text>Email for notifies</Text>}
               {...register("send_email_notify")}

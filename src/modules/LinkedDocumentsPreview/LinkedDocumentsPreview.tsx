@@ -1,28 +1,29 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { SortableContainer } from "react-sortable-hoc";
+import { prop } from "rambda";
+import { DndProvider } from "react-dnd";
+import { getBackendOptions, MultiBackend } from "@minoru/react-dnd-treeview";
 import {
   LinkedDocument,
   useLinkedDocumentsQuery,
-  useCreateLinkedDocumentMutation
+  useCreateLinkedDocumentMutation,
+  useDocumentGroupsQuery
 } from "~/generated/graphql";
-import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
+import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";
 import { useDocumentsStore } from "~/shared/stores/documents";
+import { useRequestState } from "~/shared/hooks/useRequestState";
 import { Groups } from "./components/Groups";
 import { LinkedDocuments } from "./components/LinkedDocuments";
-import { useRequestState } from "~/shared/hooks/useRequestState";
-
-export const DocumentsContainerSortable = SortableContainer<{ children: ReactNode }>(
-  ({ children }: { children: ReactNode }) => (
-    <Box className='flex flex-col gap-10 p-4'>{children}</Box>
-  )
-);
+import { GroupsMap } from "./types";
+import { getMapFromLinkedDocuments } from "./lib/getMapFromLinkedDocuments";
 
 export const LinkedDocumentsPreview: React.FC = () => {
   const [documents, setDocuments] = useState<LinkedDocumentsWithoutUpdated[]>([]);
+
+  const [groups, setGroups] = useState<GroupsMap>();
 
   const { variables, activeOrder, handleChangeOrder } = useRequestState("name");
 
@@ -32,6 +33,8 @@ export const LinkedDocumentsPreview: React.FC = () => {
     refetchOnMount: "always",
     cacheTime: 0
   });
+
+  const { data: groupsData } = useDocumentGroupsQuery(client, {}, { refetchOnMount: "always" });
 
   const { mutateAsync: create } = useCreateLinkedDocumentMutation(client);
 
@@ -56,23 +59,41 @@ export const LinkedDocumentsPreview: React.FC = () => {
     setDocuments(data?.linkedDocuments ?? []);
   }, [data]);
 
-  return (
-    <DocumentsContainerSortable axis='xy' distance={10} useDragHandle onSortEnd={() => undefined}>
-      <Box className='flex flex-wrap justify-between gap-6'>
-        <Text component='h1' variant='h4' whiteSpace='nowrap'>
-          Document manager
-        </Text>
-        <UploadDocumentsButton onUpload={onUpload} create={create} />
-      </Box>
-      <Groups />
+  useEffect(() => {
+    const groupsMap: GroupsMap = groupsData?.documentGroups.reduce((res, cur) => {
+      if (cur) {
+        res[prop("id", cur)] = {
+          ...cur,
+          linked_documents: getMapFromLinkedDocuments(cur.linked_documents)
+        };
+      }
 
-      <LinkedDocuments
-        isLoading={isLoading}
-        activeOrder={activeOrder}
-        handleChangeOrder={handleChangeOrder}
-        documents={documents}
-        setDocuments={setDocuments}
-      />
-    </DocumentsContainerSortable>
+      return res;
+    }, Object.create(null));
+
+    setGroups(groupsMap);
+  }, [groupsData]);
+
+  return (
+    <Box className='flex flex-col gap-10 p-4'>
+      <DndProvider backend={MultiBackend} options={getBackendOptions()}>
+        <Box className='flex flex-wrap justify-between gap-6'>
+          <Text component='h1' variant='h4' whiteSpace='nowrap'>
+            Document manager
+          </Text>
+          <UploadDocumentsButton onUpload={onUpload} create={create} />
+        </Box>
+        <Groups groups={groups} setGroups={setGroups} />
+
+        <LinkedDocuments
+          groups={groups}
+          isLoading={isLoading}
+          activeOrder={activeOrder}
+          handleChangeOrder={handleChangeOrder}
+          documents={documents}
+          setDocuments={setDocuments}
+        />
+      </DndProvider>
+    </Box>
   );
 };

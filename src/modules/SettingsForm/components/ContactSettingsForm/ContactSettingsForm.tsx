@@ -40,7 +40,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
               id='schedule'
               multiline
               fullWidth
-              value={value}
+              value={value ?? ""}
               variant='outlined'
               label={<Text>Schedule</Text>}
               InputProps={{
@@ -61,7 +61,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
               id='address'
               fullWidth
               variant='outlined'
-              value={value}
+              value={value ?? ""}
               label={<Text>Address</Text>}
               {...register("address")}
             />
@@ -75,7 +75,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
           name='phone'
           render={({ field: { value } }) => (
             <PhoneInput
-              value={value}
+              value={value ?? ""}
               label={<Text component='span'>Contact phone</Text>}
               variant='outlined'
               onChange={handlePhoneChange}
@@ -94,7 +94,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
                 id='email'
                 fullWidth
                 variant='outlined'
-                value={value}
+                value={value ?? ""}
                 label={<Text>Fund email</Text>}
                 error={!!getError("email")}
                 {...register("email", getBaseEmailValidation())}
@@ -115,7 +115,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
                 id='emailPress'
                 fullWidth
                 variant='outlined'
-                value={value}
+                value={value ?? ""}
                 label={<Text>Press email</Text>}
                 error={!!getError("emailPress")}
                 {...register("emailPress", getBaseEmailValidation())}

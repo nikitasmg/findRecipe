@@ -13,7 +13,7 @@ export type DocumentsFormFields = {
 type Props = {
   setValue: (name: keyof DocumentsFormFields, value: Document[] | number[]) => void;
   getValues: UseFormGetValues<DocumentsFormFields>;
-  control?: Control<DocumentsFormFields, unknown>;
+  control: Control<DocumentsFormFields, unknown>;
 };
 
 export const ControlledDocumentsUpload: React.FC<Props> = ({ control, setValue, getValues }) => {

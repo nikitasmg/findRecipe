@@ -9,6 +9,8 @@ export const HeaderTabs: React.FC = () => {
 
   const [activePath, setActivePath] = useState("/");
 
+  console.log(activePath, activeTab);
+
   const history = useNavigate();
 
   const location = useLocation();
@@ -63,7 +65,7 @@ export const HeaderTabs: React.FC = () => {
       variant='scrollable'
       scrollButtons='auto'
       className='!hidden md:!flex sm:max-w-[500px] lg:max-w-[1000px]'
-      value={activeTab}
+      value={activeTab ?? false}
       onChange={handleTabChange}
     >
       {paths.map((tab, i) => (

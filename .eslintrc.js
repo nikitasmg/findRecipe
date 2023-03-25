@@ -51,7 +51,26 @@ module.exports = {
     quotes: ["error", "double"],
     semi: ["error", "always"],
     "no-secrets/no-secrets": "error",
-    "xss/no-mixed-html": "warn",
+    "xss/no-mixed-html": [
+      "warn",
+      {
+        htmlVariableRules: ["AsHtml", "HtmlEncoded/i", "^html$"],
+        htmlFunctionRules: [".asHtml/i", "toHtml"],
+        functions: {
+          $: {
+            htmlInput: true,
+            safe: ["document", "this"]
+          },
+          ".html": {
+            htmlInput: true,
+            htmlOutput: true
+          },
+          ".join": {
+            passthrough: { obj: true, args: true }
+          }
+        }
+      }
+    ],
     "no-comments/disallowComments": [
       "error",
       {

@@ -24,7 +24,7 @@ export const ApiKeysSettingsForm: React.FC<Props> = ({ register, control }) => {
               id='content_editor'
               multiline
               fullWidth
-              value={value}
+              value={value ?? ""}
               variant='outlined'
               label={<Text>Content Editor key</Text>}
               {...register("content_editor")}

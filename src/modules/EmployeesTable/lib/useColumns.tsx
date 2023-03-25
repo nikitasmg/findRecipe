@@ -1,12 +1,13 @@
 import React from "react";
-import { SortOrder, Subdivision, useSubdivisionsQuery } from "~/generated/graphql";
+import { Subdivision, useSubdivisionsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Link } from "~/shared/components/Link";
 import { EmployeesPageEdit } from "~/shared/routes";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
+import { useSortProps } from "~/shared/hooks/useSortProps";
+import { SelectSubdivision } from "../components/SelectSubdivision";
 import { Column } from "../types";
-import { SelectSubdivision } from "~/modules/EmployeesTable/components/SelectSubdivision";
 
 export const useColumns = (
   activeOrder?: ActiveOrder,
@@ -20,22 +21,7 @@ export const useColumns = (
     { refetchOnMount: "always" }
   );
 
-  const getClickHandler = (name: string) => () => {
-    if (activeOrder?.[name] && activeOrder[name] === SortOrder.Desc) {
-      return handleOrderClick?.(null);
-    }
-
-    const direction = activeOrder?.[name] === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc;
-
-    return handleOrderClick?.({ [name]: direction });
-  };
-
-  const getActiveProps = (name: string) => ({
-    active: !!activeOrder?.[name],
-    direction: (activeOrder?.[name]
-      ? activeOrder[name].toLocaleLowerCase()
-      : "desc") as Lowercase<SortOrder>
-  });
+  const { getClickHandler, getActiveProps } = useSortProps(handleOrderClick, activeOrder);
 
   return [
     {

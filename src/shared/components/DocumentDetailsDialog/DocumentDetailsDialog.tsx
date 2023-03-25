@@ -16,7 +16,7 @@ import {
   LinkedDocument,
   LinkedDocumentInput
 } from "~/generated/graphql";
-import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
+import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";

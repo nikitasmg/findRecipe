@@ -3,12 +3,12 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useDeleteActivityResultMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { ActivityResultsDetailsForm } from "~/modules/ActivityResultsDetailsForm";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ActivityResultPageRoute } from "~shared/routes";
 import { useNavigationBack } from "~shared/hooks/useBackClick";
-import { ActivityResultsDetailsForm } from "~/modules/ActivityResultsDetailsForm";
 
 export const ActivityResultEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
