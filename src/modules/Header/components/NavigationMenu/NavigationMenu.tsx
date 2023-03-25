@@ -1,4 +1,4 @@
-import { Box, SwipeableDrawer } from "@mui/material";
+import { SwipeableDrawer } from "@mui/material";
 import React, { useEffect } from "react";
 import { usePaths } from "~/app/providers/Paths";
 import { Path } from "~shared/components/Path";

@@ -9,8 +9,6 @@ export const HeaderTabs: React.FC = () => {
 
   const [activePath, setActivePath] = useState("/");
 
-  console.log(activePath, activeTab);
-
   const history = useNavigate();
 
   const location = useLocation();
