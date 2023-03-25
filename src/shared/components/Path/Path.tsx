@@ -10,14 +10,16 @@ export type Path = {
   path?: string;
   children?: Path[];
   initialExpanded?: boolean;
+  onLinkClick?: () => void;
 };
 
-export const Path: React.FC<Path> = ({ children, path, label, initialExpanded }) => {
+export const Path: React.FC<Path> = ({ children, path, label, initialExpanded, onLinkClick }) => {
   const presentationClassNames = clsx({ underline: !!path, "!text-mainText": !path });
 
   if (children) {
     return (
       <Accordion
+        key={path || label}
         defaultExpanded={initialExpanded}
         disableGutters
         elevation={0}
@@ -30,17 +32,30 @@ export const Path: React.FC<Path> = ({ children, path, label, initialExpanded })
           id='content-panel'
           className='flex-row-reverse'
         >
-          <Link className={presentationClassNames} to={path ?? ""}>
+          <Link
+            className={presentationClassNames}
+            to={path ?? ""}
+            onClick={path ? onLinkClick : undefined}
+          >
             <Text component='span'>{label}</Text>
           </Link>
         </AccordionSummary>
-        <AccordionDetails className='flex flex-col'>{children.map(Path)}</AccordionDetails>
+        <AccordionDetails className='flex flex-col'>
+          {children.map((child, i) => (
+            <Path key={child.label + i} {...child} onLinkClick={onLinkClick} />
+          ))}
+        </AccordionDetails>
       </Accordion>
     );
   }
 
   return (
-    <Link className={clsx("px-10 py-[12px]", presentationClassNames)} to={path ?? ""}>
+    <Link
+      key={path || label}
+      className={clsx("px-10 py-[12px]", presentationClassNames)}
+      to={path ?? ""}
+      onClick={onLinkClick}
+    >
       <Text component='span'>{label}</Text>
     </Link>
   );

@@ -1,5 +1,5 @@
 import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
-import { compose, prop } from "rambda";
+import { compose, equals, filter, not, prop } from "rambda";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -16,7 +16,7 @@ import {
   useLinkedDocumentsQuery,
   useDocumentGroupsQuery
 } from "~/generated/graphql";
-import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
+import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
 import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";
@@ -127,7 +127,9 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
   };
 
   const getUnlinkDocumentHandler = (document: LinkedDocumentsWithoutUpdated) => () => {
-    setDocuments((cur) => cur.filter((doc) => doc.id !== document.id));
+    setDocuments(
+      filter<LinkedDocumentsWithoutUpdated>(compose(not, equals(document.id), prop("id")))
+    );
 
     const input: DocumentGroupInput = {
       id: groupId,

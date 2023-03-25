@@ -1,11 +1,13 @@
-import { Avatar, Box, Input, InputProps } from "@mui/material";
+import { AlertColor, Avatar, Box, Icon, Input, InputProps } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Text } from "../Text";
 
 type Props = {
   id: string;
   onChange: (file?: File | null) => void;
+  addAlert: (severity: AlertColor, message: string) => void;
   onDelete?: () => void;
   withPreview?: boolean;
   url?: string;
@@ -17,6 +19,7 @@ export const AvatarInput: React.FC<Props> = ({
   withPreview = true,
   url = "",
   onDelete,
+  addAlert,
   ...other
 }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>();
@@ -31,6 +34,15 @@ export const AvatarInput: React.FC<Props> = ({
   }, [selectedImage]);
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.webp)$/i;
+
+    const filePath = e.target.value;
+
+    if (!allowedExtensions.exec(filePath)) {
+      addAlert("error", "Invalid file type");
+      return;
+    }
+
     onChange?.(e.target.files?.[0]);
     setSelectedImage(e.target.files?.[0]);
   };
@@ -45,18 +57,20 @@ export const AvatarInput: React.FC<Props> = ({
   return (
     <>
       {!isImagePreview && (
-        <Box className='flex items-center relative w-full h-[100px] transition bg-gray-200 hover:bg-gray-300 hover:underline rounded-xl p-6'>
+        <Box className='flex items-center relative w-full h-[100px] transition hover:bg-gray-200 rounded-xl border-dashed border-2 border-primary'>
           <Input
             inputProps={{
-              accept: "image/*"
+              accept: "image/*",
+              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2"
             }}
-            className='!absolute top-0 left-0 w-full h-full opacity-0 z-2'
+            className='!absolute w-full h-full opacity-0'
             type='file'
             id={id}
             onChange={handleImage}
             {...other}
           />
-          <label htmlFor={id} className='w-full text-center'>
+          <label htmlFor={id} className='w-full text-center text-primary text-lg cursor-pointer'>
+            <Icon className='w-auto h-[50px]' component={CloudUploadIcon} />
             <Text>Upload or drop image</Text>
           </label>
         </Box>

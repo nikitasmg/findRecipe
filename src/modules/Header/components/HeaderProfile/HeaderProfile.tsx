@@ -57,7 +57,7 @@ export const HeaderProfile: React.FC = () => {
 
   return (
     <Fragment>
-      <Button className='!hidden md:!flex' onClick={handleClick}>
+      <Button className='flex' onClick={handleClick}>
         {loaderVisible && <CircularProgress />}
         <Typography className='text-mainText'>{name}</Typography>
 
@@ -75,6 +75,7 @@ export const HeaderProfile: React.FC = () => {
         MenuListProps={{
           "aria-labelledby": id
         }}
+        className='!w-full'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

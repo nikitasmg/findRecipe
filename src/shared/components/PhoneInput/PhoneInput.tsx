@@ -13,7 +13,7 @@ export const PhoneInput: React.FC<MuiTelInputProps> = ({ className, ...props }) 
       size='small'
       fullWidth
       inputProps={{
-        maxlength: 16
+        maxLength: 16
       }}
       {...props}
     />

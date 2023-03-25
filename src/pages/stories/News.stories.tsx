@@ -1,6 +1,5 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { BaseLayout } from "~/layouts/BaseLayout";
 import { News } from "../News";
 
 export default {
@@ -11,10 +10,6 @@ export default {
   }
 } as ComponentMeta<typeof News>;
 
-const Template: ComponentStory<typeof News> = (args) => (
-  <BaseLayout>
-    <News {...args} />
-  </BaseLayout>
-);
+const Template: ComponentStory<typeof News> = (args) => <News {...args} />;
 
 export const Default = Template.bind({});

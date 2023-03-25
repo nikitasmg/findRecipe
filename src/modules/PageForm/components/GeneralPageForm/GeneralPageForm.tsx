@@ -7,6 +7,7 @@ import { ContentEditor } from "~/shared/components/ContentEditor";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 export type GeneralFormFields = {
   name?: string;
@@ -44,6 +45,8 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue }
     },
     [upload]
   );
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
@@ -88,6 +91,7 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue }
           name='imageUrl'
           render={({ field: { value } }) => (
             <ImageInput
+              addAlert={addAlert}
               id='general'
               url={value}
               {...register("imageUrl")}

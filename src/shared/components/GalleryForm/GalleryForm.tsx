@@ -19,7 +19,7 @@ type Props = {
   errors: FieldErrors<GalleryImageFields>;
   setValue: (name: string, value: unknown) => void;
   getValues: UseFormGetValues<GalleryImageFields>;
-  control?: Control<GalleryImageFields, unknown>;
+  control: Control<GalleryImageFields, unknown>;
 };
 
 export const GalleryForm: React.FC<Props> = ({ errors, control, getValues, setValue }) => {

@@ -1,44 +1,55 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { useDocumentGroupsQuery, DocumentGroup } from "~/generated/graphql";
+import { DocumentGroup } from "~/generated/graphql";
 import { DocumentGroupDetailsDialog } from "~/shared/components/DocumentGroupDetailsDialog";
+import { DragTargetWrapper } from "~/shared/components/DragTargetWrapper";
 import { FolderCard } from "~/shared/components/FolderCard";
 import { Text } from "~/shared/components/Text";
 import { useModal } from "~/shared/hooks/useModal";
 import { GroupDocumentsRoute } from "~/shared/routes";
 import { AddGroup } from "../AddGroup";
+import { GroupsMap } from "../../types";
+import { getMapFromLinkedDocuments } from "../../lib/getMapFromLinkedDocuments";
+import { useGroupUpdateHandler } from "../../lib/useGroupUpdateHandler";
 
-export const Groups = () => {
-  const [groups, setGroups] = useState<DocumentGroup[]>([]);
+type Props = {
+  setGroups: React.Dispatch<React.SetStateAction<GroupsMap | undefined>>;
+  groups?: GroupsMap;
+};
 
+export const Groups: React.FC<Props> = ({ groups, setGroups }) => {
   const [activeGroup, setActiveGroup] = useState<DocumentGroup | null>(null);
 
   const { open, handleClose, handleOpen } = useModal();
 
   const history = useNavigate();
 
-  const client = useGraphqlClient();
-
-  const { data } = useDocumentGroupsQuery(client, {}, { refetchOnMount: "always" });
+  const getUpdateHandler = useGroupUpdateHandler(setGroups);
 
   const onCreate = (newGroup: DocumentGroup) => {
-    setGroups((cur) => cur.slice().concat(newGroup));
+    setGroups((cur) => ({
+      ...cur,
+      [newGroup.id]: {
+        ...newGroup,
+        linked_documents: getMapFromLinkedDocuments(newGroup.linked_documents)
+      }
+    }));
   };
 
-  const getEditClickHandler = (group: DocumentGroup) => () => {
-    setActiveGroup(group);
+  const getEditClickHandler = (group: GroupsMap[0]) => () => {
+    setActiveGroup({
+      ...group,
+      linked_documents: Object.values(
+        group.linked_documents ?? {}
+      ) as DocumentGroup["linked_documents"]
+    });
     handleOpen();
   };
 
-  const getCardClickHandler = (group: DocumentGroup) => () => {
+  const getCardClickHandler = (group: GroupsMap[0]) => () => {
     history(GroupDocumentsRoute.replace(":id", String(group.id)));
   };
-
-  useEffect(() => {
-    setGroups((data?.documentGroups as DocumentGroup[]) ?? []);
-  }, [data]);
 
   return (
     <Box className='flex flex-col gap-4'>
@@ -46,13 +57,20 @@ export const Groups = () => {
       <Box className='flex flex-wrap w-full gap-4'>
         <AddGroup onCreate={onCreate} />
 
-        {groups?.map((group) => (
-          <FolderCard
+        {Object.values(groups ?? {})?.map((group) => (
+          <DragTargetWrapper
             key={group.id}
-            title={group.name}
-            countFiles={group.linked_documents?.length}
-            onInfoClick={getEditClickHandler(group)}
-            onCardClick={getCardClickHandler(group)}
+            onDrop={getUpdateHandler(group.id)}
+            render={({ drop, isActive }) => (
+              <FolderCard
+                ref={drop}
+                isMovePreview={isActive}
+                title={group.name}
+                countFiles={Object.values(group.linked_documents ?? {})?.length}
+                onInfoClick={getEditClickHandler(group)}
+                onCardClick={getCardClickHandler(group)}
+              />
+            )}
           />
         ))}
       </Box>

@@ -11,6 +11,7 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { baseRequired } from "~/shared/lib/validation";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 type FormFields = {
   name?: string;
@@ -49,6 +50,8 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
     },
     [upload]
   );
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
@@ -127,6 +130,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           render={({ field: { value } }) => (
             <ImageInput
               id='general'
+              addAlert={addAlert}
               url={value}
               {...register("imageUrl")}
               onChange={(file) => {

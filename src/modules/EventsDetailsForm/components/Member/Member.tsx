@@ -8,6 +8,7 @@ import { Button } from "~/shared/components/Button";
 import { Text } from "~/shared/components/Text";
 import { SaveButton } from "~/shared/components/SaveButton";
 import { useModal } from "~/shared/hooks/useModal";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 type FormFields = {
   name: string;
@@ -36,6 +37,8 @@ export const Member: React.FC<Props> = ({ title, attachTitle, value = [], onChan
   const { open, handleOpen, handleClose } = useModal();
 
   const { handleSubmit, control, register, setValue, reset } = useForm<FormFields>({});
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   useEffect(() => {
     setMembers(value);
@@ -112,6 +115,7 @@ export const Member: React.FC<Props> = ({ title, attachTitle, value = [], onChan
             name='avatarUrl'
             render={({ field: { value } }) => (
               <AvatarInput
+                addAlert={addAlert}
                 id='file-input'
                 url={value}
                 onChange={(file) => {

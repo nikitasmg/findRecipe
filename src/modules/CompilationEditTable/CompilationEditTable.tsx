@@ -4,15 +4,15 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Panel } from "~/shared/components/Panel";
 import { Text } from "~/shared/components/Text";
-import { BodyCellActions } from "~shared/components/BodyCellActions";
-import { HeadCellActions } from "~shared/components/HeadCellActions";
+import { TableBodyCellActions } from "~/shared/components/TableBodyCellActions";
+import { TableHeadCellActions } from "~/shared/components/TableHeadCellActions";
 import { TableBodySortable, TableRowSortable as Row } from "~/shared/components/SortableTable";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { CellDragHandle } from "~/shared/components/CellDragHandle";
 import { Button } from "~/shared/components/Button";
 import { CompilationItem } from "~/shared/types/Compilation";
 import { useCompilations } from "./lib/useCompilations";
-import { getColumns } from "./lib/getColumns";
+import { useColumns } from "./lib/getColumns";
 import { resortArray } from "~/shared/lib/resortArray";
 
 type Props = {
@@ -39,7 +39,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
     handleChangeOrder
   } = useCompilations(id);
 
-  const columns = getColumns(activeOrder, handleChangeOrder);
+  const columns = useColumns(activeOrder, handleChangeOrder);
 
   const handleBackClick = useNavigationBack();
 
@@ -95,7 +95,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
                 </TableCell>
               ))}
 
-              <HeadCellActions />
+              <TableHeadCellActions />
             </TableRow>
           </TableHead>
 
@@ -144,7 +144,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
                       );
                     })}
 
-                    <BodyCellActions
+                    <TableBodyCellActions
                       spinnerVisible={spinnerVisible}
                       isEditMode={!!editableProps}
                       handleEdit={handleEdit}

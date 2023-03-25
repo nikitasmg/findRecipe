@@ -11,7 +11,7 @@ import {
   DocumentGroupInput,
   DocumentGroup
 } from "~/generated/graphql";
-import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
+import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { LinkedDocumentForm as UiLinkedDocumentForm } from "~/shared/components/LinkedDocumentForm";
 
 export type LinkedDocumentsFormFields = {

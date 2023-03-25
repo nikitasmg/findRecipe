@@ -1,38 +1,28 @@
-import { Box, Skeleton, Typography } from "@mui/material";
-import React, { ReactNode, useMemo, useState } from "react";
-import { SortableElement } from "react-sortable-hoc";
+import { Box, Skeleton } from "@mui/material";
+import React, { useMemo, useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import { compose, concat, equals, filter, not, prop, reduce, when, append } from "rambda";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   LinkedDocument,
   LinkedDocumentInput,
   useUpdateLinkedDocumentMutation,
   useDeleteLinkedDocumentMutation,
-  useDocumentGroupsQuery,
   DocumentGroupInput,
   useUpdateDocumentGroupMutation,
-  SortOrder,
   useCreateLinkedDocumentMutation
 } from "~/generated/graphql";
-import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
+import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
-import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { Text } from "~/shared/components/Text";
 import { Button } from "~/shared/components/Button";
+import { DragSourceWrapper } from "~/shared/components/DragSourceWrapper";
 import { useModal } from "~/shared/hooks/useModal";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
-
-export const DocumentWrapperSortable = SortableElement<{ children: ReactNode }>(
-  ({ children }: { children: ReactNode }) => {
-    return (
-      <Box role='row' tabIndex={0}>
-        {children}
-      </Box>
-    );
-  }
-);
+import { DocumentsSorting } from "../DocumentsSorting";
+import { GroupsMap } from "../../types";
 
 type Props = {
   activeOrder: ActiveOrder;
@@ -40,6 +30,7 @@ type Props = {
   isLoading: boolean;
   handleChangeOrder: (order: ActiveOrder) => void;
   setDocuments: React.Dispatch<React.SetStateAction<LinkedDocumentsWithoutUpdated[]>>;
+  groups?: GroupsMap;
 };
 
 export const LinkedDocuments: React.FC<Props> = ({
@@ -47,7 +38,8 @@ export const LinkedDocuments: React.FC<Props> = ({
   setDocuments,
   activeOrder,
   isLoading,
-  handleChangeOrder
+  handleChangeOrder,
+  groups
 }) => {
   const [activeDocument, setActiveDocument] = useState<LinkedDocumentsWithoutUpdated | null>();
 
@@ -73,21 +65,13 @@ export const LinkedDocuments: React.FC<Props> = ({
 
   const { mutateAsync: updateGroup } = useUpdateDocumentGroupMutation(client);
 
-  const { data, refetch } = useDocumentGroupsQuery(
-    client,
-    {},
-    { refetchOnMount: "always", cacheTime: 0 }
-  );
-
-  const groups = useMemo(() => data?.documentGroups ?? [], [data]);
-
   const groupWithActiveDocument = useMemo(() => {
     if (!activeDocument) {
       return activeDocument;
     }
 
-    return groups.find((group) => {
-      return group.linked_documents?.find((doc) => doc?.id === activeDocument?.id);
+    return Object.values(groups ?? {}).find((group) => {
+      return (group.linked_documents ?? {})[activeDocument.id];
     });
   }, [activeDocument, groups]);
 
@@ -96,80 +80,61 @@ export const LinkedDocuments: React.FC<Props> = ({
   ) => {
     update({ input });
 
-    setDocuments((currentDocuments) => {
-      const newDocuments = [...currentDocuments];
+    const updateByInputReducer = (
+      res: LinkedDocumentsWithoutUpdated[],
+      cur: LinkedDocumentsWithoutUpdated
+    ) => {
+      if (equals(input.id, cur.id)) {
+        const url = input.upload ? URL.createObjectURL(input.upload) : cur.url;
 
-      const updatedDocumentIndex = newDocuments.findIndex((doc) => doc.id === input.id);
-
-      if (~updatedDocumentIndex) {
-        const url = input.upload
-          ? URL.createObjectURL(input.upload)
-          : newDocuments[updatedDocumentIndex].url;
-
-        newDocuments[updatedDocumentIndex] = {
+        cur = {
           id: Number(input.id),
           user_name: input.user_name,
           url,
-          published: !!input.published,
+          published: Boolean(input.published),
           created_at: input.created_at
         };
       }
 
-      return newDocuments;
-    });
+      return append(cur, res);
+    };
+
+    setDocuments(reduce(updateByInputReducer, []));
 
     return Promise.resolve(Number(input.id));
   };
 
   const handleCreate = (document: LinkedDocumentInput) => {
-    return create({ input: document })
-      .then((data) => {
-        setDocuments((currentDocuments) => {
-          const newDocument = data.createLinkedDocument;
+    const createPromise = create({ input: document });
 
-          if (!newDocument) {
-            return currentDocuments;
-          }
+    createPromise
+      .then(
+        compose(
+          when(not, (newDocument: LinkedDocumentsWithoutUpdated) =>
+            setDocuments(compose(concat([newDocument]), Array.prototype.slice.bind))
+          ),
+          prop("createLinkedDocument")
+        )
+      )
+      .then(onClose);
 
-          return currentDocuments.slice().concat(newDocument);
-        });
-
-        onClose();
-        return data;
-      })
-      .then((data) => Number(data.createLinkedDocument?.id));
+    return createPromise.then(compose(Number, prop("id"), prop("createLinkedDocument")));
   };
 
-  const handleDelete = (id: LinkedDocumentInput["id"]) => {
-    if (!id) {
-      return;
-    }
+  const handleDelete = when<LinkedDocumentInput["id"], void>(Boolean, (id) => {
+    remove({ id: id as number });
 
-    remove({ id });
-
-    setDocuments((currentDocuments) => currentDocuments.filter((doc) => doc.id !== id));
-  };
+    setDocuments(filter<LinkedDocumentsWithoutUpdated>(compose(not, equals(id), prop("id"))));
+  });
 
   const onGroupUpdate = (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => {
-    updateGroup({ input }).then(() => refetch());
+    updateGroup({ input });
   };
 
-  const getClickHandler = (name: string) => () => {
-    if (activeOrder?.[name] && activeOrder[name] === SortOrder.Desc) {
-      return handleChangeOrder?.(null);
-    }
-
-    const direction = activeOrder?.[name] === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc;
-
-    return handleChangeOrder?.({ [name]: direction });
-  };
-
-  const getActiveProps = (name: string) => ({
-    active: !!activeOrder?.[name],
-    direction: (activeOrder?.[name]
-      ? activeOrder[name].toLocaleLowerCase()
-      : "desc") as Lowercase<SortOrder>
-  });
+  const groupsOptions = Object.values(groups ?? {}).map((group) => ({
+    id: group.id,
+    name: group.name
+  }));
 
   return (
     <Box className='flex flex-col gap-4'>
@@ -184,29 +149,7 @@ export const LinkedDocuments: React.FC<Props> = ({
         </Button>
       </Box>
 
-      <Box className='flex flex-col md:flex-row gap-6'>
-        <Typography component='p'>
-          <Text component='span'>Sort by</Text>:
-        </Typography>
-        <TableHeadCell
-          title='ID'
-          cellId='id'
-          onSortClick={getClickHandler("id")}
-          sortProps={getActiveProps("id")}
-        />
-        <TableHeadCell
-          title='Title'
-          cellId='user_name'
-          onSortClick={getClickHandler("user_name")}
-          sortProps={getActiveProps("user_name")}
-        />
-        <TableHeadCell
-          title='Date create'
-          cellId='created_at'
-          onSortClick={getClickHandler("created_at")}
-          sortProps={getActiveProps("created_at")}
-        />
-      </Box>
+      <DocumentsSorting activeOrder={activeOrder} handleChangeOrder={handleChangeOrder} />
 
       <Box className='flex flex-wrap w-full gap-4'>
         {isLoading &&
@@ -214,20 +157,26 @@ export const LinkedDocuments: React.FC<Props> = ({
             <Skeleton key={i} className='w-[160px] rounded-lg' variant='rectangular' height={160} />
           ))}
 
-        {documents?.map((document, index) => (
-          <DocumentWrapperSortable index={index} key={document.id}>
-            <DocumentCard
-              title={document.user_name ?? ""}
-              format={getFileFormat(document.user_name ?? "")}
-              onCardClick={getHandlerSelectDocument(document)}
-            />
-          </DocumentWrapperSortable>
+        {documents?.map((document) => (
+          <DragSourceWrapper
+            key={document.id}
+            item={document}
+            render={({ drag, style }) => (
+              <DocumentCard
+                ref={drag}
+                style={style}
+                title={document.user_name ?? ""}
+                format={getFileFormat(document.user_name ?? "")}
+                onCardClick={getHandlerSelectDocument(document)}
+              />
+            )}
+          />
         ))}
       </Box>
 
       {open && (
         <DocumentDetailsDialog
-          groups={groups}
+          groups={groupsOptions}
           groupId={groupWithActiveDocument?.id}
           open={!!open}
           onClose={onClose}

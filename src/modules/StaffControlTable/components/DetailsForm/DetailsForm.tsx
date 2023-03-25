@@ -17,6 +17,7 @@ import { SaveButton } from "~/shared/components/SaveButton";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 type FormFields = {
   name?: string;
@@ -53,6 +54,8 @@ export const DetailsForm: React.FC<Props> = ({
   const getError = getErrorMessage(errors);
 
   const isCreate = !activeStaff;
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   const client = useGraphqlClient();
 
@@ -119,6 +122,7 @@ export const DetailsForm: React.FC<Props> = ({
           name='imageUrl'
           render={({ field: { value } }) => (
             <ImageInput
+              addAlert={addAlert}
               url={value ?? ""}
               {...register("imageUrl")}
               onChange={(file) => {

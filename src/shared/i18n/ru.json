@@ -248,5 +248,6 @@
   "News description": "Описание новости",
   "Object name": "Название объекта",
   "Learn more": "Узнать больше",
-  "Date create": "Дата создания"
+  "Date create": "Дата создания",
+  "Already exist": "Уже существует"
 }

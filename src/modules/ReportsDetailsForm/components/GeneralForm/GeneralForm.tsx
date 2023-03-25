@@ -10,6 +10,7 @@ import { NumericInput } from "~/shared/components/NumericInput";
 import { DatePicker } from "~/shared/components/DatePicker";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 export type GeneralFormFields = {
   name?: string;
@@ -29,6 +30,8 @@ type Props = {
 
 export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, control }) => {
   const getError = getErrorMessage(errors);
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
@@ -120,6 +123,7 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
           name='imageUrl'
           render={({ field: { value } }) => (
             <ImageInput
+              addAlert={addAlert}
               id='general'
               url={value}
               {...register("imageUrl")}

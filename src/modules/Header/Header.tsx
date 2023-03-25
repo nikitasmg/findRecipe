@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Box } from "@mui/material";
+import { Box, ClickAwayListener } from "@mui/material";
 import { Link } from "react-router-dom";
 import { HomePageRoute } from "~shared/routes";
 import { Logo } from "~shared/components/Logo";
@@ -19,19 +19,25 @@ export const Header: React.FC = () => {
       <Box component='header' className='flex justify-center border bg-mainBg'>
         <Box className='flex items-center justify-between px-2 pt-2 w-full max-w-[1280px]'>
           <Box className='flex items-center'>
-            <Link to={HomePageRoute} className='p-2'>
+            <Link to={HomePageRoute} className='p-2 shrink-0'>
               <Logo size='small' />
             </Link>
 
             <HeaderTabs />
           </Box>
 
-          <HeaderProfile />
+          <Box className='hidden md:block'>
+            <HeaderProfile />
+          </Box>
 
-          <MenuButton className='md:!hidden' onClick={toggleMenu} opened={!!open} />
+          <ClickAwayListener onClickAway={handleClose} touchEvent='onTouchStart'>
+            <Fragment>
+              <MenuButton className='md:!hidden' onClick={toggleMenu} opened={!!open} />
+              <NavigationMenu handleClose={handleClose} opened={!!open} />
+            </Fragment>
+          </ClickAwayListener>
         </Box>
       </Box>
-      <NavigationMenu handleClose={handleClose} opened={!!open} />
     </Fragment>
   );
 };

@@ -56,6 +56,23 @@ export const UpdateDocumentGroup = gql`
   }
 `;
 
+export const UpdateConnectDocumentGroup = gql`
+  ${DocumentGroupsFragment}
+
+  mutation UpdateConnectDocumentGroup(
+    $connectInput: DocumentGroupInput!
+    $disconnectInput: DocumentGroupInput!
+  ) {
+    upsertConnect: upsertDocumentGroup(input: $connectInput) {
+      ...allDocumentGroupsFields
+    }
+
+    upsertDisconnect: upsertDocumentGroup(input: $disconnectInput) {
+      ...allDocumentGroupsFields
+    }
+  }
+`;
+
 export const DeleteDocumentGroup = gql`
   mutation deleteDocumentGroup($id: Int!) {
     deleteDocumentGroup(id: $id) {

@@ -1,6 +1,5 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { BaseLayout } from "~/layouts/BaseLayout";
 import { NoMatch } from "../NoMatch";
 
 export default {
@@ -11,10 +10,6 @@ export default {
   }
 } as ComponentMeta<typeof NoMatch>;
 
-const Template: ComponentStory<typeof NoMatch> = (args) => (
-  <BaseLayout>
-    <NoMatch {...args} />
-  </BaseLayout>
-);
+const Template: ComponentStory<typeof NoMatch> = (args) => <NoMatch {...args} />;
 
 export const Default = Template.bind({});

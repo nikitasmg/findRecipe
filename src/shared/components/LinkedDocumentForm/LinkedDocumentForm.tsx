@@ -2,6 +2,7 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Control, Controller, UseFormGetValues } from "react-hook-form";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { append, compose, concat, equals, filter, not, prop, reduce, when } from "rambda";
 import {
   LinkedDocument,
   LinkedDocumentInput,
@@ -11,13 +12,13 @@ import {
   DocumentGroup,
   DocumentGroupInput
 } from "~/generated/graphql";
-import { LinkedDocumentsWithoutUpdated } from "~/api/overrides";
-import { DocumentCard } from "../DocumentCard";
-import { UploadDocumentsButton } from "../UploadDocumentsButton";
+import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { useModal } from "~/shared/hooks/useModal";
 import { DocumentDetailsDialog } from "../DocumentDetailsDialog";
 import { Text } from "../Text";
+import { UploadDocumentsButton } from "../UploadDocumentsButton";
+import { DocumentCard } from "../DocumentCard";
 
 export type LinkedDocumentsFormFields = {
   documents?: LinkedDocumentsWithoutUpdated[];
@@ -61,14 +62,11 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   const { open, handleClose, handleOpen } = useModal();
 
   const onUpload = (documents: LinkedDocumentsWithoutUpdated[]) => {
-    const newConnect = (getValues("connectDocuments") ?? [])?.concat(
-      documents.map((doc) => String(doc.id))
+    setValue(
+      "connectDocuments",
+      concat(getValues("connectDocuments") ?? [], documents.map(compose(String, prop("id"))))
     );
-
-    const newDocuments = (getValues("documents") ?? [])?.concat(documents);
-
-    setValue("connectDocuments", newConnect);
-    setValue("documents", newDocuments);
+    setValue("documents", concat(getValues("documents") ?? [], documents));
   };
 
   const getHandlerSelectDocument = (document: LinkedDocumentsWithoutUpdated | null) => () => {
@@ -86,47 +84,43 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   ) => {
     update({ input });
 
-    const currentDocuments = getValues("documents") ?? [];
+    const updateByInputReducer = (
+      res: LinkedDocumentsWithoutUpdated[],
+      cur: LinkedDocumentsWithoutUpdated
+    ) => {
+      if (equals(input.id, cur.id)) {
+        const url = input.upload ? URL.createObjectURL(input.upload) : cur.url;
 
-    const updatedDocumentIndex = currentDocuments.findIndex((doc) => doc.id === input.id);
+        cur = {
+          id: Number(input.id),
+          user_name: input.user_name,
+          url,
+          published: Boolean(input.published),
+          created_at: input.created_at
+        };
+      }
 
-    if (~updatedDocumentIndex) {
-      const newDocuments = currentDocuments.slice();
+      return append(cur, res);
+    };
 
-      const url = input.upload
-        ? URL.createObjectURL(input.upload)
-        : newDocuments[updatedDocumentIndex].url;
-
-      newDocuments[updatedDocumentIndex] = {
-        id: Number(input.id),
-        user_name: input.user_name,
-        url,
-        published: !!input.published,
-        created_at: input.created_at
-      };
-
-      setValue("documents", newDocuments);
-    }
+    setValue("documents", reduce(updateByInputReducer, [], getValues("documents") ?? []));
 
     handleClose();
 
     return Promise.resolve(Number(input.id));
   };
 
-  const handleDelete = (id: LinkedDocumentInput["id"]) => {
-    if (!id) {
-      return;
-    }
-
-    remove({ id });
-
-    const currentDocuments = getValues("documents") ?? [];
+  const handleDelete = when<LinkedDocumentInput["id"], void>(Boolean, (id) => {
+    remove({ id: id as number });
 
     setValue(
       "documents",
-      currentDocuments.filter((doc) => doc.id !== id)
+      filter<LinkedDocumentsWithoutUpdated>(
+        compose(not, equals(id), prop("id")),
+        getValues("documents") ?? []
+      )
     );
-  };
+  });
 
   const handleSelectDocument = (
     _: SyntheticEvent<Element>,
@@ -150,15 +144,15 @@ export const LinkedDocumentForm: React.FC<Props> = ({
       return;
     }
 
-    const currentDocuments = getValues("documents") ?? [];
-    const newDisConnect = (getValues("disconnectDocuments") ?? [])?.concat(String(document.id));
-
     setValue(
       "documents",
-      currentDocuments.filter((doc) => doc.id !== document.id)
+      filter(compose(not, equals(document.id), prop("id")), getValues("documents") ?? [])
     );
 
-    setValue("disconnectDocuments", newDisConnect);
+    setValue(
+      "disconnectDocuments",
+      (getValues("disconnectDocuments") ?? [])?.concat(String(document.id))
+    );
   };
 
   const options = allDocuments?.map((doc) => ({ label: doc.user_name, value: doc }));

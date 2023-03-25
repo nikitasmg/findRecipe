@@ -1,14 +1,15 @@
 import React from "react";
 import { Switch } from "@mui/material";
-import { SortOrder, useUpdatePurchasePublishedMutation } from "~/generated/graphql";
+import { useUpdatePurchasePublishedMutation } from "~/generated/graphql";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
+import { SourceLink } from "~shared/components/SourceLink";
 import { Link } from "~/shared/components/Link";
 import { PurchasesPageEdit } from "~/shared/routes";
+import { formatDateForTable } from "~shared/lib/formatDate";
+import { useSortProps } from "~/shared/hooks/useSortProps";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { formatDateForTable } from "~shared/lib/formatDate";
-import { SourceLink } from "~shared/components/SourceLink";
 
 export const useColumns = (
   activeOrder?: ActiveOrder,
@@ -18,22 +19,7 @@ export const useColumns = (
 
   const { mutateAsync: updatePublished } = useUpdatePurchasePublishedMutation(client);
 
-  const getClickHandler = (name: string) => () => {
-    if (activeOrder?.[name] && activeOrder[name] === SortOrder.Desc) {
-      return handleOrderClick?.(null);
-    }
-
-    const direction = activeOrder?.[name] === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc;
-
-    return handleOrderClick?.({ [name]: direction });
-  };
-
-  const getActiveProps = (name: string) => ({
-    active: !!activeOrder?.[name],
-    direction: (activeOrder?.[name]
-      ? activeOrder[name].toLocaleLowerCase()
-      : "desc") as Lowercase<SortOrder>
-  });
+  const { getClickHandler, getActiveProps } = useSortProps(handleOrderClick, activeOrder);
 
   return [
     {

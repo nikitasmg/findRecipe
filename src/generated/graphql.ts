@@ -1828,6 +1828,14 @@ export type UpdateDocumentGroupMutationVariables = Exact<{
 
 export type UpdateDocumentGroupMutation = { __typename?: 'Mutation', upsertDocumentGroup?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
 
+export type UpdateConnectDocumentGroupMutationVariables = Exact<{
+  connectInput: DocumentGroupInput;
+  disconnectInput: DocumentGroupInput;
+}>;
+
+
+export type UpdateConnectDocumentGroupMutation = { __typename?: 'Mutation', upsertConnect?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null, upsertDisconnect?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
+
 export type DeleteDocumentGroupMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -3363,6 +3371,29 @@ export const useUpdateDocumentGroupMutation = <
     useMutation<UpdateDocumentGroupMutation, TError, UpdateDocumentGroupMutationVariables, TContext>(
       ['updateDocumentGroup'],
       (variables?: UpdateDocumentGroupMutationVariables) => fetcher<UpdateDocumentGroupMutation, UpdateDocumentGroupMutationVariables>(client, UpdateDocumentGroupDocument, variables, headers)(),
+      options
+    );
+export const UpdateConnectDocumentGroupDocument = `
+    mutation UpdateConnectDocumentGroup($connectInput: DocumentGroupInput!, $disconnectInput: DocumentGroupInput!) {
+  upsertConnect: upsertDocumentGroup(input: $connectInput) {
+    ...allDocumentGroupsFields
+  }
+  upsertDisconnect: upsertDocumentGroup(input: $disconnectInput) {
+    ...allDocumentGroupsFields
+  }
+}
+    ${AllDocumentGroupsFieldsFragmentDoc}`;
+export const useUpdateConnectDocumentGroupMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateConnectDocumentGroupMutation, TError, UpdateConnectDocumentGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateConnectDocumentGroupMutation, TError, UpdateConnectDocumentGroupMutationVariables, TContext>(
+      ['UpdateConnectDocumentGroup'],
+      (variables?: UpdateConnectDocumentGroupMutationVariables) => fetcher<UpdateConnectDocumentGroupMutation, UpdateConnectDocumentGroupMutationVariables>(client, UpdateConnectDocumentGroupDocument, variables, headers)(),
       options
     );
 export const DeleteDocumentGroupDocument = `

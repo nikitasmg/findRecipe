@@ -2,29 +2,14 @@ import React from "react";
 import { Input, Typography } from "@mui/material";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
+import { useSortProps } from "~/shared/hooks/useSortProps";
 import { Column } from "../types";
-import { SortOrder } from "~/generated/graphql";
 
-export const getColumns = (
+export const useColumns = (
   activeOrder?: ActiveOrder,
   handleOrderClick?: (_activeOrder: ActiveOrder) => void
 ): Column[] => {
-  const getClickHandler = (name: string) => () => {
-    if (activeOrder?.[name] && activeOrder[name] === SortOrder.Desc) {
-      return handleOrderClick?.(null);
-    }
-
-    const direction = activeOrder?.[name] === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc;
-
-    return handleOrderClick?.({ [name]: direction });
-  };
-
-  const getActiveProps = (name: string) => ({
-    active: !!activeOrder?.[name],
-    direction: (activeOrder?.[name]
-      ? activeOrder[name].toLocaleLowerCase()
-      : "desc") as Lowercase<SortOrder>
-  });
+  const { getClickHandler, getActiveProps } = useSortProps(handleOrderClick, activeOrder);
 
   return [
     {
