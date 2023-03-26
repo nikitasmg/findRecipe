@@ -1,5 +1,45 @@
+ - <ins>2023-03-27</ins> **[`2835f8b`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/2835f8bff9c44111c6207a2f893c7475222f0107)** fix: columns styles purchases
+ - <ins>2023-03-27</ins> **[`5e2aae5`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/5e2aae51a5dbf40d34ecc3bdae2c52b708c6ab98)** fix: organizers and partners crud
+ - <ins>2023-03-27</ins> **[`be3c2ba`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/be3c2ba15dd92229dcbac0791197fc0c66ff136e)** fix: ui and functional
+ - <ins>2023-03-27</ins> **[`289452e`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/289452e9f6f279800ccd09c800e43eee04178212)** fix: add documents on grants page
+ - <ins>2023-03-26</ins> **[`bdf05e3`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/bdf05e3cdbb7c8895f482b784a7acbfd8f7e308f)** fix: activity result filter
+ - <ins>2023-03-26</ins> **[`1bb74d1`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/1bb74d1b87a0c26ecc9d5e4137579f7a453812de)** fix: add sorting column
+ - <ins>2023-03-26</ins> **[`a6321be`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/a6321bede42405c9a58f5d594b24caa6f528db28)** feat: document sorting
+ - <ins>2023-03-26</ins> **[`e31e01c`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/e31e01c28f87dbdb4d2e56cbb5c3cd452917731a)** refactor: Fix resort in tables
+ - <ins>2023-03-26</ins> **[`ee0e153`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/ee0e15366a86f9410f7bdcc14e2b7db7d5cda8e0)** refactor: Fix lint-staged
+ - <ins>2023-03-26</ins> **[`761ed3f`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/761ed3f28af1acc0fe8c93e97f16874c51de095a)** refactor: Fix documents form
+ - <ins>2023-03-26</ins> **[`394980b`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/394980b33e6309785f230fbf48aea55c4132d4af)** refactor: Fix Header imports
+ - <ins>2023-03-26</ins> **[`148e400`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/148e4009a4c6a5a59cfb56e6fe7de8e525fa551b)** refactor: Add some docs and renew imports
+ - <ins>2023-03-24</ins> **[`c095e9e`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/c095e9e17914188c9b0be867e2deea05e8d63144)** fix: learn more field name
+ - <ins>2023-03-24</ins> **[`e047716`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/e047716ec9a3cf7d70f76ee2710bc4a11fcc4cd6)** feat: Add document fields created_at and published
+ - <ins>2023-03-24</ins> **[`a89eb41`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/a89eb41fd8866424190dad4ef0da51a08bf9163f)** fix: activity result
+ - <ins>2023-03-24</ins> **[`a42e4cb`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/a42e4cb2e2cf6d3ea2f178e4a60e6cdf49444385)** fix: linked documents on page
+ - <ins>2023-03-24</ins> **[`113ff61`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/113ff61a6da73546251a64395947dd848f424192)** fix: add documents on items control
+ - <ins>2023-03-24</ins> **[`5a9e19d`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/5a9e19de300b121a7b6181bd437abc2a75cdcf8c)** fix: news content required
+ - <ins>2023-03-24</ins> **[`6596606`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/659660635e2fffae8fc2ff3f14cd0cf1799cbeb8)** fix: document adding
+ - <ins>2023-03-24</ins> **[`a4dcbb1`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/a4dcbb17e5ede3d72429758bdabf2a6e82baf3dd)** feat: edit map items
+ - <ins>2023-03-23</ins> **[`6068dc2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6068dc2348862b4c122fcf2a9928ae016c382be9)** optimize map
+ - <ins>2023-03-23</ins> **[`3ffd325`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/3ffd325b133a12f109cfb499558e8c600143028a)** fix: update document groups from any places
+ - <ins>2023-03-23</ins> **[`a210e2e`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/a210e2e47a999910aacb0fde551b119f002460b0)** fix: refetch groups
+ - <ins>2023-03-23</ins> **[`84e6ff7`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/84e6ff7fb6dfda371ee0139f4013c631c7d19dac)** refactor: edit pages form
+ - <ins>2023-03-23</ins> **[`27bb137`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/27bb1373c6e6339e9622db6a4df87d94a6ee36e1)** fix: documents form
+ - <ins>2023-03-23</ins> **[`c6c9445`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/c6c9445ff9422b19963125e5ed6eefca2e1e3af8)** fix: add documents form
+ - <ins>2023-03-23</ins> **[`4d27537`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/4d27537a1d231120b642d0bdbc3d783e8d436970)** fix: fix file format
+ - <ins>2023-03-23</ins> **[`2ad26b2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/2ad26b2495fbd8678017905a359ce7321d99763b)** fix: update imports
+ - <ins>2023-03-23</ins> **[`9479113`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/94791136b7a571e472e00b4373d66067e731467c)** feat: edit document group
+ - <ins>2023-03-23</ins> **[`6c3f08f`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6c3f08f56695e93764366d42fc353fc6cd17a548)** feat: group createng and editing
+ - <ins>2023-03-23</ins> **[`aea8273`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/aea8273452cef8d7cbf25f8fd96e340d3396c3cd)** feat: upload and edit documents
+ - <ins>2023-03-22</ins> **[`8515eb2`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/8515eb26be3fad0c87862bd09a2448d62a9a9ec5)** fix/description
+ - <ins>2023-03-22</ins> **[`6f6e919`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/6f6e9190303db4717708c9443a9f2214a0cdf24d)** feat: add new pages
+ - <ins>2023-03-22</ins> **[`20e4bb4`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/20e4bb454bb5d95a29b963a1620c7a2e7cad45ae)** Откатил компонент PhoneInput
+ - <ins>2023-03-22</ins> **[`cb61233`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/cb6123341f129d2feb513aa139a9c6520a891a2e)** fix: additional number changing
+ - <ins>2023-03-22</ins> **[`519f7cd`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/519f7cdf78b0bfb3b5ed9dfd150fb45a22c307f6)** feat: base document upload layout
+ - <ins>2023-03-22</ins> **[`d1c178e`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/d1c178eaf3d17291175f43a7c92b6c7a9e61b65c)** fix: fix staff control and styles
+ - <ins>2023-03-22</ins> **[`866941c`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/866941c0f694cbca36c7b685f3ec455b81391cb0)** fix: fix names properties
+ - <ins>2023-03-22</ins> **[`5e68631`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/5e68631ccdef7f4d2a3b37e77ad7c306e4789834)** docs: update CHANGELOG.md
  - <ins>2023-03-22</ins> **[`0e0bdab`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/0e0bdab75a287e598383b0124c47397fdff1eb70)** feat: reports and activity
  - <ins>2023-03-21</ins> **[`fec1aaa`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/fec1aaa0076f1e41182f017c0badeaa0afc2c85a)** Добавление поля Практическое использование в форме проектов
+ - <ins>2023-03-21</ins> **[`08c01de`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/08c01de4042df5317c91b5759127d8906494ff90)** Правки по баг-репорту ID 50, 73, 75, 76, 84
  - <ins>2023-03-21</ins> **[`0668e71`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/0668e71b6a3bf6d5dc6168bbe58b03939057894e)** Изменение структуры форм в карточке проекта, добавление новых полей
  - <ins>2023-03-21</ins> **[`b074173`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/b074173447406a85b971a2780ccfdeb03b1e146f)** fix: filters
  - <ins>2023-03-21</ins> **[`cd26640`](https://gitlab.dev.echo-company.ru/developers/echo-front-v3/-/commit/cd26640b5c0707ac50eee6c2cf659298ec8e37ea)** fix: max phone length
