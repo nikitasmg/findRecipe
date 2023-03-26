@@ -1,37 +1,28 @@
 import { AlertColor, Avatar, Box, Icon, Input, InputProps } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Text } from "../Text";
 
 type Props = {
   id: string;
+  url: string;
   onChange: (file?: File | null) => void;
   addAlert: (severity: AlertColor, message: string) => void;
   onDelete?: () => void;
   withPreview?: boolean;
-  url?: string;
 } & InputProps;
 
 export const AvatarInput: React.FC<Props> = ({
   id,
   onChange,
+  url,
   withPreview = true,
-  url = "",
   onDelete,
   addAlert,
   ...other
 }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>();
-  const [imageUrl, setImageUrl] = useState(url);
-
-  useEffect(() => {
-    if (selectedImage) {
-      setImageUrl(URL.createObjectURL(selectedImage));
-      return;
-    }
-    setImageUrl("");
-  }, [selectedImage]);
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.webp)$/i;
@@ -52,12 +43,12 @@ export const AvatarInput: React.FC<Props> = ({
     setSelectedImage(null);
   };
 
-  const isImagePreview = url || (withPreview && imageUrl && selectedImage);
+  const isImagePreview = url || (withPreview && selectedImage);
 
   return (
     <>
       {!isImagePreview && (
-        <Box className='flex items-center relative w-full h-[100px] transition hover:bg-gray-200 rounded-xl border-dashed border-2 border-primary'>
+        <Box className='flex items-center relative w-full h-[100px] transition hover:bg-gray-200 rounded-xl border-dashed border-2 border-primary p-4'>
           <Input
             inputProps={{
               accept: "image/*",
@@ -83,7 +74,7 @@ export const AvatarInput: React.FC<Props> = ({
             tabIndex={0}
             className='absolute left-[65%] top-0 cursor-pointer'
           />
-          <Avatar sx={{ width: "100px", height: "auto" }} src={imageUrl} />
+          <Avatar sx={{ width: "100px", height: "100px" }} src={url} />
         </Box>
       )}
     </>

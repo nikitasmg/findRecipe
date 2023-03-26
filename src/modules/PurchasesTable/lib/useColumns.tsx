@@ -55,7 +55,11 @@ export const useColumns = (
         />
       ),
       style: {
-        width: "250px"
+        width: "300px",
+        maxWidth: "300px",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        wordBreak: "break-all"
       },
       render: (value) => (
         <SourceLink className='transition-all' to={value as string} target='_blank'>
