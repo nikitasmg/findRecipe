@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { Text } from "~/shared/components/Text";
 import { ButtonDelete } from "~/shared/components/ButtonDelete";
+import { SocialItems } from "~/shared/types/socials";
 
 type Props = {
   register: UseFormRegister<FormFieldsSocial>;
@@ -14,7 +15,7 @@ type Props = {
   handleOpenForm: () => void;
   setActive: (social: keyof FormFieldsSocial) => void;
   handleSubmit: () => void;
-  social: "vk" | "facebook" | "telegram" | "instagram" | "whatsapp";
+  social: SocialItems;
 };
 
 export const SocialItem: React.FC<Props> = ({
@@ -36,9 +37,6 @@ export const SocialItem: React.FC<Props> = ({
     handleOpenForm();
   };
 
-  
-  
-
   return (
     <>
       <Grid item columns={10} xs={10}>
@@ -48,7 +46,7 @@ export const SocialItem: React.FC<Props> = ({
           render={({ field: { value } }) => (
             <TextField
               fullWidth
-              value={value||""}
+              value={value}
               label={<Text>{social}</Text>}
               {...register(social)}
             />

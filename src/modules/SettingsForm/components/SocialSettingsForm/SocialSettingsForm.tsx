@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import React, { useState } from "react";
 import { Control, UseFormRegister, useWatch } from "react-hook-form";
+import { SocialItems } from "~/shared/types/socials";
 import { SocialDrawer } from "../SocialDrawer";
 import { SocialItem } from "../SocialItem";
 
@@ -31,9 +32,9 @@ export const SocialSettingsForm: React.FC<Props> = ({
   handleCloseForm,
   open
 }) => {
-  const [active, setActive] = useState<"vk" | "facebook" | "telegram" | "instagram" | "whatsapp">("vk");
+  const [active, setActive] = useState<SocialItems>("vk");
   const { vk, facebook, telegram, instagram, whatsapp } = useWatch({ control });
-  
+
   return (
     <Grid container spacing={4}>
       {vk && (

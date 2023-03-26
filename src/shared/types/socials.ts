@@ -6,4 +6,6 @@ export enum Socials {
   WHATSAPP = "whatsapp"
 }
 
+export type SocialItems = "vk" | "facebook" | "telegram" | "instagram" | "whatsapp";
+
 

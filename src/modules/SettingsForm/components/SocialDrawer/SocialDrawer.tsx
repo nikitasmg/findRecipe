@@ -11,14 +11,14 @@ import {
 } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Text } from "~/shared/components/Text";
-import { Socials } from "~/shared/types/socials";
+import { SocialItems, Socials } from "~/shared/types/socials";
 import SaveIcon from "@mui/icons-material/Save";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import { FormFieldsSocial } from "../SocialSettingsForm";
 
 type Props = {
   open: string;
-  active: "vk" | "facebook" | "telegram" | "instagram" | "whatsapp";
+  active: SocialItems;
   handleCloseForm: () => void;
   handleSubmitProps: () => void;
   setValue: (name: keyof FormFieldsSocial, value: string) => void;
@@ -66,7 +66,7 @@ export const SocialDrawer: React.FC<Props> = ({
       >
         <Text variant='h5'>Social</Text>
         <FormControl>
-          <Select name='name' value={social||""} onChange={handleChange} required>
+          <Select name='name' value={social} onChange={handleChange} required>
             {Object.values(Socials).map((el, i) => (
               <MenuItem key={i} value={el}>
                 {el}
@@ -82,7 +82,7 @@ export const SocialDrawer: React.FC<Props> = ({
           render={({ field: { value } }) => (
             <TextField
               label={<Text>{social}</Text>}
-              value={value||""}
+              value={value}
               variant='standard'
               {...register("value")}
             />

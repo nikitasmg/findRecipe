@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { useForm } from "react-hook-form";
@@ -63,13 +63,13 @@ export const SettingsTabs = () => {
     mode: "all"
   });
 
-  const handleOpenForm = () => {
+  const handleOpenForm = useCallback(() => {
     handleOpen();
-  };
+  }, [handleOpen]);
 
-  const handleCloseForm = () => {
+  const handleCloseForm = useCallback(() => {
     handleClose();
-  };
+  }, [handleClose]);
 
   const onSubmit = handleSubmit((fields: UpdateSettingsMutationVariables) => {
     saveSettings(fields);
