@@ -72,6 +72,8 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
       start: newValues.start,
       end: newValues.end,
       ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
+      partners: newValues.partnersBelongs,
+      organizers: newValues.organizersBelongs,
       linked_documents: {
         connect: newValues.connectDocuments ?? [],
         disconnect: newValues.disconnectDocuments ?? [],
@@ -145,7 +147,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
         },
         {
           tabTitle: "Additional data",
-          component: <AdditionalForm setValue={setValue} control={control} />
+          component: <AdditionalForm setValue={setValue} getValues={getValues} control={control} />
         },
         {
           tabTitle: "Documents",
