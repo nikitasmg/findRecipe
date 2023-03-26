@@ -29,9 +29,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
           <Grid item columns={12} xs={12}>
             <TextField
               fullWidth
-              value={params?.number}
+              value={params?.numberLike}
               label={<Text>Project number</Text>}
-              onChange={getChangeHandler("number")}
+              onChange={getChangeHandler("numberLike")}
               variant='outlined'
             />
           </Grid>
@@ -39,9 +39,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
           <Grid item columns={12} xs={12}>
             <TextField
               fullWidth
-              value={params?.leader}
+              value={params?.leaderLike}
               label={<Text>Leader</Text>}
-              onChange={getChangeHandler("leader")}
+              onChange={getChangeHandler("leaderLike")}
               variant='outlined'
             />
           </Grid>
@@ -49,9 +49,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
           <Grid item columns={12} xs={12}>
             <TextField
               fullWidth
-              value={params?.organization}
+              value={params?.organizationLike}
               label={<Text>Organization</Text>}
-              onChange={getChangeHandler("organization")}
+              onChange={getChangeHandler("organizationLike")}
               variant='outlined'
             />
           </Grid>

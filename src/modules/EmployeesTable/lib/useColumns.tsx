@@ -88,7 +88,11 @@ export const useColumns = (
         />
       ),
       style: {
-        width: "150px"
+        width: "200px",
+        maxWidth: "200px",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        wordBreak: "break-all"
       }
     },
 
@@ -103,7 +107,7 @@ export const useColumns = (
         />
       ),
       style: {
-        width: "200px"
+        width: "250px"
       },
       render: (value, row) => (
         <SelectSubdivision

@@ -85,7 +85,11 @@ const EmployeesTable = () => {
                         const value = row[column.id];
 
                         return (
-                          <TableCell key={column.id} align={column.align ?? "left"}>
+                          <TableCell
+                            key={column.id}
+                            align={column.align ?? "left"}
+                            style={column.style}
+                          >
                             {column.render?.(value, row) ?? column.format?.(value) ?? value}
                           </TableCell>
                         );

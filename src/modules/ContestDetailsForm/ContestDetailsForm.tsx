@@ -13,8 +13,10 @@ import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { NewsPageRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
-import { GeneralForm } from "./components/GeneralForm";
-import { DocumentsForm } from "./components/DocumentsForm";
+import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
+import { DocumentFormFields, DocumentsForm } from "./components/DocumentsForm";
+
+type FormFields = DocumentFormFields & GeneralFormFields;
 
 type Props = {
   id?: number;
@@ -32,7 +34,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
   const { data, isSuccess } = useContestByIdQuery(
     client,
     { id: Number(id) },
-    { enabled: !isCreateMode, refetchOnMount: "always" }
+    { enabled: !isCreateMode, refetchOnMount: "always", cacheTime: 0 }
   );
 
   const { mutateAsync: createContest, isLoading: isCreateLoading } = useCreateContestMutation(
@@ -50,8 +52,9 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
     handleSubmit,
     setValue,
     formState: { errors },
-    register
-  } = useForm({ mode: "all" });
+    register,
+    getValues
+  } = useForm<FormFields>({ mode: "all" });
 
   const values = data?.contestById;
 
@@ -65,27 +68,17 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
       status: newValues.status,
       deadline: newValues.deadline,
       date: dayjs(newValues.date).format("YYYY-MM-DD"),
-      uploadDocuments: newValues.uploadDocuments.reduce(
-        (res: [UploadDocumentInput], cur: File, i: number) => {
+      uploadDocuments:
+        newValues.uploadDocuments?.reduce((res: UploadDocumentInput[], cur, i) => {
           if (cur) {
-            res.push({ upload: cur, sort: i, user_name: cur.name });
+            res.push({ upload: cur, sort: i + 1, user_name: cur.name });
           }
+
           return res;
-        },
-        []
-      ),
-      deleteDocuments: newValues.uploadDocuments.reduce((res: number[]) => {
-        const existed = values?.documents?.find((doc) =>
-          newValues.uploadDocuments?.find((upload: { sort: number }) => upload.sort === doc?.sort)
-        );
-
-        if (existed) {
-          res.push(existed?.id);
-        }
-
-        return res;
-      }, [])
+        }, []) ?? [],
+      deleteDocuments: newValues.deleteDocuments?.map(String)
     };
+
     if (isCreateMode) {
       createContest({ input });
       return;
@@ -103,7 +96,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
     values?.documents?.forEach((document, i) => {
       const file = new File([], document?.user_name ?? "Document");
 
-      setValue(`uploadDocuments.${i}`, file);
+      setValue(`localDocuments.${document?.sort ?? i + 1}`, file);
     });
   }, [values, isSuccess, setValue]);
 
@@ -128,7 +121,14 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
         },
         {
           tabTitle: "Documents",
-          component: <DocumentsForm setValue={setValue} register={register} control={control} />
+          component: (
+            <DocumentsForm
+              setValue={setValue}
+              register={register}
+              getValues={getValues}
+              control={control}
+            />
+          )
         }
       ]}
     />
