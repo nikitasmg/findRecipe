@@ -67,7 +67,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                     <Text>Heading</Text>
                   </RequiredLabelWrapper>
                 }
-                value={value}
+                value={value ?? ""}
                 error={!!getError("name")}
                 {...register("name", baseRequired)}
               />
@@ -88,7 +88,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                     <Text>News announcement</Text>
                   </RequiredLabelWrapper>
                 }
-                value={value}
+                value={value ?? ""}
                 multiline
                 fullWidth
                 error={!!getError("description")}

@@ -1,8 +1,9 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { CSSProperties, ReactNode, SyntheticEvent, useEffect, useState } from "react";
 import { Control, Controller, UseFormGetValues } from "react-hook-form";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { append, compose, concat, equals, filter, not, prop, reduce, when } from "rambda";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import {
   LinkedDocument,
   LinkedDocumentInput,
@@ -10,7 +11,8 @@ import {
   UpdateLinkedDocumentMutation,
   DeleteLinkedDocumentMutation,
   DocumentGroup,
-  DocumentGroupInput
+  DocumentGroupInput,
+  LikedDocumentPivotInput
 } from "~/generated/graphql";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
@@ -19,19 +21,34 @@ import { DocumentDetailsDialog } from "../DocumentDetailsDialog";
 import { Text } from "../Text";
 import { UploadDocumentsButton } from "../UploadDocumentsButton";
 import { DocumentCard } from "../DocumentCard";
+import { resortArray } from "~/shared/lib/resortArray";
+
+export const BodySortable = SortableContainer<{ children: ReactNode }>(
+  ({ children }: { children: ReactNode }) => <Box className='flex flex-wrap gap-4'>{children}</Box>
+);
+
+export const CardSortable = SortableElement<{ children: ReactNode; style?: CSSProperties }>(
+  ({ children, style }: { children: ReactNode; style?: CSSProperties }) => {
+    return (
+      <Box className='relative' style={style}>
+        {children}
+      </Box>
+    );
+  }
+);
 
 export type LinkedDocumentsFormFields = {
   documents?: LinkedDocumentsWithoutUpdated[];
   connectDocuments?: string[];
   disconnectDocuments?: string[];
-  updateDocuments?: LinkedDocumentsWithoutUpdated[];
+  updateDocuments?: LikedDocumentPivotInput[];
 };
 
 type Props = {
   allDocuments: LinkedDocumentsWithoutUpdated[];
   setValue: (
     name: keyof LinkedDocumentsFormFields,
-    value: LinkedDocumentsWithoutUpdated[] | string[]
+    value: LinkedDocumentsWithoutUpdated[] | string[] | LikedDocumentPivotInput[]
   ) => void;
   getValues: UseFormGetValues<LinkedDocumentsFormFields>;
   control: Control<LinkedDocumentsFormFields, unknown>;
@@ -42,6 +59,9 @@ type Props = {
   onGroupUpdate: (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => void;
   groupId?: DocumentGroup["id"];
   onActiveChange?: (active?: LinkedDocumentsWithoutUpdated | null) => void;
+  onAddDocuments?: (ids: LinkedDocument["id"][]) => void;
+  onResort: (documents: Pick<LinkedDocumentsWithoutUpdated, "id" | "sort">[]) => void;
+  onRemoveDocument?: (id: LinkedDocument["id"]) => void;
 };
 
 export const LinkedDocumentForm: React.FC<Props> = ({
@@ -55,6 +75,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   onGroupUpdate,
   onActiveChange,
   groupId,
+  onAddDocuments,
+  onRemoveDocument,
+  onResort,
   allDocuments = []
 }) => {
   const [activeDocument, setActiveDocument] = useState<LinkedDocumentsWithoutUpdated | null>();
@@ -67,6 +90,8 @@ export const LinkedDocumentForm: React.FC<Props> = ({
       concat(getValues("connectDocuments") ?? [], documents.map(compose(String, prop("id"))))
     );
     setValue("documents", concat(getValues("documents") ?? [], documents));
+
+    onAddDocuments?.(documents.map((doc) => doc?.id));
   };
 
   const getHandlerSelectDocument = (document: LinkedDocumentsWithoutUpdated | null) => () => {
@@ -137,6 +162,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
 
     setValue("documents", currentDocuments.concat(document));
     setValue("connectDocuments", newConnect);
+    onAddDocuments?.([document.id]);
   };
 
   const getUnlinkDocumentHandler = (document: LinkedDocumentsWithoutUpdated) => () => {
@@ -153,9 +179,24 @@ export const LinkedDocumentForm: React.FC<Props> = ({
       "disconnectDocuments",
       (getValues("disconnectDocuments") ?? [])?.concat(String(document.id))
     );
+
+    onRemoveDocument?.(document.id);
   };
 
   const options = allDocuments?.map((doc) => ({ label: doc.user_name, value: doc }));
+
+  const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
+    const currentCardsState = getValues("documents") ?? [];
+
+    const newCardsState = resortArray(oldIndex, newIndex, currentCardsState);
+
+    setValue("documents", newCardsState);
+    onResort?.(
+      newCardsState
+        .slice(0, Math.max(newIndex, oldIndex) + 1)
+        .map((item) => ({ id: item.id, sort: item.sort }))
+    );
+  };
 
   useEffect(() => {
     onActiveChange?.(activeDocument);
@@ -195,9 +236,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
         control={control}
         name='documents'
         render={({ field: { value } }) => (
-          <Box className='flex flex-wrap gap-4'>
-            {value?.map((doc) => (
-              <Box className='relative' key={doc.id}>
+          <BodySortable axis='xy' onSortEnd={onSortEnd} distance={30}>
+            {value?.map((doc, i) => (
+              <CardSortable index={i} key={doc.id}>
                 <DocumentCard
                   title={doc.user_name ?? ""}
                   format={getFileFormat(doc.user_name ?? "")}
@@ -209,9 +250,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
                   onClick={getUnlinkDocumentHandler(doc)}
                   className='absolute top-2 right-2 z-100 text-mainError'
                 />
-              </Box>
+              </CardSortable>
             ))}
-          </Box>
+          </BodySortable>
         )}
       />
 

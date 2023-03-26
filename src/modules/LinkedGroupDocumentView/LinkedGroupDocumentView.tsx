@@ -1,13 +1,9 @@
-import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
-import { compose, equals, filter, not, prop } from "rambda";
-import React, { SyntheticEvent, useEffect, useState } from "react";
-import CancelIcon from "@mui/icons-material/Cancel";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   DocumentGroup,
   useDocumentGroupByIdQuery,
-  LinkedDocument,
-  LinkedDocumentInput,
   useUpdateLinkedDocumentMutation,
   useDeleteLinkedDocumentMutation,
   useCreateLinkedDocumentMutation,
@@ -16,28 +12,23 @@ import {
   useLinkedDocumentsQuery,
   useDocumentGroupsQuery
 } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
-import { DocumentCard } from "~/shared/components/DocumentCard";
-import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
-import { UploadDocumentsButton } from "~/shared/components/UploadDocumentsButton";
-import { useModal } from "~/shared/hooks/useModal";
-import { getFileFormat } from "~/shared/lib/getFileFormat";
-import { Text } from "~/shared/components/Text";
+import {
+  LinkedDocumentForm,
+  LinkedDocumentsFormFields
+} from "~/shared/components/LinkedDocumentForm";
 
 type Props = {
   groupId: DocumentGroup["id"];
 };
 
 export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
-  const [documents, setDocuments] = useState<LinkedDocumentsWithoutUpdated[]>([]);
-
-  const [activeDocument, setActiveDocument] = useState<LinkedDocumentsWithoutUpdated | null>();
-
-  const { open, handleClose, handleOpen } = useModal();
+  const form = useForm<LinkedDocumentsFormFields>();
 
   const client = useGraphqlClient();
 
-  const { data, isLoading } = useDocumentGroupByIdQuery(
+  const { data } = useDocumentGroupByIdQuery(
     client,
     { id: groupId },
     { enabled: !!groupId, refetchOnMount: "always" }
@@ -59,189 +50,55 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     { refetchOnMount: "always" }
   );
 
+  const { mutateAsync: resort } = useResort("upsertDocumentGroup");
+
   const groups = groupsData?.documentGroups ?? [];
-
-  const group = data?.documentGroupById;
-
-  const getHandlerSelectDocument = (document: LinkedDocumentsWithoutUpdated | null) => () => {
-    setActiveDocument(document);
-    handleOpen();
-  };
-
-  const onClose = () => {
-    setActiveDocument(null);
-    handleClose();
-  };
-
-  const handleUpdate = (
-    input: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
-  ) => {
-    update({ input });
-
-    setDocuments((currentDocuments) => {
-      const newDocuments = [...currentDocuments];
-
-      const updatedDocumentIndex = newDocuments.findIndex((doc) => doc.id === input.id);
-
-      if (~updatedDocumentIndex) {
-        const url = input.upload
-          ? URL.createObjectURL(input.upload)
-          : newDocuments[updatedDocumentIndex].url;
-
-        newDocuments[updatedDocumentIndex] = {
-          id: Number(input.id),
-          user_name: input.user_name,
-          url,
-          published: !!input.published,
-          created_at: input.created_at
-        };
-      }
-
-      return newDocuments;
-    });
-
-    return Promise.resolve(Number(input.id));
-  };
-
-  const handleDelete = (id: LinkedDocumentInput["id"]) => {
-    if (!id) {
-      return;
-    }
-
-    remove({ id });
-
-    setDocuments((currentDocuments) => currentDocuments.filter((doc) => doc.id !== id));
-  };
-
-  const onUpload = (documents: LinkedDocument[]) => {
-    setDocuments((cur) => cur.slice().concat(documents));
-
-    const input: DocumentGroupInput = {
-      id: groupId,
-      linked_documents: {
-        connect: documents.map(compose(String, prop("id")))
-      }
-    };
-
-    updateGroup({ input });
-  };
-
-  const getUnlinkDocumentHandler = (document: LinkedDocumentsWithoutUpdated) => () => {
-    setDocuments(
-      filter<LinkedDocumentsWithoutUpdated>(compose(not, equals(document.id), prop("id")))
-    );
-
-    const input: DocumentGroupInput = {
-      id: groupId,
-      linked_documents: {
-        disconnect: [String(document.id)]
-      }
-    };
-
-    updateGroup({ input });
-  };
 
   const onGroupUpdate = (input: Pick<DocumentGroupInput, "id" | "linked_documents">) => {
     updateGroup({ input }).then(() => refetch());
   };
 
-  const handleSelectDocument = (
-    _: SyntheticEvent<Element>,
-    option: string | { value: LinkedDocumentsWithoutUpdated } | null
-  ) => {
-    if (typeof option !== "object" || !option?.value) {
-      return;
-    }
-
+  const onAddDocuments = (ids: LinkedDocumentsWithoutUpdated["id"][]) => {
     const input: DocumentGroupInput = {
       id: groupId,
       linked_documents: {
-        connect: [String(option.value.id)]
+        connect: ids.map(String)
       }
     };
-
     updateGroup({ input });
-
-    setDocuments((cur) => cur.concat(option.value));
   };
 
-  const options =
-    allData?.linkedDocuments?.map((doc) => ({ label: doc.user_name, value: doc })) ?? [];
+  const onRemoveDocument = (id: LinkedDocumentsWithoutUpdated["id"]) => {
+    const input: DocumentGroupInput = {
+      id: groupId,
+      linked_documents: {
+        disconnect: [String(id)]
+      }
+    };
+    updateGroup({ input });
+  };
 
   useEffect(() => {
-    if (!group?.linked_documents) {
-      return;
-    }
+    const group = data?.documentGroupById;
+    const documents: LinkedDocumentsWithoutUpdated[] =
+      (group?.linked_documents as LinkedDocumentsWithoutUpdated[]) ?? [];
 
-    setDocuments(group.linked_documents as LinkedDocument[]);
-  }, [group]);
+    form.setValue("documents", documents);
+  }, [form, data]);
 
   return (
-    <Box className='flex flex-col gap-4'>
-      <Box className='flex flex-col gap-4 md:items-stretch md:flex-row items-center'>
-        <Autocomplete
-          disablePortal
-          id='documents'
-          freeSolo
-          className='w-full'
-          options={options}
-          noOptionsText={<Text>No options</Text>}
-          size='small'
-          onChange={handleSelectDocument}
-          renderOption={(props, option) => (
-            <Box component='li' {...props}>
-              {option.label}
-            </Box>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              InputLabelProps={{
-                shrink: true
-              }}
-              label={<Text>Documents</Text>}
-            />
-          )}
-        />
-        <UploadDocumentsButton className='shrink-0' create={create} onUpload={onUpload} />
-      </Box>
-
-      <Box className='flex flex-wrap gap-4'>
-        {documents.map((doc) => {
-          return (
-            <Box className='relative' key={doc.id}>
-              <DocumentCard
-                title={doc.user_name ?? ""}
-                format={getFileFormat(doc.user_name ?? "")}
-                onCardClick={getHandlerSelectDocument(doc)}
-              />
-              <CancelIcon
-                tabIndex={0}
-                onKeyPress={getUnlinkDocumentHandler(doc)}
-                onClick={getUnlinkDocumentHandler(doc)}
-                className='absolute top-2 right-2 z-100 text-mainError'
-              />
-            </Box>
-          );
-        })}
-      </Box>
-
-      {isLoading && (
-        <Box className='w-full flex justify-center items-center h-[200px]'>
-          <CircularProgress />
-        </Box>
-      )}
-
-      <DocumentDetailsDialog
-        groups={groups}
-        groupId={groupId}
-        open={!!open}
-        onClose={onClose}
-        document={activeDocument}
-        update={handleUpdate}
-        onRemove={handleDelete}
-        onGroupUpdate={onGroupUpdate}
-      />
-    </Box>
+    <LinkedDocumentForm
+      create={create}
+      update={update}
+      remove={remove}
+      {...form}
+      groups={groups}
+      onGroupUpdate={onGroupUpdate}
+      groupId={groupId}
+      allDocuments={allData?.linkedDocuments ?? []}
+      onAddDocuments={onAddDocuments}
+      onRemoveDocument={onRemoveDocument}
+      onResort={resort}
+    />
   );
 };

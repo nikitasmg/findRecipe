@@ -74,7 +74,8 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
       ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
       linked_documents: {
         connect: newValues.connectDocuments ?? [],
-        disconnect: newValues.disconnectDocuments ?? []
+        disconnect: newValues.disconnectDocuments ?? [],
+        syncWithoutDetaching: newValues.updateDocuments ?? []
       }
     };
 

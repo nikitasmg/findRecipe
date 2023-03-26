@@ -1,5 +1,5 @@
 {
-  "src/**/*.{js,ts,jsx,tsx}": ["npm run lint:es:fix && npm run check-types"],
+  "src/**/*.{js,ts,jsx,tsx}": ["npm run lint:es:fix", "bash -c tsc --noEmit"],
   "*.json": ["prettier --write"],
   "*.{png,jpeg,jpg,gif}": ["node ./scripts/imagemin.mjs", "git add"]
 }

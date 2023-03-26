@@ -1,5 +1,5 @@
 import { DeepPartial } from "react-hook-form";
-import { MapObjectInput, MapObject } from "~/generated/graphql";
+import { MapObjectInput, MapObject, LikedDocumentPivotInput } from "~/generated/graphql";
 
 export const prepareFormData = async (
   newValues: Partial<
@@ -7,6 +7,8 @@ export const prepareFormData = async (
       MapObjectInput & {
         connectDocuments: string[];
         disconnectDocuments: string[];
+        syncWithoutDetaching: LikedDocumentPivotInput[];
+        updateDocuments: LikedDocumentPivotInput[];
       }
   >,
   values?: DeepPartial<MapObjectInput> | null
@@ -21,7 +23,8 @@ export const prepareFormData = async (
     gross_boma_area: newValues.gross_boma_area,
     linked_documents: {
       connect: newValues.connectDocuments ?? [],
-      disconnect: newValues.disconnectDocuments ?? []
+      disconnect: newValues.disconnectDocuments ?? [],
+      syncWithoutDetaching: newValues.updateDocuments ?? []
     }
   };
 

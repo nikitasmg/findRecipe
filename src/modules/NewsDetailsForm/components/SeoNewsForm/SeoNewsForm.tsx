@@ -26,7 +26,7 @@ export const SeoNewsForm: React.FC<Props> = ({ register, errors, control }) => {
           <FormControl fullWidth>
             <TextField
               label={<Text>Heading</Text>}
-              value={value}
+              value={value ?? ""}
               variant='outlined'
               id='seo.upsert.title'
               error={!!getError("seo.upsert.title")}
@@ -43,7 +43,7 @@ export const SeoNewsForm: React.FC<Props> = ({ register, errors, control }) => {
           <FormControl fullWidth>
             <TextField
               label={<Text>Description</Text>}
-              value={value}
+              value={value ?? ""}
               variant='outlined'
               id='seo.upsert.description'
               error={!!getError("seo.upsert.description")}

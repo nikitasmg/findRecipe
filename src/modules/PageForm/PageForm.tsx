@@ -1,7 +1,9 @@
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { usePageBySlugQuery, useUpdatePageMutation } from "~/generated/graphql";
+import { DetailsHead } from "~/shared/components/DetailsHead";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { initFormValues } from "~/shared/lib/initFormValues";
@@ -53,7 +55,8 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
       seo: newValues.seo,
       linked_documents: {
         connect: newValues.connectDocuments ?? [],
-        disconnect: newValues.disconnectDocuments ?? []
+        disconnect: newValues.disconnectDocuments ?? [],
+        syncWithoutDetaching: newValues.updateDocuments ?? []
       }
     };
 
@@ -125,13 +128,16 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
   };
 
   return (
-    <TabsForm
-      handleSubmit={onSubmit}
-      handleStepChange={setStep}
-      backHref={PagesRoute}
-      activeStep={step}
-      isLoading={isLoading}
-      forms={getForms()}
-    />
+    <Box className='flex flex-col gap-6 p-4'>
+      <DetailsHead title='Edit page' onBackClick={goBack} />
+      <TabsForm
+        handleSubmit={onSubmit}
+        handleStepChange={setStep}
+        backHref={PagesRoute}
+        activeStep={step}
+        isLoading={isLoading}
+        forms={getForms()}
+      />
+    </Box>
   );
 };

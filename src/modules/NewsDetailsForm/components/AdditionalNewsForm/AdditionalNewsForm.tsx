@@ -60,16 +60,13 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         control={control}
         name='source_name'
         render={({ field: { value } }) => (
-          <FormControl fullWidth>
-            <TextField
-              label={<Text>Source title</Text>}
-              value={value}
-              variant='outlined'
-              id='source_name'
-              error={!!getError("source_name")}
-              {...register("source_name")}
-            />
-          </FormControl>
+          <TextField
+            label={<Text>Source title</Text>}
+            value={value ?? ""}
+            variant='outlined'
+            id='source_name'
+            {...register("source_name")}
+          />
         )}
       />
 
@@ -77,18 +74,13 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
         control={control}
         name='source'
         render={({ field: { value } }) => (
-          <FormControl fullWidth>
-            <LinkInput
-              label={<Text>Source</Text>}
-              value={value}
-              variant='outlined'
-              error={!!getError("source")}
-              {...register("source")}
-              onChange={(e) => setValue("source", e.target.value)}
-            />
-
-            <HelperText id='source' error={getError("source")} />
-          </FormControl>
+          <LinkInput
+            label={<Text>Source</Text>}
+            value={value ?? ""}
+            variant='outlined'
+            {...register("source")}
+            onChange={(e) => setValue("source", e.target.value)}
+          />
         )}
       />
 
