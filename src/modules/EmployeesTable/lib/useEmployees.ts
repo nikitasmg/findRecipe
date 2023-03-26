@@ -1,17 +1,10 @@
-import { curry } from "rambda";
-import {
-  Employee,
-  SortOrder,
-  UpdateEmployeeMutationVariables,
-  useEmployeesQuery,
-  useSubdivisionsQuery,
-  useUpdateEmployeeMutation
-} from "~/generated/graphql";
+import { Employee, SortOrder, useEmployeesQuery, useSubdivisionsQuery } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { useEffect, useState } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
-import { arrayMove } from "react-sortable-hoc";
 import { useEmployeesStore } from "~stores/employees";
+import { resortArray } from "~/shared/lib/resortArray";
 
 export const useEmployees = () => {
   const [rows, setRows] = useState<Employee[]>([]);
@@ -50,41 +43,16 @@ export const useEmployees = () => {
 
   const employees = data?.employees;
 
-  const { mutateAsync: updateEmployee } = useUpdateEmployeeMutation(client);
-
-  const getUpdatedRows = curry((id: string, newValues: Employee, rows: Employee[]) =>
-    rows.reduce((res: Employee[], row) => {
-      if (row.id === Number(id)) {
-        return res.concat({ ...row, ...newValues });
-      }
-
-      return res.concat(row);
-    }, [])
-  );
-
-  const update = (args: UpdateEmployeeMutationVariables) => {
-    updateEmployee(args).then((data) => {
-      const newItem = data["upsertEmployee"] as Employee;
-
-      setRows(getUpdatedRows(newItem.id, newItem));
-    });
-  };
+  const { mutateAsync: resort } = useResort("upsertEmployee");
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    const oldRow = rows[oldIndex];
-    update({
-      input: {
-        id: oldRow.id,
-        name: oldRow.name,
-        position: oldRow.position,
-        additional: oldRow.additional,
-        email: oldRow.email,
-        sort: newIndex,
-        subdivision: { connect: rows[oldIndex].subdivision?.id }
-      }
-    });
+    setRows((rows) => {
+      const newRows = resortArray(oldIndex, newIndex, rows);
 
-    setRows((rows) => arrayMove(rows, oldIndex, newIndex));
+      resort(newRows.slice(0, Math.max(newIndex, oldIndex) + 1));
+
+      return newRows;
+    });
   };
 
   useEffect(() => {

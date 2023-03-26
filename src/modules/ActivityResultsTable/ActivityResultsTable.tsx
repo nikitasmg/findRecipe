@@ -7,16 +7,13 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import { arrayMove } from "react-sortable-hoc";
 import React, { useEffect, useState } from "react";
-import {
-  useActivityResultsQuery,
-  ActivityResult,
-  useUpdateActivityResultMutation
-} from "~/generated/graphql";
+import { useActivityResultsQuery, ActivityResult, SortOrder } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { formatDayJsForFilters } from "~/shared/lib/formatDate";
+import { resortArray } from "~/shared/lib/resortArray";
 import { ActivityResultPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { CellDragHandle } from "~shared/components/CellDragHandle";
@@ -49,11 +46,18 @@ export const ActivityResultsTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useActivityResultsQuery(client, variables, {
-    refetchOnMount: "always"
-  });
+  const { data, isLoading } = useActivityResultsQuery(
+    client,
+    {
+      ...variables,
+      orderBy: [...(variables.orderBy ?? []), { column: "sort", order: SortOrder.Asc }]
+    },
+    {
+      refetchOnMount: "always"
+    }
+  );
 
-  const { mutateAsync: update } = useUpdateActivityResultMutation(client);
+  const { mutateAsync: resort } = useResort("upsertActivityResult");
 
   const activityResults = data?.activityResults;
 
@@ -63,13 +67,9 @@ export const ActivityResultsTable: React.FC = () => {
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     setRows((rows) => {
-      const newRows = arrayMove(rows, oldIndex, newIndex);
+      const newRows = resortArray(oldIndex, newIndex, rows) as ActivityResult[];
 
-      const updatedRow = newRows[newIndex];
-
-      update({
-        input: { id: updatedRow.id, sort: newIndex + 1 }
-      });
+      resort(newRows.slice(0, Math.max(newIndex, oldIndex) + 1));
 
       return newRows;
     });

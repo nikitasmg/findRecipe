@@ -10,11 +10,8 @@ import {
 } from "@mui/material";
 import React, { MouseEventHandler, useEffect, useState } from "react";
 import { compose, equals, not } from "rambda";
-import {
-  StaffControl,
-  useStaffControlsQuery,
-  useUpdateStaffControlMutation
-} from "~/generated/graphql";
+import { SortOrder, StaffControl, useStaffControlsQuery } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { TableActions } from "~/shared/components/TableActions";
 import { CellDragHandle } from "~/shared/components/CellDragHandle";
@@ -57,12 +54,19 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
 
   const client = useGraphqlClient();
 
-  const { data, isLoading, refetch } = useStaffControlsQuery(client, variables, {
-    refetchOnMount: "always",
-    enabled: !!pageId
-  });
+  const { data, isLoading, refetch } = useStaffControlsQuery(
+    client,
+    {
+      ...variables,
+      orderBy: [...(variables.orderBy ?? []), { column: "sort", order: SortOrder.Asc }]
+    },
+    {
+      refetchOnMount: "always",
+      enabled: !!pageId
+    }
+  );
 
-  const { mutateAsync: update } = useUpdateStaffControlMutation(client);
+  const { mutateAsync: resort } = useResort("upsertStaffControl");
 
   const staffControls = data?.staffControls;
 
@@ -80,14 +84,13 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
   const columns = useColumns(handelSelect, activeOrder, handleChangeOrder);
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    const input: { id?: number; sort: number } = { sort: newIndex + 1 };
+    setRows((rows) => {
+      const newRows = resortArray(oldIndex, newIndex, rows) as StaffControl[];
 
-    if (rows[oldIndex]?.id) {
-      input.id = rows[oldIndex]?.id;
-      update({ input });
-    }
+      resort(newRows.slice(0, Math.max(newIndex, oldIndex) + 1));
 
-    setRows((rows) => resortArray(oldIndex, newIndex, rows));
+      return newRows;
+    });
   };
 
   const handleAddClick: MouseEventHandler = (e) => {

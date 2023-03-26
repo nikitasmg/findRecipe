@@ -1,16 +1,10 @@
-import { curry } from "rambda";
 import { useEffect, useState } from "react";
-import { arrayMove } from "react-sortable-hoc";
-import {
-  SortOrder,
-  UpdateVacancyMutationVariables,
-  useUpdateVacancyMutation,
-  useVacanciesQuery,
-  Vacancy
-} from "~/generated/graphql";
+import { SortOrder, useVacanciesQuery, Vacancy } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useVacanciesStore } from "~stores/vacancies";
 import { useRequestState } from "~shared/hooks/useRequestState";
+import { resortArray } from "~/shared/lib/resortArray";
 
 export const useVacancies = () => {
   const [rows, setRows] = useState<Vacancy[]>([]);
@@ -45,30 +39,16 @@ export const useVacancies = () => {
 
   const vacancies = data?.vacancies;
 
-  const { mutateAsync: updateVacancy } = useUpdateVacancyMutation(client);
-
-  const getUpdatedRows = curry((id: string, newValues: Vacancy, rows: Vacancy[]) =>
-    rows.reduce((res: Vacancy[], row) => {
-      if (row.id === Number(id)) {
-        return res.concat({ ...row, ...newValues });
-      }
-
-      return res.concat(row);
-    }, [])
-  );
-
-  const update = (args: UpdateVacancyMutationVariables) => {
-    updateVacancy(args).then((data) => {
-      const newItem = data["upsertVacancy"] as Vacancy;
-
-      setRows(getUpdatedRows(newItem.id, newItem));
-    });
-  };
+  const { mutateAsync: resort } = useResort("upsertVacancy");
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    update({ input: { ...rows[oldIndex], sort: newIndex + 1 } });
+    setRows((rows) => {
+      const newRows = resortArray(oldIndex, newIndex, rows);
 
-    setRows((rows) => arrayMove(rows, oldIndex, newIndex));
+      resort(newRows.slice(0, Math.max(newIndex, oldIndex) + 1));
+
+      return newRows;
+    });
   };
 
   useEffect(() => {

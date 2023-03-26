@@ -1,16 +1,11 @@
-import { curry } from "rambda";
 import { useEffect, useState } from "react";
-import { arrayMove } from "react-sortable-hoc";
-import {
-  Purchase,
-  UpdatePurchaseMutationVariables,
-  usePurchasesQuery,
-  useUpdatePurchaseMutation
-} from "~/generated/graphql";
+import { Purchase, SortOrder, usePurchasesQuery } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
 import { usePurchasesStore } from "~stores/purchases";
 import { formatDayJsForFilters } from "~/shared/lib/formatDate";
+import { resortArray } from "~/shared/lib/resortArray";
 
 export const usePurchases = () => {
   const [rows, setRows] = useState<Purchase[]>([]);
@@ -40,47 +35,25 @@ export const usePurchases = () => {
 
   const { data, isLoading } = usePurchasesQuery(
     client,
-    { orderBy: variables.orderBy, filter: variables.filter },
+    {
+      orderBy: [...(variables.orderBy ?? []), { column: "sort", order: SortOrder.Asc }],
+      filter: variables.filter
+    },
     { refetchOnMount: "always", cacheTime: 0 }
   );
 
   const purchases = data?.purchases;
 
-  const { mutateAsync: updatePurchase } = useUpdatePurchaseMutation(client);
-
-  const getUpdatedRows = curry((id: string, newValues: Purchase, rows: Purchase[]) =>
-    rows.reduce((res: Purchase[], row) => {
-      if (row.id === Number(id)) {
-        return res.concat({ ...row, ...newValues });
-      }
-
-      return res.concat(row);
-    }, [])
-  );
-
-  const update = (args: UpdatePurchaseMutationVariables) => {
-    updatePurchase(args).then((data) => {
-      const newItem = data["upsertPurchase"] as Purchase;
-
-      setRows(getUpdatedRows(newItem.id, newItem));
-    });
-  };
+  const { mutateAsync: resort } = useResort("upsertPurchase");
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    const oldRow = rows[oldIndex];
+    setRows((rows) => {
+      const newRows = resortArray(oldIndex, newIndex, rows);
 
-    update({
-      input: {
-        id: oldRow.id,
-        name: oldRow.name,
-        description: oldRow.description,
-        url: oldRow.url,
-        sort: newIndex,
-        published: oldRow.published
-      }
+      resort(newRows.slice(0, Math.max(newIndex, oldIndex) + 1));
+
+      return newRows;
     });
-
-    setRows((rows) => arrayMove(rows, oldIndex, newIndex));
   };
 
   useEffect(() => {
