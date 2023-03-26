@@ -69,7 +69,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
       subdivision: {
         connect: !isNaN(Number(newValues.subdivision))
           ? newValues.subdivision
-          : newValues.subdivision.id
+          : newValues.subdivision?.id
       },
       sort: newValues.sort ? Number(newValues.sort) : 0
     };
