@@ -62,7 +62,7 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
     },
     {
       refetchOnMount: "always",
-      enabled: !!pageId
+      enabled: Number.isInteger(pageId)
     }
   );
 

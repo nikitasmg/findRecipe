@@ -4,7 +4,7 @@ import { getDefaultSuccessUpdate } from "~/shared/lib/messages";
 
 type Input = {
   mutationName: string;
-  items: { id: number | string; sort: number }[];
+  items: { id: number | string; sort?: number | null }[];
 };
 
 export const useResort = (mutationName: Input["mutationName"]) => {
@@ -14,7 +14,7 @@ export const useResort = (mutationName: Input["mutationName"]) => {
     const mutation = gql`mutation resort {
     ${variables.reduce((res: string, cur, i) => {
       return res.concat(
-        gql`item${i}: ${mutationName}(input: { id: ${cur.id}, sort: ${cur.sort} }) {
+        gql`item${i}: ${mutationName}(input: { id: ${cur.id}, sort: ${cur.sort ?? i} }) {
           id
         }\n`
       );

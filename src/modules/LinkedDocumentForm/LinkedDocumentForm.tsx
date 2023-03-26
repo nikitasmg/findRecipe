@@ -9,7 +9,8 @@ import {
   useDocumentGroupsQuery,
   useUpdateDocumentGroupMutation,
   DocumentGroupInput,
-  DocumentGroup
+  DocumentGroup,
+  LikedDocumentPivotInput
 } from "~/generated/graphql";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { LinkedDocumentForm as UiLinkedDocumentForm } from "~/shared/components/LinkedDocumentForm";
@@ -18,13 +19,13 @@ export type LinkedDocumentsFormFields = {
   documents?: LinkedDocumentsWithoutUpdated[];
   connectDocuments?: string[];
   disconnectDocuments?: string[];
-  updateDocuments?: LinkedDocumentsWithoutUpdated[];
+  updateDocuments?: LikedDocumentPivotInput[];
 };
 
 type Props = {
   setValue: (
     name: keyof LinkedDocumentsFormFields,
-    value: LinkedDocumentsWithoutUpdated[] | string[]
+    value: LinkedDocumentsWithoutUpdated[] | string[] | LikedDocumentPivotInput[]
   ) => void;
   getValues: UseFormGetValues<LinkedDocumentsFormFields>;
   control: Control<LinkedDocumentsFormFields, unknown>;
@@ -70,6 +71,11 @@ export const LinkedDocumentForm: React.FC<Props> = ({ setValue, getValues, contr
     updateGroup({ input }).then(() => refetch());
   };
 
+  const onResort = (documents: Pick<LinkedDocumentsWithoutUpdated, "id" | "sort">[]) => {
+    const currentUpdates = getValues("updateDocuments") ?? [];
+    setValue("updateDocuments", currentUpdates.concat(documents));
+  };
+
   return (
     <UiLinkedDocumentForm
       groups={groups}
@@ -83,6 +89,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({ setValue, getValues, contr
       getValues={getValues}
       control={control}
       onActiveChange={handleChangeData}
+      onResort={onResort}
     />
   );
 };
