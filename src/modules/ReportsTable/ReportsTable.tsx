@@ -7,13 +7,14 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import { arrayMove } from "react-sortable-hoc";
 import React, { useEffect, useState } from "react";
 import { DeepPartial } from "react-hook-form";
-import { Report, useReportsQuery, useUpdateReportMutation } from "~/generated/graphql";
+import { Report, SortOrder, useReportsQuery } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { formatDayJsForFilters } from "~/shared/lib/formatDate";
+import { resortArray } from "~/shared/lib/resortArray";
 import { ReportsPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { CellDragHandle } from "~shared/components/CellDragHandle";
@@ -46,11 +47,18 @@ export const ReportsTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useReportsQuery(client, variables, {
-    refetchOnMount: "always"
-  });
+  const { data, isLoading } = useReportsQuery(
+    client,
+    {
+      ...variables,
+      orderBy: [...(variables.orderBy ?? []), { column: "sort", order: SortOrder.Asc }]
+    },
+    {
+      refetchOnMount: "always"
+    }
+  );
 
-  const { mutateAsync: update } = useUpdateReportMutation(client);
+  const { mutateAsync: resort } = useResort("upsertReport");
 
   const reports = data?.reports;
 
@@ -60,13 +68,9 @@ export const ReportsTable: React.FC = () => {
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     setRows((rows) => {
-      const newRows = arrayMove(rows, oldIndex, newIndex);
+      const newRows = resortArray(oldIndex, newIndex, rows) as Report[];
 
-      const updatedRow = newRows[newIndex];
-
-      update({
-        input: { id: updatedRow.id, sort: newIndex + 1 }
-      });
+      resort(newRows.slice(0, Math.max(newIndex, oldIndex) + 1));
 
       return newRows;
     });

@@ -10,25 +10,21 @@ export const useApi = (
     variables?: Variables;
   }
 ) => {
-  const token = useAuthStore((state) => state.token);
-
   const addAlert = useAlertsStore((state) => state.addAlert);
 
   const query = useQuery({
     queryKey,
     queryFn: async () =>
-      request(
-        process.env.REACT_APP_API_URL ?? "",
-        requestParams.query,
-        requestParams.variables
-      ).catch((errors) => {
+      request(process.env.REACT_APP_API_URL ?? "", requestParams.query, requestParams.variables, {
+        Authorization: `Bearer ${useAuthStore.getState().token}`
+      }).catch((errors) => {
         errors?.response?.errors?.forEach(({ message }: { message: string }) =>
           addAlert("error", message)
         );
 
         return errors;
       }),
-    meta: { headers: { ...(Boolean(token) && { Authorization: `Bearer ${token}` }) } }
+    meta: { headers: { Authorization: `Bearer ${useAuthStore.getState().token}` } }
   });
   return query;
 };

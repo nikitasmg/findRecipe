@@ -5,6 +5,7 @@ import {
   CreateNewsCategoryMutationVariables,
   UpdateNewsCategoryMutationVariables
 } from "~/generated/graphql";
+import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { useCompilationsStore } from "~/shared/stores/compilations";
@@ -43,6 +44,8 @@ export const useCompilations = (id: number) => {
   const { mutateAsync: removeMutation, isLoading: isDeleteLoading } = remove.hook(client, {
     onError: errorAlert
   });
+
+  const { mutateAsync } = useResort(update.key);
 
   const isMutationLoading = isCreateLoading || isUpdateLoading || isDeleteLoading;
 
@@ -110,6 +113,7 @@ export const useCompilations = (id: number) => {
     remove: onDelete,
     compilationMeta,
     handleChangeOrder,
-    activeOrder
+    activeOrder,
+    resort: mutateAsync
   };
 };

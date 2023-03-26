@@ -10,10 +10,10 @@ import { TableBodySortable, TableRowSortable as Row } from "~/shared/components/
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { CellDragHandle } from "~/shared/components/CellDragHandle";
 import { Button } from "~/shared/components/Button";
+import { resortArray } from "~/shared/lib/resortArray";
 import { CompilationItem } from "~/shared/types/Compilation";
 import { useCompilations } from "./lib/useCompilations";
 import { useColumns } from "./lib/getColumns";
-import { resortArray } from "~/shared/lib/resortArray";
 
 type Props = {
   id: number;
@@ -36,7 +36,8 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
     create,
     update,
     remove,
-    handleChangeOrder
+    handleChangeOrder,
+    resort
   } = useCompilations(id);
 
   const columns = useColumns(activeOrder, handleChangeOrder);
@@ -52,9 +53,13 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   };
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    update({ ...rows[oldIndex], sort: newIndex + 1, id: Number(rows[oldIndex].id) });
+    setRows((rows) => {
+      const newRows = resortArray(oldIndex, newIndex, rows);
 
-    setRows((rows) => resortArray(oldIndex, newIndex, rows));
+      resort(newRows.slice(0, Math.max(newIndex, oldIndex) + 1));
+
+      return newRows;
+    });
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -75,108 +80,110 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
 
   return (
     <Panel>
-      <DetailsHead title='Compilations editing' onBackClick={handleBackClick} />
+      <Box className='flex flex-col gap-6 p-4'>
+        <DetailsHead title='Compilations editing' onBackClick={handleBackClick} />
 
-      <Box
-        component='section'
-        className='flex items-center justify-center flex-wrap gap-1 w-full py-4'
-      >
-        <Text variant='h6'>{compilationMeta?.heading ?? ""}</Text> ({compilationMeta?.title ?? ""})
-      </Box>
-      <form onSubmit={handleSubmit} onSubmitCapture={handleSubmit} ref={formRef}>
-        <Table stickyHeader aria-label='sticky table'>
-          <TableHead>
-            <TableRow>
-              <CellDragHandle disabled />
-
-              {columns.map((column) => (
-                <TableCell key={column.id} align={column.align} style={column.style}>
-                  {column.label}
-                </TableCell>
-              ))}
-
-              <TableHeadCellActions />
-            </TableRow>
-          </TableHead>
-
-          {!isLoading && (
-            <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
-              {rows?.map((row, index) => {
-                const handleEdit = () => {
-                  setEditRow(row);
-                };
-
-                const handleSuccess = () => {
-                  formRef.current?.dispatchEvent(new Event("submit"));
-                  setEditRow(null);
-                };
-
-                const handleRemove = () => {
-                  remove(row.id);
-                  setNewValues({});
-                  setEditRow(null);
-                };
-
-                const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-                  const { name, value } = e.target;
-                  setNewValues((oldValues) => ({
-                    ...oldValues,
-                    [name]: value
-                  }));
-                };
-
-                const editableProps = editRow?.id === row.id ? { handleChange } : undefined;
-
-                const spinnerVisible = isMutationLoading;
-
-                return (
-                  <Row key={row.id} index={index}>
-                    <CellDragHandle />
-
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.render?.(value, row, editableProps) ??
-                            column.format?.(value) ??
-                            value}
-                        </TableCell>
-                      );
-                    })}
-
-                    <TableBodyCellActions
-                      spinnerVisible={spinnerVisible}
-                      isEditMode={!!editableProps}
-                      handleEdit={handleEdit}
-                      handleSuccess={handleSuccess}
-                      handleRemove={handleRemove}
-                    />
-                  </Row>
-                );
-              })}
-            </TableBodySortable>
-          )}
-        </Table>
-        <Box className='flex justify-center py-6'>
-          <Button
-            disabled={!!editRow}
-            onClick={handleAddClick}
-            fullWidth
-            size='large'
-            variant='contained'
-            startIcon={<AddIcon />}
-            textProps={{ align: "center" }}
-          >
-            Add
-          </Button>
+        <Box
+          component='section'
+          className='flex items-center justify-center flex-wrap gap-1 w-full py-4'
+        >
+          <Text variant='h6'>{compilationMeta?.heading ?? ""}</Text>
         </Box>
+        <form onSubmit={handleSubmit} onSubmitCapture={handleSubmit} ref={formRef}>
+          <Table stickyHeader aria-label='sticky table'>
+            <TableHead>
+              <TableRow>
+                <CellDragHandle disabled />
 
-        {isLoading && (
-          <Box className='flex h-[20vh] w-full justify-center items-center'>
-            <CircularProgress />
+                {columns.map((column) => (
+                  <TableCell key={column.id} align={column.align} style={column.style}>
+                    {column.label}
+                  </TableCell>
+                ))}
+
+                <TableHeadCellActions />
+              </TableRow>
+            </TableHead>
+
+            {!isLoading && (
+              <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
+                {rows?.map((row, index) => {
+                  const handleEdit = () => {
+                    setEditRow(row);
+                  };
+
+                  const handleSuccess = () => {
+                    formRef.current?.dispatchEvent(new Event("submit"));
+                    setEditRow(null);
+                  };
+
+                  const handleRemove = () => {
+                    remove(row.id);
+                    setNewValues({});
+                    setEditRow(null);
+                  };
+
+                  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+                    const { name, value } = e.target;
+                    setNewValues((oldValues) => ({
+                      ...oldValues,
+                      [name]: value
+                    }));
+                  };
+
+                  const editableProps = editRow?.id === row.id ? { handleChange } : undefined;
+
+                  const spinnerVisible = isMutationLoading;
+
+                  return (
+                    <Row key={row.id} index={index}>
+                      <CellDragHandle />
+
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.render?.(value, row, editableProps) ??
+                              column.format?.(value) ??
+                              value}
+                          </TableCell>
+                        );
+                      })}
+
+                      <TableBodyCellActions
+                        spinnerVisible={spinnerVisible}
+                        isEditMode={!!editableProps}
+                        handleEdit={handleEdit}
+                        handleSuccess={handleSuccess}
+                        handleRemove={handleRemove}
+                      />
+                    </Row>
+                  );
+                })}
+              </TableBodySortable>
+            )}
+          </Table>
+          <Box className='flex justify-center py-6'>
+            <Button
+              disabled={!!editRow}
+              onClick={handleAddClick}
+              fullWidth
+              size='large'
+              variant='contained'
+              startIcon={<AddIcon />}
+              textProps={{ align: "center" }}
+            >
+              Add
+            </Button>
           </Box>
-        )}
-      </form>
+
+          {isLoading && (
+            <Box className='flex h-[20vh] w-full justify-center items-center'>
+              <CircularProgress />
+            </Box>
+          )}
+        </form>
+      </Box>
     </Panel>
   );
 };

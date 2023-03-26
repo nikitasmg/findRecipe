@@ -41,6 +41,7 @@ const minifyFile = (filename: string) =>
     .then(
       ({ minimizedBuffer }) =>
         new Promise((resolve, reject) =>
+          // eslint-disable-next-line security/detect-non-literal-fs-filename
           writeFile(filename, minimizedBuffer, (err) =>
             err ? reject(err) : resolve(minimizedBuffer)
           )
