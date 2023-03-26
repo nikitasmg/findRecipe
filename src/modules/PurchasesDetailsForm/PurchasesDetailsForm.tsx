@@ -102,6 +102,7 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
 
   useEffect(() => {
     if (!isSuccess) {
+      setValue("published", true);
       return;
     }
 

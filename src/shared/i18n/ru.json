@@ -250,5 +250,9 @@
   "Learn more": "Узнать больше",
   "Date create": "Дата создания",
   "Already exist": "Уже существует",
-  "Edit page": "Редактировать страницу"
+  "Edit page": "Редактировать страницу",
+  "Sort": "Сортировка",
+  "Full name of the specialist": "ФИО специалиста",
+  "Date of summing up": "Дата подведения итогов",
+  "Max length text field 500": "Допустимая длина ввода 500 символов"
 }

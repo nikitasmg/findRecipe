@@ -69,9 +69,8 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
       subdivision: {
         connect: !isNaN(Number(newValues.subdivision))
           ? newValues.subdivision
-          : newValues.subdivision.id
-      },
-      sort: newValues.sort ? Number(newValues.sort) : 0
+          : newValues.subdivision?.id
+      }
     };
 
     if (isCreateMode) {
@@ -87,11 +86,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
       return;
     }
 
-    initFormValues(
-      ["name", "position", "additional", "email", "sort", "subdivision"],
-      setValue,
-      values
-    );
+    initFormValues(["name", "position", "additional", "email", "subdivision"], setValue, values);
   }, [values, isSuccess, setValue]);
 
   return (
@@ -181,18 +176,7 @@ export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) =>
               )}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='sort'
-              render={({ field }) => (
-                <FormControl fullWidth>
-                  <NumericInput label={<Text>Sorting</Text>} {...register("sort")} {...field} />
-                  <HelperText id='sort' error={getError("sort")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+
           <Grid item xs={12}>
             <FormControl fullWidth>
               <Controller

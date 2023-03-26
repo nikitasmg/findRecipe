@@ -69,7 +69,10 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 }
                 value={value ?? ""}
                 error={!!getError("name")}
-                {...register("name", baseRequired)}
+                {...register("name", {
+                  ...baseRequired,
+                  maxLength: { value: 500, message: "Max length text field 500" }
+                })}
               />
 
               <HelperText id='name' error={getError("name")} />

@@ -5,13 +5,13 @@ import { curry } from "rambda";
 import { ContestStatus } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
-import { NumericInput } from "~/shared/components/NumericInput";
 import { DatePicker } from "~/shared/components/DatePicker";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~/shared/lib/validation";
+import { NumberField } from "../NumberField";
 
-interface GeneralFormFields {
+export interface GeneralFormFields {
   name?: string;
   number?: number;
   status?: ContestStatus;
@@ -22,7 +22,7 @@ interface GeneralFormFields {
 type Props = {
   register: UseFormRegister<Partial<GeneralFormFields>>;
   errors: FieldErrors<GeneralFormFields>;
-  setValue: (name: string, value: unknown) => void;
+  setValue: (name: keyof GeneralFormFields, value: string | number) => void;
   control?: Control<GeneralFormFields, unknown>;
 };
 
@@ -53,27 +53,7 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
           )}
         />
 
-        <Controller
-          control={control}
-          name='number'
-          render={({ field: { value, onChange } }) => (
-            <FormControl fullWidth>
-              <NumericInput
-                error={getError("number")}
-                label={
-                  <RequiredLabelWrapper>
-                    <Text>Number</Text>
-                  </RequiredLabelWrapper>
-                }
-                value={Number(value)}
-                {...register("number", baseRequired)}
-                onChange={onChange}
-              />
-
-              <HelperText id='number' error={getError("number")} />
-            </FormControl>
-          )}
-        />
+        <NumberField register={register} errors={errors} setValue={setValue} control={control} />
 
         <FormControl fullWidth>
           <Controller
@@ -129,7 +109,7 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
             <FormControl error={getError("date")}>
               <DatePicker
                 className='w-full'
-                label={<Text>Start date</Text>}
+                label={<Text>Date of summing up</Text>}
                 value={value ?? null}
                 onChange={curry(setValue)("date")}
               />

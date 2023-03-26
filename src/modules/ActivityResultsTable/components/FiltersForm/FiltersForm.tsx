@@ -35,9 +35,9 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               inputProps={{
                 step: "0.01"
               }}
-              value={params?.result}
+              value={params?.resultLike}
               label={<Text>Indicator statistics</Text>}
-              onChange={getChangeHandler("result")}
+              onChange={getChangeHandler("resultLike")}
             />
           </Grid>
 

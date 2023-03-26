@@ -33,10 +33,7 @@ export const prepareInitialValues = <T = Record<string, unknown> | null>(
   });
 };
 
-export const initFormValues = <T = Record<string, unknown> | null>(
-  config: ConfigItem[],
-  setValue: (name: string, value: unknown) => void,
-  values: T
-) => {
-  return prepareInitialValues<T>(config, values).forEach((value) => setValue(...value));
+export const initFormValues = <T, R>(config: ConfigItem[], setValue: R, values: T) => {
+  if (typeof setValue === "function")
+    return prepareInitialValues<T>(config, values).forEach((value) => setValue?.(...value));
 };

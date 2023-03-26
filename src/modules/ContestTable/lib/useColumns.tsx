@@ -106,14 +106,15 @@ export const useColumns = (
       id: "date",
       label: (
         <TableHeadCell
-          title='Start date'
+          title='Date of summing up'
           cellId='date'
+          align='center'
           onSortClick={getClickHandler("date")}
           sortProps={getActiveProps("date")}
         />
       ),
       style: {
-        width: "175px"
+        width: "255px"
       },
       align: "center",
       format: formatDateForTable
