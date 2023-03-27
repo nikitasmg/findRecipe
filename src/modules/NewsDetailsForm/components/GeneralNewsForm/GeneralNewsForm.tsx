@@ -1,5 +1,6 @@
 import { Box, FormControl, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
+import clsx from "clsx";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -111,6 +112,11 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
             name='content'
             render={({ field: { value } }) => (
               <FormControl error={!!getError("content")} fullWidth>
+                <RequiredLabelWrapper>
+                  <Text className={clsx("text-sm", { "text-mainError": !!getError("content") })}>
+                    Description
+                  </Text>
+                </RequiredLabelWrapper>
                 <ContentEditor
                   error={!!getError("content")}
                   apiKey={contentEditorKey}

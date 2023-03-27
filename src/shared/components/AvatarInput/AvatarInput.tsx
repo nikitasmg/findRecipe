@@ -25,6 +25,8 @@ export const AvatarInput: React.FC<Props> = ({
   addAlert,
   ...other
 }) => {
+  const [value, setValue] = useState<string>();
+
   const [selectedImage, setSelectedImage] = useState<File | null>();
 
   const [preSaveUrl, setPreSaveUrl] = useState<string>();
@@ -46,9 +48,12 @@ export const AvatarInput: React.FC<Props> = ({
     setCroppedAreaPixels(null);
     setSelectedImage(null);
     setPreSaveUrl("");
+    setValue("");
   };
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+
     const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.webp)$/i;
 
     const filePath = e.target.value;
@@ -110,11 +115,12 @@ export const AvatarInput: React.FC<Props> = ({
       {!url && (
         <Box className='flex items-center relative w-full h-[100px] transition hover:bg-gray-200 rounded-xl border-dashed border-2 border-primary p-4'>
           <Input
+            value={value}
             inputProps={{
               accept: "image/*",
               className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2"
             }}
-            className='!absolute w-full h-full opacity-0'
+            className='!absolute w-full h-full opacity-0 top-0 left-0 z-2'
             type='file'
             id={id}
             onChange={handleImage}
