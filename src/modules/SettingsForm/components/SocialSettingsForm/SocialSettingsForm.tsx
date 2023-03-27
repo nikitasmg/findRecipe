@@ -41,11 +41,11 @@ export const SocialSettingsForm: React.FC<Props> = ({
         <SocialItem
           social={"vk"}
           register={register}
+          setValue={setValue}
+          handleSubmit={handleSubmit}
+          handleOpenForm={handleOpenForm}
+          setActive={setActive}
           control={control}
-          name='vk'
-          render={({ field: { value } }) => (
-            <TextField fullWidth value={value ?? ""} label={<Text>Vk</Text>} {...register("vk")} />
-          )}
         />
       )}
 
@@ -53,48 +53,33 @@ export const SocialSettingsForm: React.FC<Props> = ({
         <SocialItem
           social={"facebook"}
           register={register}
+          setValue={setValue}
+          handleSubmit={handleSubmit}
+          handleOpenForm={handleOpenForm}
+          setActive={setActive}
           control={control}
-          name='facebook'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Facebook</Text>}
-              {...register("facebook")}
-            />
-          )}
         />
       )}
       {telegram && (
         <SocialItem
           social={"telegram"}
           register={register}
+          setValue={setValue}
+          handleSubmit={handleSubmit}
+          handleOpenForm={handleOpenForm}
+          setActive={setActive}
           control={control}
-          name='telegram'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Telegram</Text>}
-              {...register("telegram")}
-            />
-          )}
         />
       )}
       {instagram && (
         <SocialItem
           social={"instagram"}
           register={register}
+          setValue={setValue}
+          handleSubmit={handleSubmit}
+          handleOpenForm={handleOpenForm}
+          setActive={setActive}
           control={control}
-          name='instagram'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Instagram</Text>}
-              {...register("instagram")}
-            />
-          )}
         />
       )}
 
@@ -102,16 +87,11 @@ export const SocialSettingsForm: React.FC<Props> = ({
         <SocialItem
           social={"whatsapp"}
           register={register}
+          setValue={setValue}
+          handleSubmit={handleSubmit}
+          handleOpenForm={handleOpenForm}
+          setActive={setActive}
           control={control}
-          name='whatsapp'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Whats App</Text>}
-              {...register("whatsapp")}
-            />
-          )}
         />
       )}
 
