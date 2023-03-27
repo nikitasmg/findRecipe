@@ -1,4 +1,4 @@
-import { TableBody } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import React, { ReactNode } from "react";
 import {
   DndContext,
@@ -13,7 +13,7 @@ import {
 import {
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy
+  rectSwappingStrategy
 } from "@dnd-kit/sortable";
 import { compose, equals, prop } from "rambda";
 
@@ -26,12 +26,13 @@ type Props<T = Item> = {
   items: T[];
   children: ReactNode;
   onSortEnd: (indexes: { oldIndex: number; newIndex: number }) => void;
-};
+} & BoxProps;
 
-export const TableBodySortable = <T extends Item>({
+export const BoxContainerSortable = <T extends Item>({
   items,
   children,
-  onSortEnd
+  onSortEnd,
+  ...boxProps
 }: Props<T>): React.ReactElement => {
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -63,8 +64,8 @@ export const TableBodySortable = <T extends Item>({
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        <TableBody>{children}</TableBody>
+      <SortableContext items={items} strategy={rectSwappingStrategy}>
+        <Box {...boxProps}>{children}</Box>
       </SortableContext>
     </DndContext>
   );

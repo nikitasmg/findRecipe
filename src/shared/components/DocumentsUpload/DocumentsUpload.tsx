@@ -1,6 +1,6 @@
 import { Box, Drawer, TextField, Typography } from "@mui/material";
-import React, { BaseSyntheticEvent, ReactNode, useState } from "react";
-import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
+import React, { BaseSyntheticEvent, useState } from "react";
+import { arrayMove } from "react-sortable-hoc";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -13,20 +13,8 @@ import { Text } from "../Text";
 import { FileInput } from "../FileInput";
 import { DragHandle } from "../SortableTable";
 import { SaveButton } from "../SaveButton";
-
-export const DocumentsContainerSortable = SortableContainer<{ children: ReactNode }>(
-  ({ children }: { children: ReactNode }) => <Box className='flex flex-col gap-4'>{children}</Box>
-);
-
-export const DocumentsRowSortable = SortableElement<{ children: ReactNode }>(
-  ({ children }: { children: ReactNode }) => {
-    return (
-      <Box role='row' className='flex gap-2 items-center outline-1' tabIndex={0}>
-        {children}
-      </Box>
-    );
-  }
-);
+import { BoxContainerSortable } from "../SortableBox/BoxContainerSortable";
+import { BoxItemSortable } from "../SortableBox/BoxItemSortable";
 
 type FormFields = {
   title: string;
@@ -130,6 +118,8 @@ export const DocumentsUpload: React.FC<Props> = ({
 
     const update = newFiles[newIndex];
 
+    console.log(newFiles);
+
     if (update.id && update) {
       onUpdate?.(update);
     }
@@ -140,9 +130,18 @@ export const DocumentsUpload: React.FC<Props> = ({
   return (
     <Box className={clsx(containerClassName, "flex flex-col gap-4")}>
       {!!value.length && (
-        <DocumentsContainerSortable distance={1} onSortEnd={onSortEnd}>
+        <BoxContainerSortable
+          className='flex flex-col gap-4'
+          items={(value as Required<Document>[]) ?? []}
+          onSortEnd={onSortEnd}
+        >
           {value.map((file, i) => (
-            <DocumentsRowSortable key={i} index={i}>
+            <BoxItemSortable
+              className='flex gap-2 items-center outline-1'
+              tabIndex={0}
+              id={file.id ?? i}
+              key={i}
+            >
               <DragHandle />
               <Box className='flex gap-2' onClick={getSelectFileHandler(file)}>
                 <DescriptionIcon />
@@ -154,9 +153,9 @@ export const DocumentsUpload: React.FC<Props> = ({
                 onClick={getDeleteFileHandler(i)}
                 className='text-red-700 right-0 top-0 cursor-pointer outline-1'
               />
-            </DocumentsRowSortable>
+            </BoxItemSortable>
           ))}
-        </DocumentsContainerSortable>
+        </BoxContainerSortable>
       )}
       <Button
         className='w-fit'

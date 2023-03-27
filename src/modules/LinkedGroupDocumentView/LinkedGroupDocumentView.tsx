@@ -81,7 +81,9 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
   useEffect(() => {
     const group = data?.documentGroupById;
     const documents: LinkedDocumentsWithoutUpdated[] =
-      (group?.linked_documents as LinkedDocumentsWithoutUpdated[]) ?? [];
+      (group?.linked_documents?.sort(
+        (prev, cur) => (prev?.sort ?? 0) - (cur?.sort ?? 0)
+      ) as LinkedDocumentsWithoutUpdated[]) ?? [];
 
     form.setValue("documents", documents);
   }, [form, data]);

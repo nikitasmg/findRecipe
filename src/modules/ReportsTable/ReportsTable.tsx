@@ -121,10 +121,10 @@ export const ReportsTable: React.FC = () => {
             </TableHead>
 
             {!isLoading && (
-              <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
+              <TableBodySortable items={(rows as Report[]) ?? []} onSortEnd={onSortEnd}>
                 {rows?.map((row: DeepPartial<Report>, i) => {
                   return (
-                    <TableRowSortable index={i} key={row.id}>
+                    <TableRowSortable key={row.id} id={row.id ?? i}>
                       <CellDragHandle />
 
                       {columns.map((column) => {

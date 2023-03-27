@@ -120,10 +120,10 @@ export const ActivityResultsTable: React.FC = () => {
             </TableHead>
 
             {!isLoading && (
-              <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
+              <TableBodySortable items={(rows as ActivityResult[]) ?? []} onSortEnd={onSortEnd}>
                 {rows?.map((row: Partial<ActivityResult>, i) => {
                   return (
-                    <TableRowSortable index={i} key={row.id}>
+                    <TableRowSortable key={row.id} id={row.id ?? i}>
                       <CellDragHandle />
 
                       {columns.map((column) => {

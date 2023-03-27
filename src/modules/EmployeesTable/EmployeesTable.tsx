@@ -75,10 +75,10 @@ const EmployeesTable = () => {
             </TableHead>
 
             {!isLoading && (
-              <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
-                {rows?.map((row: Employee, index) => {
+              <TableBodySortable items={rows ?? []} onSortEnd={onSortEnd}>
+                {rows?.map((row: Employee, i) => {
                   return (
-                    <TableRowSortable key={row.id} index={index}>
+                    <TableRowSortable key={row.id} id={row.id ?? i}>
                       <CellDragHandle />
 
                       {columns.map((column) => {
