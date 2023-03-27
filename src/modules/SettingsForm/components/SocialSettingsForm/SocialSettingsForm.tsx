@@ -1,7 +1,9 @@
-import { Grid, TextField } from "@mui/material";
-import React from "react";
-import { Control, Controller, UseFormRegister } from "react-hook-form";
-import { Text } from "~/shared/components/Text";
+import { Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Control, UseFormRegister, useWatch } from "react-hook-form";
+import { SocialItems, Socials } from "~/shared/types/socials";
+import { SocialDrawer } from "../SocialDrawer";
+import { SocialItem } from "../SocialItem";
 
 export type FormFieldsSocial = {
   vk?: string;
@@ -14,76 +16,50 @@ export type FormFieldsSocial = {
 type Props = {
   register: UseFormRegister<FormFieldsSocial>;
   control?: Control<FormFieldsSocial, unknown>;
+  setValue: (name: keyof FormFieldsSocial, value: string) => void;
+  handleSubmit: () => void;
+  handleOpenForm: () => void;
+  open: string;
+  handleCloseForm: () => void;
 };
 
-export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
+export const SocialSettingsForm: React.FC<Props> = ({
+  register,
+  control,
+  setValue,
+  handleSubmit,
+  handleOpenForm,
+  handleCloseForm,
+  open
+}) => {
+  const [active, setActive] = useState<SocialItems>("vk");
+
+  const { ...obj } = useWatch({ control });
+
   return (
     <Grid container spacing={4}>
-      <Grid item columns={12} xs={12}>
-        <Controller
-          control={control}
-          name='vk'
-          render={({ field: { value } }) => (
-            <TextField fullWidth value={value ?? ""} label={<Text>Vk</Text>} {...register("vk")} />
-          )}
-        />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
-          control={control}
-          name='facebook'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Facebook</Text>}
-              {...register("facebook")}
-            />
-          )}
-        />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
-          control={control}
-          name='telegram'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Telegram</Text>}
-              {...register("telegram")}
-            />
-          )}
-        />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
-          control={control}
-          name='instagram'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Instagram</Text>}
-              {...register("instagram")}
-            />
-          )}
-        />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
-          control={control}
-          name='whatsapp'
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value ?? ""}
-              label={<Text>Whats App</Text>}
-              {...register("whatsapp")}
-            />
-          )}
-        />
-      </Grid>
+      {Object.values(Socials)
+        .filter((el) => obj[el] !== "")
+        .map((el, i) => (
+          <SocialItem
+            social={el}
+            key={i}
+            register={register}
+            setValue={setValue}
+            handleSubmit={handleSubmit}
+            handleOpenForm={handleOpenForm}
+            setActive={setActive}
+            control={control}
+          />
+        ))}
+      ;
+      <SocialDrawer
+        open={open}
+        setValue={setValue}
+        handleSubmitProps={handleSubmit}
+        active={active}
+        handleCloseForm={handleCloseForm}
+      />
     </Grid>
   );
 };

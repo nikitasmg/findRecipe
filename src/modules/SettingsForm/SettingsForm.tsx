@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { useForm } from "react-hook-form";
 import {
   useSettingsQuery,
@@ -19,20 +20,25 @@ import {
   NotificationSettingsForm,
   FormFieldsNotification
 } from "~/modules/SettingsForm/components/NotificationSettingsForm";
+
+import { LinkButton } from "../../shared/components/LinkButton";
 import {
   FormFieldsSocial,
   SocialSettingsForm
 } from "~/modules/SettingsForm/components/SocialSettingsForm";
 import { Text } from "~shared/components/Text";
 import { TabsForm } from "~/shared/components/TabsForm";
+import { useModal } from "~/shared/hooks/useModal";
 
-type FormFields = FormFieldsContacts &
+export type FormFields = FormFieldsContacts &
   FormFieldsApiKeys &
   FormFieldsNotification &
   FormFieldsSocial;
 
 export const SettingsTabs = () => {
   const [step, setStep] = useState(0);
+
+  const { open, handleOpen, handleClose } = useModal();
 
   const client = useGraphqlClient();
 
@@ -53,27 +59,46 @@ export const SettingsTabs = () => {
     formState: { errors },
     setValue,
     control
-  } = useForm<FormFields>({ mode: "all" });
+  } = useForm<FormFields>({
+    mode: "all"
+  });
+
+  const handleOpenForm = useCallback(() => {
+    handleOpen();
+  }, [handleOpen]);
+
+  const handleCloseForm = useCallback(() => {
+    handleClose();
+  }, [handleClose]);
 
   const onSubmit = handleSubmit((fields: UpdateSettingsMutationVariables) => {
     saveSettings(fields);
+    handleCloseForm();
   });
 
   const isLoading = loadingQuery || loadingMutation;
 
   useEffect(() => {
-    if (settings) {
-      settings.forEach((field) => {
-        setValue(field.name as keyof FormFieldsContacts, field.value || "");
-      });
+    if (!settings) {
+      return;
     }
+    settings.forEach((field) => {
+      setValue(field.name as keyof FormFields, field.value || "");
+    });
   }, [setValue, settings]);
 
   return (
     <Box className='relative'>
-      <Text component='h1' variant='h6'>
-        Settings Edit
-      </Text>
+      <Box className='flex items-stretch justify-between gap-2 flex-col sm:flex-row'>
+        <Text component='h1' variant='h6'>
+          Settings Edit
+        </Text>
+        {step === 1 && (
+          <LinkButton variant='outlined' onClick={handleOpenForm} startIcon={<AddBoxRoundedIcon />}>
+            Add
+          </LinkButton>
+        )}
+      </Box>
 
       <Box className='mt-4'>
         <TabsForm
@@ -95,7 +120,17 @@ export const SettingsTabs = () => {
             },
             {
               tabTitle: "Social",
-              component: <SocialSettingsForm register={register} control={control} />
+              component: (
+                <SocialSettingsForm
+                  handleOpenForm={handleOpenForm}
+                  handleCloseForm={handleCloseForm}
+                  open={open}
+                  register={register}
+                  handleSubmit={onSubmit}
+                  setValue={setValue}
+                  control={control}
+                />
+              )
             },
             {
               tabTitle: "API-keys",
