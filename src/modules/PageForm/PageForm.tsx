@@ -74,13 +74,15 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
 
     setValue(
       "documents",
-      values?.linked_documents?.reduce((res, cur) => {
-        if (cur) {
-          res.push(cur);
-        }
+      values?.linked_documents
+        ?.reduce((res, cur) => {
+          if (cur) {
+            res.push(cur);
+          }
 
-        return res;
-      }, Array(0))
+          return res;
+        }, Array(0))
+        ?.sort((prev, cur) => (prev?.sort ?? 0) - (cur?.sort ?? 0))
     );
 
     if (values?.params) {

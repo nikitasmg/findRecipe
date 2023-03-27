@@ -1,4 +1,3 @@
-import { TableBody } from "@mui/material";
 import React, { ReactNode } from "react";
 import {
   DndContext,
@@ -13,7 +12,7 @@ import {
 import {
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy
+  rectSwappingStrategy
 } from "@dnd-kit/sortable";
 import { compose, equals, prop } from "rambda";
 
@@ -28,7 +27,7 @@ type Props<T = Item> = {
   onSortEnd: (indexes: { oldIndex: number; newIndex: number }) => void;
 };
 
-export const TableBodySortable = <T extends Item>({
+export const ContainerSortable = <T extends Item>({
   items,
   children,
   onSortEnd
@@ -63,8 +62,8 @@ export const TableBodySortable = <T extends Item>({
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        <TableBody>{children}</TableBody>
+      <SortableContext items={items} strategy={rectSwappingStrategy}>
+        {children}
       </SortableContext>
     </DndContext>
   );

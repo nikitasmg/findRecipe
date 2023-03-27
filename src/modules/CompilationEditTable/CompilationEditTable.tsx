@@ -106,8 +106,8 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
             </TableHead>
 
             {!isLoading && (
-              <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
-                {rows?.map((row, index) => {
+              <TableBodySortable items={rows ?? []} onSortEnd={onSortEnd}>
+                {rows?.map((row, i) => {
                   const handleEdit = () => {
                     setEditRow(row);
                   };
@@ -136,7 +136,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
                   const spinnerVisible = isMutationLoading;
 
                   return (
-                    <Row key={row.id} index={index}>
+                    <Row key={row.id} id={row.id ?? i}>
                       <CellDragHandle />
 
                       {columns.map((column) => {

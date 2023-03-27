@@ -71,10 +71,10 @@ export const PurchasesTable: React.FC = () => {
             </TableHead>
 
             {!isLoading && (
-              <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
-                {rows?.map((row: DeepPartial<Purchase>, index) => {
+              <TableBodySortable items={rows ?? []} onSortEnd={onSortEnd}>
+                {rows?.map((row: DeepPartial<Purchase>, i) => {
                   return (
-                    <TableRowSortable key={row.id} index={index}>
+                    <TableRowSortable key={row.id} id={row.id ?? i}>
                       <CellDragHandle />
 
                       {columns.map((column) => {

@@ -1,9 +1,8 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import React, { CSSProperties, ReactNode, SyntheticEvent, useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Control, Controller, UseFormGetValues } from "react-hook-form";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { append, compose, concat, equals, filter, not, prop, reduce, when } from "rambda";
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import {
   LinkedDocument,
   LinkedDocumentInput,
@@ -16,26 +15,14 @@ import {
 } from "~/generated/graphql";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
+import { resortArray } from "~/shared/lib/resortArray";
 import { useModal } from "~/shared/hooks/useModal";
 import { DocumentDetailsDialog } from "../DocumentDetailsDialog";
 import { Text } from "../Text";
 import { UploadDocumentsButton } from "../UploadDocumentsButton";
 import { DocumentCard } from "../DocumentCard";
-import { resortArray } from "~/shared/lib/resortArray";
-
-export const BodySortable = SortableContainer<{ children: ReactNode }>(
-  ({ children }: { children: ReactNode }) => <Box className='flex flex-wrap gap-4'>{children}</Box>
-);
-
-export const CardSortable = SortableElement<{ children: ReactNode; style?: CSSProperties }>(
-  ({ children, style }: { children: ReactNode; style?: CSSProperties }) => {
-    return (
-      <Box className='relative' style={style}>
-        {children}
-      </Box>
-    );
-  }
-);
+import { BoxContainerSortable } from "../SortableBox/BoxContainerSortable";
+import { BoxItemSortable } from "../SortableBox/BoxItemSortable";
 
 export type LinkedDocumentsFormFields = {
   documents?: LinkedDocumentsWithoutUpdated[];
@@ -191,6 +178,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     const newCardsState = resortArray(oldIndex, newIndex, currentCardsState);
 
     setValue("documents", newCardsState);
+
     onResort?.(
       newCardsState
         .slice(0, Math.max(newIndex, oldIndex) + 1)
@@ -236,9 +224,13 @@ export const LinkedDocumentForm: React.FC<Props> = ({
         control={control}
         name='documents'
         render={({ field: { value } }) => (
-          <BodySortable axis='xy' onSortEnd={onSortEnd} distance={30}>
+          <BoxContainerSortable
+            items={value ?? []}
+            className='flex flex-wrap gap-4'
+            onSortEnd={onSortEnd}
+          >
             {value?.map((doc, i) => (
-              <CardSortable index={i} key={doc.id}>
+              <BoxItemSortable className='relative' id={doc.id ?? i} key={doc.id}>
                 <DocumentCard
                   title={doc.user_name ?? ""}
                   format={getFileFormat(doc.user_name ?? "")}
@@ -250,9 +242,9 @@ export const LinkedDocumentForm: React.FC<Props> = ({
                   onClick={getUnlinkDocumentHandler(doc)}
                   className='absolute top-2 right-2 z-100 text-mainError'
                 />
-              </CardSortable>
+              </BoxItemSortable>
             ))}
-          </BodySortable>
+          </BoxContainerSortable>
         )}
       />
 

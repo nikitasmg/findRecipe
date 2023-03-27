@@ -148,10 +148,10 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
           </TableHead>
 
           {!isLoading && (
-            <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
+            <TableBodySortable items={(rows as StaffControl[]) ?? []} onSortEnd={onSortEnd}>
               {rows?.map((row: Partial<StaffControl>, i) => {
                 return (
-                  <Row index={i} key={row.id}>
+                  <Row key={row.id} id={row.id ?? i}>
                     <CellDragHandle />
 
                     {columns.map((column) => {
