@@ -19,7 +19,7 @@ export const useColumns = (
       id: "sort",
       label: (
         <TableHeadCell
-          title='Sort'
+          title='ID'
           cellId='sort'
           align='center'
           onSortClick={getClickHandler("sort")}

@@ -1,10 +1,15 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Alert, AlertColor, Box, Snackbar } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 import { Text } from "../Text";
 
 type Props = {
   alerts: Record<string, { severity: AlertColor; message: string }>;
   removeAlert: (key: string) => void;
+};
+
+const customIcons: Record<string, ReactNode> = {
+  success: <CheckIcon fontSize='inherit' />
 };
 
 export const Alerts: React.FC<Props> = ({ alerts, removeAlert }) => {
@@ -16,7 +21,12 @@ export const Alerts: React.FC<Props> = ({ alerts, removeAlert }) => {
         {Object.entries(alerts).map(([key, alert]) => {
           const handleClose = () => removeAlert(key);
           return (
-            <Alert key={key} onClose={handleClose} severity={alert.severity}>
+            <Alert
+              key={key}
+              icon={customIcons[alert.severity]}
+              onClose={handleClose}
+              severity={alert.severity}
+            >
               <Text component='span'>{alert.message}</Text>
             </Alert>
           );
