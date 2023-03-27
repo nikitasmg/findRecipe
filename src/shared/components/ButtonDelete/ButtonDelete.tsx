@@ -1,5 +1,5 @@
 import { Box, ButtonProps, Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
-import React from "react";
+import React, { ReactElement } from "react";
 import { styled } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useModal } from "~/shared/hooks/useModal";
@@ -23,10 +23,16 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
   }
 }));
 
-export const ButtonDelete: React.FC<ButtonProps> = ({ onClick, ...buttonProps }) => {
+export const ButtonDelete: React.FC<ButtonProps & { children?: ReactElement }> = ({
+  onClick,
+  children,
+  ...buttonProps
+}) => {
   const { open, handleOpen, handleClose } = useModal();
 
-  const handleClick = () => handleOpen();
+  const handleClick = () => {
+    handleOpen();
+  };
 
   return (
     <CustomTooltip
@@ -62,14 +68,14 @@ export const ButtonDelete: React.FC<ButtonProps> = ({ onClick, ...buttonProps })
       arrow
     >
       <Button
-        startIcon={<DeleteIcon />}
+        startIcon={!children && <DeleteIcon />}
         variant='outlined'
         color='error'
         size='small'
         {...buttonProps}
         onClick={handleClick}
       >
-        Delete
+        {children || "Delete"}
       </Button>
     </CustomTooltip>
   );

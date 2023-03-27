@@ -1,7 +1,8 @@
-import { Grid, TextField } from "@mui/material";
-import React from "react";
-import { Control, Controller, UseFormRegister } from "react-hook-form";
-import { Text } from "~/shared/components/Text";
+import { Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Control, UseFormRegister, useWatch } from "react-hook-form";
+import { SocialDrawer } from "../SocialDrawer";
+import { SocialItem } from "../SocialItem";
 
 export type FormFieldsSocial = {
   vk?: string;
@@ -14,22 +15,43 @@ export type FormFieldsSocial = {
 type Props = {
   register: UseFormRegister<FormFieldsSocial>;
   control?: Control<FormFieldsSocial, unknown>;
+  setValue: (name: keyof FormFieldsSocial, value: string) => void;
+  handleSubmit: () => void;
+  handleOpenForm: () => void;
+  open: string;
+  handleCloseForm: () => void;
 };
 
-export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
+export const SocialSettingsForm: React.FC<Props> = ({
+  register,
+  control,
+  setValue,
+  handleSubmit,
+  handleOpenForm,
+  handleCloseForm,
+  open
+}) => {
+  const [active, setActive] = useState({});
+  const { vk, facebook, telegram, instagram, whatsapp } = useWatch({ control });
+
   return (
     <Grid container spacing={4}>
-      <Grid item columns={12} xs={12}>
-        <Controller
+      {vk && (
+        <SocialItem
+          social={"vk"}
+          register={register}
           control={control}
           name='vk'
           render={({ field: { value } }) => (
             <TextField fullWidth value={value ?? ""} label={<Text>Vk</Text>} {...register("vk")} />
           )}
         />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
+      )}
+
+      {facebook && (
+        <SocialItem
+          social={"facebook"}
+          register={register}
           control={control}
           name='facebook'
           render={({ field: { value } }) => (
@@ -41,9 +63,11 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
             />
           )}
         />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
+      )}
+      {telegram && (
+        <SocialItem
+          social={"telegram"}
+          register={register}
           control={control}
           name='telegram'
           render={({ field: { value } }) => (
@@ -55,9 +79,11 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
             />
           )}
         />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
+      )}
+      {instagram && (
+        <SocialItem
+          social={"instagram"}
+          register={register}
           control={control}
           name='instagram'
           render={({ field: { value } }) => (
@@ -69,9 +95,12 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
             />
           )}
         />
-      </Grid>
-      <Grid item columns={12} xs={12}>
-        <Controller
+      )}
+
+      {whatsapp && (
+        <SocialItem
+          social={"whatsapp"}
+          register={register}
           control={control}
           name='whatsapp'
           render={({ field: { value } }) => (
@@ -83,7 +112,15 @@ export const SocialSettingsForm: React.FC<Props> = ({ register, control }) => {
             />
           )}
         />
-      </Grid>
+      )}
+
+      <SocialDrawer
+        open={open}
+        setValue={setValue}
+        handleSubmitProps={handleSubmit}
+        active={active}
+        handleCloseForm={handleCloseForm}
+      />
     </Grid>
   );
 };
