@@ -8,7 +8,6 @@ import {
   TextField
 } from "@mui/material";
 import React, { useEffect } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Controller, useForm } from "react-hook-form";
 import {
   DocumentGroup,
@@ -22,13 +21,13 @@ import { baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { getFileName } from "~/shared/lib/getFileName";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
-import { Button } from "../Button";
 import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
 import { FileInput } from "../FileInput";
 import { SaveButton } from "../SaveButton";
 import { DatePicker } from "../DatePicker";
+import { ButtonDelete } from "../ButtonDelete";
 
 type Props = {
   open: boolean;
@@ -254,18 +253,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
         />
 
         <Box className='flex gap-2'>
-          {onRemove && (
-            <Button
-              className='flex-1'
-              color='error'
-              type='button'
-              variant='outlined'
-              startIcon={<DeleteIcon />}
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
-          )}
+          {onRemove && <ButtonDelete className='flex-1' onClick={handleDelete} />}
 
           <SaveButton className='flex-1' />
         </Box>

@@ -4,6 +4,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Text } from "../Text";
+import { Link } from "../Link";
 
 type Props = {
   id: string;
@@ -37,6 +38,8 @@ export const FileInput: React.FC<Props> = ({
     setSelectedFile(null);
     setFileUrl("");
   };
+
+  console.log(url, fileUrl);
 
   const isPreview = !!url || (withPreview && !!fileUrl && !!selectedFile);
 
@@ -77,9 +80,11 @@ export const FileInput: React.FC<Props> = ({
         <Box className='flex items-center gap-10 w-[310px]'>
           <Box className='flex gap-2 items-center w-[80%]'>
             <DescriptionIcon />
-            <Typography className='text-ellipsis overflow-hidden'>
-              {selectedFile?.name ?? fileName}
-            </Typography>
+            <Link to={url || fileUrl} target='_blank'>
+              <Typography className='text-ellipsis overflow-hidden'>
+                {selectedFile?.name ?? fileName}
+              </Typography>
+            </Link>
           </Box>
           <CancelIcon
             onClick={handleDeleteFile}
