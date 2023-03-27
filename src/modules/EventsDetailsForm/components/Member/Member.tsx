@@ -143,7 +143,7 @@ export const Member: React.FC<Props> = ({
         create({ input }).then((data) => {
           const mutationKey = Object.keys(data)[0];
 
-          const values: CreateMutation = data[mutationKey as keyof typeof data] as CreateMutation;
+          const values = data[mutationKey as keyof typeof data] as CreateMutation;
 
           if (!values) {
             return;
@@ -202,7 +202,7 @@ export const Member: React.FC<Props> = ({
         <Box className='flex flex-wrap gap-6'>
           {members.map((member, i) => (
             <Box
-              className='flex-1 min-w-[200px] shrink-0'
+              className='w-full md:w-[200px] shrink-0'
               key={i}
               onClick={getOpenFormHandler(member)}
               tabIndex={0}
