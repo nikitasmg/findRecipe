@@ -254,5 +254,7 @@
   "Sort": "Сортировка",
   "Full name of the specialist": "ФИО специалиста",
   "Date of summing up": "Дата подведения итогов",
-  "Max length text field 500": "Допустимая длина ввода 500 символов"
+  "Max length text field 500": "Допустимая длина ввода 500 символов",
+  "Rotation": "Поворот",
+  "Zoom": "Приближение"
 }
