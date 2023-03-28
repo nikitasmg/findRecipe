@@ -1,10 +1,10 @@
 {
   "apps": [
     {
-      "name": "front-admin-v3",
+      "name": "yugra-front-admin-dev",
       "script": "npx",
       "interpreter": "none",
-      "args": "serve -l 3363 -s build"
+      "args": "serve -l 3397 -s build"
     }
   ]
 }
