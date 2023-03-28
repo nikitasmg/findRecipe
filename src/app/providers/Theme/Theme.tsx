@@ -2,7 +2,11 @@ import React, { PropsWithChildren } from "react";
 import { grey } from "@mui/material/colors";
 import { ThemeProvider, createTheme, StyledEngineProvider } from "@mui/material/styles";
 
-const colors = { primary: "#02B381", primaryActive: "#008E66", secondary: "#9c27b0" };
+const colors = {
+  primary: "rgba(17, 135, 130, 0.85)",
+  primaryActive: "#118782",
+  secondary: "#08205C"
+};
 
 const theme = createTheme({
   components: {

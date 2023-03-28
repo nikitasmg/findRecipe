@@ -6,16 +6,12 @@ import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation, useMeQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { LoginPageRoute, ProfilePage, SettingsPage } from "~shared/routes";
+import { LoginPageRoute, SettingsPage } from "~shared/routes";
 import { Text } from "~shared/components/Text";
 import { Button } from "~/shared/components/Button";
 import { useAuthStore } from "~/shared/stores/auth";
 
 const links = [
-  {
-    label: "Profile",
-    path: ProfilePage
-  },
   {
     label: "Settings",
     path: SettingsPage
