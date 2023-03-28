@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, Grid, TextField } from "@mui/material";
 import {
-  EmployeeInput,
   useCreateVideoBroadcastMutation,
   useUpdateVideoBroadcastMutation,
-  useVideoBroadcastByIdQuery
+  useVideoBroadcastByIdQuery,
+  VideoBroadcastInput
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
@@ -19,11 +19,11 @@ import { initFormValues } from "~/shared/lib/initFormValues";
 import { baseRequired } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
-interface IVacanciesDetailsForm {
+interface BroadcastsDetailsProps {
   id?: number;
 }
 
-export const BroadcastsDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) => {
+export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -57,7 +57,7 @@ export const BroadcastsDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =
   const getError = getErrorMessage(errors);
 
   const onSubmit = handleSubmit((newValues) => {
-    const input: EmployeeInput = {
+    const input: VideoBroadcastInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
       sort: newValues.sort ? Number(newValues.sort) : 0
@@ -76,7 +76,7 @@ export const BroadcastsDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =
       return;
     }
 
-    initFormValues(["name", "description", "url", "sort"], setValue, values);
+    initFormValues(["name", "url", "sort"], setValue, values);
   }, [values, isSuccess, setValue]);
 
   return (

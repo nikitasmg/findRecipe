@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import {
-  EmployeeInput,
+  UserInput,
   useCreateUserMutation,
   useUpdateUserMutation,
   useUserByIdQuery
@@ -64,7 +64,7 @@ export const UsersDetailsForm: React.FC<Props> = ({ id }) => {
   const getError = getErrorMessage(errors);
 
   const onSubmit = handleSubmit((newValues) => {
-    const input: EmployeeInput = {
+    const input: UserInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues
     };

@@ -116,6 +116,8 @@ export const ProjectsPageCreate = `${ProjectsPageRoute}/create`;
 
 export const DocumentsPageRoute = "/documents";
 
+export const GroupDocumentsRoute = `${DocumentsPageRoute}/group-documents/:id`;
+
 export const BroadcastsPageRoute = "/broadcasts";
 
 export const BroadcastsPageEdit = `${BroadcastsPageRoute}/edit/:id`;
@@ -134,4 +136,8 @@ export const ReportsPageEdit = `${ReportsPageRoute}/edit/:id`;
 
 export const ReportsPageCreate = `${ReportsPageRoute}/create`;
 
-export const GroupDocumentsRoute = `${DocumentsPageRoute}/group-documents/:id`;
+export const ClustersPageRoute = "/clusters";
+
+export const ClustersPageEdit = `${ClustersPageRoute}/edit/:id`;
+
+export const ClustersPageCreate = `${ClustersPageRoute}/create`;

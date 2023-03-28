@@ -49,7 +49,10 @@ import {
   InteractiveMapPageEdit,
   BroadcastsPageRoute,
   BroadcastsPageEdit,
-  BroadcastsPageCreate
+  BroadcastsPageCreate,
+  ClustersPageRoute,
+  ClustersPageEdit,
+  ClustersPageCreate
 } from "~shared/routes";
 
 import { PagesEditRouting } from "./PagesEditRouting";
@@ -147,6 +150,12 @@ const InteractiveMapEdit = lazy(() =>
   import("~/pages/InteractiveMapEdit").then((module) => ({
     default: module.InteractiveMapEdit
   }))
+);
+const Clusters = lazy(() =>
+  import("~/pages/Clusters").then((module) => ({ default: module.Clusters }))
+);
+const ClustersEdit = lazy(() =>
+  import("~/pages/ClustersEdit").then((module) => ({ default: module.ClustersEdit }))
 );
 
 export const Routing: React.FC = () => {
@@ -541,6 +550,33 @@ export const Routing: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <GroupDocuments />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ClustersPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Clusters />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ClustersPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <ClustersEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={ClustersPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <ClustersEdit />
           </BaseProtectedLayout>
         }
       />

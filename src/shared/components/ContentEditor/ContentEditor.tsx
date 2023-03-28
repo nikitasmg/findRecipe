@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { RawEditorSettings } from "tinymce";
 import { Box, Skeleton } from "@mui/material";
 import clsx from "clsx";
 import { createEvent } from "./lib/createEvent";
@@ -13,21 +14,16 @@ type Props = {
   error?: boolean;
   onChange?: (event: { target: { value: string; name: string } }) => void;
   getUploadedUrl?: (blobUrl: string) => Promise<string>;
+  settings?: Omit<RawEditorSettings, "selector" | "target">;
 };
 
 export const ContentEditor: React.FC<Props> = React.memo(
-  ({ value: initialValue, name, apiKey, onChange, getUploadedUrl, error }) => {
-    const [localValue, setValue] = useState("");
-
+  ({ value, name, apiKey, onChange, getUploadedUrl, error, settings = {} }) => {
     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-      onChange?.(createEvent(localValue, name));
-    }, [onChange, localValue, name]);
 
     return (
       <Box
-        className={clsx("relative min-h-[600px]", {
+        className={clsx("relative", `min-h-[${settings?.min_height ?? 600}px]`, {
           [styles.editor_error]: error
         })}
       >
@@ -35,17 +31,17 @@ export const ContentEditor: React.FC<Props> = React.memo(
           <Skeleton
             className='absolute top-0 left-0 h-full w-full z-999'
             variant='rectangular'
-            height={600}
+            height={settings?.min_height ?? 600}
           />
         )}
         <Editor
           onInit={(_, editor) => {
-            editor.setContent(initialValue);
+            editor.setContent(value);
             setIsLoading(false);
           }}
-          value={localValue}
+          value={value}
           apiKey={apiKey}
-          onEditorChange={setValue}
+          onEditorChange={(value) => onChange?.(createEvent(value, name))}
           init={{
             selector: "textarea" as never,
             language: "ru",
@@ -81,7 +77,8 @@ export const ContentEditor: React.FC<Props> = React.memo(
             skin: "oxide",
             content_css: "default",
             content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-            statusbar: false
+            statusbar: false,
+            ...settings
           }}
         />
       </Box>
