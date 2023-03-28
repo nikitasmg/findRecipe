@@ -46,7 +46,10 @@ import {
   ReportsPageCreate,
   ReportsPageEdit,
   GroupDocumentsRoute,
-  InteractiveMapPageEdit
+  InteractiveMapPageEdit,
+  BroadcastsPageRoute,
+  BroadcastsPageEdit,
+  BroadcastsPageCreate
 } from "~shared/routes";
 
 import { PagesEditRouting } from "./PagesEditRouting";
@@ -116,6 +119,12 @@ const ProjectsEdit = lazy(() =>
 );
 const Documents = lazy(() =>
   import("~/pages/Documents").then((module) => ({ default: module.Documents }))
+);
+const Broadcasts = lazy(() =>
+  import("~/pages/Broadcasts").then((module) => ({ default: module.Broadcasts }))
+);
+const BroadcastsEdit = lazy(() =>
+  import("~/pages/BroadcastsEdit").then((module) => ({ default: module.BroadcastsEdit }))
 );
 const ActivityResult = lazy(() =>
   import("~/pages/ActivityResult").then((module) => ({ default: module.ActivityResult }))
@@ -448,6 +457,31 @@ export const Routing: React.FC = () => {
         }
       />
 
+      <Route
+        path={BroadcastsPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Broadcasts />
+          </BaseProtectedLayout>
+        }
+      />
+      <Route
+        path={BroadcastsPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <BroadcastsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={BroadcastsPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <BroadcastsEdit />
+          </BaseProtectedLayout>
+        }
+      />
       <Route
         path={ActivityResultPageRoute}
         element={

@@ -116,6 +116,12 @@ export const ProjectsPageCreate = `${ProjectsPageRoute}/create`;
 
 export const DocumentsPageRoute = "/documents";
 
+export const BroadcastsPageRoute = "/broadcasts";
+
+export const BroadcastsPageEdit = `${BroadcastsPageRoute}/edit/:id`;
+
+export const BroadcastsPageCreate = `${BroadcastsPageRoute}/create`;
+
 export const ActivityResultPageRoute = "/activity-result";
 
 export const ActivityResultPageEdit = `${ActivityResultPageRoute}/edit/:id`;
