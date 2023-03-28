@@ -65,10 +65,10 @@ export const BroadcastsTable: React.FC = () => {
             </TableHead>
 
             {!isLoading && (
-              <TableBodySortable onSortEnd={onSortEnd} useDragHandle>
+              <TableBodySortable onSortEnd={onSortEnd} items={rows ?? []}>
                 {rows?.map((row: DeepPartial<VideoBroadcast>, index) => {
                   return (
-                    <TableRowSortable key={row.id} index={index}>
+                    <TableRowSortable key={row.id} id={row.id ?? index}>
                       <CellDragHandle />
 
                       {columns.map((column) => {
