@@ -107,6 +107,6 @@ deploy-dev:
     - master
   variables:
     BRANCH: "master"
-    USER: "template"
+    USER: "yugra"
     SCRIPT: "dev"
     HOST: "188.186.186.6"
