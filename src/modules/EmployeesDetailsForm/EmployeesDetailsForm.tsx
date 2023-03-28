@@ -19,11 +19,11 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
-interface IEmployeesDetailsForm {
+interface EmployeesDetailsFormProps {
   id?: number;
 }
 
-export const EmployeesDetailsForm: React.FC<IEmployeesDetailsForm> = ({ id }) => {
+export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();

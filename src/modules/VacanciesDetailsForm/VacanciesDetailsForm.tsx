@@ -10,7 +10,7 @@ import {
   TextField
 } from "@mui/material";
 import {
-  EmployeeInput,
+  VacancyInput,
   useCreateVacancyMutation,
   useUpdateVacancyMutation,
   useVacancyByIdQuery
@@ -27,11 +27,11 @@ import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { SaveButton } from "~/shared/components/SaveButton";
 
-interface IVacanciesDetailsForm {
+interface VacanciesDetailsFormProps {
   id?: number;
 }
 
-export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) => {
+export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -69,7 +69,7 @@ export const VacanciesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
   const getError = getErrorMessage(errors);
 
   const onSubmit = handleSubmit((newValues) => {
-    const input: EmployeeInput = {
+    const input: VacancyInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
       sort: newValues.sort ? Number(newValues.sort) : 0

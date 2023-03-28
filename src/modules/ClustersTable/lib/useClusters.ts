@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { SortOrder, useVideoBroadcastsQuery, VideoBroadcast } from "~/generated/graphql";
+import { SortOrder, useClustersQuery, Cluster } from "~/generated/graphql";
 import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
-import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { resortArray } from "~/shared/lib/resortArray";
 
-export const useBroadcasts = () => {
-  const [rows, setRows] = useState<VideoBroadcast[]>([]);
+export const useClusters = () => {
+  const [rows, setRows] = useState<Cluster[]>([]);
 
   const {
     variables,
@@ -19,15 +18,11 @@ export const useBroadcasts = () => {
     handleFilterChange,
     resetFilters,
     resetTitle
-  } = useRequestState("name", {
-    filterFormats: {
-      created_atLike: formatDayJsForFilters
-    }
-  });
+  } = useRequestState("name");
 
   const client = useGraphqlClient();
 
-  const { data, isLoading } = useVideoBroadcastsQuery(
+  const { data, isLoading } = useClustersQuery(
     client,
     {
       orderBy: [...(variables.orderBy ?? []), { column: "sort", order: SortOrder.Asc }],
@@ -36,9 +31,9 @@ export const useBroadcasts = () => {
     { refetchOnMount: "always", cacheTime: 0 }
   );
 
-  const broadcasts = data?.videoBroadcasts;
+  const clusters = data?.clusters;
 
-  const { mutateAsync: resort } = useResort("upsertPurchase");
+  const { mutateAsync: resort } = useResort("upsertCluster");
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     setRows((rows) => {
@@ -51,8 +46,8 @@ export const useBroadcasts = () => {
   };
 
   useEffect(() => {
-    setRows(broadcasts as VideoBroadcast[]);
-  }, [broadcasts]);
+    setRows(clusters ?? []);
+  }, [clusters]);
 
   return {
     title,

@@ -257,7 +257,15 @@
   "Max length text field 500": "Допустимая длина ввода 500 символов",
   "Rotation": "Поворот",
   "Zoom": "Приближение",
-  "Video broadcasts": "Видео трансляции",
+  "Video broadcasts": "Видеотрансляции",
   "Broadcast editing": "Редактирование видеотрансляции",
-  "Broadcast creating": "Создание видеотрансляции"
+  "Broadcast creating": "Создание видеотрансляции",
+  "STC in Surgut": "НТЦ в Сургуте",
+  "Clusters": "Кластеры",
+  "Cluster creating": "Создать кластер",
+  "Cluster editing": "Редактировать кластер",
+  "First column heading": "Заголовок первого столбца",
+  "First column description": "Описание первого столбца",
+  "Second column heading": "Заголовок второго столбца",
+  "Second column description": "Описание второго столбца"
 }

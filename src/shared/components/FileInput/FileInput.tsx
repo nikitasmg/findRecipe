@@ -39,8 +39,6 @@ export const FileInput: React.FC<Props> = ({
     setFileUrl("");
   };
 
-  console.log(url, fileUrl);
-
   const isPreview = !!url || (withPreview && !!fileUrl && !!selectedFile);
 
   useEffect(() => {
