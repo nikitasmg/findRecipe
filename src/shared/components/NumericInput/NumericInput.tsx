@@ -45,7 +45,7 @@ export const NumericInput: React.FC<Props> = ({
     const value = e.target.value;
     const numericValue = Number(value);
 
-    if (numericValue > max || (min && numericValue < min)) {
+    if (numericValue > max || (Number.isInteger(min) && numericValue < min)) {
       return;
     }
 
