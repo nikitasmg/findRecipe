@@ -1,4 +1,4 @@
-[Template Admin v3](https://gitlab.dev.echo-company.ru/seleznev.sergey/echo-admin-v3)
+[Template Admin v3](https://gitlab.dev.echo-company.ru/yugra/frontend/yugra-admin)
 
 ## ⚙️ Технологии
 
