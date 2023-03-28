@@ -1756,6 +1756,44 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: number } | null };
 
+export type AllVideoBroadcastsFieldsFragment = { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null };
+
+export type VideoBroadcastByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type VideoBroadcastByIdQuery = { __typename?: 'Query', videoBroadcastById?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+
+export type VideoBroadcastsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type VideoBroadcastsQuery = { __typename?: 'Query', videoBroadcasts: Array<{ __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null }> };
+
+export type CreateVideoBroadcastMutationVariables = Exact<{
+  input: VideoBroadcastInput;
+}>;
+
+
+export type CreateVideoBroadcastMutation = { __typename?: 'Mutation', createVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+
+export type UpdateVideoBroadcastMutationVariables = Exact<{
+  input: VideoBroadcastInput;
+}>;
+
+
+export type UpdateVideoBroadcastMutation = { __typename?: 'Mutation', upsertVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+
+export type DeleteVideoBroadcastMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteVideoBroadcastMutation = { __typename?: 'Mutation', deleteVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number } | null };
+
 export type AllContestFieldsFragment = { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type ContestByIdQueryVariables = Exact<{
@@ -2660,6 +2698,14 @@ export const AllActivityResultsFieldsFragmentDoc = `
   created_at
 }
     `;
+export const AllVideoBroadcastsFieldsFragmentDoc = `
+    fragment allVideoBroadcastsFields on VideoBroadcast {
+  id
+  name
+  sort
+  url
+}
+    `;
 export const AllContestFieldsFragmentDoc = `
     fragment allContestFields on Contest {
   id
@@ -3174,6 +3220,108 @@ export const useLogoutMutation = <
     useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
       ['Logout'],
       (variables?: LogoutMutationVariables) => fetcher<LogoutMutation, LogoutMutationVariables>(client, LogoutDocument, variables, headers)(),
+      options
+    );
+export const VideoBroadcastByIdDocument = `
+    query videoBroadcastById($id: Int!) {
+  videoBroadcastById(id: $id) {
+    ...allVideoBroadcastsFields
+  }
+}
+    ${AllVideoBroadcastsFieldsFragmentDoc}`;
+export const useVideoBroadcastByIdQuery = <
+      TData = VideoBroadcastByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: VideoBroadcastByIdQueryVariables,
+      options?: UseQueryOptions<VideoBroadcastByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<VideoBroadcastByIdQuery, TError, TData>(
+      ['videoBroadcastById', variables],
+      fetcher<VideoBroadcastByIdQuery, VideoBroadcastByIdQueryVariables>(client, VideoBroadcastByIdDocument, variables, headers),
+      options
+    );
+export const VideoBroadcastsDocument = `
+    query videoBroadcasts($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  videoBroadcasts(orderBy: $orderBy, filter: $filter) {
+    ...allVideoBroadcastsFields
+  }
+}
+    ${AllVideoBroadcastsFieldsFragmentDoc}`;
+export const useVideoBroadcastsQuery = <
+      TData = VideoBroadcastsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: VideoBroadcastsQueryVariables,
+      options?: UseQueryOptions<VideoBroadcastsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<VideoBroadcastsQuery, TError, TData>(
+      variables === undefined ? ['videoBroadcasts'] : ['videoBroadcasts', variables],
+      fetcher<VideoBroadcastsQuery, VideoBroadcastsQueryVariables>(client, VideoBroadcastsDocument, variables, headers),
+      options
+    );
+export const CreateVideoBroadcastDocument = `
+    mutation createVideoBroadcast($input: VideoBroadcastInput!) {
+  createVideoBroadcast: upsertVideoBroadcast(input: $input) {
+    ...allVideoBroadcastsFields
+  }
+}
+    ${AllVideoBroadcastsFieldsFragmentDoc}`;
+export const useCreateVideoBroadcastMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateVideoBroadcastMutation, TError, CreateVideoBroadcastMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateVideoBroadcastMutation, TError, CreateVideoBroadcastMutationVariables, TContext>(
+      ['createVideoBroadcast'],
+      (variables?: CreateVideoBroadcastMutationVariables) => fetcher<CreateVideoBroadcastMutation, CreateVideoBroadcastMutationVariables>(client, CreateVideoBroadcastDocument, variables, headers)(),
+      options
+    );
+export const UpdateVideoBroadcastDocument = `
+    mutation updateVideoBroadcast($input: VideoBroadcastInput!) {
+  upsertVideoBroadcast(input: $input) {
+    ...allVideoBroadcastsFields
+  }
+}
+    ${AllVideoBroadcastsFieldsFragmentDoc}`;
+export const useUpdateVideoBroadcastMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateVideoBroadcastMutation, TError, UpdateVideoBroadcastMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateVideoBroadcastMutation, TError, UpdateVideoBroadcastMutationVariables, TContext>(
+      ['updateVideoBroadcast'],
+      (variables?: UpdateVideoBroadcastMutationVariables) => fetcher<UpdateVideoBroadcastMutation, UpdateVideoBroadcastMutationVariables>(client, UpdateVideoBroadcastDocument, variables, headers)(),
+      options
+    );
+export const DeleteVideoBroadcastDocument = `
+    mutation deleteVideoBroadcast($id: Int!) {
+  deleteVideoBroadcast(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteVideoBroadcastMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteVideoBroadcastMutation, TError, DeleteVideoBroadcastMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteVideoBroadcastMutation, TError, DeleteVideoBroadcastMutationVariables, TContext>(
+      ['deleteVideoBroadcast'],
+      (variables?: DeleteVideoBroadcastMutationVariables) => fetcher<DeleteVideoBroadcastMutation, DeleteVideoBroadcastMutationVariables>(client, DeleteVideoBroadcastDocument, variables, headers)(),
       options
     );
 export const ContestByIdDocument = `

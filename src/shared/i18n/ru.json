@@ -256,5 +256,8 @@
   "Date of summing up": "Дата подведения итогов",
   "Max length text field 500": "Допустимая длина ввода 500 символов",
   "Rotation": "Поворот",
-  "Zoom": "Приближение"
+  "Zoom": "Приближение",
+  "Video broadcasts": "Видео трансляции",
+  "Broadcast editing": "Редактирование видеотрансляции",
+  "Broadcast creating": "Создание видеотрансляции"
 }
