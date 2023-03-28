@@ -15,7 +15,8 @@ import {
   DocumentsPageRoute,
   PagesRoute,
   ReportsPageRoute,
-  ActivityResultPageRoute
+  ActivityResultPageRoute,
+  BroadcastsPageRoute
 } from "~shared/routes";
 
 const paths = [
@@ -53,6 +54,10 @@ const paths = [
       {
         label: "Documents",
         path: DocumentsPageRoute
+      },
+      {
+        label: "Video broadcasts",
+        path: BroadcastsPageRoute
       }
     ]
   },
