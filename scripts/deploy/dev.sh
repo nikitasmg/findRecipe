@@ -1,6 +1,6 @@
 #!/bin/bash
 # Go to project directory
-cd ~/projects/front-template/www
+cd ~/projects/yugra-front-admin/www
 
 cp .env.example .env
 
