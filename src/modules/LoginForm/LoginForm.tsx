@@ -119,7 +119,7 @@ export const LoginForm: React.FC = () => {
             </Grid>
 
             <Grid item columns={12} xs={12}>
-              <Button fullWidth type='submit' variant='contained' disabled={isLoading}>
+              <Button fullWidth type='submit' variant='outlined' disabled={isLoading}>
                 Login
               </Button>
             </Grid>
