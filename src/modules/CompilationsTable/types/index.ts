@@ -6,6 +6,5 @@ export interface Column {
   label: JSX.Element | string;
   minWidth?: number;
   align?: "right" | "center";
-  format?: (_value: string | number | Compilations["whereUseLink"]) => string;
   render?: (_value: unknown, row: Record<string, unknown>) => ReactNode;
 }

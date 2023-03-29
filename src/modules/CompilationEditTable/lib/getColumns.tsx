@@ -1,27 +1,16 @@
 import React from "react";
 import { Input, Typography } from "@mui/material";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
-import { ActiveOrder } from "~/shared/types/ActiveOrder";
-import { useSortProps } from "~/shared/hooks/useSortProps";
+import { Languages } from "~/shared/types/Languages";
 import { Column } from "../types";
 
-export const useColumns = (
-  activeOrder?: ActiveOrder,
-  handleOrderClick?: (_activeOrder: ActiveOrder) => void
-): Column[] => {
-  const { getClickHandler, getActiveProps } = useSortProps(handleOrderClick, activeOrder);
+export const useColumns = (lang: Languages): Column[] => {
+  const nameId = lang !== "ru" ? "name_en" : "name";
 
   return [
     {
-      id: "name",
-      label: (
-        <TableHeadCell
-          title='Value'
-          cellId='name'
-          onSortClick={getClickHandler("name")}
-          sortProps={getActiveProps("name")}
-        />
-      ),
+      id: nameId,
+      label: <TableHeadCell title='Value' cellId={nameId} />,
       style: {
         minWidth: "55%"
       },
@@ -32,7 +21,7 @@ export const useColumns = (
 
         return (
           <Input
-            name='name'
+            name={nameId}
             onChange={editOptions.handleChange}
             fullWidth
             defaultValue={value as string}

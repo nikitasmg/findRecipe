@@ -2,10 +2,12 @@ import { Box } from "@mui/material";
 import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Languages } from "~/shared/types/Languages";
 import { Text } from "../Text";
 import { Link } from "../Link";
 import { LinkButton } from "../LinkButton";
 import { ButtonDelete } from "../ButtonDelete";
+import { LangSwitcher } from "../LangSwitcher";
 
 type Props = {
   title: string;
@@ -13,6 +15,7 @@ type Props = {
   backHref?: string;
   onBackClick?: () => void;
   onRemove?: () => void;
+  onLangChange?: (lang: Languages) => void;
 };
 
 export const DetailsHead: React.FC<Props> = ({
@@ -20,7 +23,8 @@ export const DetailsHead: React.FC<Props> = ({
   clientUrl,
   onRemove,
   onBackClick,
-  backHref
+  backHref,
+  onLangChange
 }) => (
   <Box className='flex flex-wrap items-center w-full md:flex-nowrap  gap-4'>
     <LinkButton
@@ -34,13 +38,12 @@ export const DetailsHead: React.FC<Props> = ({
       Back
     </LinkButton>
 
-    <Text
-      className='order-last w-full md:w-fit md:order-first text-center'
-      component='h1'
-      variant='h6'
-    >
-      {title}
-    </Text>
+    <Box className='order-last md:order-first w-full md:w-fit flex flex-col gap-4 md:flex-row items-center justify-center'>
+      <Text className='w-full md:w-fit text-center' component='h1' variant='h6'>
+        {title}
+      </Text>
+      {onLangChange && <LangSwitcher onLangChange={onLangChange} />}
+    </Box>
 
     {clientUrl && (
       <Link
