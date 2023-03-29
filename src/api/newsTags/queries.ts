@@ -5,6 +5,7 @@ export const NewsTagsFragment = gql`
     id
     sort
     name
+    name_en
   }
 `;
 
@@ -31,8 +32,8 @@ export const NewsCategories = gql`
 export const CreateNewsTag = gql`
   ${NewsTagsFragment}
 
-  mutation createNewsTag($sort: Int!, $name: String!) {
-    createNewsTag: upsertNewsTag(input: { sort: $sort, name: $name }) {
+  mutation createNewsTag($sort: Int!, $name: String!, $name_en: String) {
+    createNewsTag: upsertNewsTag(input: { sort: $sort, name: $name, name_en: $name_en }) {
       ...allNewsTagsFields
     }
   }
@@ -41,8 +42,8 @@ export const CreateNewsTag = gql`
 export const UpdateNewsTag = gql`
   ${NewsTagsFragment}
 
-  mutation updateNewsTag($id: Int!, $sort: Int!, $name: String!) {
-    upsertNewsTag(input: { id: $id, sort: $sort, name: $name }) {
+  mutation updateNewsTag($id: Int!, $sort: Int!, $name: String!, $name_en: String) {
+    upsertNewsTag(input: { id: $id, sort: $sort, name: $name, name_en: $name_en }) {
       ...allNewsTagsFields
     }
   }

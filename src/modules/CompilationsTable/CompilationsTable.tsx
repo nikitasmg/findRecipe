@@ -68,9 +68,7 @@ export const CompilationsTable: React.FC = () => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.render?.(value, row) ??
-                            column.format?.(value) ??
-                            (value as string)}
+                          {column.render?.(value, row) ?? (value as string)}
                         </TableCell>
                       );
                     })}

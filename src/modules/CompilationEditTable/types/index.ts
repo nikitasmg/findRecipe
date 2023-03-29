@@ -6,7 +6,6 @@ export interface Column {
   label: JSX.Element | string;
   style: React.CSSProperties;
   align?: "right" | "center";
-  format?: (_value: string | number) => string;
   render?: (
     _value: unknown,
     row: Record<string, unknown>,

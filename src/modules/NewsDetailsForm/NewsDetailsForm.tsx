@@ -12,18 +12,20 @@ import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { NewsPageRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 import { AdditionalNewsForm } from "./components/AdditionalNewsForm";
 import { GeneralNewsForm } from "./components/GeneralNewsForm";
 import { SeoNewsForm } from "./components/SeoNewsForm";
 import { prepareFormData } from "./lib/prepareFormData";
 
 type Props = {
+  lang: Languages;
   id?: number;
 };
 
 const getTagsValue = (value?: NewsTag[] | null): number[] => value?.map((tag) => tag?.id) ?? [];
 
-export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
+export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
@@ -82,10 +84,14 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
     initFormValues(
       [
         "name",
+        "name_en",
         "description",
+        "description_en",
         "content",
+        "content_en",
         "source",
         "source_name",
+        "source_name_en",
         "published",
         "published_at",
         ["category", { key: "category.id" }],
@@ -125,6 +131,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
               errors={errors}
               register={register}
               control={control}
+              lang={lang}
             />
           )
         },
@@ -137,6 +144,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id }) => {
               register={register}
               control={control}
               setError={setError}
+              lang={lang}
             />
           )
         },

@@ -2,6 +2,7 @@ import { Box, CircularProgress, Table, TableCell, TableHead, TableRow } from "@m
 import React, { useRef, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { useLang } from "~/shared/hooks/useLang";
 import { Panel } from "~/shared/components/Panel";
 import { Text } from "~/shared/components/Text";
 import { TableBodyCellActions } from "~/shared/components/TableBodyCellActions";
@@ -10,6 +11,7 @@ import { TableBodySortable, TableRowSortable as Row } from "~/shared/components/
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { CellDragHandle } from "~/shared/components/CellDragHandle";
 import { Button } from "~/shared/components/Button";
+import { LangSwitcher } from "~/shared/components/LangSwitcher";
 import { resortArray } from "~/shared/lib/resortArray";
 import { CompilationItem } from "~/shared/types/Compilation";
 import { useCompilations } from "./lib/useCompilations";
@@ -22,13 +24,14 @@ type Props = {
 export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   const [editRow, setEditRow] = useState<CompilationItem | null>(null);
 
+  const { lang, setLang } = useLang();
+
   const [newValues, setNewValues] = useState<Partial<Omit<CompilationItem, "id">>>();
 
   const formRef = useRef<HTMLFormElement>(null);
 
   const {
     rows,
-    activeOrder,
     setRows,
     compilationMeta,
     isLoading,
@@ -36,17 +39,16 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
     create,
     update,
     remove,
-    handleChangeOrder,
     resort
   } = useCompilations(id);
 
-  const columns = useColumns(activeOrder, handleChangeOrder);
+  const columns = useColumns(lang);
 
   const handleBackClick = useNavigationBack();
 
   const handleAddClick = () => {
     setRows((oldRows) => {
-      const newRow = { id: "new", sort: rows.length + 1, name: "" };
+      const newRow = { id: "new", sort: rows.length + 1, name: "", name_en: "" };
       setEditRow(newRow);
       return [...oldRows, newRow];
     });
@@ -72,7 +74,11 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    const newRow = { sort: rows.length + 1, name: newValues?.name ?? "" };
+    const newRow = {
+      sort: rows.length + 1,
+      name: newValues?.name ?? "",
+      name_en: newValues?.name_en ?? ""
+    };
 
     create(newRow);
     setRows((rows) => rows.slice(0, -1).concat({ id: "new", ...newRow }));
@@ -85,9 +91,10 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
 
         <Box
           component='section'
-          className='flex items-center justify-center flex-wrap gap-1 w-full py-4'
+          className='flex flex-col items-center justify-center flex-wrap gap-1 w-full py-4'
         >
           <Text variant='h6'>{compilationMeta?.heading ?? ""}</Text>
+          {compilationMeta?.langExist && <LangSwitcher onLangChange={setLang} />}
         </Box>
         <form onSubmit={handleSubmit} onSubmitCapture={handleSubmit} ref={formRef}>
           <Table stickyHeader aria-label='sticky table'>
@@ -143,9 +150,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.render?.(value, row, editableProps) ??
-                              column.format?.(value) ??
-                              value}
+                            {column.render?.(value, row, editableProps) ?? value}
                           </TableCell>
                         );
                       })}
@@ -169,7 +174,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
               onClick={handleAddClick}
               fullWidth
               size='large'
-              variant='contained'
+              variant='outlined'
               startIcon={<AddIcon />}
               textProps={{ align: "center" }}
             >
