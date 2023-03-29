@@ -14,6 +14,22 @@ export const emailValidation = (value: string) =>
 
 export const baseRequired = { required: "This is required" };
 
+export const baseMinLengthText = {
+  minLength: {
+    value: 1,
+    message: "This is required"
+  }
+};
+
+export const baseRequiredTextValidation = {
+  ...baseRequired,
+  ...baseMinLengthText,
+  validate: {
+    whiteSpace: <T>(value: T): true | string =>
+      typeof value === "string" ? value.trim().length > 0 || "This is required" : true
+  }
+};
+
 export const isEmpty = (value: string) => value.replace(/\s/gi, "").length === 0;
 
 export const isContainsNumbers = (value: string) => /\d/.test(value);

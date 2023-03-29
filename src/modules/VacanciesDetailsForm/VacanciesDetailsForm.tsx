@@ -20,7 +20,7 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
@@ -111,7 +111,7 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id }
                     }
                     value={value}
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", baseRequiredTextValidation)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

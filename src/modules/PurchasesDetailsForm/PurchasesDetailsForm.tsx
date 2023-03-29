@@ -20,7 +20,7 @@ import { SaveButton } from "~/shared/components/SaveButton";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 interface PurchasesDetailsFormProps {
@@ -127,7 +127,7 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }
                     }
                     value={value}
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", baseRequiredTextValidation)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

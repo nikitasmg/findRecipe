@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   CircularProgress,
   Paper,
   Table,
@@ -9,9 +10,11 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import React, { useEffect } from "react";
+import { prop } from "rambda";
+import React, { useEffect, useState } from "react";
 import { DeepPartial } from "react-hook-form";
-import { News, SortOrder, useNewsQuery } from "~/generated/graphql";
+import { News, SortOrder, useAllNewsQuery, useNewsQuery } from "~/generated/graphql";
+import { useDeleteNews } from "~/api/news";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { NewsPageCreate } from "~/shared/routes";
 import { useNewsStore } from "~/shared/stores/news";
@@ -26,6 +29,8 @@ import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 
 export const NewsTable: React.FC = () => {
+  const [selected, setSelected] = useState<Set<number>>(new Set([]));
+
   const {
     variables,
     title,
@@ -51,20 +56,64 @@ export const NewsTable: React.FC = () => {
     setCount: state.setCount
   }));
 
-  const { data, isLoading } = useNewsQuery(
+  const { data, isLoading, refetch } = useNewsQuery(
     client,
     {
       ...variables,
       orderBy: [...(variables.orderBy ?? []), { column: "published_at", order: SortOrder.Desc }]
     },
-    { refetchOnMount: "always" }
+    { refetchOnMount: "always", cacheTime: 0 }
   );
+
+  const { refetch: fetchAll, isFetching } = useAllNewsQuery(client, variables, {
+    enabled: false
+  });
+
+  const { mutateAsync: deleteNews } = useDeleteNews();
 
   const news = data?.news;
 
   const total = news?.paginatorInfo.total ?? 0;
 
   const columns = useColumns(activeOrder, handleChangeOrder);
+
+  const indeterminate = selected.size > 0 && selected.size < total;
+
+  const allChecked = total > 0 && selected.size === total;
+
+  const onSelectAllClick = () => {
+    if (allChecked) {
+      setSelected(new Set([]));
+      return;
+    }
+
+    fetchAll()
+      .then(({ data }) => data?.allNewsIds?.data)
+      .then((ids) => {
+        const allIds = (ids ?? [])?.map<number>(prop("id"));
+
+        setSelected(new Set(allIds));
+      });
+  };
+
+  const onDeleteClick = () => {
+    deleteNews([...selected]).then(() => refetch());
+    setSelected(new Set([]));
+  };
+
+  const getCheckedHandler =
+    (id: number) => (_: React.ChangeEvent<HTMLInputElement>, checked: boolean) =>
+      setSelected((cur) => {
+        const newSelected = new Set(cur);
+
+        if (checked) {
+          newSelected.add(id);
+        } else {
+          newSelected.delete(id);
+        }
+
+        return newSelected;
+      });
 
   useEffect(() => {
     setLoading(isLoading);
@@ -90,12 +139,35 @@ export const NewsTable: React.FC = () => {
           filterModalInnerForm={
             <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
           }
+          deleteProps={{
+            onDelete: onDeleteClick,
+            deleteDisabled: !selected.size
+          }}
         />
 
         <TableContainer component={Paper}>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
+                <TableCell padding='checkbox'>
+                  {!isFetching && (
+                    <Checkbox
+                      color='primary'
+                      indeterminate={indeterminate}
+                      checked={allChecked}
+                      onChange={onSelectAllClick}
+                      inputProps={{
+                        "aria-label": "select all news"
+                      }}
+                    />
+                  )}
+                  {isFetching && (
+                    <Box className='flex justify-center'>
+                      <CircularProgress size={20} />
+                    </Box>
+                  )}
+                </TableCell>
+
                 {columns.map((column) => (
                   <TableCell key={column.id} align={column.align} style={column.style}>
                     {column.label}
@@ -109,6 +181,16 @@ export const NewsTable: React.FC = () => {
                 {news?.data?.map((row: DeepPartial<News>) => {
                   return (
                     <TableRow hover role='row' tabIndex={-1} key={row.id}>
+                      <TableCell padding='checkbox'>
+                        <Checkbox
+                          onChange={getCheckedHandler(row.id as number)}
+                          color='primary'
+                          checked={selected.has(row.id as number)}
+                          inputProps={{
+                            "aria-labelledby": String(row.id)
+                          }}
+                        />
+                      </TableCell>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (

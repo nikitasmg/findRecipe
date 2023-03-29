@@ -16,7 +16,7 @@ import { LinkInput } from "~/shared/components/LinkInput";
 import { SaveButton } from "~/shared/components/SaveButton";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
 interface BroadcastsDetailsProps {
@@ -97,7 +97,7 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id }) 
                     }
                     value={value}
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", baseRequiredTextValidation)}
                   />
                   <HelperText id='name' error={getError("name")} />
                 </FormControl>

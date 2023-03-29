@@ -17,7 +17,7 @@ import {
 } from "~/generated/graphql";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { getFileName } from "~/shared/lib/getFileName";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
@@ -158,7 +158,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                 }
                 {...field}
                 error={!!getError("title")}
-                {...register("title", baseRequired)}
+                {...register("title", baseRequiredTextValidation)}
               />
 
               <HelperText id='title' error={getError("title")} />

@@ -16,7 +16,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { SaveButton } from "~/shared/components/SaveButton";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
 
 type FormFields = {
@@ -149,7 +149,7 @@ export const DetailsForm: React.FC<Props> = ({
                 }
                 error={getError("name")}
                 value={value}
-                {...register("name", baseRequired)}
+                {...register("name", baseRequiredTextValidation)}
               />
 
               <HelperText id='name' error={getError("name")} />
