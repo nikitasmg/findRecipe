@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Controller, useForm } from "react-hook-form";
 import { DocumentGroup, DocumentGroupInput } from "~/generated/graphql";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { Button } from "../Button";
 import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
@@ -85,7 +85,7 @@ export const DocumentGroupDetailsDialog: React.FC<Props> = ({
                 }
                 {...field}
                 error={!!getError("name")}
-                {...register("name", baseRequired)}
+                {...register("name", baseRequiredTextValidation)}
               />
 
               <HelperText id='name' error={getError("name")} />

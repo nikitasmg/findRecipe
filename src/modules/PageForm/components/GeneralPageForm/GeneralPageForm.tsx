@@ -4,9 +4,13 @@ import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-fo
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useSettingByNameQuery, useUploadMutation } from "~/generated/graphql";
 import { ContentEditor } from "~/shared/components/ContentEditor";
+import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { Text } from "~/shared/components/Text";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { getErrorMessage } from "~/shared/lib/getError";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
 
 export type GeneralFormFields = {
@@ -22,7 +26,7 @@ type Props = {
   control?: Control<GeneralFormFields, unknown>;
 };
 
-export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue }) => {
+export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue, errors }) => {
   const client = useGraphqlClient();
 
   const { data: { settingByName } = {} } = useSettingByNameQuery(
@@ -48,6 +52,8 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue }
 
   const addAlert = useAlertsStore((state) => state.addAlert);
 
+  const getError = getErrorMessage(errors);
+
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
       <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
@@ -57,12 +63,19 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue }
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <TextField
-                label={<Text>Title</Text>}
-                value={value}
+                error={getError("name")}
+                label={
+                  <RequiredLabelWrapper>
+                    <Text>Title</Text>
+                  </RequiredLabelWrapper>
+                }
+                value={value ?? ""}
                 variant='outlined'
                 id='name'
-                {...register("name")}
+                {...register("name", baseRequiredTextValidation)}
               />
+
+              <HelperText id='name' error={getError("name")} />
             </FormControl>
           )}
         />

@@ -8,7 +8,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { DatePicker } from "~/shared/components/DatePicker";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { NumberField } from "../NumberField";
 
 export interface GeneralFormFields {
@@ -45,7 +45,7 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
                 }
                 value={value}
                 error={!!getError("name")}
-                {...register("name", baseRequired)}
+                {...register("name", baseRequiredTextValidation)}
               />
 
               <HelperText id='name' error={getError("name")} />

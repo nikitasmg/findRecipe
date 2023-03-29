@@ -12,7 +12,7 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import {
-  baseRequired,
+  baseRequiredTextValidation,
   getBaseEmailValidation,
   getBasePasswordValidation
 } from "~/shared/lib/validation";
@@ -104,7 +104,7 @@ export const UsersDetailsForm: React.FC<Props> = ({ id }) => {
                     value={value}
                     id='name'
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", baseRequiredTextValidation)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

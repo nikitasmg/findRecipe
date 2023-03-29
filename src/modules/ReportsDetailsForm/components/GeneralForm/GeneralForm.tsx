@@ -9,7 +9,7 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { DatePicker } from "~/shared/components/DatePicker";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
 
 export type GeneralFormFields = {
@@ -50,7 +50,7 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
                 value={value}
                 variant='outlined'
                 error={!!getError("name")}
-                {...register("name", baseRequired)}
+                {...register("name", baseRequiredTextValidation)}
               />
 
               <HelperText id='name' error={getError("name")} />
@@ -76,7 +76,7 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
                   inputComponent: TextareaAutosize
                 }}
                 error={getError("description")}
-                {...register("description", baseRequired)}
+                {...register("description", baseRequiredTextValidation)}
               />
 
               <HelperText id='description' error={getError("description")} />

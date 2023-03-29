@@ -1,5 +1,6 @@
 import { Box, FormControl, Grid, MenuItem, TextField } from "@mui/material";
 import React from "react";
+import { DatePicker } from "@mui/x-date-pickers";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
@@ -7,8 +8,7 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { ContestsSelect } from "~/modules/ProjectsDetailsForm/components/ContestsSelect";
 import { useKnowledgeFieldsQuery } from "~/generated/graphql";
-import { baseRequired } from "~shared/lib/validation";
-import { DatePicker } from "@mui/x-date-pickers";
+import { baseRequiredTextValidation } from "~shared/lib/validation";
 
 type FormFields = {
   name?: string;
@@ -77,7 +77,7 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValu
                     variant='outlined'
                     id='name'
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", baseRequiredTextValidation)}
                   />
 
                   <HelperText id='name' error={getError("name")} />

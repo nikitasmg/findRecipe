@@ -12,7 +12,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { SaveButton } from "~/shared/components/SaveButton";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
@@ -100,7 +100,7 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id }) => {
                     }
                     value={value}
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", baseRequiredTextValidation)}
                   />
 
                   <HelperText id='name' error={getError("name")} />
