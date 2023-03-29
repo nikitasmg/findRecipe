@@ -118,8 +118,6 @@ export const DocumentsUpload: React.FC<Props> = ({
 
     const update = newFiles[newIndex];
 
-    console.log(newFiles);
-
     if (update.id && update) {
       onUpdate?.(update);
     }

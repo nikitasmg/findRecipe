@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, FormControl, FormControlLabel, Grid, Switch, TextField } from "@mui/material";
 import {
-  EmployeeInput,
+  PurchaseInput,
   useCreatePurchaseMutation,
   usePurchaseByIdQuery,
   useSettingByNameQuery,
@@ -23,11 +23,11 @@ import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
 import { baseRequired } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 
-interface IVacanciesDetailsForm {
+interface PurchasesDetailsFormProps {
   id?: number;
 }
 
-export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) => {
+export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -86,7 +86,7 @@ export const PurchasesDetailsForm: React.FC<IVacanciesDetailsForm> = ({ id }) =>
   );
 
   const onSubmit = handleSubmit((newValues) => {
-    const input: EmployeeInput = {
+    const input: PurchaseInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
       sort: newValues.sort ? Number(newValues.sort) : 0

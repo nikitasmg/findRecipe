@@ -16,7 +16,8 @@ import {
   PagesRoute,
   ReportsPageRoute,
   ActivityResultPageRoute,
-  BroadcastsPageRoute
+  BroadcastsPageRoute,
+  ClustersPageRoute
 } from "~shared/routes";
 
 const paths = [
@@ -39,10 +40,7 @@ const paths = [
         label: "Users",
         path: UsersPageRoute
       },
-      {
-        label: "Interactive map",
-        path: InteractiveMapFormRoute
-      },
+
       {
         label: "Contests",
         path: ContestPageRoute
@@ -54,10 +52,6 @@ const paths = [
       {
         label: "Documents",
         path: DocumentsPageRoute
-      },
-      {
-        label: "Video broadcasts",
-        path: BroadcastsPageRoute
       }
     ]
   },
@@ -87,6 +81,23 @@ const paths = [
       {
         label: "Activity results",
         path: ActivityResultPageRoute
+      }
+    ]
+  },
+  {
+    label: "STC in Surgut",
+    children: [
+      {
+        label: "Interactive map",
+        path: InteractiveMapFormRoute
+      },
+      {
+        label: "Clusters",
+        path: ClustersPageRoute
+      },
+      {
+        label: "Video broadcasts",
+        path: BroadcastsPageRoute
       }
     ]
   },

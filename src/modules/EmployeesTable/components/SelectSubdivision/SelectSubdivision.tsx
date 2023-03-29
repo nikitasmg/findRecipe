@@ -8,13 +8,13 @@ import { Text } from "~shared/components/Text";
 import { Subdivision, useUpdateEmployeeSubdivisionMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 
-interface ISelectSubdivision {
+interface SelectSubdivisionProps {
   employeeId: string;
   value: Subdivision;
   subdivisions: Subdivision[];
 }
 
-export const SelectSubdivision: React.FC<ISelectSubdivision> = ({
+export const SelectSubdivision: React.FC<SelectSubdivisionProps> = ({
   subdivisions,
   employeeId,
   value

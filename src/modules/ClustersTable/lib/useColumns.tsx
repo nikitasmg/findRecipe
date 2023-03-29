@@ -1,8 +1,7 @@
 import React from "react";
 import { TableHeadCell } from "~/shared/components/TableHeadLabel";
-import { SourceLink } from "~shared/components/SourceLink";
 import { Link } from "~/shared/components/Link";
-import { BroadcastsPageEdit } from "~/shared/routes";
+import { ClustersPageEdit } from "~/shared/routes";
 import { useSortProps } from "~/shared/hooks/useSortProps";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { Column } from "../types";
@@ -18,7 +17,7 @@ export const useColumns = (
       id: "name",
       label: (
         <TableHeadCell
-          title='Title'
+          title='Heading'
           cellId='name'
           onSortClick={getClickHandler("name")}
           sortProps={getActiveProps("name")}
@@ -28,36 +27,12 @@ export const useColumns = (
         return (
           <Link
             className='transition-all'
-            to={`${BroadcastsPageEdit.replace(":id", row.id as string)}`}
+            to={`${ClustersPageEdit.replace(":id", row.id as string)}`}
           >
             {value as string}
           </Link>
         );
       }
-    },
-
-    {
-      id: "url",
-      label: (
-        <TableHeadCell
-          title='Link'
-          cellId='url'
-          onSortClick={getClickHandler("url")}
-          sortProps={getActiveProps("url")}
-        />
-      ),
-      style: {
-        width: "50%",
-        minWidth: "300px",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        wordBreak: "break-all"
-      },
-      render: (value) => (
-        <SourceLink className='transition-all' to={value as string} target='_blank'>
-          {value as string}
-        </SourceLink>
-      )
     }
   ];
 };

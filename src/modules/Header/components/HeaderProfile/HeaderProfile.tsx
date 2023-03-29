@@ -9,6 +9,7 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { LoginPageRoute, SettingsPage } from "~shared/routes";
 import { Text } from "~shared/components/Text";
 import { Button } from "~/shared/components/Button";
+import { useAuthStore } from "~/shared/stores/auth";
 
 const links = [
   {
@@ -38,6 +39,8 @@ export const HeaderProfile: React.FC = () => {
 
   const { data, isLoading, isSuccess } = useMeQuery(client);
 
+  const unAuth = useAuthStore((state) => state.unAuth);
+
   const { mutateAsync: logout, isLoading: isLogoutLoading } = useLogoutMutation(client);
 
   const name = data?.me.name ?? "";
@@ -47,6 +50,7 @@ export const HeaderProfile: React.FC = () => {
   const isEmptyProfile = !name && isSuccess;
 
   const handleLogoutClick = () => {
+    unAuth();
     logout({});
     history(LoginPageRoute);
   };

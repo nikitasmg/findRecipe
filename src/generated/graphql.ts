@@ -1794,6 +1794,44 @@ export type DeleteVideoBroadcastMutationVariables = Exact<{
 
 export type DeleteVideoBroadcastMutation = { __typename?: 'Mutation', deleteVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number } | null };
 
+export type AllClustersFieldsFragment = { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any };
+
+export type ClusterByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ClusterByIdQuery = { __typename?: 'Query', clusterById?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any } | null };
+
+export type ClustersQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type ClustersQuery = { __typename?: 'Query', clusters: Array<{ __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any }> };
+
+export type CreateClusterMutationVariables = Exact<{
+  input: ClusterInput;
+}>;
+
+
+export type CreateClusterMutation = { __typename?: 'Mutation', createCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any } | null };
+
+export type UpdateClusterMutationVariables = Exact<{
+  input: ClusterInput;
+}>;
+
+
+export type UpdateClusterMutation = { __typename?: 'Mutation', upsertCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any } | null };
+
+export type DeleteClusterMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteClusterMutation = { __typename?: 'Mutation', deleteCluster?: { __typename?: 'Cluster', id: number } | null };
+
 export type AllContestFieldsFragment = { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type ContestByIdQueryVariables = Exact<{
@@ -2706,6 +2744,19 @@ export const AllVideoBroadcastsFieldsFragmentDoc = `
   url
 }
     `;
+export const AllClustersFieldsFragmentDoc = `
+    fragment allClustersFields on Cluster {
+  id
+  name
+  column_one_name
+  column_one_text
+  column_two_name
+  column_two_text
+  sort
+  created_at
+  updated_at
+}
+    `;
 export const AllContestFieldsFragmentDoc = `
     fragment allContestFields on Contest {
   id
@@ -3322,6 +3373,108 @@ export const useDeleteVideoBroadcastMutation = <
     useMutation<DeleteVideoBroadcastMutation, TError, DeleteVideoBroadcastMutationVariables, TContext>(
       ['deleteVideoBroadcast'],
       (variables?: DeleteVideoBroadcastMutationVariables) => fetcher<DeleteVideoBroadcastMutation, DeleteVideoBroadcastMutationVariables>(client, DeleteVideoBroadcastDocument, variables, headers)(),
+      options
+    );
+export const ClusterByIdDocument = `
+    query clusterById($id: Int!) {
+  clusterById(id: $id) {
+    ...allClustersFields
+  }
+}
+    ${AllClustersFieldsFragmentDoc}`;
+export const useClusterByIdQuery = <
+      TData = ClusterByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: ClusterByIdQueryVariables,
+      options?: UseQueryOptions<ClusterByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ClusterByIdQuery, TError, TData>(
+      ['clusterById', variables],
+      fetcher<ClusterByIdQuery, ClusterByIdQueryVariables>(client, ClusterByIdDocument, variables, headers),
+      options
+    );
+export const ClustersDocument = `
+    query clusters($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  clusters(orderBy: $orderBy, filter: $filter) {
+    ...allClustersFields
+  }
+}
+    ${AllClustersFieldsFragmentDoc}`;
+export const useClustersQuery = <
+      TData = ClustersQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ClustersQueryVariables,
+      options?: UseQueryOptions<ClustersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ClustersQuery, TError, TData>(
+      variables === undefined ? ['clusters'] : ['clusters', variables],
+      fetcher<ClustersQuery, ClustersQueryVariables>(client, ClustersDocument, variables, headers),
+      options
+    );
+export const CreateClusterDocument = `
+    mutation createCluster($input: ClusterInput!) {
+  createCluster: upsertCluster(input: $input) {
+    ...allClustersFields
+  }
+}
+    ${AllClustersFieldsFragmentDoc}`;
+export const useCreateClusterMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateClusterMutation, TError, CreateClusterMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateClusterMutation, TError, CreateClusterMutationVariables, TContext>(
+      ['createCluster'],
+      (variables?: CreateClusterMutationVariables) => fetcher<CreateClusterMutation, CreateClusterMutationVariables>(client, CreateClusterDocument, variables, headers)(),
+      options
+    );
+export const UpdateClusterDocument = `
+    mutation updateCluster($input: ClusterInput!) {
+  upsertCluster(input: $input) {
+    ...allClustersFields
+  }
+}
+    ${AllClustersFieldsFragmentDoc}`;
+export const useUpdateClusterMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateClusterMutation, TError, UpdateClusterMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateClusterMutation, TError, UpdateClusterMutationVariables, TContext>(
+      ['updateCluster'],
+      (variables?: UpdateClusterMutationVariables) => fetcher<UpdateClusterMutation, UpdateClusterMutationVariables>(client, UpdateClusterDocument, variables, headers)(),
+      options
+    );
+export const DeleteClusterDocument = `
+    mutation deleteCluster($id: Int!) {
+  deleteCluster(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteClusterMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteClusterMutation, TError, DeleteClusterMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteClusterMutation, TError, DeleteClusterMutationVariables, TContext>(
+      ['deleteCluster'],
+      (variables?: DeleteClusterMutationVariables) => fetcher<DeleteClusterMutation, DeleteClusterMutationVariables>(client, DeleteClusterDocument, variables, headers)(),
       options
     );
 export const ContestByIdDocument = `

@@ -32,8 +32,6 @@ export const DocumentsForm: React.FC<Props> = ({ register, control, setValue, ge
 
     setValue(`localDocuments.${index}`, value);
 
-    console.log(initial, getValues("documents"));
-
     if (initial) {
       setValue("deleteDocuments", (getValues("deleteDocuments") ?? []).concat(initial?.id));
     }
