@@ -1,0 +1,1200 @@
+type Query {
+  me: User!
+  newsById(id: Int!): News
+  newsBySlug(slug: String!): News
+  newsCategoryById(id: Int!): NewsCategory
+  newsCategories(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [NewsCategory!]!
+  newsTagById(id: Int!): NewsTag
+  newsTags(orderBy: [OrderByClause!], filter: [FilterByClause!]): [NewsTag!]!
+  eventById(id: Int!): Event
+  partnerById(id: Int!): Partner
+  partners(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Partner!]!
+  organizerById(id: Int!): Organizer
+  organizers(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [Organizer!]!
+  vacancyById(id: Int!): Vacancy
+  vacancies(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Vacancy!]!
+  userById(id: Int!): User
+  userByEmail(email: String!): User
+  settingById(id: Int!): Setting
+  settingByName(name: String!): Setting
+  settings(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Setting!]!
+  pageById(id: Int!): Page
+  pageBySlug(slug: String!): Page
+  pages(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Page!]!
+  employeeById(id: Int!): Employee
+  employees(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Employee!]!
+  subdivisionById(id: Int!): Subdivision
+  subdivisions(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [Subdivision!]!
+  logById(id: Int!): Log
+  staffControlById(id: Int!): StaffControl
+  staffControls(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [StaffControl!]!
+  purchaseById(id: Int!): Purchase
+  purchases(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Purchase!]!
+  contestById(id: Int!): Contest
+  projectById(id: Int!): Project
+  projectBySlug(slug: String!): Project
+  knowledgeFieldById(id: Int!): KnowledgeField
+  knowledgeFields(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [KnowledgeField!]!
+  linkedDocumentById(id: Int!): LinkedDocument
+  linkedDocuments(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [LinkedDocument!]!
+  reportById(id: Int!): Report
+  reports(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Report!]!
+  documentGroupById(id: Int!): DocumentGroup
+  documentGroups(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [DocumentGroup!]!
+  activityResultById(id: Int!): ActivityResult
+  activityResults(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [ActivityResult!]!
+  search(query: String!, limit: Int): SearchResult!
+  mapObjectById(id: Int!): MapObject
+  mapObjects(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [MapObject!]!
+  clusterById(id: Int!): Cluster
+  clusters(orderBy: [OrderByClause!], filter: [FilterByClause!]): [Cluster!]!
+  videoBroadcastById(id: Int!): VideoBroadcast
+  videoBroadcasts(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+  ): [VideoBroadcast!]!
+  news(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+
+    # Limits number of fetched items.
+    first: Int = 30
+
+    # The offset from which items are returned.
+    page: Int
+  ): NewsPaginator
+  events(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+
+    # Limits number of fetched items.
+    first: Int = 30
+
+    # The offset from which items are returned.
+    page: Int
+  ): EventPaginator
+  users(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+
+    # Limits number of fetched items.
+    first: Int = 30
+
+    # The offset from which items are returned.
+    page: Int
+  ): UserPaginator
+  logs(
+    filter: [FilterByClause!]
+    orderBy: [OrderByClause!]
+
+    # Limits number of fetched items.
+    first: Int = 30
+
+    # The offset from which items are returned.
+    page: Int
+  ): LogPaginator
+  contests(
+    orderBy: [OrderByClause!]
+    filter: [FilterByClause!]
+    status: ContestStatus
+
+    # Limits number of fetched items.
+    first: Int = 30
+
+    # The offset from which items are returned.
+    page: Int
+  ): ContestPaginator
+  projects(
+    orderBy: [QueryProjectsOrderByRelationOrderByClause!]
+    filter: [FilterByClause!]
+
+    # Limits number of fetched items.
+    first: Int = 30
+
+    # The offset from which items are returned.
+    page: Int
+  ): ProjectPaginator
+}
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  email_verified_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+# Временной формат стандарта UTC: YYYY-MM-DDTHH:mm:ss.SSSSSSZ
+scalar DateTime
+
+type News {
+  id: Int!
+  category_id: Int
+  name: String!
+  name_en: String
+  slug: String!
+  description: String
+  description_en: String
+  content: String
+  content_en: String
+  on_index: Boolean
+  source: String
+  source_name: String
+  source_name_en: String
+  published: Boolean
+  published_at: DateTime
+  category: NewsCategory
+  tags: [NewsTag]
+  imageUrl: String
+  image: Image
+  gallery: [GalleryImage]
+  imageThumbs: [ImageThumbs]
+  galleryThumbs: [ImageThumbs]
+  meta: Meta
+  seo: Seo
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type NewsCategory {
+  id: Int!
+  sort: Int!
+  name: String!
+  name_en: String
+}
+
+type NewsTag {
+  id: Int!
+  sort: Int!
+  name: String!
+  name_en: String
+}
+
+# адрес изображения (оригинал), для адаптивных изображений необходимо заменить разрешение на webp и
+# использовать для различных разрешений испроьзовать суффикс у имени файла:
+# url - http://.../file_name.png
+# thumb - http://.../file_name-thumb.webp
+#
+# получить список гененрируемых разрешений, запросом у родительско сущности поля imageThumbs
+type Image {
+  id: Int!
+  url: String
+}
+
+type GalleryImage {
+  id: Int!
+  url: String
+  alt: String
+  sort: Int
+}
+
+type ImageThumbs {
+  name: String
+  method: String
+  width: Int
+  height: Int
+}
+
+type Meta {
+  title: String!
+  description: String!
+  auto_title: String!
+  auto_description: String!
+}
+
+type Seo {
+  id: Int!
+  title: String
+  description: String
+}
+
+# Allows ordering a list of records.
+input OrderByClause {
+  # The column that is used for ordering.
+  column: String!
+
+  # The direction that is used for ordering.
+  order: SortOrder!
+}
+
+# Directions for ordering a list of records.
+enum SortOrder {
+  # Sort records in ascending order.
+  ASC
+
+  # Sort records in descending order.
+  DESC
+}
+
+input FilterByClause {
+  column: String!
+  value: String
+}
+
+type Event {
+  id: Int!
+  name: String!
+  description: String
+  start: DateTime
+  end: DateTime
+  place: String
+  published: Boolean
+  imageUrl: String
+  image: Image
+  partners: [Partner]
+  organizers: [Organizer]
+  documents: [Document]
+  linked_documents: [LinkedDocument]
+  imageThumbs: [ImageThumbs]
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Partner {
+  id: Int!
+  name: String!
+  imageUrl: String
+  image: Image
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Organizer {
+  id: Int!
+  name: String!
+  imageUrl: String
+  image: Image
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Document {
+  id: Int!
+  url: String
+
+  # Имя файла заданное пользователем
+  user_name: String
+  sort: Int
+}
+
+type LinkedDocument {
+  id: Int!
+  url: String!
+  user_name: String
+  sort: Int
+  published: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Vacancy {
+  id: Int!
+  name: String!
+  description: String
+  sort: Int!
+  published: Boolean!
+}
+
+type Setting {
+  id: Int!
+  name: String!
+  value: String
+}
+
+type Page {
+  id: Int!
+  name: String!
+  slug: String!
+  sort: Int!
+  description: String
+  params: JSON
+  imageUrl: String
+  image: Image
+  parent_id: Int
+  parent: Page
+  children: [Page]
+  documents: [Document]
+  linked_documents: [LinkedDocument]
+  gallery: [GalleryImage]
+  meta: Meta
+  seo: Seo
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+scalar JSON
+
+type Employee {
+  id: Int!
+  name: String!
+  email: String!
+  position: String
+  additional: String
+  sort: Int!
+  subdivision: Subdivision
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Subdivision {
+  id: Int!
+  name: String!
+  sort: Int!
+}
+
+type Log {
+  id: Int!
+  log_name: String
+  description: String
+  subject_id: Int
+  subject_type: String
+  event: String
+  logProperties: LogProperties
+  causer: User
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type LogProperties {
+  attributes: JSON
+  old: JSON
+}
+
+# Сотрудники органов управления и контроля
+# Выводятся на страницах раздела Органы управления и контроля
+#
+# https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=37%3A1395&t=U0C6Mrr376j97Jtf-1
+type StaffControl {
+  id: Int!
+  name: String!
+  description: String
+  sort: Int!
+  page_id: Int
+  page: Page!
+  image: Image
+  imageUrl: String
+  imageThumbs: ImageThumbs
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+# Закупки. Выводятся на соответствующей странице
+#
+# https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=39%3A1842&t=XUMjF8DKdEord54I-0
+type Purchase {
+  id: Int!
+  name: String!
+  description: String
+  url: String
+  sort: Int!
+  published: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+# Конкурсы. Базовая сущность, на основе которой создается проект
+#
+# https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=22%3A392&t=jQzNk4jyD9g3QDdg-0
+type Contest {
+  id: Int!
+  name: String!
+  number: Int
+  status: ContestStatus
+  deadline: DateTime
+  date: Date
+  documents: [Document]
+  linked_documents: [LinkedDocument]
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+enum ContestStatus {
+  ACCEPTANCE
+  EXPERTISE
+  COMPLETED
+}
+
+# Временной формат YYYY-MM-DD
+scalar Date
+
+# https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=0%3A1&t=nnLdQLBhEJ10FXQM-0
+type Project {
+  id: Int!
+
+  # Область знаний
+  knowledge_field_id: Int
+  knowledge_field: KnowledgeField
+
+  # Конкурс
+  contest_id: Int
+  contest: Contest
+  name: String!
+  slug: String!
+
+  # Номер
+  number: String!
+
+  # Код ГРНТИ
+  grnti_number: String
+
+  # Статус
+  status_text: String
+
+  # Срок выполнения
+  deadline: String
+
+  # Руководитель
+  leader: String
+
+  # Звание руководителя
+  leader_rank: String
+
+  # Организация финансирования, регион
+  organization: String
+
+  # Аннотация проекта
+  annotation: String
+
+  # Планируемые результаты
+  plan_results: String
+
+  # Аннотация полученных итоговых результатов
+  result_annotation: String
+
+  # Список публикаций по результатам проекта
+  publications: String
+
+  # Возможность практического использования результатов
+  result_usage: String
+
+  # Год проекта
+  year: Int
+  meta: Meta
+  seo: Seo
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+# Области знаний. Применяются для фильтрации проектов
+#
+# https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=22%3A600&t=nnLdQLBhEJ10FXQM-0
+type KnowledgeField {
+  id: Int
+  name: String!
+  sort: Int!
+}
+
+type Report {
+  id: Int!
+  name: String!
+  description: String
+  sort: Int!
+  image: Image
+  imageUrl: String
+  imageThumbs: ImageThumbs
+  linked_documents: [LinkedDocument]
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type DocumentGroup {
+  id: Int!
+  name: String!
+  sort: Int!
+  linked_documents: [LinkedDocument]
+}
+
+type ActivityResult {
+  id: Int!
+  name: String!
+  result: Float!
+  measure_unit: String!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type SearchResult {
+  contests: [Contest]!
+  events: [Event]!
+  news: [News]!
+  organizers: [Organizer]!
+  partners: [Partner]!
+  projects: [Project]!
+  purchases: [Purchase]!
+  reports: [Report]!
+  vacancies: [Vacancy]!
+}
+
+type MapObject {
+  id: Int!
+  name: String!
+  characteristics: String
+  area: Float
+  gross_boma_area: Float
+  floors: String
+  learn_more: String
+  linked_documents: [LinkedDocument]
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Cluster {
+  id: Int!
+  name: String!
+  column_one_name: String!
+  column_one_text: String!
+  column_two_name: String!
+  column_two_text: String!
+  sort: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type VideoBroadcast {
+  id: Int!
+  name: String!
+  sort: Int!
+  url: String
+}
+
+# A paginated list of News items.
+type NewsPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of News items.
+  data: [News!]!
+}
+
+# Information about pagination using a fully featured paginator.
+type PaginatorInfo {
+  # Number of items in the current page.
+  count: Int!
+
+  # Index of the current page.
+  currentPage: Int!
+
+  # Index of the first item in the current page.
+  firstItem: Int
+
+  # Are there more pages after this one?
+  hasMorePages: Boolean!
+
+  # Index of the last item in the current page.
+  lastItem: Int
+
+  # Index of the last available page.
+  lastPage: Int!
+
+  # Number of items per page.
+  perPage: Int!
+
+  # Number of total available items.
+  total: Int!
+}
+
+# A paginated list of Event items.
+type EventPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Event items.
+  data: [Event!]!
+}
+
+# A paginated list of User items.
+type UserPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of User items.
+  data: [User!]!
+}
+
+# A paginated list of Log items.
+type LogPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Log items.
+  data: [Log!]!
+}
+
+# A paginated list of Contest items.
+type ContestPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Contest items.
+  data: [Contest!]!
+}
+
+# Order by clause for Query.projects.orderBy.
+input QueryProjectsOrderByRelationOrderByClause {
+  # The column that is used for ordering.
+  column: String
+
+  # The direction that is used for ordering.
+  order: SortOrder!
+
+  # Aggregate specification.
+  contest: QueryProjectsOrderByContest
+}
+
+# Aggregate specification for Query.projects.orderBy.contest.
+input QueryProjectsOrderByContest {
+  # The aggregate function to apply to the column.
+  aggregate: OrderByRelationWithColumnAggregateFunction!
+
+  # Name of the column to use.
+  column: QueryProjectsOrderByContestColumn
+}
+
+# Aggregate functions when ordering by a relation that may specify a column.
+enum OrderByRelationWithColumnAggregateFunction {
+  # Average.
+  AVG
+
+  # Minimum.
+  MIN
+
+  # Maximum.
+  MAX
+
+  # Sum.
+  SUM
+
+  # Amount of items.
+  COUNT
+}
+
+# Allowed column names for Query.projects.orderBy.
+enum QueryProjectsOrderByContestColumn {
+  NAME
+}
+
+# A paginated list of Project items.
+type ProjectPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Project items.
+  data: [Project!]!
+}
+
+type Mutation {
+  login(email: String!, password: String!): String!
+  logout: User
+  requestPasswordReset(email: String!): String!
+  resetPassword(email: String!, password: String!, token: String!): String!
+  upload(file: Upload!): String
+  sendEmail(
+    email: String!
+    name: String!
+    subject: String!
+    message: String!
+  ): String!
+  upsertNews(input: NewsInput!): News
+  deleteNews(id: Int!): News
+  upsertNewsCategory(input: NewsCategoryInput!): NewsCategory
+  deleteNewsCategory(id: Int!): NewsCategory
+  upsertNewsTag(input: NewsTagInput!): NewsTag
+  deleteNewsTag(id: Int!): NewsTag
+  upsertEvent(input: EventInput!): Event
+  deleteEvent(id: Int!): Event
+  upsertPartner(input: PartnerInput!): Partner
+  deletePartner(id: Int!): Partner
+  upsertOrganizer(input: OrganizerInput!): Organizer
+  deleteOrganizer(id: Int!): Organizer
+  upsertVacancy(input: VacancyInput!): Vacancy
+  deleteVacancy(id: Int!): Vacancy
+  sendResume(name: String!, email: String!, files: [Upload!]!): Boolean!
+  upsertUser(input: UserInput!): User
+
+  # Нельзя удалить суперпользователя, ID=1
+  deleteUser(id: Int!): User
+  upsertSetting(input: SettingInput!): Setting
+  deleteSetting(id: Int!): Setting
+  upsertPage(input: PageInput!): Page
+  deletePage(id: Int!): Page
+  upsertEmployee(input: EmployeeInput!): Employee
+  deleteEmployee(id: Int!): Employee
+  upsertSubdivision(input: SubdivisionInput!): Subdivision
+  deleteSubdivision(id: Int!): Subdivision
+  upsertStaffControl(input: StaffControlInput!): StaffControl
+  deleteStaffControl(id: Int!): StaffControl
+  upsertPurchase(input: PurchaseInput!): Purchase
+  deletePurchase(id: Int!): Purchase
+  upsertContest(input: ContestInput!): Contest
+  deleteContest(id: Int!): Contest
+  upsertProject(input: ProjectInput!): Project
+  deleteProject(id: Int!): Project
+  upsertKnowledgeField(input: KnowledgeFieldInput!): KnowledgeField
+  deleteKnowledgeField(id: Int!): KnowledgeField
+  upsertLinkedDocument(input: LinkedDocumentInput!): LinkedDocument
+  deleteLinkedDocument(id: Int!): LinkedDocument
+  upsertReport(input: ReportInput!): Report
+  deleteReport(id: Int!): Report
+  upsertDocumentGroup(input: DocumentGroupInput!): DocumentGroup
+  deleteDocumentGroup(id: Int!): DocumentGroup
+  upsertActivityResult(input: ActivityResultInput!): ActivityResult
+  deleteActivityResult(id: Int!): ActivityResult
+  upsertMapObject(input: MapObjectInput!): MapObject
+  deleteMapObject(id: Int!): MapObject
+  upsertCluster(input: ClusterInput!): Cluster
+  deleteCluster(id: Int!): Cluster
+  upsertVideoBroadcast(input: VideoBroadcastInput!): VideoBroadcast
+  deleteVideoBroadcast(id: Int!): VideoBroadcast
+}
+
+# Загрузка файлов, подробнее: https://github.com/jaydenseric/graphql-multipart-request-spec
+scalar Upload
+
+input NewsInput {
+  id: Int
+  name: String
+  name_en: String
+  slug: String
+  content: String
+  content_en: String
+  description: String
+  description_en: String
+  on_index: Boolean
+  source: String
+  source_name: String
+  source_name_en: String
+  published: Boolean
+  published_at: DateTime
+  uploadImage: Upload
+  deleteImage: Boolean
+  uploadGalleryImages: [UploadGalleryInput]
+  deleteGalleryImages: [Int]
+  updateGallery: [UpdateGalleryInput]
+  category: CategoryBelongsTo
+  tags: TagBelongsToMany
+  seo: SeoBelongsTo
+}
+
+input UploadGalleryInput {
+  upload: Upload!
+  alt: String
+  sort: Int
+}
+
+input UpdateGalleryInput {
+  id: Int!
+  sort: Int
+  alt: String
+}
+
+input CategoryBelongsTo {
+  connect: Int
+  disconnect: Boolean
+  create: NewsCategoryInput
+}
+
+input NewsCategoryInput {
+  id: Int
+  sort: Int
+  name: String
+  name_en: String
+}
+
+input TagBelongsToMany {
+  connect: [Int]
+  disconnect: [Int]
+  create: [NewsTagInput]
+}
+
+input NewsTagInput {
+  id: Int
+  sort: Int
+  name: String
+  name_en: String
+}
+
+input SeoBelongsTo {
+  upsert: SeoInput
+}
+
+input SeoInput {
+  id: Int
+  title: String
+  description: String
+}
+
+input EventInput {
+  id: Int
+  name: String
+  description: String
+  start: DateTime
+  end: DateTime
+  place: String
+  published: Boolean
+  uploadImage: Upload
+  deleteImage: Boolean
+  partners: PartnerBelongsToMany
+  organizers: OrganizerBelongsToMany
+  uploadDocuments: [UploadDocumentInput]
+  updateDocuments: [UpdateDocumentInput]
+  deleteDocuments: [Int]
+  linked_documents: LinkedDocumentMorphedByMany
+}
+
+input PartnerBelongsToMany {
+  connect: [Int]
+  disconnect: [Int]
+  create: [PartnerInput]
+}
+
+input PartnerInput {
+  id: Int
+  name: String
+  uploadImage: Upload
+  deleteImage: Boolean
+}
+
+input OrganizerBelongsToMany {
+  connect: [Int]
+  disconnect: [Int]
+  create: [OrganizerInput]
+}
+
+input OrganizerInput {
+  id: Int
+  name: String
+  uploadImage: Upload
+  deleteImage: Boolean
+}
+
+input UploadDocumentInput {
+  upload: Upload!
+  sort: Int
+
+  # Имя файла заданное пользователем
+  user_name: String
+}
+
+input UpdateDocumentInput {
+  id: Int!
+  sort: Int
+
+  # Имя файла заданное пользователем
+  user_name: String
+}
+
+input LinkedDocumentMorphedByMany {
+  connect: [ID]
+  disconnect: [ID]
+  syncWithoutDetaching: [LikedDocumentPivotInput]
+}
+
+input LikedDocumentPivotInput {
+  id: Int!
+  sort: Int
+}
+
+input VacancyInput {
+  id: Int
+  name: String
+  description: String
+  sort: Int
+  published: Boolean
+}
+
+input UserInput {
+  id: Int
+  name: String
+  email: String
+  password: String
+}
+
+input SettingInput {
+  id: Int
+  name: String
+  value: String
+}
+
+input PageInput {
+  id: Int
+  name: String
+  slug: String
+  sort: Int
+  description: String
+  params: JSON
+  uploadImage: Upload
+  deleteImage: Boolean
+  uploadGalleryImages: [UploadGalleryInput]
+  updateGallery: [UpdateGalleryInput]
+  deleteGalleryImages: [Int]
+  uploadDocuments: [UploadDocumentInput]
+  updateDocuments: [UpdateDocumentInput]
+  deleteDocuments: [Int]
+  parent_id: Int
+  parent: PageParentBelongsTo
+  linked_documents: LinkedDocumentMorphedByMany
+  seo: SeoBelongsTo
+}
+
+input PageParentBelongsTo {
+  connect: Int
+  disconnect: Boolean
+}
+
+input EmployeeInput {
+  id: Int
+  name: String
+  email: String
+  position: String
+  additional: String
+  sort: Int
+  subdivision: SubdivisionBelongsTo
+}
+
+input SubdivisionBelongsTo {
+  connect: Int
+  disconnect: Boolean
+  create: SubdivisionInput
+}
+
+input SubdivisionInput {
+  id: Int
+  name: String
+  sort: Int
+}
+
+input StaffControlInput {
+  id: Int
+  name: String
+  description: String
+  sort: Int
+  page_id: Int
+  page: PageBelongsTo
+  uploadImage: Upload
+  deleteImage: Boolean
+}
+
+input PageBelongsTo {
+  connect: Int
+  disconnect: Boolean
+}
+
+input PurchaseInput {
+  id: Int
+  name: String
+  description: String
+  url: String
+  sort: Int
+  published: Boolean
+}
+
+input ContestInput {
+  id: Int
+  name: String
+  number: Int
+  status: ContestStatus
+  deadline: DateTime
+  date: Date
+  uploadDocuments: [UploadDocumentInput]
+  updateDocuments: [UpdateDocumentInput]
+  deleteDocuments: [ID]
+  linked_documents: LinkedDocumentMorphedByMany
+}
+
+input ProjectInput {
+  id: Int
+  knowledge_field_id: Int
+  knowledge_field: KnowledgeFieldBelongsTo
+  contest_id: Int
+  contest: ContestBelongsTo
+  name: String
+  slug: String
+  number: String
+  grnti_number: String
+  status_text: String
+  deadline: String
+  leader: String
+  leader_rank: String
+  organization: String
+  annotation: String
+  plan_results: String
+  result_annotation: String
+  publications: String
+  result_usage: String
+  year: Int
+  seo: SeoBelongsTo
+}
+
+input KnowledgeFieldBelongsTo {
+  connect: Int
+  disconnect: Boolean
+  create: KnowledgeFieldInput
+}
+
+input KnowledgeFieldInput {
+  id: Int
+  name: String
+  sort: Int
+}
+
+input ContestBelongsTo {
+  connect: Int
+  disconnect: Boolean
+}
+
+input LinkedDocumentInput {
+  id: Int
+  upload: Upload
+
+  # Имя файла заданное пользователем
+  user_name: String
+  published: Boolean
+}
+
+input ReportInput {
+  id: Int
+  name: String
+  description: String
+  sort: Int
+  uploadImage: Upload
+  deleteImage: Boolean
+  linked_documents: LinkedDocumentMorphedByMany
+}
+
+input DocumentGroupInput {
+  id: Int
+  name: String
+  sort: Int
+  linked_documents: LinkedDocumentMorphedByMany
+}
+
+input ActivityResultInput {
+  id: Int
+  name: String
+  result: Float
+  measure_unit: String
+  sort: Int
+}
+
+input MapObjectInput {
+  id: Int
+  name: String
+  characteristics: String
+  area: Float
+  gross_boma_area: Float
+  floors: String
+  learn_more: String
+  linked_documents: LinkedDocumentMorphedByMany
+}
+
+input ClusterInput {
+  id: Int
+  name: String
+  column_one_name: String
+  column_one_text: String
+  column_two_name: String
+  column_two_text: String
+  sort: Int
+}
+
+input VideoBroadcastInput {
+  id: Int
+  name: String
+  sort: Int
+  url: String
+}
+
+# Aggregate functions when ordering by a relation without specifying a column.
+enum OrderByRelationAggregateFunction {
+  # Amount of items.
+  COUNT
+}
+
+# Information about pagination using a simple paginator.
+type SimplePaginatorInfo {
+  # Number of items in the current page.
+  count: Int!
+
+  # Index of the current page.
+  currentPage: Int!
+
+  # Index of the first item in the current page.
+  firstItem: Int
+
+  # Index of the last item in the current page.
+  lastItem: Int
+
+  # Number of items per page.
+  perPage: Int!
+
+  # Are there more pages after this one?
+  hasMorePages: Boolean!
+}
+
+# Information about pagination using a Relay style cursor connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # The cursor to continue paginating backwards.
+  startCursor: String
+
+  # The cursor to continue paginating forwards.
+  endCursor: String
+
+  # Total number of nodes in the paginated connection.
+  total: Int!
+
+  # Number of nodes in the current page.
+  count: Int!
+
+  # Index of the current page.
+  currentPage: Int!
+
+  # Index of the last available page.
+  lastPage: Int!
+}
+
+# Specify if you want to include or exclude trashed results from a query.
+enum Trashed {
+  # Only return trashed results.
+  ONLY
+
+  # Return both trashed and non-trashed results.
+  WITH
+
+  # Only return non-trashed results.
+  WITHOUT
+}
