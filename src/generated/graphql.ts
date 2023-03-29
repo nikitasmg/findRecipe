@@ -2254,15 +2254,6 @@ export type AllNewsQueryVariables = Exact<{
   filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
 }>;
 
-
-export type AllNewsQuery = { __typename?: 'Query', allNewsIds?: { __typename?: 'NewsPaginator', data: Array<{ __typename?: 'News', id: number }> } | null };
-
-export type AllNewsQueryVariables = Exact<{
-  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
-  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
-}>;
-
-
 export type AllNewsQuery = { __typename?: 'Query', allNewsIds?: { __typename?: 'NewsPaginator', data: Array<{ __typename?: 'News', id: number }> } | null };
 
 export type UpdateOnIndexMutationVariables = Exact<{
