@@ -24,6 +24,7 @@ export type Compilations = {
   title: string;
   heading: string;
   whereUseLink: { title: string; href: string };
+  langExist?: boolean;
 };
 
 const compilations: Compilations[] = [
@@ -31,13 +32,15 @@ const compilations: Compilations[] = [
     id: 1,
     title: "news_categories",
     heading: "News categories",
-    whereUseLink: { title: "News", href: NewsPageRoute }
+    whereUseLink: { title: "News", href: NewsPageRoute },
+    langExist: true
   },
   {
     id: 2,
     title: "news_tags",
     heading: "News tags",
-    whereUseLink: { title: "News", href: NewsPageRoute }
+    whereUseLink: { title: "News", href: NewsPageRoute },
+    langExist: true
   },
   {
     id: 3,

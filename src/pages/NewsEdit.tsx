@@ -9,9 +9,12 @@ import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { NewsPageRoute } from "~/shared/routes/index";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const NewsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const isEdit = Number.isInteger(Number(id));
 
@@ -38,8 +41,9 @@ export const NewsEdit: React.FC = () => {
               title={isEdit ? "News editing" : "News creating"}
               backHref={NewsPageRoute}
               onRemove={isEdit ? handleDelete : undefined}
+              onLangChange={setLang}
             />
-            <NewsDetailsForm id={Number(id)} />
+            <NewsDetailsForm id={Number(id)} lang={lang} />
           </Box>
         </Box>
       </Panel>

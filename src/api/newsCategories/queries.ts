@@ -5,6 +5,7 @@ export const NewsCategoriesFragment = gql`
     id
     sort
     name
+    name_en
   }
 `;
 
@@ -31,8 +32,8 @@ export const NewsCategories = gql`
 export const CreateNewsCategory = gql`
   ${NewsCategoriesFragment}
 
-  mutation createNewsCategory($sort: Int!, $name: String!) {
-    createNewsCategory: upsertNewsCategory(input: { sort: $sort, name: $name }) {
+  mutation createNewsCategory($sort: Int!, $name: String!, $name_en: String) {
+    createNewsCategory: upsertNewsCategory(input: { sort: $sort, name: $name, name_en: $name_en }) {
       ...allNewsCategoriesFields
     }
   }
@@ -41,8 +42,8 @@ export const CreateNewsCategory = gql`
 export const UpdateNewsCategory = gql`
   ${NewsCategoriesFragment}
 
-  mutation updateNewsCategory($id: Int!, $sort: Int!, $name: String!) {
-    upsertNewsCategory(input: { id: $id, sort: $sort, name: $name }) {
+  mutation updateNewsCategory($id: Int!, $sort: Int!, $name: String!, $name_en: String) {
+    upsertNewsCategory(input: { id: $id, sort: $sort, name: $name, name_en: $name_en }) {
       ...allNewsCategoriesFields
     }
   }

@@ -4,12 +4,16 @@ export const NewsFragment = gql`
   fragment allNewsFields on News {
     id
     name
+    name_en
     slug
     content
+    content_en
     description
+    description_en
     imageUrl
     source
     source_name
+    source_name_en
     published
     image {
       id
@@ -24,11 +28,13 @@ export const NewsFragment = gql`
     category {
       id
       name
+      name_en
       sort
     }
     tags {
       id
       name
+      name_en
       sort
     }
     seo {

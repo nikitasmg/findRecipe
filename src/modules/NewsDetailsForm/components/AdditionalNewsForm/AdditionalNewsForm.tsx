@@ -23,6 +23,8 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~shared/lib/validation";
+import { Languages } from "~/shared/types/Languages";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 
 type FormFields = {
   source?: string;
@@ -33,6 +35,7 @@ type FormFields = {
   tags?: string[];
   on_index?: boolean;
   gallery?: GalleryImage;
+  source_name_en?: string;
 };
 
 type Props = {
@@ -40,10 +43,17 @@ type Props = {
   errors: FieldErrors<FormFields>;
   setValue: (name: string, value: unknown) => void;
   setError: UseFormSetError<FieldErrors>;
+  lang: Languages;
   control?: Control<FormFields, unknown>;
 };
 
-export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue, control }) => {
+export const AdditionalNewsForm: React.FC<Props> = ({
+  register,
+  errors,
+  setValue,
+  control,
+  lang
+}) => {
   const client = useGraphqlClient();
 
   const { data: categories } = useNewsCategoriesQuery(client, {}, { refetchOnMount: "always" });
@@ -54,21 +64,45 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
 
   const handleChecked = getCheckedHandler(setValue);
 
+  const isRuLang = lang === "ru";
+
   return (
     <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
-      <Controller
-        control={control}
-        name='source_name'
-        render={({ field: { value } }) => (
-          <TextField
-            label={<Text>Source title</Text>}
-            value={value ?? ""}
-            variant='outlined'
-            id='source_name'
-            {...register("source_name")}
-          />
-        )}
-      />
+      {isRuLang && (
+        <Controller
+          control={control}
+          name='source_name'
+          render={({ field: { value } }) => (
+            <TextField
+              label={<Text>Source title</Text>}
+              value={value ?? ""}
+              variant='outlined'
+              id='source_name'
+              {...register("source_name")}
+            />
+          )}
+        />
+      )}
+
+      {!isRuLang && (
+        <Controller
+          control={control}
+          name='source_name_en'
+          render={({ field: { value } }) => (
+            <TextField
+              label={
+                <EnLabelWrapper>
+                  <Text>Source title</Text>
+                </EnLabelWrapper>
+              }
+              value={value ?? ""}
+              variant='outlined'
+              id='source_name_en'
+              {...register("source_name_en")}
+            />
+          )}
+        />
+      )}
 
       <Controller
         control={control}
@@ -139,7 +173,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
               </MenuItem>
               {categories?.newsCategories.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
-                  {category.name}
+                  {isRuLang ? category.name : category.name_en}
                 </MenuItem>
               ))}
             </TextField>
@@ -168,7 +202,7 @@ export const AdditionalNewsForm: React.FC<Props> = ({ register, errors, setValue
             >
               {tags?.newsTags.map((tag) => (
                 <MenuItem key={tag.id} value={tag.id}>
-                  #{tag.name}
+                  #{isRuLang ? tag.name : tag.name_en}
                 </MenuItem>
               ))}
             </TextField>

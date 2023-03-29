@@ -9,15 +9,20 @@ import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { baseRequired } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
+import { Languages } from "~/shared/types/Languages";
 
 type FormFields = {
   name?: string;
+  name_en?: string;
   description?: string;
+  description_en?: string;
   content?: string;
+  content_en?: string;
   imageUrl?: string;
 };
 
@@ -25,10 +30,11 @@ type Props = {
   register: UseFormRegister<Partial<FormFields>>;
   errors: FieldErrors<FormFields>;
   setValue: (name: string, value: unknown) => void;
+  lang: Languages;
   control?: Control<FormFields, unknown>;
 };
 
-export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, control }) => {
+export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, control, lang }) => {
   const getError = getErrorMessage(errors);
 
   const client = useGraphqlClient();
@@ -54,59 +60,112 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
 
   const addAlert = useAlertsStore((state) => state.addAlert);
 
+  const isRuLang = lang === "ru";
+
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
       <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
-        <Controller
-          control={control}
-          name='name'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
+        {isRuLang && (
+          <Controller
+            control={control}
+            name='name'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Heading</Text>
+                    </RequiredLabelWrapper>
+                  }
+                  value={value ?? ""}
+                  error={!!getError("name")}
+                  {...register("name", {
+                    ...baseRequired,
+                    maxLength: { value: 500, message: "Max length text field 500" }
+                  })}
+                />
+
+                <HelperText id='name' error={getError("name")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {!isRuLang && (
+          <Controller
+            control={control}
+            name='name_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Heading</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value ?? ""}
+                  error={!!getError("name_en")}
+                  {...register("name_en", {
+                    maxLength: { value: 500, message: "Max length text field 500" }
+                  })}
+                />
+
+                <HelperText id='name_en' error={getError("name_en")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {isRuLang && (
+          <Controller
+            control={control}
+            name='description'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>News announcement</Text>
+                    </RequiredLabelWrapper>
+                  }
+                  value={value ?? ""}
+                  multiline
+                  fullWidth
+                  error={!!getError("description")}
+                  InputProps={{
+                    inputComponent: TextareaAutosize
+                  }}
+                  {...register("description", baseRequired)}
+                />
+                <HelperText id='description' error={getError("description")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {!isRuLang && (
+          <Controller
+            control={control}
+            name='description_en'
+            render={({ field }) => (
               <TextField
                 label={
-                  <RequiredLabelWrapper>
-                    <Text>Heading</Text>
-                  </RequiredLabelWrapper>
-                }
-                value={value ?? ""}
-                error={!!getError("name")}
-                {...register("name", {
-                  ...baseRequired,
-                  maxLength: { value: 500, message: "Max length text field 500" }
-                })}
-              />
-
-              <HelperText id='name' error={getError("name")} />
-            </FormControl>
-          )}
-        />
-
-        <Controller
-          control={control}
-          name='description'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={
-                  <RequiredLabelWrapper>
+                  <EnLabelWrapper>
                     <Text>News announcement</Text>
-                  </RequiredLabelWrapper>
+                  </EnLabelWrapper>
                 }
-                value={value ?? ""}
-                multiline
+                {...field}
                 fullWidth
-                error={!!getError("description")}
+                error={!!getError("description_en")}
                 InputProps={{
                   inputComponent: TextareaAutosize
                 }}
-                {...register("description", baseRequired)}
               />
-              <HelperText id='description' error={getError("description")} />
-            </FormControl>
-          )}
-        />
+            )}
+          />
+        )}
 
-        {contentEditorKey && (
+        {contentEditorKey && isRuLang && (
           <Controller
             control={control}
             name='content'
@@ -126,6 +185,27 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 />
 
                 <HelperText id='content' error={getError("content")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {contentEditorKey && !isRuLang && (
+          <Controller
+            control={control}
+            name='content_en'
+            render={({ field: { value, onChange } }) => (
+              <FormControl fullWidth>
+                <EnLabelWrapper>
+                  <Text className='text-sm'>Description</Text>
+                </EnLabelWrapper>
+                <ContentEditor
+                  name='content_en'
+                  apiKey={contentEditorKey}
+                  value={value ?? ""}
+                  onChange={onChange}
+                  getUploadedUrl={getUploadedUrl}
+                />
               </FormControl>
             )}
           />
