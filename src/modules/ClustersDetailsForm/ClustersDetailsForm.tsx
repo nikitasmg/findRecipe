@@ -18,7 +18,7 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { SaveButton } from "~/shared/components/SaveButton";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { ContentEditor } from "~/shared/components/ContentEditor";
@@ -126,7 +126,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id }) 
                     }
                     value={value}
                     error={!!getError("name")}
-                    {...register("name", baseRequired)}
+                    {...register("name", baseRequiredTextValidation)}
                   />
                   <HelperText id='name' error={getError("name")} />
                 </FormControl>
@@ -153,7 +153,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id }) 
                       inputComponent: TextareaAutosize
                     }}
                     error={!!getError("column_one_name")}
-                    {...register("column_one_name", baseRequired)}
+                    {...register("column_one_name", baseRequiredTextValidation)}
                   />
 
                   <HelperText id='column_one_name' error={getError("column_one_name")} />
@@ -180,7 +180,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id }) 
                       error={!!getError("column_one_text")}
                       apiKey={contentEditorKey}
                       value={value}
-                      {...register("column_one_text", baseRequired)}
+                      {...register("column_one_text", baseRequiredTextValidation)}
                       getUploadedUrl={getUploadedUrl}
                       settings={{ min_height: 200 }}
                     />
@@ -211,7 +211,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id }) 
                       inputComponent: TextareaAutosize
                     }}
                     error={!!getError("column_two_name")}
-                    {...register("column_two_name", baseRequired)}
+                    {...register("column_two_name", baseRequiredTextValidation)}
                   />
 
                   <HelperText id='column_one_name' error={getError("column_one_name")} />
@@ -240,7 +240,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id }) 
                       error={!!getError("column_two_text")}
                       apiKey={contentEditorKey}
                       value={value}
-                      {...register("column_two_text", baseRequired)}
+                      {...register("column_two_text", baseRequiredTextValidation)}
                       getUploadedUrl={getUploadedUrl}
                       settings={{ min_height: 200 }}
                     />

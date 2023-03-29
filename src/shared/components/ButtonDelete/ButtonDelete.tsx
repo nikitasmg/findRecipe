@@ -1,4 +1,11 @@
-import { Box, ButtonProps, Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
+import {
+  Box,
+  ButtonProps,
+  ClickAwayListener,
+  Tooltip,
+  tooltipClasses,
+  TooltipProps
+} from "@mui/material";
 import React, { ReactElement } from "react";
 import { styled } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -34,49 +41,56 @@ export const ButtonDelete: React.FC<ButtonProps & { children?: ReactElement }> =
     handleOpen();
   };
 
-  return (
-    <CustomTooltip
-      disableHoverListener
-      title={
-        <Box className='flex flex-col gap-4'>
-          <Text>Are you sure you want to delete?</Text>
-          <Box className='flex gap-6'>
-            <Button
-              className='px-2 w-full min-w-fit'
-              variant='outlined'
-              color='success'
-              size='small'
-              onClick={handleClose}
-            >
-              No
-            </Button>
+  const onSuccess: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    onClick?.(e);
+    handleClose();
+  };
 
-            <Button
-              className='px-2 w-full min-w-fit'
-              variant='outlined'
-              color='error'
-              size='small'
-              onClick={onClick}
-              startIcon={<DeleteIcon />}
-            >
-              Yes
-            </Button>
+  return (
+    <ClickAwayListener onClickAway={handleClose} touchEvent='onTouchStart'>
+      <CustomTooltip
+        disableHoverListener
+        title={
+          <Box className='flex flex-col gap-4'>
+            <Text>Are you sure you want to delete?</Text>
+            <Box className='flex gap-6'>
+              <Button
+                className='px-2 w-full min-w-fit'
+                variant='outlined'
+                color='success'
+                size='small'
+                onClick={handleClose}
+              >
+                No
+              </Button>
+
+              <Button
+                className='px-2 w-full min-w-fit'
+                variant='outlined'
+                color='error'
+                size='small'
+                onClick={onSuccess}
+                startIcon={<DeleteIcon />}
+              >
+                Yes
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      }
-      open={!!open}
-      arrow
-    >
-      <Button
-        startIcon={!children && <DeleteIcon />}
-        variant='outlined'
-        color='error'
-        size='small'
-        {...buttonProps}
-        onClick={handleClick}
+        }
+        open={!!open}
+        arrow
       >
-        {children || "Delete"}
-      </Button>
-    </CustomTooltip>
+        <Button
+          startIcon={!children && <DeleteIcon />}
+          variant='outlined'
+          color='error'
+          size='small'
+          {...buttonProps}
+          onClick={handleClick}
+        >
+          {children || "Delete"}
+        </Button>
+      </CustomTooltip>
+    </ClickAwayListener>
   );
 };

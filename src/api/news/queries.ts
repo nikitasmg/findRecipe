@@ -74,6 +74,18 @@ export const News = gql`
   }
 `;
 
+export const AllNewsIds = gql`
+  ${NewsFragment}
+
+  query allNews($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+    allNewsIds: news(orderBy: $orderBy, filter: $filter, first: 9999, page: 1) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
 export const UpdateOnIndex = gql`
   mutation UpdateOnIndex($id: Int!, $on_index: Boolean!) {
     upsertNews(input: { id: $id, on_index: $on_index }) {

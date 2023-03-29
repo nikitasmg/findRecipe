@@ -16,7 +16,7 @@ import { Text } from "~/shared/components/Text";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { DatePicker } from "~/shared/components/DatePicker";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { useAlertsStore } from "~/shared/stores/alerts";
 
@@ -62,7 +62,7 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
                 value={value}
                 variant='outlined'
                 error={!!getError("name")}
-                {...register("name", baseRequired)}
+                {...register("name", baseRequiredTextValidation)}
               />
 
               <HelperText id='name' error={getError("name")} />

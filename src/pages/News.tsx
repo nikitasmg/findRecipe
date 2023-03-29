@@ -1,8 +1,8 @@
 import React from "react";
-import { NewsTable } from "~/modules/NewsTable";
 import { PageTableTitle } from "~/shared/components/PageTableTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { useNewsStore } from "~/shared/stores/news";
+import { NewsTable } from "~/modules/NewsTable/NewsTable";
 
 export const News: React.FC = () => {
   const { count, isLoading } = useNewsStore((state) => ({

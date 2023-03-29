@@ -713,9 +713,12 @@ export type MutationUpsertVideoBroadcastArgs = {
 export type News = {
   __typename?: 'News';
   category?: Maybe<NewsCategory>;
+  category_id?: Maybe<Scalars['Int']>;
   content?: Maybe<Scalars['String']>;
+  content_en?: Maybe<Scalars['String']>;
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   gallery?: Maybe<Array<Maybe<GalleryImage>>>;
   galleryThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
   id: Scalars['Int'];
@@ -724,6 +727,7 @@ export type News = {
   imageUrl?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   on_index?: Maybe<Scalars['Boolean']>;
   published?: Maybe<Scalars['Boolean']>;
   published_at?: Maybe<Scalars['DateTime']>;
@@ -731,6 +735,7 @@ export type News = {
   slug: Scalars['String'];
   source?: Maybe<Scalars['String']>;
   source_name?: Maybe<Scalars['String']>;
+  source_name_en?: Maybe<Scalars['String']>;
   tags?: Maybe<Array<Maybe<NewsTag>>>;
   updated_at: Scalars['DateTime'];
 };
@@ -739,23 +744,28 @@ export type NewsCategory = {
   __typename?: 'NewsCategory';
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
 };
 
 export type NewsCategoryInput = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
 
 export type NewsInput = {
   category?: InputMaybe<CategoryBelongsTo>;
   content?: InputMaybe<Scalars['String']>;
+  content_en?: InputMaybe<Scalars['String']>;
   deleteGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   on_index?: InputMaybe<Scalars['Boolean']>;
   published?: InputMaybe<Scalars['Boolean']>;
   published_at?: InputMaybe<Scalars['DateTime']>;
@@ -763,6 +773,7 @@ export type NewsInput = {
   slug?: InputMaybe<Scalars['String']>;
   source?: InputMaybe<Scalars['String']>;
   source_name?: InputMaybe<Scalars['String']>;
+  source_name_en?: InputMaybe<Scalars['String']>;
   tags?: InputMaybe<TagBelongsToMany>;
   updateGallery?: InputMaybe<Array<InputMaybe<UpdateGalleryInput>>>;
   uploadGalleryImages?: InputMaybe<Array<InputMaybe<UploadGalleryInput>>>;
@@ -782,12 +793,14 @@ export type NewsTag = {
   __typename?: 'NewsTag';
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
 };
 
 export type NewsTagInput = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
 
@@ -848,6 +861,7 @@ export type Page = {
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<Document>>>;
+  gallery?: Maybe<Array<Maybe<GalleryImage>>>;
   id: Scalars['Int'];
   image?: Maybe<Image>;
   imageUrl?: Maybe<Scalars['String']>;
@@ -891,6 +905,7 @@ export type PageInfo = {
 
 export type PageInput = {
   deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  deleteGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
@@ -903,7 +918,9 @@ export type PageInput = {
   slug?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
   updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
+  updateGallery?: InputMaybe<Array<InputMaybe<UpdateGalleryInput>>>;
   uploadDocuments?: InputMaybe<Array<InputMaybe<UploadDocumentInput>>>;
+  uploadGalleryImages?: InputMaybe<Array<InputMaybe<UploadGalleryInput>>>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
@@ -2140,6 +2157,14 @@ export type NewsQueryVariables = Exact<{
 
 
 export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, slug: string, content?: string | null, description?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null }> } | null };
+
+export type AllNewsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type AllNewsQuery = { __typename?: 'Query', allNewsIds?: { __typename?: 'NewsPaginator', data: Array<{ __typename?: 'News', id: number }> } | null };
 
 export type UpdateOnIndexMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -4302,6 +4327,29 @@ export const useNewsQuery = <
     useQuery<NewsQuery, TError, TData>(
       variables === undefined ? ['news'] : ['news', variables],
       fetcher<NewsQuery, NewsQueryVariables>(client, NewsDocument, variables, headers),
+      options
+    );
+export const AllNewsDocument = `
+    query allNews($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  allNewsIds: news(orderBy: $orderBy, filter: $filter, first: 9999, page: 1) {
+    data {
+      id
+    }
+  }
+}
+    `;
+export const useAllNewsQuery = <
+      TData = AllNewsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: AllNewsQueryVariables,
+      options?: UseQueryOptions<AllNewsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<AllNewsQuery, TError, TData>(
+      variables === undefined ? ['allNews'] : ['allNews', variables],
+      fetcher<AllNewsQuery, AllNewsQueryVariables>(client, AllNewsDocument, variables, headers),
       options
     );
 export const UpdateOnIndexDocument = `

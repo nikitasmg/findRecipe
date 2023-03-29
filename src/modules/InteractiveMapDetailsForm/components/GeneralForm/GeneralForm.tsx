@@ -5,7 +5,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired } from "~/shared/lib/validation";
+import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
 import { LinkInput } from "~/shared/components/LinkInput";
 
 type FormFields = {
@@ -43,7 +43,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 }
                 value={value}
                 error={!!getError("name")}
-                {...register("name", baseRequired)}
+                {...register("name", baseRequiredTextValidation)}
               />
 
               <HelperText id='name' error={getError("name")} />

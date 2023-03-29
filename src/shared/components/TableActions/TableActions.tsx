@@ -9,6 +9,7 @@ import { Button } from "../Button";
 import { ModalFilters } from "../ModalFilters";
 import { LinkButton } from "../LinkButton";
 import { FiltersControl, Props as FiltersControlProps } from "../FiltersControl";
+import { ButtonDelete } from "../ButtonDelete";
 
 type Props = {
   searchProps: {
@@ -24,6 +25,10 @@ type Props = {
   searchTitle?: string;
   filterModalInnerForm?: ReactNode;
   filterControl?: FiltersControlProps;
+  deleteProps?: {
+    onDelete?: () => void;
+    deleteDisabled?: boolean;
+  };
 };
 
 export const TableActions: React.FC<Props> = ({
@@ -32,7 +37,8 @@ export const TableActions: React.FC<Props> = ({
   addButtonProps,
   filterModalInnerForm,
   searchTitle = "Fast search",
-  filterControl
+  filterControl,
+  deleteProps
 }) => {
   const { open, handleOpen, handleClose } = useModal();
 
@@ -63,16 +69,21 @@ export const TableActions: React.FC<Props> = ({
             </>
           )}
         </Box>
-        {addButtonProps && (
-          <LinkButton
-            variant='outlined'
-            onClick={addButtonProps?.onAddClick}
-            href={addButtonProps?.addHref}
-            startIcon={<AddBoxRoundedIcon />}
-          >
-            Add
-          </LinkButton>
-        )}
+        <Box className='flex gap-2 flex-col sm:flex-row'>
+          {addButtonProps && (
+            <LinkButton
+              variant='outlined'
+              onClick={addButtonProps?.onAddClick}
+              href={addButtonProps?.addHref}
+              startIcon={<AddBoxRoundedIcon />}
+            >
+              Add
+            </LinkButton>
+          )}
+          {deleteProps && (
+            <ButtonDelete onClick={deleteProps.onDelete} disabled={deleteProps.deleteDisabled} />
+          )}
+        </Box>
       </Box>
       <FiltersControl {...filterControl} />
     </Box>
