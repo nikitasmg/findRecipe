@@ -9,7 +9,6 @@ import { Button } from "../Button";
 import { ModalFilters } from "../ModalFilters";
 import { LinkButton } from "../LinkButton";
 import { FiltersControl, Props as FiltersControlProps } from "../FiltersControl";
-import { ButtonDelete } from "../ButtonDelete";
 
 type Props = {
   searchProps: {
