@@ -4,6 +4,7 @@ export const videoBroadcastsFragment = gql`
   fragment allVideoBroadcastsFields on VideoBroadcast {
     id
     name
+    name_en
     sort
     url
   }

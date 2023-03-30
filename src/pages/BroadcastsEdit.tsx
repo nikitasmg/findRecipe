@@ -3,14 +3,17 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useDeleteVideoBroadcastMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { BroadcastsDetailsForm } from "~/modules/BroadcastsDetailsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { useLang } from "~/shared/hooks/useLang";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
-import { BroadcastsDetailsForm } from "~/modules/BroadcastsDetailsForm";
 
 export const BroadcastsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const handleGoBack = useNavigationBack();
 
@@ -38,8 +41,9 @@ export const BroadcastsEdit: React.FC = () => {
             title={isEdit ? "Broadcast editing" : "Broadcast creating"}
             onBackClick={handleGoBack}
             onRemove={isEdit ? handleDelete : undefined}
+            onLangChange={setLang}
           />
-          <BroadcastsDetailsForm id={Number(id)} />
+          <BroadcastsDetailsForm id={Number(id)} lang={lang} />
         </Box>
       </Panel>
     </PageWrapper>

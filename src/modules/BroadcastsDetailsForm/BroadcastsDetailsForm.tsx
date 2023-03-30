@@ -14,16 +14,19 @@ import { NumericInput } from "~shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { LinkInput } from "~/shared/components/LinkInput";
 import { SaveButton } from "~/shared/components/SaveButton";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 
 interface BroadcastsDetailsProps {
+  lang: Languages;
   id?: number;
 }
 
-export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id }) => {
+export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, lang }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -71,39 +74,64 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id }) 
     updateVideoBroadcast({ input });
   });
 
+  const isRusLang = lang === "ru";
+
   useEffect(() => {
     if (!isSuccess) {
       return;
     }
 
-    initFormValues(["name", "url", "sort"], setValue, values);
+    initFormValues(["name", "name_en", "url", "sort"], setValue, values);
   }, [values, isSuccess, setValue]);
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='name'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={
-                      <RequiredLabelWrapper>
-                        <Text>Title</Text>
-                      </RequiredLabelWrapper>
-                    }
-                    value={value}
-                    error={!!getError("name")}
-                    {...register("name", baseRequiredTextValidation)}
-                  />
-                  <HelperText id='name' error={getError("name")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+          {isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <RequiredLabelWrapper>
+                          <Text>Title</Text>
+                        </RequiredLabelWrapper>
+                      }
+                      value={value}
+                      error={!!getError("name")}
+                      {...register("name", baseRequiredTextValidation)}
+                    />
+                    <HelperText id='name' error={getError("name")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+          {!isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Title</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      {...register("name_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
           <Grid item xs={12}>
             <Controller
               control={control}

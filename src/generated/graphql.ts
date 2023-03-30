@@ -1862,14 +1862,14 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: number } | null };
 
-export type AllVideoBroadcastsFieldsFragment = { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null };
+export type AllVideoBroadcastsFieldsFragment = { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null };
 
 export type VideoBroadcastByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type VideoBroadcastByIdQuery = { __typename?: 'Query', videoBroadcastById?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+export type VideoBroadcastByIdQuery = { __typename?: 'Query', videoBroadcastById?: { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null } | null };
 
 export type VideoBroadcastsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1877,21 +1877,21 @@ export type VideoBroadcastsQueryVariables = Exact<{
 }>;
 
 
-export type VideoBroadcastsQuery = { __typename?: 'Query', videoBroadcasts: Array<{ __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null }> };
+export type VideoBroadcastsQuery = { __typename?: 'Query', videoBroadcasts: Array<{ __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null }> };
 
 export type CreateVideoBroadcastMutationVariables = Exact<{
   input: VideoBroadcastInput;
 }>;
 
 
-export type CreateVideoBroadcastMutation = { __typename?: 'Mutation', createVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+export type CreateVideoBroadcastMutation = { __typename?: 'Mutation', createVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null } | null };
 
 export type UpdateVideoBroadcastMutationVariables = Exact<{
   input: VideoBroadcastInput;
 }>;
 
 
-export type UpdateVideoBroadcastMutation = { __typename?: 'Mutation', upsertVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+export type UpdateVideoBroadcastMutation = { __typename?: 'Mutation', upsertVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null } | null };
 
 export type DeleteVideoBroadcastMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2864,6 +2864,7 @@ export const AllVideoBroadcastsFieldsFragmentDoc = `
     fragment allVideoBroadcastsFields on VideoBroadcast {
   id
   name
+  name_en
   sort
   url
 }
