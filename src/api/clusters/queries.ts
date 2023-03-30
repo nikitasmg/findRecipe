@@ -8,6 +8,11 @@ export const clustersFragment = gql`
     column_one_text
     column_two_name
     column_two_text
+    name_en
+    column_one_name_en
+    column_one_text_en
+    column_two_name_en
+    column_two_text_en
     sort
     created_at
     updated_at

@@ -8,6 +8,7 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const ClustersEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,6 +29,8 @@ export const ClustersEdit: React.FC = () => {
     deleteNews({ id: Number(id) });
   };
 
+  const { lang, setLang } = useLang();
+
   const headProps = isEdit
     ? {
         title: "Cluster editing",
@@ -42,8 +45,8 @@ export const ClustersEdit: React.FC = () => {
       <Panel>
         <Box className='p-4'>
           <Box className='flex flex-col gap-6 items-center'>
-            <DetailsHead onBackClick={handleGoBack} {...headProps} />
-            <ClustersDetailsForm id={Number(id)} />
+            <DetailsHead onBackClick={handleGoBack} onLangChange={setLang} {...headProps} />
+            <ClustersDetailsForm id={Number(id)} lang={lang} />
           </Box>
         </Box>
       </Panel>
