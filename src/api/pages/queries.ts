@@ -33,6 +33,12 @@ export const PagesFragment = gql`
     parent_id
     created_at
     updated_at
+    gallery {
+      id
+      url
+      alt
+      sort
+    }
   }
 `;
 

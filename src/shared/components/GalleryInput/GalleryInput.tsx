@@ -122,16 +122,16 @@ export const GalleryInput: React.FC<Props> = ({
     }
 
     setValue((value = []) => {
-      const newFiles = [
-        ...value,
-        ...files.map((file, i) => ({
-          alt: file.name,
-          url: URL.createObjectURL(file),
-          sort: value.length + i
-        }))
-      ];
+      const uploadedFiles = files.map((file, i) => ({
+        alt: file.name,
+        url: URL.createObjectURL(file),
+        sort: value.length + i,
+        file
+      }));
 
-      onUpload?.(newFiles);
+      const newFiles = [...value, ...uploadedFiles];
+
+      onUpload?.(uploadedFiles);
 
       return newFiles;
     });
@@ -176,7 +176,7 @@ export const GalleryInput: React.FC<Props> = ({
         {(value ?? []).map((item, i) => (
           <SortableItem
             index={i}
-            key={item.id}
+            key={item.id ?? i}
             className='relative overflow-hidden shadow-md'
             onClick={getHandlerImageClick(item)}
           >
