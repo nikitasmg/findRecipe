@@ -9,7 +9,6 @@ import { Button } from "../Button";
 import { ModalFilters } from "../ModalFilters";
 import { LinkButton } from "../LinkButton";
 import { FiltersControl, Props as FiltersControlProps } from "../FiltersControl";
-import { ButtonDelete } from "../ButtonDelete";
 
 type Props = {
   searchProps: {
@@ -25,10 +24,7 @@ type Props = {
   searchTitle?: string;
   filterModalInnerForm?: ReactNode;
   filterControl?: FiltersControlProps;
-  deleteProps?: {
-    onDelete?: () => void;
-    deleteDisabled?: boolean;
-  };
+  contentButtons?: JSX.Element;
 };
 
 export const TableActions: React.FC<Props> = ({
@@ -38,7 +34,7 @@ export const TableActions: React.FC<Props> = ({
   filterModalInnerForm,
   searchTitle = "Fast search",
   filterControl,
-  deleteProps
+  contentButtons
 }) => {
   const { open, handleOpen, handleClose } = useModal();
 
@@ -80,9 +76,7 @@ export const TableActions: React.FC<Props> = ({
               Add
             </LinkButton>
           )}
-          {deleteProps && (
-            <ButtonDelete onClick={deleteProps.onDelete} disabled={deleteProps.deleteDisabled} />
-          )}
+          {contentButtons}
         </Box>
       </Box>
       <FiltersControl {...filterControl} />

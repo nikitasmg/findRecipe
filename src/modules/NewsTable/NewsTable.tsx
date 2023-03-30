@@ -13,8 +13,9 @@ import {
 import { prop } from "rambda";
 import React, { useEffect, useState } from "react";
 import { DeepPartial } from "react-hook-form";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { News, SortOrder, useAllNewsQuery, useNewsQuery } from "~/generated/graphql";
-import { useDeleteNews } from "~/api/news";
+import { useHideNews } from "~/api/news";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { NewsPageCreate } from "~/shared/routes";
 import { useNewsStore } from "~/shared/stores/news";
@@ -27,6 +28,7 @@ import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
+import { Button } from "~/shared/components/Button";
 
 export const NewsTable: React.FC = () => {
   const [selected, setSelected] = useState<Set<number>>(new Set([]));
@@ -69,7 +71,7 @@ export const NewsTable: React.FC = () => {
     enabled: false
   });
 
-  const { mutateAsync: deleteNews } = useDeleteNews();
+  const { mutateAsync: hideNews } = useHideNews();
 
   const news = data?.news;
 
@@ -96,8 +98,8 @@ export const NewsTable: React.FC = () => {
       });
   };
 
-  const onDeleteClick = () => {
-    deleteNews([...selected]).then(() => refetch());
+  const onHideClick = () => {
+    hideNews([...selected]).then(() => refetch());
     setSelected(new Set([]));
   };
 
@@ -139,10 +141,17 @@ export const NewsTable: React.FC = () => {
           filterModalInnerForm={
             <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
           }
-          deleteProps={{
-            onDelete: onDeleteClick,
-            deleteDisabled: !selected.size
-          }}
+          contentButtons={
+            <Button
+              variant='outlined'
+              color='secondary'
+              onClick={onHideClick}
+              startIcon={<VisibilityOffIcon />}
+              disabled={!selected.size}
+            >
+              Hide news
+            </Button>
+          }
         />
 
         <TableContainer component={Paper}>
