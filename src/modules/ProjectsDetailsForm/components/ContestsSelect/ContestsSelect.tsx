@@ -1,14 +1,16 @@
 import React, { Fragment } from "react";
-import { Text } from "~shared/components/Text";
 import { Autocomplete, Box, CircularProgress, MenuItem, TextField } from "@mui/material";
+import { Text } from "~shared/components/Text";
+import { Languages } from "~/shared/types/Languages";
 import { useContestsSelect } from "./lib/useContestsSelect";
 
 interface ContestsSelect {
+  lang: Languages;
   onFormChange: (event: number) => void;
   initValue?: number;
 }
 
-export const ContestsSelect: React.FC<ContestsSelect> = ({ initValue = 0, onFormChange }) => {
+export const ContestsSelect: React.FC<ContestsSelect> = ({ initValue = 0, onFormChange, lang }) => {
   const { value, handleChange, options, handleScroll, isLoading } = useContestsSelect(
     initValue,
     onFormChange
@@ -38,7 +40,7 @@ export const ContestsSelect: React.FC<ContestsSelect> = ({ initValue = 0, onForm
         return (
           <Fragment key={`${option.id}`}>
             <MenuItem {...props} id={`${option.id}`}>
-              {option.name}
+              {lang === "ru" ? option.name : option.name_en}
             </MenuItem>
             {option.id === options[options.length - 1].id && isLoading && (
               <Box className='flex w-full justify-center items-center'>

@@ -52,7 +52,8 @@ const compilations: Compilations[] = [
     id: 4,
     title: "knowledgeFields",
     heading: "Knowledge fields",
-    whereUseLink: { title: "Projects", href: ProjectsPageRoute }
+    whereUseLink: { title: "Projects", href: ProjectsPageRoute },
+    langExist: true
   }
 ];
 

@@ -2,34 +2,49 @@ import { Box, FormControl, Grid, MenuItem, TextField } from "@mui/material";
 import React from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { useKnowledgeFieldsQuery } from "~/generated/graphql";
+import { ContestsSelect } from "~/modules/ProjectsDetailsForm/components/ContestsSelect";
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
-import { getErrorMessage } from "~/shared/lib/getError";
-import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { ContestsSelect } from "~/modules/ProjectsDetailsForm/components/ContestsSelect";
-import { useKnowledgeFieldsQuery } from "~/generated/graphql";
+import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { baseRequiredTextValidation } from "~shared/lib/validation";
+import { baseRequired } from "~/shared/lib/validation";
+import { getErrorMessage } from "~/shared/lib/getError";
+import { Languages } from "~/shared/types/Languages";
 
 type FormFields = {
   name?: string;
+  name_en?: string;
   contest?: string;
   knowledge_field?: string;
   number?: string;
   leader?: string;
+  leader_en?: string;
   organization?: string;
+  organization_en?: string;
   deadline?: string;
   grnti_number?: string;
   status_text?: string;
+  status_text_en?: string;
 };
 
 type Props = {
+  lang: Languages;
   register: UseFormRegister<Partial<FormFields>>;
   errors: FieldErrors<FormFields>;
   setValue: (name: string, value: unknown) => void;
   control?: Control<FormFields, unknown>;
 };
 
-export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValue, control }) => {
+export const GeneralProjectsForm: React.FC<Props> = ({
+  register,
+  errors,
+  setValue,
+  control,
+  lang
+}) => {
   const getError = getErrorMessage(errors);
 
   const client = useGraphqlClient();
@@ -39,6 +54,8 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValu
     {},
     { refetchOnMount: "always" }
   );
+
+  const isRuLang = lang === "ru";
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
@@ -51,12 +68,16 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValu
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
-                    label={<Text>Number</Text>}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Number</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
                     variant='outlined'
                     id='number'
                     error={!!getError("number")}
-                    {...register("number")}
+                    {...register("number", baseRequired)}
                   />
 
                   <HelperText id='number' error={getError("number")} />
@@ -65,68 +86,147 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValu
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='name'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={<Text>Title</Text>}
-                    value={value}
-                    variant='outlined'
-                    id='name'
-                    error={!!getError("name")}
-                    {...register("name", baseRequiredTextValidation)}
-                  />
+          {isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <RequiredLabelWrapper>
+                          <Text>Title</Text>
+                        </RequiredLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      id='name'
+                      error={!!getError("name")}
+                      {...register("name", baseRequiredTextValidation)}
+                    />
 
-                  <HelperText id='name' error={getError("name")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+                    <HelperText id='name' error={getError("name")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
 
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='leader'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={<Text>Leader</Text>}
-                    value={value}
-                    variant='outlined'
-                    id='leader'
-                    error={!!getError("leader")}
-                    {...register("leader")}
-                  />
+          {!isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Title</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      {...register("name_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
 
-                  <HelperText id='leader' error={getError("leader")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+          {isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='leader'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={<Text>Leader</Text>}
+                      value={value}
+                      variant='outlined'
+                      id='leader'
+                      error={!!getError("leader")}
+                      {...register("leader")}
+                    />
 
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='organization'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={<Text>Organization</Text>}
-                    value={value}
-                    variant='outlined'
-                    id='organization'
-                    error={!!getError("organization")}
-                    {...register("organization")}
-                  />
+                    <HelperText id='leader' error={getError("leader")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
 
-                  <HelperText id='organization' error={getError("organization")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+          {!isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='leader_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Leader</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      {...register("leader_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='organization'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={<Text>Organization</Text>}
+                      value={value}
+                      variant='outlined'
+                      id='organization'
+                      error={!!getError("organization")}
+                      {...register("organization")}
+                    />
+
+                    <HelperText id='organization' error={getError("organization")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='organization_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Organization</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      {...register("organization_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12}>
             <Controller
@@ -160,7 +260,9 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValu
                 name='contest'
                 render={({ field: { value, onChange } }) => {
                   const currentValue = value as unknown as number;
-                  return <ContestsSelect onFormChange={onChange} initValue={currentValue} />;
+                  return (
+                    <ContestsSelect lang={lang} onFormChange={onChange} initValue={currentValue} />
+                  );
                 }}
               />
             </FormControl>
@@ -188,7 +290,7 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValu
                     </MenuItem>
                     {knowledgeFields?.knowledgeFields.map((knowledgeField) => (
                       <MenuItem key={`${knowledgeField.id}`} value={`${knowledgeField.id}`}>
-                        {knowledgeField.name}
+                        {isRuLang ? knowledgeField.name : knowledgeField.name_en}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -218,26 +320,51 @@ export const GeneralProjectsForm: React.FC<Props> = ({ register, errors, setValu
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='status_text'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={<Text>Status</Text>}
-                    value={value}
-                    variant='outlined'
-                    id='status_text'
-                    error={!!getError("status_text")}
-                    {...register("status_text")}
-                  />
+          {isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='status_text'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={<Text>Status</Text>}
+                      value={value}
+                      variant='outlined'
+                      id='status_text'
+                      error={!!getError("status_text")}
+                      {...register("status_text")}
+                    />
 
-                  <HelperText id='status_text' error={getError("status_text")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+                    <HelperText id='status_text' error={getError("status_text")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='status_text_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Status</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      {...register("status_text_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
         </Grid>
       </Box>
     </Box>

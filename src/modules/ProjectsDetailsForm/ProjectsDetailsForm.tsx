@@ -7,20 +7,22 @@ import {
   useUpdateProjectMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { ReportProjectsForm } from "~/modules/ProjectsDetailsForm/components/ReportProjectsForm";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { ProjectsPageRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 import { AdditionalProjectsForm } from "./components/AdditionalProjectsForm";
 import { GeneralProjectsForm } from "./components/GeneralProjectsForm";
 import { SeoProjectsForm } from "./components/SeoProjectsForm";
-import { ReportProjectsForm } from "~/modules/ProjectsDetailsForm/components/ReportProjectsForm";
 
 type Props = {
+  lang: Languages;
   id?: number;
 };
 
-export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
+export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
@@ -84,20 +86,30 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
     initFormValues(
       [
         "name",
+        "name_en",
         ["contest", { key: "contest_id" }],
         ["knowledge_field", { key: "knowledge_field_id" }],
         "number",
         "leader",
+        "leader_en",
+        "leader_rank",
+        "leader_rank_en",
         "organization",
-        "information",
+        "organization_en",
         "deadline",
         "grnti_number",
         "status_text",
+        "status_text_en",
         "annotation",
+        "annotation_en",
         "plan_results",
+        "plan_results_en",
         "result_annotation",
+        "result_annotation_en",
         "publications",
-        "result_usage"
+        "publications_en",
+        "result_usage",
+        "result_usage_en"
       ],
       setValue,
       values
@@ -120,13 +132,19 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
               errors={errors}
               register={register}
               control={control}
+              lang={lang}
             />
           )
         },
         {
           tabTitle: "Information from application",
           component: (
-            <AdditionalProjectsForm errors={errors} register={register} control={control} />
+            <AdditionalProjectsForm
+              errors={errors}
+              register={register}
+              control={control}
+              lang={lang}
+            />
           )
         },
         {
@@ -137,6 +155,7 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id }) => {
               errors={errors}
               register={register}
               control={control}
+              lang={lang}
             />
           )
         },
