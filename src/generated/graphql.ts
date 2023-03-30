@@ -32,7 +32,9 @@ export type ActivityResult = {
   created_at: Scalars['DateTime'];
   id: Scalars['Int'];
   measure_unit: Scalars['String'];
+  measure_unit_en?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   result: Scalars['Float'];
   sort: Scalars['Int'];
   updated_at: Scalars['DateTime'];
@@ -41,7 +43,9 @@ export type ActivityResult = {
 export type ActivityResultInput = {
   id?: InputMaybe<Scalars['Int']>;
   measure_unit?: InputMaybe<Scalars['String']>;
+  measure_unit_en?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   result?: InputMaybe<Scalars['Float']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
@@ -55,23 +59,33 @@ export type CategoryBelongsTo = {
 export type Cluster = {
   __typename?: 'Cluster';
   column_one_name: Scalars['String'];
+  column_one_name_en?: Maybe<Scalars['String']>;
   column_one_text: Scalars['String'];
+  column_one_text_en?: Maybe<Scalars['String']>;
   column_two_name: Scalars['String'];
+  column_two_name_en?: Maybe<Scalars['String']>;
   column_two_text: Scalars['String'];
+  column_two_text_en?: Maybe<Scalars['String']>;
   created_at: Scalars['DateTime'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
   updated_at: Scalars['DateTime'];
 };
 
 export type ClusterInput = {
   column_one_name?: InputMaybe<Scalars['String']>;
+  column_one_name_en?: InputMaybe<Scalars['String']>;
   column_one_text?: InputMaybe<Scalars['String']>;
+  column_one_text_en?: InputMaybe<Scalars['String']>;
   column_two_name?: InputMaybe<Scalars['String']>;
+  column_two_name_en?: InputMaybe<Scalars['String']>;
   column_two_text?: InputMaybe<Scalars['String']>;
+  column_two_text_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
 
@@ -89,6 +103,7 @@ export type Contest = {
   id: Scalars['Int'];
   linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   number?: Maybe<Scalars['Int']>;
   status?: Maybe<ContestStatus>;
   updated_at: Scalars['DateTime'];
@@ -106,6 +121,7 @@ export type ContestInput = {
   id?: InputMaybe<Scalars['Int']>;
   linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   number?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<ContestStatus>;
   updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
@@ -141,6 +157,7 @@ export type DocumentGroup = {
   id: Scalars['Int'];
   linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
 };
 
@@ -148,6 +165,7 @@ export type DocumentGroupInput = {
   id?: InputMaybe<Scalars['Int']>;
   linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
 
@@ -158,7 +176,9 @@ export type Employee = {
   email: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   position?: Maybe<Scalars['String']>;
+  position_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
   subdivision?: Maybe<Subdivision>;
   updated_at: Scalars['DateTime'];
@@ -169,7 +189,9 @@ export type EmployeeInput = {
   email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   position?: InputMaybe<Scalars['String']>;
+  position_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
   subdivision?: InputMaybe<SubdivisionBelongsTo>;
 };
@@ -178,6 +200,7 @@ export type Event = {
   __typename?: 'Event';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<Document>>>;
   end?: Maybe<Scalars['DateTime']>;
   id: Scalars['Int'];
@@ -186,9 +209,11 @@ export type Event = {
   imageUrl?: Maybe<Scalars['String']>;
   linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   organizers?: Maybe<Array<Maybe<Organizer>>>;
   partners?: Maybe<Array<Maybe<Partner>>>;
   place?: Maybe<Scalars['String']>;
+  place_en?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   start?: Maybe<Scalars['DateTime']>;
   updated_at: Scalars['DateTime'];
@@ -198,13 +223,16 @@ export type EventInput = {
   deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   end?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
   linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   organizers?: InputMaybe<OrganizerBelongsToMany>;
   partners?: InputMaybe<PartnerBelongsToMany>;
   place?: InputMaybe<Scalars['String']>;
+  place_en?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   start?: InputMaybe<Scalars['DateTime']>;
   updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
@@ -229,6 +257,7 @@ export type FilterByClause = {
 export type GalleryImage = {
   __typename?: 'GalleryImage';
   alt?: Maybe<Scalars['String']>;
+  alt_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   sort?: Maybe<Scalars['Int']>;
   url?: Maybe<Scalars['String']>;
@@ -265,6 +294,7 @@ export type KnowledgeField = {
   __typename?: 'KnowledgeField';
   id?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
 };
 
@@ -277,6 +307,7 @@ export type KnowledgeFieldBelongsTo = {
 export type KnowledgeFieldInput = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
 
@@ -294,6 +325,7 @@ export type LinkedDocument = {
   updated_at: Scalars['DateTime'];
   url: Scalars['String'];
   user_name?: Maybe<Scalars['String']>;
+  user_name_en?: Maybe<Scalars['String']>;
 };
 
 export type LinkedDocumentInput = {
@@ -302,6 +334,7 @@ export type LinkedDocumentInput = {
   upload?: InputMaybe<Scalars['Upload']>;
   /** Имя файла заданное пользователем */
   user_name?: InputMaybe<Scalars['String']>;
+  user_name_en?: InputMaybe<Scalars['String']>;
 };
 
 export type LinkedDocumentMorphedByMany = {
@@ -343,25 +376,31 @@ export type MapObject = {
   __typename?: 'MapObject';
   area?: Maybe<Scalars['Float']>;
   characteristics?: Maybe<Scalars['String']>;
+  characteristics_en?: Maybe<Scalars['String']>;
   created_at: Scalars['DateTime'];
   floors?: Maybe<Scalars['String']>;
+  floors_en?: Maybe<Scalars['String']>;
   gross_boma_area?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   learn_more?: Maybe<Scalars['String']>;
   linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
 };
 
 export type MapObjectInput = {
   area?: InputMaybe<Scalars['Float']>;
   characteristics?: InputMaybe<Scalars['String']>;
+  characteristics_en?: InputMaybe<Scalars['String']>;
   floors?: InputMaybe<Scalars['String']>;
+  floors_en?: InputMaybe<Scalars['String']>;
   gross_boma_area?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['Int']>;
   learn_more?: InputMaybe<Scalars['String']>;
   linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
 };
 
 export type Meta = {
@@ -839,6 +878,7 @@ export type Organizer = {
   image?: Maybe<Image>;
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
 };
 
@@ -852,6 +892,7 @@ export type OrganizerInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
@@ -860,6 +901,7 @@ export type Page = {
   children?: Maybe<Array<Maybe<Page>>>;
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<Document>>>;
   gallery?: Maybe<Array<Maybe<GalleryImage>>>;
   id: Scalars['Int'];
@@ -868,6 +910,7 @@ export type Page = {
   linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   params?: Maybe<Scalars['JSON']>;
   parent?: Maybe<Page>;
   parent_id?: Maybe<Scalars['Int']>;
@@ -908,9 +951,11 @@ export type PageInput = {
   deleteGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   params?: InputMaybe<Scalars['JSON']>;
   parent?: InputMaybe<PageParentBelongsTo>;
   parent_id?: InputMaybe<Scalars['Int']>;
@@ -957,6 +1002,7 @@ export type Partner = {
   image?: Maybe<Image>;
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
 };
 
@@ -970,6 +1016,7 @@ export type PartnerInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
@@ -978,6 +1025,7 @@ export type Project = {
   __typename?: 'Project';
   /** Аннотация проекта */
   annotation?: Maybe<Scalars['String']>;
+  annotation_en?: Maybe<Scalars['String']>;
   contest?: Maybe<Contest>;
   /** Конкурс */
   contest_id?: Maybe<Scalars['Int']>;
@@ -992,26 +1040,35 @@ export type Project = {
   knowledge_field_id?: Maybe<Scalars['Int']>;
   /** Руководитель */
   leader?: Maybe<Scalars['String']>;
+  leader_en?: Maybe<Scalars['String']>;
   /** Звание руководителя */
   leader_rank?: Maybe<Scalars['String']>;
+  leader_rank_en?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   /** Номер */
   number: Scalars['String'];
   /** Организация финансирования, регион */
   organization?: Maybe<Scalars['String']>;
+  organization_en?: Maybe<Scalars['String']>;
   /** Планируемые результаты */
   plan_results?: Maybe<Scalars['String']>;
+  plan_results_en?: Maybe<Scalars['String']>;
   /** Список публикаций по результатам проекта */
   publications?: Maybe<Scalars['String']>;
+  publications_en?: Maybe<Scalars['String']>;
   /** Аннотация полученных итоговых результатов */
   result_annotation?: Maybe<Scalars['String']>;
+  result_annotation_en?: Maybe<Scalars['String']>;
   /** Возможность практического использования результатов */
   result_usage?: Maybe<Scalars['String']>;
+  result_usage_en?: Maybe<Scalars['String']>;
   seo?: Maybe<Seo>;
   slug: Scalars['String'];
   /** Статус */
   status_text?: Maybe<Scalars['String']>;
+  status_text_en?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
   /** Год проекта */
   year?: Maybe<Scalars['Int']>;
@@ -1019,6 +1076,7 @@ export type Project = {
 
 export type ProjectInput = {
   annotation?: InputMaybe<Scalars['String']>;
+  annotation_en?: InputMaybe<Scalars['String']>;
   contest?: InputMaybe<ContestBelongsTo>;
   contest_id?: InputMaybe<Scalars['Int']>;
   deadline?: InputMaybe<Scalars['String']>;
@@ -1027,17 +1085,26 @@ export type ProjectInput = {
   knowledge_field?: InputMaybe<KnowledgeFieldBelongsTo>;
   knowledge_field_id?: InputMaybe<Scalars['Int']>;
   leader?: InputMaybe<Scalars['String']>;
+  leader_en?: InputMaybe<Scalars['String']>;
   leader_rank?: InputMaybe<Scalars['String']>;
+  leader_rank_en?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   number?: InputMaybe<Scalars['String']>;
   organization?: InputMaybe<Scalars['String']>;
+  organization_en?: InputMaybe<Scalars['String']>;
   plan_results?: InputMaybe<Scalars['String']>;
+  plan_results_en?: InputMaybe<Scalars['String']>;
   publications?: InputMaybe<Scalars['String']>;
+  publications_en?: InputMaybe<Scalars['String']>;
   result_annotation?: InputMaybe<Scalars['String']>;
+  result_annotation_en?: InputMaybe<Scalars['String']>;
   result_usage?: InputMaybe<Scalars['String']>;
+  result_usage_en?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<SeoBelongsTo>;
   slug?: InputMaybe<Scalars['String']>;
   status_text?: InputMaybe<Scalars['String']>;
+  status_text_en?: InputMaybe<Scalars['String']>;
   year?: InputMaybe<Scalars['Int']>;
 };
 
@@ -1059,8 +1126,10 @@ export type Purchase = {
   __typename?: 'Purchase';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   published: Scalars['Boolean'];
   sort: Scalars['Int'];
   updated_at: Scalars['DateTime'];
@@ -1069,8 +1138,10 @@ export type Purchase = {
 
 export type PurchaseInput = {
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['Int']>;
   url?: InputMaybe<Scalars['String']>;
@@ -1483,12 +1554,14 @@ export type Report = {
   __typename?: 'Report';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   image?: Maybe<Image>;
   imageThumbs?: Maybe<ImageThumbs>;
   imageUrl?: Maybe<Scalars['String']>;
   linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
   updated_at: Scalars['DateTime'];
 };
@@ -1496,9 +1569,11 @@ export type Report = {
 export type ReportInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   linked_documents?: InputMaybe<LinkedDocumentMorphedByMany>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
@@ -1581,11 +1656,13 @@ export type StaffControl = {
   __typename?: 'StaffControl';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   image?: Maybe<Image>;
   imageThumbs?: Maybe<ImageThumbs>;
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   page: Page;
   page_id?: Maybe<Scalars['Int']>;
   sort: Scalars['Int'];
@@ -1595,8 +1672,10 @@ export type StaffControl = {
 export type StaffControlInput = {
   deleteImage?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   page?: InputMaybe<PageBelongsTo>;
   page_id?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Scalars['Int']>;
@@ -1607,6 +1686,7 @@ export type Subdivision = {
   __typename?: 'Subdivision';
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
 };
 
@@ -1619,6 +1699,7 @@ export type SubdivisionBelongsTo = {
 export type SubdivisionInput = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
 
@@ -1647,6 +1728,7 @@ export type UpdateDocumentInput = {
 
 export type UpdateGalleryInput = {
   alt?: InputMaybe<Scalars['String']>;
+  alt_en?: InputMaybe<Scalars['String']>;
   id: Scalars['Int'];
   sort?: InputMaybe<Scalars['Int']>;
 };
@@ -1660,6 +1742,7 @@ export type UploadDocumentInput = {
 
 export type UploadGalleryInput = {
   alt?: InputMaybe<Scalars['String']>;
+  alt_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
   upload: Scalars['Upload'];
 };
@@ -1693,16 +1776,20 @@ export type UserPaginator = {
 export type Vacancy = {
   __typename?: 'Vacancy';
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   published: Scalars['Boolean'];
   sort: Scalars['Int'];
 };
 
 export type VacancyInput = {
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['Int']>;
 };
@@ -1711,6 +1798,7 @@ export type VideoBroadcast = {
   __typename?: 'VideoBroadcast';
   id: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   sort: Scalars['Int'];
   url?: Maybe<Scalars['String']>;
 };
@@ -1718,6 +1806,7 @@ export type VideoBroadcast = {
 export type VideoBroadcastInput = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
   url?: InputMaybe<Scalars['String']>;
 };
@@ -1982,14 +2071,14 @@ export type DeleteEmployeeMutationVariables = Exact<{
 
 export type DeleteEmployeeMutation = { __typename?: 'Mutation', deleteEmployee?: { __typename?: 'Employee', id: number } | null };
 
-export type AllEventsFieldsFragment = { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
+export type AllEventsFieldsFragment = { __typename?: 'Event', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, place_en?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type EventByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type EventByIdQuery = { __typename?: 'Query', eventById?: { __typename?: 'Event', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, place_en?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type EventsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1999,7 +2088,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Event', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, place_en?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null }> } | null };
 
 export type UpdateEventPublishedMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2014,14 +2103,14 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', createEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent?: { __typename?: 'Event', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, place_en?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateEventMutationVariables = Exact<{
   input: EventInput;
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, description?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type UpdateEventMutation = { __typename?: 'Mutation', upsertEvent?: { __typename?: 'Event', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, published?: boolean | null, imageUrl?: string | null, place?: string | null, place_en?: string | null, start?: any | null, end?: any | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, partners?: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, organizers?: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, documents?: Array<{ __typename?: 'Document', id: number, url?: string | null, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2287,35 +2376,35 @@ export type DeleteNewsTagMutationVariables = Exact<{
 
 export type DeleteNewsTagMutation = { __typename?: 'Mutation', deleteNewsTag?: { __typename?: 'NewsTag', sort: number, name: string } | null };
 
-export type AllOrganizerFieldsFragment = { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
+export type AllOrganizerFieldsFragment = { __typename?: 'Organizer', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
 export type OrganizerByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type OrganizerByIdQuery = { __typename?: 'Query', organizerById?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type OrganizerByIdQuery = { __typename?: 'Query', organizerById?: { __typename?: 'Organizer', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type OrganizersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type OrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
+export type OrganizersQuery = { __typename?: 'Query', organizers: Array<{ __typename?: 'Organizer', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
 
 export type CreateOrganizerMutationVariables = Exact<{
   input: OrganizerInput;
 }>;
 
 
-export type CreateOrganizerMutation = { __typename?: 'Mutation', createOrganizer?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type CreateOrganizerMutation = { __typename?: 'Mutation', createOrganizer?: { __typename?: 'Organizer', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdateOrganizerMutationVariables = Exact<{
   input: OrganizerInput;
 }>;
 
 
-export type UpdateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type UpdateOrganizerMutation = { __typename?: 'Mutation', upsertOrganizer?: { __typename?: 'Organizer', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type DeleteOrganizerMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2371,35 +2460,35 @@ export type UpdatePageParentMutationVariables = Exact<{
 
 export type UpdatePageParentMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number } | null };
 
-export type AllPartnerFieldsFragment = { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
+export type AllPartnerFieldsFragment = { __typename?: 'Partner', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
 export type PartnerByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PartnerByIdQuery = { __typename?: 'Query', partnerById?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type PartnerByIdQuery = { __typename?: 'Query', partnerById?: { __typename?: 'Partner', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type PartnersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type PartnersQuery = { __typename?: 'Query', partners: Array<{ __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
+export type PartnersQuery = { __typename?: 'Query', partners: Array<{ __typename?: 'Partner', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
 
 export type CreatePartnerMutationVariables = Exact<{
   input: PartnerInput;
 }>;
 
 
-export type CreatePartnerMutation = { __typename?: 'Mutation', createPartner?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type CreatePartnerMutation = { __typename?: 'Mutation', createPartner?: { __typename?: 'Partner', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdatePartnerMutationVariables = Exact<{
   input: PartnerInput;
 }>;
 
 
-export type UpdatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id: number, name: string, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type UpdatePartnerMutation = { __typename?: 'Mutation', upsertPartner?: { __typename?: 'Partner', id: number, name: string, name_en?: string | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type DeletePartnerMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2494,14 +2583,14 @@ export type DeletePurchaseMutationVariables = Exact<{
 
 export type DeletePurchaseMutation = { __typename?: 'Mutation', deletePurchase?: { __typename?: 'Purchase', id: number } | null };
 
-export type AllReportsFieldsFragment = { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null };
+export type AllReportsFieldsFragment = { __typename?: 'Report', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type ReportByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ReportByIdQuery = { __typename?: 'Query', reportById?: { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type ReportByIdQuery = { __typename?: 'Query', reportById?: { __typename?: 'Report', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type ReportsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2509,21 +2598,21 @@ export type ReportsQueryVariables = Exact<{
 }>;
 
 
-export type ReportsQuery = { __typename?: 'Query', reports: Array<{ __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null }> };
+export type ReportsQuery = { __typename?: 'Query', reports: Array<{ __typename?: 'Report', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null }> };
 
 export type CreateReportMutationVariables = Exact<{
   input: ReportInput;
 }>;
 
 
-export type CreateReportMutation = { __typename?: 'Mutation', createReport?: { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type CreateReportMutation = { __typename?: 'Mutation', createReport?: { __typename?: 'Report', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdateReportMutationVariables = Exact<{
   input: ReportInput;
 }>;
 
 
-export type UpdateReportMutation = { __typename?: 'Mutation', upsertReport?: { __typename?: 'Report', id: number, name: string, description?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type UpdateReportMutation = { __typename?: 'Mutation', upsertReport?: { __typename?: 'Report', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, created_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type DeleteReportMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2844,10 +2933,13 @@ export const AllEventsFieldsFragmentDoc = `
     fragment allEventsFields on Event {
   id
   name
+  name_en
   description
+  description_en
   published
   imageUrl
   place
+  place_en
   start
   end
   created_at
@@ -2996,6 +3088,7 @@ export const AllOrganizerFieldsFragmentDoc = `
     fragment allOrganizerFields on Organizer {
   id
   name
+  name_en
   imageUrl
   image {
     id
@@ -3049,6 +3142,7 @@ export const AllPartnerFieldsFragmentDoc = `
     fragment allPartnerFields on Partner {
   id
   name
+  name_en
   imageUrl
   image {
     id
@@ -3123,7 +3217,9 @@ export const AllReportsFieldsFragmentDoc = `
     fragment allReportsFields on Report {
   id
   name
+  name_en
   description
+  description_en
   sort
   imageUrl
   linked_documents {

@@ -14,16 +14,18 @@ import { TabsForm } from "~/shared/components/TabsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
 import { LinkedDocumentsFormFields, LinkedDocumentForm } from "../LinkedDocumentForm";
+import { Languages } from "~/shared/types/Languages";
 
 type FormFields = GeneralFormFields &
   AdditionalFormFields &
   LinkedDocumentsFormFields & { uploadImage?: File | null };
 
 type Props = {
+  lang: Languages;
   id?: number;
 };
 
-export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
+export const EventsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
@@ -64,11 +66,14 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
       ...(Boolean(values?.id) && { id: values?.id }),
       name: newValues.name,
       description: newValues.description,
+      name_en: newValues.name_en,
+      description_en: newValues.description_en,
       published: newValues.published,
       imageUrl: undefined,
       uploadImage: newValues.uploadImage,
       ...(Boolean(!newValues.imageUrl) && { deleteImage: true }),
       place: newValues.place,
+      place_en: newValues.place_en,
       start: newValues.start,
       end: newValues.end,
       ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
@@ -97,6 +102,8 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
     const defaultFields: (keyof FormFields)[] = [
       "name",
       "description",
+      "name_en",
+      "description_en",
       "published",
       "imageUrl",
       "documents",
@@ -104,7 +111,8 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
       "partners",
       "start",
       "end",
-      "place"
+      "place",
+      "place_en"
     ];
 
     defaultFields.forEach((fieldName) => {
@@ -144,6 +152,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id }) => {
               errors={errors}
               register={register}
               control={control}
+              lang={lang}
             />
           )
         },

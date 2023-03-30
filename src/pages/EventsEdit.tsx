@@ -8,9 +8,12 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const EventsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const handleGoBack = useNavigationBack();
 
@@ -37,8 +40,9 @@ export const EventsEdit: React.FC = () => {
               title={isEdit ? "Events editing" : "Events creating"}
               onBackClick={handleGoBack}
               onRemove={isEdit ? handleDelete : undefined}
+              onLangChange={setLang}
             />
-            <EventsDetailsForm id={Number(id)} />
+            <EventsDetailsForm id={Number(id)} lang={lang} />
           </Box>
         </Box>
       </Panel>

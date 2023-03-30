@@ -4,10 +4,13 @@ export const EventsFragment = gql`
   fragment allEventsFields on Event {
     id
     name
+    name_en
     description
+    description_en
     published
     imageUrl
     place
+    place_en
     start
     end
     created_at
