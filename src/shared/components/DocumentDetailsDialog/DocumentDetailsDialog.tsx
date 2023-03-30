@@ -28,6 +28,7 @@ import { FileInput } from "../FileInput";
 import { SaveButton } from "../SaveButton";
 import { DatePicker } from "../DatePicker";
 import { ButtonDelete } from "../ButtonDelete";
+import { EnLabelWrapper } from "../EnLabelWrapper";
 
 type Props = {
   open: boolean;
@@ -37,7 +38,7 @@ type Props = {
   groupId?: DocumentGroup["id"];
   create?: (document: LinkedDocumentInput) => Promise<number>;
   update?: (
-    document: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+    document: LinkedDocumentInput & { created_at?: LinkedDocument["created_at"] }
   ) => Promise<number>;
   onRemove?: (id: LinkedDocumentInput["id"]) => void;
   document?: LinkedDocumentsWithoutUpdated | null;
@@ -72,24 +73,22 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     e.preventDefault();
 
     handleSubmit(async (newValues) => {
-      const input = {
+      const input: LinkedDocumentInput = {
         ...(Boolean(!isCreate) && { id: document?.id }),
         ...(Boolean(newValues.file) && { upload: newValues.file }),
         user_name: `${newValues.title}.${newValues.format}`,
-        published: newValues.published,
-        created_at: newValues.created_at
+        user_name_en: newValues.user_name_en,
+        published: newValues.published
       };
 
       let connectId: number | null = null;
 
       if (isCreate) {
-        delete input.created_at;
         await create?.(input).then((id) => {
           connectId = id;
         });
       } else {
-        delete input.created_at;
-        await update?.(input).then((id) => {
+        await update?.({ ...input, created_at: newValues.created_at }).then((id) => {
           connectId = id;
         });
       }
@@ -134,14 +133,15 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     setValue("title", getFileName(document?.user_name ?? ""));
     setValue("url", document?.url);
     setValue("format", getFileFormat(document?.user_name ?? ""));
+    setValue("user_name_en", document?.user_name_en);
     setValue("groupId", groupId);
     setValue("published", document?.published);
-    setValue("created_at", document?.created_at);
-  }, [document, setValue, groupId]);
+    setValue("created_at", isCreate ? new Date() : document?.created_at);
+  }, [document, setValue, groupId, isCreate]);
 
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>
-      <Box className='flex flex-col gap-10 p-6' component='form' onSubmit={onSubmit}>
+      <Box className='flex flex-col gap-10 p-6 max-w-[360px]' component='form' onSubmit={onSubmit}>
         <Text variant='h5'>{document ? "Edit document" : "Create document"}</Text>
 
         <Controller
@@ -162,6 +162,25 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
               />
 
               <HelperText id='title' error={getError("title")} />
+            </FormControl>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name='user_name_en'
+          render={({ field }) => (
+            <FormControl fullWidth>
+              <TextField
+                fullWidth
+                label={
+                  <EnLabelWrapper>
+                    <Text>Title</Text>
+                  </EnLabelWrapper>
+                }
+                {...field}
+                {...register("user_name_en")}
+              />
             </FormControl>
           )}
         />

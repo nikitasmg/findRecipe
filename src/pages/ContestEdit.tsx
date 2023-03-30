@@ -9,9 +9,12 @@ import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ContestPageRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const ContestEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const goBack = useNavigationBack();
 
@@ -38,8 +41,9 @@ export const ContestEdit: React.FC = () => {
               title={isEdit ? "Contest editing" : "Contest creating"}
               backHref={ContestPageRoute}
               onRemove={isEdit ? handleDelete : undefined}
+              onLangChange={setLang}
             />
-            <ContestDetailsForm id={Number(id)} />
+            <ContestDetailsForm id={Number(id)} lang={lang} />
           </Box>
         </Box>
       </Panel>

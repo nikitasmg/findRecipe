@@ -46,13 +46,15 @@ const compilations: Compilations[] = [
     id: 3,
     title: "subdivisions",
     heading: "Subdivisions",
-    whereUseLink: { title: "Employees", href: EmployeesPage }
+    whereUseLink: { title: "Employees", href: EmployeesPage },
+    langExist: true
   },
   {
     id: 4,
     title: "knowledgeFields",
     heading: "Knowledge fields",
-    whereUseLink: { title: "Projects", href: ProjectsPageRoute }
+    whereUseLink: { title: "Projects", href: ProjectsPageRoute },
+    langExist: true
   }
 ];
 

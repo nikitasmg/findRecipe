@@ -6,15 +6,17 @@ import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { InteractiveMapFormRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 import { LinkedDocumentForm } from "../LinkedDocumentForm";
 import { GeneralNewsForm } from "./components/GeneralForm";
 import { prepareFormData } from "./lib/prepareFormData";
 
 type Props = {
+  lang: Languages;
   id?: number;
 };
 
-export const InteractiveMapDetailsForm: React.FC<Props> = ({ id }) => {
+export const InteractiveMapDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
@@ -58,7 +60,17 @@ export const InteractiveMapDetailsForm: React.FC<Props> = ({ id }) => {
     }
 
     initFormValues(
-      ["name", "characteristics", "learn_more", "floors", "gross_boma_area", "area"],
+      [
+        "name",
+        "name_en",
+        "characteristics",
+        "characteristics_en",
+        "learn_more",
+        "floors",
+        "floors_en",
+        "gross_boma_area",
+        "area"
+      ],
       setValue,
       values
     );
@@ -93,6 +105,7 @@ export const InteractiveMapDetailsForm: React.FC<Props> = ({ id }) => {
               errors={errors}
               register={register}
               control={control}
+              lang={lang}
             />
           )
         },

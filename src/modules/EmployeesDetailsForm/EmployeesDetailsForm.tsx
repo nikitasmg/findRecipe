@@ -14,16 +14,19 @@ import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { SaveButton } from "~/shared/components/SaveButton";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getBaseEmailValidation, getFullNameValidation } from "~shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 
 interface EmployeesDetailsFormProps {
+  lang: Languages;
   id?: number;
 }
 
-export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id }) => {
+export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, lang }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -66,10 +69,12 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id }
     const input: EmployeeInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
+      additional: String(newValues.additional),
       subdivision: {
-        connect: !isNaN(Number(newValues.subdivision))
-          ? newValues.subdivision
-          : newValues.subdivision?.id
+        ...(Number.isInteger(newValues.subdivision) && { connect: newValues.subdivision }),
+        ...(Boolean(!newValues.subdivision && values?.subdivision?.id) && {
+          disconnect: true
+        })
       }
     };
 
@@ -81,62 +86,116 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id }
     updateEmployee({ input });
   });
 
+  const isRuLang = lang === "ru";
+
   useEffect(() => {
     if (!isSuccess) {
       return;
     }
 
-    initFormValues(["name", "position", "additional", "email", "subdivision"], setValue, values);
+    initFormValues(
+      ["name", "name_en", "position", "position_en", "additional", "email", "subdivision"],
+      setValue,
+      values
+    );
   }, [values, isSuccess, setValue]);
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
-      <Box className='flex flex-col gap-6'>
+      <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>
         <Grid container columns={12} spacing={3}>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='name'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={
-                      <RequiredLabelWrapper>
-                        <Text>Full name</Text>
-                      </RequiredLabelWrapper>
-                    }
-                    value={value}
-                    variant='outlined'
-                    id='name'
-                    error={!!getError("name")}
-                    {...register("name", getFullNameValidation({ required: true }))}
-                  />
+          {isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <RequiredLabelWrapper>
+                          <Text>Full name</Text>
+                        </RequiredLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      id='name'
+                      error={!!getError("name")}
+                      {...register("name", getFullNameValidation({ required: true }))}
+                    />
 
-                  <HelperText id='name' error={getError("name")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='position'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={<Text>Position</Text>}
-                    value={value}
-                    variant='outlined'
-                    id='position'
-                    error={!!getError("position")}
-                    {...register("position")}
-                  />
+                    <HelperText id='name' error={getError("name")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
 
-                  <HelperText id='position' error={getError("position")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+          {!isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Full name</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      {...register("name", getFullNameValidation({ required: false }))}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='position'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={<Text>Position</Text>}
+                      value={value}
+                      variant='outlined'
+                      {...register("position")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='position_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Position</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      {...register("position_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <Controller
               control={control}
@@ -146,16 +205,14 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id }
                   <NumericInput
                     label={<Text>Additional number</Text>}
                     id='additional'
-                    error={!!getError("additional")}
                     {...register("additional")}
                     {...field}
                   />
-
-                  <HelperText id='additional' error={getError("additional")} />
                 </FormControl>
               )}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Controller
               control={control}
@@ -200,7 +257,7 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id }
                       </MenuItem>
                       {subdivisions?.subdivisions.map((subdivision) => (
                         <MenuItem key={subdivision.id} value={subdivision.id}>
-                          {subdivision.name}
+                          {isRuLang ? subdivision.name : subdivision.name_en}
                         </MenuItem>
                       ))}
                     </TextField>
@@ -210,8 +267,8 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id }
             </FormControl>
           </Grid>
         </Grid>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
+      <SaveButton className='w-fit ml-auto' disabled={isLoading} />
     </form>
   );
 };

@@ -4,6 +4,7 @@ export const OrganizerFragment = gql`
   fragment allOrganizerFields on Organizer {
     id
     name
+    name_en
     imageUrl
     image {
       id

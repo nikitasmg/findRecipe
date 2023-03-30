@@ -8,13 +8,17 @@ import { Text } from "~/shared/components/Text";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { DatePicker } from "~/shared/components/DatePicker";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
+import { Languages } from "~/shared/types/Languages";
 
 export type GeneralFormFields = {
   name?: string;
   description?: string;
+  name_en?: string;
+  description_en?: string;
   sort?: number;
   imageUrl?: string;
   uploadImage?: File | null;
@@ -22,67 +26,120 @@ export type GeneralFormFields = {
 };
 
 type Props = {
+  lang: Languages;
   register: UseFormRegister<GeneralFormFields>;
   errors: FieldErrors<GeneralFormFields>;
   setValue: (name: keyof GeneralFormFields, value: string | File | null) => void;
   control?: Control<GeneralFormFields, unknown>;
 };
 
-export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, control }) => {
+export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, control, lang }) => {
   const getError = getErrorMessage(errors);
 
   const addAlert = useAlertsStore((state) => state.addAlert);
 
+  const isRusLang = lang === "ru";
+
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
       <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
-        <Controller
-          control={control}
-          name='name'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={
-                  <RequiredLabelWrapper>
-                    <Text>Title</Text>
-                  </RequiredLabelWrapper>
-                }
-                value={value}
-                variant='outlined'
-                error={!!getError("name")}
-                {...register("name", baseRequiredTextValidation)}
-              />
+        {isRusLang && (
+          <Controller
+            control={control}
+            name='name'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Title</Text>
+                    </RequiredLabelWrapper>
+                  }
+                  value={value}
+                  variant='outlined'
+                  error={!!getError("name")}
+                  {...register("name", baseRequiredTextValidation)}
+                />
 
-              <HelperText id='name' error={getError("name")} />
-            </FormControl>
-          )}
-        />
+                <HelperText id='name' error={getError("name")} />
+              </FormControl>
+            )}
+          />
+        )}
 
-        <Controller
-          control={control}
-          name='description'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                multiline
-                fullWidth
-                value={value}
-                label={
-                  <RequiredLabelWrapper>
-                    <Text>Short description</Text>
-                  </RequiredLabelWrapper>
-                }
-                InputProps={{
-                  inputComponent: TextareaAutosize
-                }}
-                error={getError("description")}
-                {...register("description", baseRequiredTextValidation)}
-              />
+        {!isRusLang && (
+          <Controller
+            control={control}
+            name='name_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Title</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value}
+                  variant='outlined'
+                  {...register("name_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
-              <HelperText id='description' error={getError("description")} />
-            </FormControl>
-          )}
-        />
+        {isRusLang && (
+          <Controller
+            control={control}
+            name='description'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  multiline
+                  fullWidth
+                  value={value}
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Short description</Text>
+                    </RequiredLabelWrapper>
+                  }
+                  InputProps={{
+                    inputComponent: TextareaAutosize
+                  }}
+                  error={getError("description")}
+                  {...register("description", baseRequiredTextValidation)}
+                />
+
+                <HelperText id='description' error={getError("description")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {!isRusLang && (
+          <Controller
+            control={control}
+            name='description_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  multiline
+                  fullWidth
+                  value={value}
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Short description</Text>
+                    </EnLabelWrapper>
+                  }
+                  InputProps={{
+                    inputComponent: TextareaAutosize
+                  }}
+                  {...register("description_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
         <Controller
           control={control}

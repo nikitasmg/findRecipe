@@ -4,6 +4,7 @@ export const ContestFragment = gql`
   fragment allContestFields on Contest {
     id
     name
+    name_en
     number
     status
     deadline

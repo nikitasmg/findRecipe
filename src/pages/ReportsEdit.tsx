@@ -9,9 +9,12 @@ import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ReportsPageRoute } from "~shared/routes";
 import { useNavigationBack } from "~shared/hooks/useBackClick";
 import { ReportsDetailsForm } from "~/modules/ReportsDetailsForm";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const ReportsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const handleGoBack = useNavigationBack();
 
@@ -40,8 +43,9 @@ export const ReportsEdit: React.FC = () => {
               title={isEdit ? "Reports editing" : "Reports creating"}
               backHref={ReportsPageRoute}
               onRemove={isEdit ? handleDelete : undefined}
+              onLangChange={setLang}
             />
-            <ReportsDetailsForm id={Number(id)} />
+            <ReportsDetailsForm id={Number(id)} lang={lang} />
           </Box>
         </Box>
       </Panel>

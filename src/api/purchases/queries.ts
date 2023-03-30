@@ -4,7 +4,7 @@ export const PurchasesFragment = gql`
   fragment allPurchasesFields on Purchase {
     id
     name
-    description
+    name_en
     url
     sort
     published

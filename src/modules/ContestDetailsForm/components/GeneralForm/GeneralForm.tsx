@@ -10,9 +10,12 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { NumberField } from "../NumberField";
+import { Languages } from "~/shared/types/Languages";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 
 export interface GeneralFormFields {
   name?: string;
+  name_en?: string;
   number?: number;
   status?: ContestStatus;
   deadline?: string;
@@ -20,38 +23,63 @@ export interface GeneralFormFields {
 }
 
 type Props = {
+  lang: Languages;
   register: UseFormRegister<Partial<GeneralFormFields>>;
   errors: FieldErrors<GeneralFormFields>;
   setValue: (name: keyof GeneralFormFields, value: string | number) => void;
   control?: Control<GeneralFormFields, unknown>;
 };
 
-export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, control }) => {
+export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, control, lang }) => {
   const getError = getErrorMessage(errors);
+
+  const isRuLang = lang === "ru";
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
       <Box className='flex flex-col gap-6 lg:w-[70%]'>
-        <Controller
-          control={control}
-          name='name'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={
-                  <RequiredLabelWrapper>
-                    <Text>Title</Text>
-                  </RequiredLabelWrapper>
-                }
-                value={value}
-                error={!!getError("name")}
-                {...register("name", baseRequiredTextValidation)}
-              />
+        {isRuLang && (
+          <Controller
+            control={control}
+            name='name'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Title</Text>
+                    </RequiredLabelWrapper>
+                  }
+                  value={value}
+                  error={!!getError("name")}
+                  {...register("name", baseRequiredTextValidation)}
+                />
 
-              <HelperText id='name' error={getError("name")} />
-            </FormControl>
-          )}
-        />
+                <HelperText id='name' error={getError("name")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {!isRuLang && (
+          <Controller
+            control={control}
+            name='name_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Title</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value}
+                  {...register("name_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
         <NumberField register={register} errors={errors} setValue={setValue} control={control} />
 

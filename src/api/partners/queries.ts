@@ -4,6 +4,7 @@ export const PartnerFragment = gql`
   fragment allPartnerFields on Partner {
     id
     name
+    name_en
     imageUrl
     image {
       id

@@ -20,18 +20,21 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { SaveButton } from "~/shared/components/SaveButton";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
-import { SaveButton } from "~/shared/components/SaveButton";
+import { Languages } from "~/shared/types/Languages";
 
 interface VacanciesDetailsFormProps {
+  lang: Languages;
   id?: number;
 }
 
-export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id }) => {
+export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, lang }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -85,63 +88,124 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id }
 
   const handleChecked = getCheckedHandler(setValue);
 
+  const isRusLang = lang === "ru";
+
   useEffect(() => {
     if (!isSuccess) {
+      setValue("published", true);
       return;
     }
 
-    initFormValues(["name", "description", "sort", "published"], setValue, values);
+    initFormValues(
+      ["name", "description", "name_en", "description_en", "sort", "published"],
+      setValue,
+      values
+    );
   }, [values, isSuccess, setValue]);
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='name'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={
-                      <RequiredLabelWrapper>
-                        <Text>Title</Text>
-                      </RequiredLabelWrapper>
-                    }
-                    value={value}
-                    error={!!getError("name")}
-                    {...register("name", baseRequiredTextValidation)}
-                  />
+          {isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <RequiredLabelWrapper>
+                          <Text>Title</Text>
+                        </RequiredLabelWrapper>
+                      }
+                      value={value}
+                      error={!!getError("name")}
+                      {...register("name", baseRequiredTextValidation)}
+                    />
 
-                  <HelperText id='name' error={getError("name")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='description'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    id='description'
-                    multiline
-                    fullWidth
-                    value={value}
-                    label={<Text>Description</Text>}
-                    InputProps={{
-                      inputComponent: TextareaAutosize
-                    }}
-                    {...register("description")}
-                  />
+                    <HelperText id='name' error={getError("name")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
 
-                  <HelperText id='description' error={getError("description")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+          {!isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Title</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      {...register("name_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='description'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={value}
+                      label={<Text>Description</Text>}
+                      InputProps={{
+                        inputComponent: TextareaAutosize
+                      }}
+                      {...register("description")}
+                    />
+
+                    <HelperText id='description' error={getError("description")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='description_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={value}
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Description</Text>
+                        </EnLabelWrapper>
+                      }
+                      InputProps={{
+                        inputComponent: TextareaAutosize
+                      }}
+                      {...register("description_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <Controller
               control={control}

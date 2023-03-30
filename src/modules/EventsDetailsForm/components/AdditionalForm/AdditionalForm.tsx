@@ -34,6 +34,7 @@ export const AdditionalForm: React.FC<Props> = ({ setValue, getValues, control }
     members?.map((member) => ({
       id: member.id,
       name: member.name ?? "",
+      name_en: member.name_en ?? "",
       imageUrl: member.imageUrl ?? ""
     })) ?? [];
 

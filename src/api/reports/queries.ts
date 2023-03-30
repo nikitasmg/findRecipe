@@ -4,7 +4,9 @@ export const ReportsFragment = gql`
   fragment allReportsFields on Report {
     id
     name
+    name_en
     description
+    description_en
     sort
     imageUrl
     linked_documents {

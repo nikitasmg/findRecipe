@@ -13,16 +13,18 @@ import { TabsForm } from "~/shared/components/TabsForm";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { NewsPageRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
 import { DocumentFormFields, DocumentsForm } from "./components/DocumentsForm";
 
 type FormFields = DocumentFormFields & GeneralFormFields;
 
 type Props = {
+  lang: Languages;
   id?: number;
 };
 
-export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
+export const ContestDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
@@ -64,6 +66,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
     const input: ContestInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       name: newValues.name,
+      name_en: newValues.name_en,
       number: Number(newValues.number),
       status: newValues.status,
       deadline: newValues.deadline,
@@ -91,7 +94,11 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    initFormValues(["name", "number", "status", "deadline", "date", "documents"], setValue, values);
+    initFormValues(
+      ["name", "name_en", "number", "status", "deadline", "date", "documents"],
+      setValue,
+      values
+    );
 
     values?.documents?.forEach((document, i) => {
       const file = new File([], document?.user_name ?? "Document");
@@ -116,6 +123,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id }) => {
               errors={errors}
               register={register}
               control={control}
+              lang={lang}
             />
           )
         },

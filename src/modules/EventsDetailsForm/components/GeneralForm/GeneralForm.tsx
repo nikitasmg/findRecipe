@@ -19,11 +19,16 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { useAlertsStore } from "~/shared/stores/alerts";
+import { Languages } from "~/shared/types/Languages";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 
 export type GeneralFormFields = {
   name?: string;
   description?: string;
+  name_en?: string;
+  description_en?: string;
   place?: string;
+  place_en?: string;
   imageUrl?: string;
   published?: boolean;
   end?: string;
@@ -32,81 +37,152 @@ export type GeneralFormFields = {
 };
 
 type Props = {
+  lang: Languages;
   register: UseFormRegister<GeneralFormFields>;
   errors: FieldErrors<GeneralFormFields>;
   setValue: (name: keyof GeneralFormFields, value: string | File | null) => void;
   control?: Control<GeneralFormFields, unknown>;
 };
 
-export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, control }) => {
+export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, control, lang }) => {
   const getError = getErrorMessage(errors);
 
   const handleChecked = getCheckedHandler(setValue);
 
   const addAlert = useAlertsStore((state) => state.addAlert);
 
+  const isRuLang = lang === "ru";
+
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
       <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
-        <Controller
-          control={control}
-          name='name'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={
-                  <RequiredLabelWrapper>
-                    <Text>Heading</Text>
-                  </RequiredLabelWrapper>
-                }
-                value={value}
-                variant='outlined'
-                error={!!getError("name")}
-                {...register("name", baseRequiredTextValidation)}
-              />
+        {isRuLang && (
+          <Controller
+            control={control}
+            name='name'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Heading</Text>
+                    </RequiredLabelWrapper>
+                  }
+                  value={value}
+                  variant='outlined'
+                  error={!!getError("name")}
+                  {...register("name", baseRequiredTextValidation)}
+                />
 
-              <HelperText id='name' error={getError("name")} />
-            </FormControl>
-          )}
-        />
+                <HelperText id='name' error={getError("name")} />
+              </FormControl>
+            )}
+          />
+        )}
 
-        <Controller
-          control={control}
-          name='description'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                multiline
-                fullWidth
-                value={value}
-                label={<Text>Description</Text>}
-                InputProps={{
-                  inputComponent: TextareaAutosize
-                }}
-                {...register("description")}
-              />
+        {!isRuLang && (
+          <Controller
+            control={control}
+            name='name_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Heading</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value}
+                  variant='outlined'
+                  error={!!getError("name_en")}
+                  {...register("name_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
-              <HelperText id='description' error={getError("description")} />
-            </FormControl>
-          )}
-        />
+        {isRuLang && (
+          <Controller
+            control={control}
+            name='description'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  multiline
+                  fullWidth
+                  value={value}
+                  label={<Text>Description</Text>}
+                  InputProps={{
+                    inputComponent: TextareaAutosize
+                  }}
+                  {...register("description")}
+                />
 
-        <Controller
-          control={control}
-          name='place'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={<Text>Place event</Text>}
-                value={value}
-                error={!!getError("place")}
-                {...register("place")}
-              />
+                <HelperText id='description' error={getError("description")} />
+              </FormControl>
+            )}
+          />
+        )}
 
-              <HelperText id='place' error={getError("place")} />
-            </FormControl>
-          )}
-        />
+        {!isRuLang && (
+          <Controller
+            control={control}
+            name='description_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  multiline
+                  fullWidth
+                  value={value}
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Description</Text>
+                    </EnLabelWrapper>
+                  }
+                  InputProps={{
+                    inputComponent: TextareaAutosize
+                  }}
+                  {...register("description_en")}
+                />
+
+                <HelperText id='description_en' error={getError("description_en")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {isRuLang && (
+          <Controller
+            control={control}
+            name='place'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField label={<Text>Place event</Text>} value={value} {...register("place")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {!isRuLang && (
+          <Controller
+            control={control}
+            name='place_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Place event</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value}
+                  {...register("place_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
         <Controller
           control={control}

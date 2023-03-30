@@ -7,6 +7,7 @@ export const ProjectsFragment = gql`
     knowledge_field {
       id
       name
+      name_en
       sort
     }
     contest_id
@@ -22,18 +23,28 @@ export const ProjectsFragment = gql`
     }
     number
     name
+    name_en
     slug
     leader
+    leader_en
     leader_rank
+    leader_rank_en
     organization
+    organization_en
     annotation
+    annotation_en
     plan_results
+    plan_results_en
     publications
+    publications_en
     result_annotation
+    result_annotation_en
     result_usage
+    result_usage_en
     year
     grnti_number
     status_text
+    status_text_en
     deadline
     meta {
       title

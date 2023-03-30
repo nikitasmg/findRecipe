@@ -1,25 +1,25 @@
 import React, { BaseSyntheticEvent, Fragment, useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import { equals, compose, not, prop, when } from "ramda";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import { Controller, useForm } from "react-hook-form";
 import { Box, Drawer, TextField, Typography } from "@mui/material";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { AvatarInput } from "~/shared/components/AvatarInput";
-import { Button } from "~/shared/components/Button";
-import { Text } from "~/shared/components/Text";
-import { SaveButton } from "~/shared/components/SaveButton";
-import { useModal } from "~/shared/hooks/useModal";
-import { useAlertsStore } from "~/shared/stores/alerts";
-import { getMemberHooksByName } from "../../lib/getMemberHooksByName";
-import { ButtonDelete } from "~/shared/components/ButtonDelete";
-import { compose, not, prop, when } from "rambda";
 import {
   CreateOrganizerMutation,
   CreatePartnerMutation,
   OrganizerInput,
   PartnerInput
 } from "~/generated/graphql";
-import { equals } from "ramda";
+import { AvatarInput } from "~/shared/components/AvatarInput";
+import { Button } from "~/shared/components/Button";
+import { Text } from "~/shared/components/Text";
+import { SaveButton } from "~/shared/components/SaveButton";
+import { ButtonDelete } from "~/shared/components/ButtonDelete";
+import { useModal } from "~/shared/hooks/useModal";
+import { useAlertsStore } from "~/shared/stores/alerts";
+import { getMemberHooksByName } from "../../lib/getMemberHooksByName";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 
 type UpsertInput = OrganizerInput | PartnerInput;
 
@@ -31,6 +31,7 @@ type CreateMutation =
 
 type FormFields = {
   name: string;
+  name_en?: string;
   imageUrl?: string | null;
   file: File | null;
   deleteImage?: boolean;
@@ -39,6 +40,7 @@ type FormFields = {
 type Member = {
   id?: number;
   name: string;
+  name_en?: string;
   imageUrl?: string | null;
   file?: File | null;
 };
@@ -135,6 +137,7 @@ export const Member: React.FC<Props> = ({
       const input = {
         ...(Boolean(selectedMember?.id) && { id: selectedMember?.id }),
         name: newValues.name,
+        name_en: newValues.name_en,
         ...(Boolean(newValues.file) && { uploadImage: newValues.file }),
         ...(Boolean(newValues.deleteImage) && { deleteImage: newValues.deleteImage })
       };
@@ -152,7 +155,7 @@ export const Member: React.FC<Props> = ({
           onCreateMember?.(values);
 
           setMembers((oldMembers) => {
-            const newMembers = oldMembers.concat(values);
+            const newMembers = oldMembers.concat(values as Member);
 
             onChange?.(newMembers);
 
@@ -192,6 +195,7 @@ export const Member: React.FC<Props> = ({
 
     setValue("imageUrl", selectedMember.imageUrl);
     setValue("name", selectedMember.name);
+    setValue("name_en", selectedMember.name_en);
   }, [selectedMember, setValue]);
 
   return (
@@ -259,8 +263,24 @@ export const Member: React.FC<Props> = ({
                 label={<Text>Name</Text>}
                 value={value}
                 variant='standard'
-                id='name'
                 {...register("name")}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name='name_en'
+            render={({ field: { value } }) => (
+              <TextField
+                label={
+                  <EnLabelWrapper>
+                    <Text>Name</Text>
+                  </EnLabelWrapper>
+                }
+                value={value}
+                variant='standard'
+                {...register("name_en")}
               />
             )}
           />

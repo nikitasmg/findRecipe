@@ -4,6 +4,7 @@ export const DocumentGroupsFragment = gql`
   fragment allDocumentGroupsFields on DocumentGroup {
     id
     name
+    name_en
     sort
     linked_documents {
       id

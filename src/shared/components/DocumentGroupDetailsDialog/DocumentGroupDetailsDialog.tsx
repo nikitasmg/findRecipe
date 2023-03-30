@@ -10,12 +10,13 @@ import { HelperText } from "../HelperText";
 import { RequiredLabelWrapper } from "../RequiredLabelWrapper";
 import { Text } from "../Text";
 import { SaveButton } from "../SaveButton";
+import { EnLabelWrapper } from "../EnLabelWrapper";
 
 type Props = {
   open: boolean;
   onClose: () => void;
   create?: (group: Omit<DocumentGroupInput, "id">) => void;
-  update?: (group: DocumentGroupInput) => void;
+  update?: (group: Partial<DocumentGroup>) => void;
   onRemove?: (id: DocumentGroupInput["id"]) => void;
   group?: DocumentGroup | null;
 };
@@ -43,15 +44,18 @@ export const DocumentGroupDetailsDialog: React.FC<Props> = ({
   const onSubmit = handleSubmit((newValues) => {
     const input = {
       ...(Boolean(isCreate) && { id: group?.id }),
-      name: newValues.name
+      name: newValues.name,
+      name_en: newValues.name_en
     };
 
     if (isCreate) {
       create?.(input);
+      onClose?.();
       return;
     }
 
-    update?.(input);
+    update?.({ ...group, ...input });
+    onClose?.();
   });
 
   const handleDelete = () => {
@@ -64,13 +68,13 @@ export const DocumentGroupDetailsDialog: React.FC<Props> = ({
 
   useEffect(() => {
     setValue("name", group?.name);
+    setValue("name_en", group?.name_en);
   }, [group, setValue]);
 
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>
       <Box className='flex flex-col gap-10 p-6' component='form' onSubmitCapture={onSubmit}>
         <Text variant='h5'>{document ? "Edit group" : "Create group"}</Text>
-
         <Controller
           control={control}
           name='name'
@@ -89,6 +93,25 @@ export const DocumentGroupDetailsDialog: React.FC<Props> = ({
               />
 
               <HelperText id='name' error={getError("name")} />
+            </FormControl>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name='name_en'
+          render={({ field }) => (
+            <FormControl fullWidth>
+              <TextField
+                fullWidth
+                label={
+                  <EnLabelWrapper>
+                    <Text>Name</Text>
+                  </EnLabelWrapper>
+                }
+                {...field}
+                {...register("name_en", baseRequiredTextValidation)}
+              />
             </FormControl>
           )}
         />

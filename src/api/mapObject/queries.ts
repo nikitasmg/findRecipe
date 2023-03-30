@@ -4,10 +4,13 @@ export const MapObjectsFragment = gql`
   fragment allMapObjectsFields on MapObject {
     id
     name
+    name_en
     characteristics
+    characteristics_en
     area
     gross_boma_area
     floors
+    floors_en
     learn_more
     linked_documents {
       id

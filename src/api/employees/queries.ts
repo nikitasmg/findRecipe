@@ -7,8 +7,10 @@ export const EmployeeFragment = gql`
   fragment allEmployeeFields on Employee {
     id
     name
+    name_en
     email
     position
+    position_en
     additional
     sort
     subdivision {

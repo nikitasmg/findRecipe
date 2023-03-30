@@ -4,6 +4,7 @@ export const KnowledgeFieldsFragment = gql`
   fragment allKnowledgeAreasFields on KnowledgeField {
     id
     name
+    name_en
     sort
   }
 `;
@@ -31,8 +32,10 @@ export const KnowledgeFields = gql`
 export const CreateKnowledgeField = gql`
   ${KnowledgeFieldsFragment}
 
-  mutation createKnowledgeField($sort: Int!, $name: String!) {
-    createKnowledgeField: upsertKnowledgeField(input: { sort: $sort, name: $name }) {
+  mutation createKnowledgeField($sort: Int!, $name: String!, $name_en: String) {
+    createKnowledgeField: upsertKnowledgeField(
+      input: { sort: $sort, name: $name, name_en: $name_en }
+    ) {
       ...allKnowledgeAreasFields
     }
   }
@@ -41,8 +44,8 @@ export const CreateKnowledgeField = gql`
 export const UpdateKnowledgeField = gql`
   ${KnowledgeFieldsFragment}
 
-  mutation updateKnowledgeField($id: Int!, $sort: Int!, $name: String!) {
-    upsertKnowledgeField(input: { id: $id, sort: $sort, name: $name }) {
+  mutation updateKnowledgeField($id: Int!, $sort: Int!, $name: String!, $name_en: String) {
+    upsertKnowledgeField(input: { id: $id, sort: $sort, name: $name, name_en: $name_en }) {
       ...allKnowledgeAreasFields
     }
   }

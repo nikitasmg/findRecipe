@@ -4,8 +4,10 @@ export const ActivityResultsFragment = gql`
   fragment allActivityResultsFields on ActivityResult {
     id
     name
+    name_en
     result
     measure_unit
+    measure_unit_en
     sort
     created_at
   }
