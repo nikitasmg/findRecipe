@@ -4,9 +4,11 @@ export const PagesFragment = gql`
   fragment allPageFields on Page {
     id
     name
+    name_en
     slug
     sort
     description
+    description_en
     imageUrl
     image {
       id
