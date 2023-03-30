@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { Control } from "react-hook-form";
+import { Control, UseFormGetValues } from "react-hook-form";
 
 type Params = Record<string, unknown>;
 
@@ -10,6 +10,7 @@ type FormFields<T = Params> = {
 
 type FormProps<T = Params> = {
   setValue: (name: string, value: unknown) => void;
+  getValues: UseFormGetValues<Params>;
   control?: Control<FormFields<T>, unknown>;
 };
 
