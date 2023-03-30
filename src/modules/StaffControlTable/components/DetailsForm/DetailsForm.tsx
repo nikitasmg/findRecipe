@@ -15,6 +15,7 @@ import { ImageInput } from "~/shared/components/ImageInput";
 import { HelperText } from "~/shared/components/HelperText";
 import { SaveButton } from "~/shared/components/SaveButton";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
@@ -22,6 +23,8 @@ import { useAlertsStore } from "~/shared/stores/alerts";
 type FormFields = {
   name?: string;
   description?: string;
+  name_en?: string;
+  description_en?: string;
   imageUrl?: string | null;
   uploadImage?: File | null;
   deleteImage?: boolean;
@@ -105,13 +108,15 @@ export const DetailsForm: React.FC<Props> = ({
 
     setValue("name", activeStaff.name);
     setValue("description", activeStaff.description ?? "");
+    setValue("name_en", activeStaff.name_en ?? "");
+    setValue("description_en", activeStaff.description_en ?? "");
     setValue("imageUrl", activeStaff.imageUrl);
   }, [activeStaff, setValue]);
 
   return (
     <Drawer anchor='right' open={!!open} onClose={handleCloseForm}>
       <Box
-        className='flex flex-col gap-10 p-6 max-w-[300px]'
+        className='flex flex-col gap-10 p-6 max-w-[300px] lg:max-w-[600px]'
         component='form'
         onSubmitCapture={onSubmit}
       >
@@ -159,6 +164,24 @@ export const DetailsForm: React.FC<Props> = ({
 
         <Controller
           control={control}
+          name='name_en'
+          render={({ field: { value } }) => (
+            <FormControl>
+              <TextField
+                label={
+                  <EnLabelWrapper>
+                    <Text>Name</Text>
+                  </EnLabelWrapper>
+                }
+                value={value}
+                {...register("name_en")}
+              />
+            </FormControl>
+          )}
+        />
+
+        <Controller
+          control={control}
           name='description'
           render={({ field: { value } }) => (
             <TextField
@@ -170,6 +193,27 @@ export const DetailsForm: React.FC<Props> = ({
                 inputComponent: TextareaAutosize
               }}
               {...register("description")}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name='description_en'
+          render={({ field: { value } }) => (
+            <TextField
+              multiline
+              fullWidth
+              value={value}
+              label={
+                <EnLabelWrapper>
+                  <Text>Description</Text>
+                </EnLabelWrapper>
+              }
+              InputProps={{
+                inputComponent: TextareaAutosize
+              }}
+              {...register("description_en")}
             />
           )}
         />

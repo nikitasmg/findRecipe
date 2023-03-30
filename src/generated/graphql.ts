@@ -2665,14 +2665,14 @@ export type UpdateSettingsMutationVariables = Exact<{
 
 export type UpdateSettingsMutation = { __typename?: 'Mutation', phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, vk?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, facebook?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, telegram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, instagram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, whatsapp?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
 
-export type AllFieldsFragment = { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
+export type AllFieldsFragment = { __typename?: 'StaffControl', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
 export type StaffControlByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type StaffControlByIdQuery = { __typename?: 'Query', staffControlById?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type StaffControlByIdQuery = { __typename?: 'Query', staffControlById?: { __typename?: 'StaffControl', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type StaffControlsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2680,21 +2680,21 @@ export type StaffControlsQueryVariables = Exact<{
 }>;
 
 
-export type StaffControlsQuery = { __typename?: 'Query', staffControls: Array<{ __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
+export type StaffControlsQuery = { __typename?: 'Query', staffControls: Array<{ __typename?: 'StaffControl', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
 
 export type CreateStaffControlMutationVariables = Exact<{
   input: StaffControlInput;
 }>;
 
 
-export type CreateStaffControlMutation = { __typename?: 'Mutation', createStaffControl?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type CreateStaffControlMutation = { __typename?: 'Mutation', createStaffControl?: { __typename?: 'StaffControl', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type UpdateStaffControlMutationVariables = Exact<{
   input: StaffControlInput;
 }>;
 
 
-export type UpdateStaffControlMutation = { __typename?: 'Mutation', upsertStaffControl?: { __typename?: 'StaffControl', id: number, name: string, description?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+export type UpdateStaffControlMutation = { __typename?: 'Mutation', upsertStaffControl?: { __typename?: 'StaffControl', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
 
 export type DeleteStaffControlMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -3264,7 +3264,9 @@ export const AllFieldsFragmentDoc = `
     fragment allFields on StaffControl {
   id
   name
+  name_en
   description
+  description_en
   sort
   page_id
   imageUrl
