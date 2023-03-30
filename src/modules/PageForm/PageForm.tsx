@@ -6,6 +6,7 @@ import { usePageBySlugQuery, useUpdatePageMutation } from "~/generated/graphql";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { useLang } from "~/shared/hooks/useLang";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { PagesRoute } from "~/shared/routes";
 import { LinkedDocumentForm } from "../LinkedDocumentForm";
@@ -21,6 +22,8 @@ type Props = {
 
 export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) => {
   const [step, setStep] = useState(0);
+
+  const { lang, setLang } = useLang();
 
   const {
     handleSubmit,
@@ -48,6 +51,8 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
       id: values?.id,
       name: newValues.name,
       description: newValues.description,
+      name_en: newValues.name_en,
+      description_en: newValues.description_en,
       params: JSON.stringify(newValues.params),
       parent_id: newValues.parent_id,
       uploadImage: newValues.uploadImage,
@@ -68,7 +73,16 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
 
   useEffect(() => {
     initFormValues(
-      ["name", "description", "imageUrl", "params", "parent_id", "gallery"],
+      [
+        "name",
+        "description",
+        "name_en",
+        "description_en",
+        "imageUrl",
+        "params",
+        "parent_id",
+        "gallery"
+      ],
       setValue,
       values
     );
@@ -107,6 +121,7 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
             errors={errors}
             register={register}
             control={control}
+            lang={lang}
           />
         )
       }
@@ -140,7 +155,7 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
 
   return (
     <Box className='flex flex-col gap-6 p-4'>
-      <DetailsHead title='Edit page' onBackClick={goBack} />
+      <DetailsHead title='Edit page' onBackClick={goBack} onLangChange={setLang} />
       <TabsForm
         handleSubmit={onSubmit}
         handleStepChange={setStep}
