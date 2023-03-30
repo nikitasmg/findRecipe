@@ -2539,14 +2539,14 @@ export type DeleteProjectMutationVariables = Exact<{
 
 export type DeleteProjectMutation = { __typename?: 'Mutation', deleteProject?: { __typename?: 'Project', id: number } | null };
 
-export type AllPurchasesFieldsFragment = { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any };
+export type AllPurchasesFieldsFragment = { __typename?: 'Purchase', id: number, name: string, name_en?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any };
 
 export type PurchaseByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PurchaseByIdQuery = { __typename?: 'Query', purchaseById?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+export type PurchaseByIdQuery = { __typename?: 'Query', purchaseById?: { __typename?: 'Purchase', id: number, name: string, name_en?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
 
 export type PurchasesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2554,7 +2554,7 @@ export type PurchasesQueryVariables = Exact<{
 }>;
 
 
-export type PurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any }> };
+export type PurchasesQuery = { __typename?: 'Query', purchases: Array<{ __typename?: 'Purchase', id: number, name: string, name_en?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any }> };
 
 export type UpdatePurchasePublishedMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2569,14 +2569,14 @@ export type CreatePurchaseMutationVariables = Exact<{
 }>;
 
 
-export type CreatePurchaseMutation = { __typename?: 'Mutation', createPurchase?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+export type CreatePurchaseMutation = { __typename?: 'Mutation', createPurchase?: { __typename?: 'Purchase', id: number, name: string, name_en?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
 
 export type UpdatePurchaseMutationVariables = Exact<{
   input: PurchaseInput;
 }>;
 
 
-export type UpdatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: number, name: string, description?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
+export type UpdatePurchaseMutation = { __typename?: 'Mutation', upsertPurchase?: { __typename?: 'Purchase', id: number, name: string, name_en?: string | null, url?: string | null, sort: number, published: boolean, created_at: any, updated_at: any } | null };
 
 export type DeletePurchaseMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2802,14 +2802,14 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: number, name: string, email: string, email_verified_at?: any | null, created_at: any, updated_at: any } };
 
-export type AllVacanciesFieldsFragment = { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean };
+export type AllVacanciesFieldsFragment = { __typename?: 'Vacancy', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, published: boolean };
 
 export type VacancyByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type VacancyByIdQuery = { __typename?: 'Query', vacancyById?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
+export type VacancyByIdQuery = { __typename?: 'Query', vacancyById?: { __typename?: 'Vacancy', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, published: boolean } | null };
 
 export type VacanciesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2817,7 +2817,7 @@ export type VacanciesQueryVariables = Exact<{
 }>;
 
 
-export type VacanciesQuery = { __typename?: 'Query', vacancies: Array<{ __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean }> };
+export type VacanciesQuery = { __typename?: 'Query', vacancies: Array<{ __typename?: 'Vacancy', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, published: boolean }> };
 
 export type UpdateVacancyPublishedMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2832,14 +2832,14 @@ export type CreateVacancyMutationVariables = Exact<{
 }>;
 
 
-export type CreateVacancyMutation = { __typename?: 'Mutation', createVacancy?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
+export type CreateVacancyMutation = { __typename?: 'Mutation', createVacancy?: { __typename?: 'Vacancy', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, published: boolean } | null };
 
 export type UpdateVacancyMutationVariables = Exact<{
   input: VacancyInput;
 }>;
 
 
-export type UpdateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: number, name: string, description?: string | null, sort: number, published: boolean } | null };
+export type UpdateVacancyMutation = { __typename?: 'Mutation', upsertVacancy?: { __typename?: 'Vacancy', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, published: boolean } | null };
 
 export type DeleteVacancyMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -3227,7 +3227,7 @@ export const AllPurchasesFieldsFragmentDoc = `
     fragment allPurchasesFields on Purchase {
   id
   name
-  description
+  name_en
   url
   sort
   published
@@ -3289,7 +3289,9 @@ export const AllVacanciesFieldsFragmentDoc = `
     fragment allVacanciesFields on Vacancy {
   id
   name
+  name_en
   description
+  description_en
   sort
   published
 }

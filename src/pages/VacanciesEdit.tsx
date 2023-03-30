@@ -3,14 +3,17 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useDeleteVacancyMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { VacanciesDetailsForm } from "~/modules/VacanciesDetailsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { useLang } from "~/shared/hooks/useLang";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
-import { VacanciesDetailsForm } from "~/modules/VacanciesDetailsForm";
 
 export const VacanciesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const handleGoBack = useNavigationBack();
 
@@ -38,8 +41,9 @@ export const VacanciesEdit: React.FC = () => {
             title={isEdit ? "Vacancy editing" : "Vacancy creating"}
             onBackClick={handleGoBack}
             onRemove={isEdit ? handleDelete : undefined}
+            onLangChange={setLang}
           />
-          <VacanciesDetailsForm id={Number(id)} />
+          <VacanciesDetailsForm id={Number(id)} lang={lang} />
         </Box>
       </Panel>
     </PageWrapper>

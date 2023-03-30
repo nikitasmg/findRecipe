@@ -4,7 +4,9 @@ export const VacanciesFragment = gql`
   fragment allVacanciesFields on Vacancy {
     id
     name
+    name_en
     description
+    description_en
     sort
     published
   }

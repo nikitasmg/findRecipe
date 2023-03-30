@@ -38,7 +38,7 @@ type Props = {
   groupId?: DocumentGroup["id"];
   create?: (document: LinkedDocumentInput) => Promise<number>;
   update?: (
-    document: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+    document: LinkedDocumentInput & { created_at?: LinkedDocument["created_at"] }
   ) => Promise<number>;
   onRemove?: (id: LinkedDocumentInput["id"]) => void;
   document?: LinkedDocumentsWithoutUpdated | null;
@@ -73,25 +73,22 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     e.preventDefault();
 
     handleSubmit(async (newValues) => {
-      const input = {
+      const input: LinkedDocumentInput = {
         ...(Boolean(!isCreate) && { id: document?.id }),
         ...(Boolean(newValues.file) && { upload: newValues.file }),
         user_name: `${newValues.title}.${newValues.format}`,
         user_name_en: newValues.user_name_en,
-        published: newValues.published,
-        created_at: newValues.created_at
+        published: newValues.published
       };
 
       let connectId: number | null = null;
 
       if (isCreate) {
-        delete input.created_at;
         await create?.(input).then((id) => {
           connectId = id;
         });
       } else {
-        delete input.created_at;
-        await update?.(input).then((id) => {
+        await update?.({ ...input, created_at: newValues.created_at }).then((id) => {
           connectId = id;
         });
       }
@@ -139,8 +136,8 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
     setValue("user_name_en", document?.user_name_en);
     setValue("groupId", groupId);
     setValue("published", document?.published);
-    setValue("created_at", document?.created_at);
-  }, [document, setValue, groupId]);
+    setValue("created_at", isCreate ? new Date() : document?.created_at);
+  }, [document, setValue, groupId, isCreate]);
 
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>

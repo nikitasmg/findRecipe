@@ -92,7 +92,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   };
 
   const handleUpdate = (
-    input: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+    input: LinkedDocumentInput & { created_at?: LinkedDocument["created_at"] }
   ) => {
     update({ input });
 

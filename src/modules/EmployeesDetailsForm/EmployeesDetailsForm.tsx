@@ -102,7 +102,7 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
-      <Box className='flex flex-col gap-6'>
+      <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>
         <Grid container columns={12} spacing={3}>
           {isRuLang && (
             <Grid item xs={12}>
@@ -267,8 +267,8 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
             </FormControl>
           </Grid>
         </Grid>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
+      <SaveButton className='w-fit ml-auto' disabled={isLoading} />
     </form>
   );
 };

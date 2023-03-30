@@ -76,23 +76,25 @@ export const LinkedDocuments: React.FC<Props> = ({
   }, [activeDocument, groups]);
 
   const handleUpdate = (
-    input: LinkedDocumentInput & { created_at: LinkedDocument["created_at"] }
+    values: LinkedDocumentInput & { created_at?: LinkedDocument["created_at"] }
   ) => {
+    const input = { ...values };
+    delete input.created_at;
     update({ input });
 
     const updateByInputReducer = (
       res: LinkedDocumentsWithoutUpdated[],
       cur: LinkedDocumentsWithoutUpdated
     ) => {
-      if (equals(input.id, cur.id)) {
-        const url = input.upload ? URL.createObjectURL(input.upload) : cur.url;
+      if (equals(values.id, cur.id)) {
+        const url = values.upload ? URL.createObjectURL(values.upload) : cur.url;
 
         cur = {
-          id: Number(input.id),
-          user_name: input.user_name,
+          id: Number(values.id),
+          user_name: values.user_name,
           url,
-          published: Boolean(input.published),
-          created_at: input.created_at
+          published: Boolean(values.published),
+          created_at: values.created_at
         };
       }
 
@@ -100,6 +102,7 @@ export const LinkedDocuments: React.FC<Props> = ({
     };
 
     setDocuments(reduce(updateByInputReducer, []));
+    onClose();
 
     return Promise.resolve(Number(input.id));
   };

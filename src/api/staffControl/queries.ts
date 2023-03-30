@@ -4,7 +4,9 @@ export const StaffControlFragment = gql`
   fragment allFields on StaffControl {
     id
     name
+    name_en
     description
+    description_en
     sort
     page_id
     imageUrl

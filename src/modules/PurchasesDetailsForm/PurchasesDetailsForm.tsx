@@ -1,33 +1,40 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Box, FormControl, FormControlLabel, Grid, Switch, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Switch,
+  TextareaAutosize,
+  TextField
+} from "@mui/material";
 import {
   PurchaseInput,
   useCreatePurchaseMutation,
   usePurchaseByIdQuery,
-  useSettingByNameQuery,
-  useUpdatePurchaseMutation,
-  useUploadMutation
+  useUpdatePurchaseMutation
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
-import { ContentEditor } from "~shared/components/ContentEditor";
 import { NumericInput } from "~shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { LinkInput } from "~/shared/components/LinkInput";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { SaveButton } from "~/shared/components/SaveButton";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
-import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 
 interface PurchasesDetailsFormProps {
+  lang: Languages;
   id?: number;
 }
 
-export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }) => {
+export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id, lang }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -52,18 +59,6 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }
     { onSuccess: goBack }
   );
 
-  const { mutateAsync: upload } = useUploadMutation(client);
-
-  const { data: { settingByName } = {} } = useSettingByNameQuery(
-    client,
-    {
-      name: "content_editor"
-    },
-    { refetchOnMount: "always" }
-  );
-
-  const contentEditorKey = settingByName?.value;
-
   const isLoading = isCreateLoading || isUpdateLoading;
 
   const {
@@ -75,15 +70,6 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }
   } = useForm({ mode: "all" });
 
   const getError = getErrorMessage(errors);
-
-  const getUploadedUrl = useCallback(
-    (url: string) => {
-      return fileFromBlobUrl(url).then((file) =>
-        upload({ file }).then((url) => `${process.env.REACT_APP_FILES_URL}${url.upload}`)
-      );
-    },
-    [upload]
-  );
 
   const onSubmit = handleSubmit((newValues) => {
     const input: PurchaseInput = {
@@ -100,59 +86,77 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }
     updatePurchase({ input });
   });
 
+  const isRusLang = lang === "ru";
+
   useEffect(() => {
     if (!isSuccess) {
       setValue("published", true);
       return;
     }
 
-    initFormValues(["name", "description", "url", "sort", "published"], setValue, values);
+    initFormValues(["name", "name_en", "url", "sort", "published"], setValue, values);
   }, [values, isSuccess, setValue]);
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='name'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={
-                      <RequiredLabelWrapper>
-                        <Text>Title</Text>
-                      </RequiredLabelWrapper>
-                    }
-                    value={value}
-                    error={!!getError("name")}
-                    {...register("name", baseRequiredTextValidation)}
-                  />
-
-                  <HelperText id='name' error={getError("name")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            {contentEditorKey && (
+          {isRusLang && (
+            <Grid item xs={12}>
               <Controller
                 control={control}
-                name='description'
+                name='name'
                 render={({ field: { value } }) => (
                   <FormControl fullWidth>
-                    <ContentEditor
-                      apiKey={contentEditorKey}
-                      value={value ?? ""}
-                      {...register("description")}
-                      getUploadedUrl={getUploadedUrl}
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={value}
+                      label={
+                        <RequiredLabelWrapper>
+                          <Text>Title</Text>
+                        </RequiredLabelWrapper>
+                      }
+                      InputProps={{
+                        inputComponent: TextareaAutosize
+                      }}
+                      {...register("name", baseRequiredTextValidation)}
+                    />
+
+                    <HelperText id='name' error={getError("name")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={value}
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Title</Text>
+                        </EnLabelWrapper>
+                      }
+                      InputProps={{
+                        inputComponent: TextareaAutosize
+                      }}
+                      {...register("name_en")}
                     />
                   </FormControl>
                 )}
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <Controller
               control={control}
@@ -173,6 +177,7 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }
               )}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Controller
               control={control}
@@ -186,6 +191,7 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }
               )}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Controller
               control={control}
@@ -201,8 +207,6 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id }
                     }
                     label={<Text>Published</Text>}
                   />
-
-                  <HelperText id='published' error={getError("published")} />
                 </FormControl>
               )}
             />

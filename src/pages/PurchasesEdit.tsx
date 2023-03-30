@@ -3,11 +3,12 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useDeletePurchaseMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { PurchasesDetailsForm } from "~/modules/PurchasesDetailsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
-import { PurchasesDetailsForm } from "~/modules/PurchasesDetailsForm";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const PurchasesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +16,8 @@ export const PurchasesEdit: React.FC = () => {
   const handleGoBack = useNavigationBack();
 
   const isEdit = Number.isInteger(Number(id));
+
+  const { lang, setLang } = useLang();
 
   const client = useGraphqlClient();
 
@@ -38,8 +41,9 @@ export const PurchasesEdit: React.FC = () => {
             title={isEdit ? "Purchase editing" : "Purchase creating"}
             onBackClick={handleGoBack}
             onRemove={isEdit ? handleDelete : undefined}
+            onLangChange={setLang}
           />
-          <PurchasesDetailsForm id={Number(id)} />
+          <PurchasesDetailsForm id={Number(id)} lang={lang} />
         </Box>
       </Panel>
     </PageWrapper>
