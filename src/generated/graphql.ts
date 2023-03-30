@@ -2199,14 +2199,14 @@ export type DeleteLinkedDocumentMutationVariables = Exact<{
 
 export type DeleteLinkedDocumentMutation = { __typename?: 'Mutation', deleteLinkedDocument?: { __typename?: 'LinkedDocument', id: number } | null };
 
-export type AllMapObjectsFieldsFragment = { __typename?: 'MapObject', id: number, name: string, characteristics?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null };
+export type AllMapObjectsFieldsFragment = { __typename?: 'MapObject', id: number, name: string, name_en?: string | null, characteristics?: string | null, characteristics_en?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, floors_en?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null };
 
 export type MapObjectByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type MapObjectByIdQuery = { __typename?: 'Query', mapObjectById?: { __typename?: 'MapObject', id: number, name: string, characteristics?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type MapObjectByIdQuery = { __typename?: 'Query', mapObjectById?: { __typename?: 'MapObject', id: number, name: string, name_en?: string | null, characteristics?: string | null, characteristics_en?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, floors_en?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type MapObjectsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2214,14 +2214,14 @@ export type MapObjectsQueryVariables = Exact<{
 }>;
 
 
-export type MapObjectsQuery = { __typename?: 'Query', mapObjects: Array<{ __typename?: 'MapObject', id: number, name: string, characteristics?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null }> };
+export type MapObjectsQuery = { __typename?: 'Query', mapObjects: Array<{ __typename?: 'MapObject', id: number, name: string, name_en?: string | null, characteristics?: string | null, characteristics_en?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, floors_en?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null }> };
 
 export type UpdateMapObjectMutationVariables = Exact<{
   input: MapObjectInput;
 }>;
 
 
-export type UpdateMapObjectMutation = { __typename?: 'Mutation', upsertMapObject?: { __typename?: 'MapObject', id: number, name: string, characteristics?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
+export type UpdateMapObjectMutation = { __typename?: 'Mutation', upsertMapObject?: { __typename?: 'MapObject', id: number, name: string, name_en?: string | null, characteristics?: string | null, characteristics_en?: string | null, area?: number | null, gross_boma_area?: number | null, floors?: string | null, floors_en?: string | null, learn_more?: string | null, created_at: any, updated_at: any, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null } | null };
 
 export type DeleteMapObjectMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -3014,10 +3014,13 @@ export const AllMapObjectsFieldsFragmentDoc = `
     fragment allMapObjectsFields on MapObject {
   id
   name
+  name_en
   characteristics
+  characteristics_en
   area
   gross_boma_area
   floors
+  floors_en
   learn_more
   linked_documents {
     id

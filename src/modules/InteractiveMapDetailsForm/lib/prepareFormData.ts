@@ -16,10 +16,13 @@ export const prepareFormData = async (
   const input: MapObjectInput = {
     ...(Boolean(values?.id) && { id: values?.id }),
     name: newValues.name,
+    name_en: newValues.name_en,
     area: newValues.area,
     characteristics: newValues.characteristics,
+    characteristics_en: newValues.characteristics_en,
     learn_more: newValues.learn_more,
     floors: newValues.floors,
+    floors_en: newValues.floors_en,
     gross_boma_area: newValues.gross_boma_area,
     linked_documents: {
       connect: newValues.connectDocuments ?? [],

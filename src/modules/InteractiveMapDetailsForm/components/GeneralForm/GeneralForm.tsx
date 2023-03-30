@@ -4,69 +4,118 @@ import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-fo
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
 import { LinkInput } from "~/shared/components/LinkInput";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
+import { getErrorMessage } from "~/shared/lib/getError";
+import { baseRequiredTextValidation } from "~/shared/lib/validation";
+import { Languages } from "~/shared/types/Languages";
 
 type FormFields = {
   name?: string;
+  name_en?: string;
   learn_more?: string;
   characteristics?: string;
+  characteristics_en?: string;
   area?: number;
   gross_boma_area?: number;
   floors?: string;
+  floors_en?: string;
 };
 
 type Props = {
+  lang: Languages;
   register: UseFormRegister<Partial<FormFields>>;
   errors: FieldErrors<FormFields>;
   setValue: (name: string, value: unknown) => void;
   control?: Control<FormFields, unknown>;
 };
 
-export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, control }) => {
+export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, control, lang }) => {
   const getError = getErrorMessage(errors);
+
+  const isRusLang = lang === "ru";
 
   return (
     <Box className='flex flex-col lg:flex-row gap-6'>
       <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>
-        <Controller
-          control={control}
-          name='name'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={
-                  <RequiredLabelWrapper>
-                    <Text>Object name</Text>
-                  </RequiredLabelWrapper>
-                }
-                value={value}
-                error={!!getError("name")}
-                {...register("name", baseRequiredTextValidation)}
-              />
+        {isRusLang && (
+          <Controller
+            control={control}
+            name='name'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <RequiredLabelWrapper>
+                      <Text>Object name</Text>
+                    </RequiredLabelWrapper>
+                  }
+                  value={value}
+                  error={!!getError("name")}
+                  {...register("name", baseRequiredTextValidation)}
+                />
 
-              <HelperText id='name' error={getError("name")} />
-            </FormControl>
-          )}
-        />
+                <HelperText id='name' error={getError("name")} />
+              </FormControl>
+            )}
+          />
+        )}
 
-        <Controller
-          control={control}
-          name='characteristics'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={<Text>Characteristics</Text>}
-                value={value}
-                error={!!getError("characteristics")}
-                {...register("characteristics")}
-              />
+        {!isRusLang && (
+          <Controller
+            control={control}
+            name='name_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Object name</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value}
+                  {...register("name_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
-              <HelperText id='characteristics' error={getError("characteristics")} />
-            </FormControl>
-          )}
-        />
+        {isRusLang && (
+          <Controller
+            control={control}
+            name='characteristics'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={<Text>Characteristics</Text>}
+                  value={value}
+                  {...register("characteristics")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {!isRusLang && (
+          <Controller
+            control={control}
+            name='characteristics_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Characteristics</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value}
+                  {...register("characteristics_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
         <Controller
           control={control}
@@ -114,26 +163,37 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
           )}
         />
 
-        <Controller
-          control={control}
-          name='floors'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <TextField
-                label={
-                  <RequiredLabelWrapper>
-                    <Text>Floors</Text>
-                  </RequiredLabelWrapper>
-                }
-                value={value}
-                error={!!getError("floors")}
-                {...register("floors", baseRequired)}
-              />
+        {isRusLang && (
+          <Controller
+            control={control}
+            name='floors'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField label={<Text>Floors</Text>} value={value} {...register("floors")} />
+              </FormControl>
+            )}
+          />
+        )}
 
-              <HelperText id='name' error={getError("name")} />
-            </FormControl>
-          )}
-        />
+        {!isRusLang && (
+          <Controller
+            control={control}
+            name='floors_en'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={
+                    <EnLabelWrapper>
+                      <Text>Floors</Text>
+                    </EnLabelWrapper>
+                  }
+                  value={value}
+                  {...register("floors_en")}
+                />
+              </FormControl>
+            )}
+          />
+        )}
 
         <Controller
           control={control}
