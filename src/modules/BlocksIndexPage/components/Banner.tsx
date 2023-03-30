@@ -33,13 +33,12 @@ export const Banner: React.FC<Props> = ({ errors, setValue, getValues, control }
 
   const getError = getErrorMessage(errors ?? {});
 
-  const handleUpload = (images: Partial<GalleryImage>[]) => {
+  const handleUpload = async (images: Partial<GalleryImage>[]) => {
     const current = getValues?.("uploadGalleryImages");
 
     const newFiles: Promise<UploadGalleryInput[]> = Promise.all(
       (images ?? [])?.map(async (image: Partial<GalleryImage> & { file?: File }) => ({
-        upload:
-          image.file || console.log(image) || (image.url ? await fileFromBlobUrl(image.url) : ""),
+        upload: image.file || (image.url ? await fileFromBlobUrl(image.url) : ""),
         sort: image.sort,
         alt: image.alt
       }))

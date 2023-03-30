@@ -115,7 +115,9 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
     if (render) {
       forms.push({
         tabTitle: "Blocks",
-        component: <BlocksForm setValue={setValue} control={control} render={render} />
+        component: (
+          <BlocksForm setValue={setValue} control={control} getValues={getValues} render={render} />
+        )
       });
     }
 
