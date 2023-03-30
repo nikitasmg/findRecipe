@@ -46,7 +46,8 @@ const compilations: Compilations[] = [
     id: 3,
     title: "subdivisions",
     heading: "Subdivisions",
-    whereUseLink: { title: "Employees", href: EmployeesPage }
+    whereUseLink: { title: "Employees", href: EmployeesPage },
+    langExist: true
   },
   {
     id: 4,

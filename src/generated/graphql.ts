@@ -2025,14 +2025,14 @@ export type DeleteDocumentGroupMutationVariables = Exact<{
 
 export type DeleteDocumentGroupMutation = { __typename?: 'Mutation', deleteDocumentGroup?: { __typename?: 'DocumentGroup', id: number } | null };
 
-export type AllEmployeeFieldsFragment = { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
+export type AllEmployeeFieldsFragment = { __typename?: 'Employee', id: number, name: string, name_en?: string | null, email: string, position?: string | null, position_en?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null };
 
 export type EmployeeByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type EmployeeByIdQuery = { __typename?: 'Query', employeeById?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
+export type EmployeeByIdQuery = { __typename?: 'Query', employeeById?: { __typename?: 'Employee', id: number, name: string, name_en?: string | null, email: string, position?: string | null, position_en?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null } | null };
 
 export type EmployeesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2040,21 +2040,21 @@ export type EmployeesQueryVariables = Exact<{
 }>;
 
 
-export type EmployeesQuery = { __typename?: 'Query', employees: Array<{ __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null }> };
+export type EmployeesQuery = { __typename?: 'Query', employees: Array<{ __typename?: 'Employee', id: number, name: string, name_en?: string | null, email: string, position?: string | null, position_en?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null }> };
 
 export type CreateEmployeeMutationVariables = Exact<{
   input: EmployeeInput;
 }>;
 
 
-export type CreateEmployeeMutation = { __typename?: 'Mutation', createEmployee?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
+export type CreateEmployeeMutation = { __typename?: 'Mutation', createEmployee?: { __typename?: 'Employee', id: number, name: string, name_en?: string | null, email: string, position?: string | null, position_en?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null } | null };
 
 export type UpdateEmployeeMutationVariables = Exact<{
   input: EmployeeInput;
 }>;
 
 
-export type UpdateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: number, name: string, email: string, position?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null } | null };
+export type UpdateEmployeeMutation = { __typename?: 'Mutation', upsertEmployee?: { __typename?: 'Employee', id: number, name: string, name_en?: string | null, email: string, position?: string | null, position_en?: string | null, additional?: string | null, sort: number, created_at: any, updated_at: any, subdivision?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null } | null };
 
 export type UpdateEmployeeSubdivisionMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2708,38 +2708,40 @@ export type StaffControlItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type StaffControlItemsQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', name: string, children?: Array<{ __typename?: 'Page', name: string, id: number } | null> | null }> };
 
-export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: number, name: string, sort: number };
+export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number };
 
 export type SubdivisionByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type SubdivisionByIdQuery = { __typename?: 'Query', subdivisionById?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
+export type SubdivisionByIdQuery = { __typename?: 'Query', subdivisionById?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null };
 
 export type SubdivisionsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
 }>;
 
 
-export type SubdivisionsQuery = { __typename?: 'Query', subdivisions: Array<{ __typename?: 'Subdivision', id: number, name: string, sort: number }> };
+export type SubdivisionsQuery = { __typename?: 'Query', subdivisions: Array<{ __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number }> };
 
 export type CreateSubdivisionMutationVariables = Exact<{
   sort: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type CreateSubdivisionMutation = { __typename?: 'Mutation', createSubdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
+export type CreateSubdivisionMutation = { __typename?: 'Mutation', createSubdivision?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null };
 
 export type UpdateSubdivisionMutationVariables = Exact<{
   id: Scalars['Int'];
   sort: Scalars['Int'];
   name: Scalars['String'];
+  name_en?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UpdateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: number, name: string, sort: number } | null };
+export type UpdateSubdivisionMutation = { __typename?: 'Mutation', upsertSubdivision?: { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number } | null };
 
 export type DeleteSubdivisionMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2915,6 +2917,7 @@ export const AllSubdivisionsFieldsFragmentDoc = `
     fragment allSubdivisionsFields on Subdivision {
   id
   name
+  name_en
   sort
 }
     `;
@@ -2922,8 +2925,10 @@ export const AllEmployeeFieldsFragmentDoc = `
     fragment allEmployeeFields on Employee {
   id
   name
+  name_en
   email
   position
+  position_en
   additional
   sort
   subdivision {
@@ -5763,8 +5768,10 @@ export const useSubdivisionsQuery = <
       options
     );
 export const CreateSubdivisionDocument = `
-    mutation createSubdivision($sort: Int!, $name: String!) {
-  createSubdivision: upsertSubdivision(input: {sort: $sort, name: $name}) {
+    mutation createSubdivision($sort: Int!, $name: String!, $name_en: String) {
+  createSubdivision: upsertSubdivision(
+    input: {sort: $sort, name: $name, name_en: $name_en}
+  ) {
     ...allSubdivisionsFields
   }
 }
@@ -5783,8 +5790,8 @@ export const useCreateSubdivisionMutation = <
       options
     );
 export const UpdateSubdivisionDocument = `
-    mutation updateSubdivision($id: Int!, $sort: Int!, $name: String!) {
-  upsertSubdivision(input: {id: $id, sort: $sort, name: $name}) {
+    mutation updateSubdivision($id: Int!, $sort: Int!, $name: String!, $name_en: String) {
+  upsertSubdivision(input: {id: $id, sort: $sort, name: $name, name_en: $name_en}) {
     ...allSubdivisionsFields
   }
 }

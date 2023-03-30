@@ -3,14 +3,17 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useDeleteEmployeeMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
+import { EmployeesDetailsForm } from "~/modules/EmployeesDetailsForm";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
-import { EmployeesDetailsForm } from "~/modules/EmployeesDetailsForm";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const EmployeesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const handleGoBack = useNavigationBack();
 
@@ -35,11 +38,18 @@ export const EmployeesEdit: React.FC = () => {
       <Panel>
         <Box className='flex flex-col gap-6 items-center p-3'>
           <DetailsHead
-            title={isEdit ? "Employee editing" : "Employee creating"}
             onBackClick={handleGoBack}
-            onRemove={isEdit ? handleDelete : undefined}
+            {...(isEdit
+              ? {
+                  title: "Employee editing",
+                  onRemove: handleDelete
+                }
+              : {
+                  title: "Employee creating"
+                })}
+            onLangChange={setLang}
           />
-          <EmployeesDetailsForm id={Number(id)} />
+          <EmployeesDetailsForm id={Number(id)} lang={lang} />
         </Box>
       </Panel>
     </PageWrapper>
