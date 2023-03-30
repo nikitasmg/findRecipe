@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DocumentGroup } from "~/generated/graphql";
+import { DocumentGroup, useUpdateDocumentGroupMutation } from "~/generated/graphql";
+import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { DocumentGroupDetailsDialog } from "~/shared/components/DocumentGroupDetailsDialog";
 import { DragTargetWrapper } from "~/shared/components/DragTargetWrapper";
 import { FolderCard } from "~/shared/components/FolderCard";
@@ -27,12 +28,32 @@ export const Groups: React.FC<Props> = ({ groups, setGroups }) => {
 
   const getUpdateHandler = useGroupUpdateHandler(setGroups);
 
+  const client = useGraphqlClient();
+
+  const { mutateAsync: update } = useUpdateDocumentGroupMutation(client);
+
   const onCreate = (newGroup: DocumentGroup) => {
     setGroups((cur) => ({
       ...cur,
       [newGroup.id]: {
         ...newGroup,
         linked_documents: getMapFromLinkedDocuments(newGroup.linked_documents)
+      }
+    }));
+  };
+
+  const handleUpdate = (group: Partial<DocumentGroup>) => {
+    if (!group.id) {
+      return;
+    }
+
+    update({ input: { id: group.id, name: group.name, name_en: group.name_en } });
+
+    setGroups((cur) => ({
+      ...cur,
+      [String(group.id)]: {
+        ...group,
+        linked_documents: getMapFromLinkedDocuments(group.linked_documents)
       }
     }));
   };
@@ -75,7 +96,12 @@ export const Groups: React.FC<Props> = ({ groups, setGroups }) => {
         ))}
       </Box>
 
-      <DocumentGroupDetailsDialog open={!!open} onClose={handleClose} group={activeGroup} />
+      <DocumentGroupDetailsDialog
+        open={!!open}
+        onClose={handleClose}
+        group={activeGroup}
+        update={handleUpdate}
+      />
     </Box>
   );
 };

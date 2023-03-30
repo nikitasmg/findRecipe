@@ -1979,14 +1979,14 @@ export type DeleteContestMutationVariables = Exact<{
 
 export type DeleteContestMutation = { __typename?: 'Mutation', deleteContest?: { __typename?: 'Contest', id: number } | null };
 
-export type AllDocumentGroupsFieldsFragment = { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null };
+export type AllDocumentGroupsFieldsFragment = { __typename?: 'DocumentGroup', id: number, name: string, name_en?: string | null, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null };
 
 export type DocumentGroupByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type DocumentGroupByIdQuery = { __typename?: 'Query', documentGroupById?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
+export type DocumentGroupByIdQuery = { __typename?: 'Query', documentGroupById?: { __typename?: 'DocumentGroup', id: number, name: string, name_en?: string | null, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
 
 export type DocumentGroupsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1994,21 +1994,21 @@ export type DocumentGroupsQueryVariables = Exact<{
 }>;
 
 
-export type DocumentGroupsQuery = { __typename?: 'Query', documentGroups: Array<{ __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null }> };
+export type DocumentGroupsQuery = { __typename?: 'Query', documentGroups: Array<{ __typename?: 'DocumentGroup', id: number, name: string, name_en?: string | null, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null }> };
 
 export type CreateDocumentGroupMutationVariables = Exact<{
   input: DocumentGroupInput;
 }>;
 
 
-export type CreateDocumentGroupMutation = { __typename?: 'Mutation', createDocumentGroup?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
+export type CreateDocumentGroupMutation = { __typename?: 'Mutation', createDocumentGroup?: { __typename?: 'DocumentGroup', id: number, name: string, name_en?: string | null, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
 
 export type UpdateDocumentGroupMutationVariables = Exact<{
   input: DocumentGroupInput;
 }>;
 
 
-export type UpdateDocumentGroupMutation = { __typename?: 'Mutation', upsertDocumentGroup?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
+export type UpdateDocumentGroupMutation = { __typename?: 'Mutation', upsertDocumentGroup?: { __typename?: 'DocumentGroup', id: number, name: string, name_en?: string | null, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
 
 export type UpdateConnectDocumentGroupMutationVariables = Exact<{
   connectInput: DocumentGroupInput;
@@ -2016,7 +2016,7 @@ export type UpdateConnectDocumentGroupMutationVariables = Exact<{
 }>;
 
 
-export type UpdateConnectDocumentGroupMutation = { __typename?: 'Mutation', upsertConnect?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null, upsertDisconnect?: { __typename?: 'DocumentGroup', id: number, name: string, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
+export type UpdateConnectDocumentGroupMutation = { __typename?: 'Mutation', upsertConnect?: { __typename?: 'DocumentGroup', id: number, name: string, name_en?: string | null, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null, upsertDisconnect?: { __typename?: 'DocumentGroup', id: number, name: string, name_en?: string | null, sort: number, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, sort?: number | null, user_name?: string | null, url: string, created_at: any, published: boolean } | null> | null } | null };
 
 export type DeleteDocumentGroupMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2161,14 +2161,14 @@ export type DeleteKnowledgeFieldMutationVariables = Exact<{
 
 export type DeleteKnowledgeFieldMutation = { __typename?: 'Mutation', deleteKnowledgeField?: { __typename?: 'KnowledgeField', sort: number, name: string } | null };
 
-export type AllLinkedDocumentFieldsFragment = { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null, published: boolean, created_at: any };
+export type AllLinkedDocumentFieldsFragment = { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, user_name_en?: string | null, sort?: number | null, published: boolean, created_at: any };
 
 export type LinkedDocumentByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type LinkedDocumentByIdQuery = { __typename?: 'Query', linkedDocumentById?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null, published: boolean, created_at: any } | null };
+export type LinkedDocumentByIdQuery = { __typename?: 'Query', linkedDocumentById?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, user_name_en?: string | null, sort?: number | null, published: boolean, created_at: any } | null };
 
 export type LinkedDocumentsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2176,21 +2176,21 @@ export type LinkedDocumentsQueryVariables = Exact<{
 }>;
 
 
-export type LinkedDocumentsQuery = { __typename?: 'Query', linkedDocuments: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null, published: boolean, created_at: any }> };
+export type LinkedDocumentsQuery = { __typename?: 'Query', linkedDocuments: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, user_name_en?: string | null, sort?: number | null, published: boolean, created_at: any }> };
 
 export type CreateLinkedDocumentMutationVariables = Exact<{
   input: LinkedDocumentInput;
 }>;
 
 
-export type CreateLinkedDocumentMutation = { __typename?: 'Mutation', createLinkedDocument?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null, published: boolean, created_at: any } | null };
+export type CreateLinkedDocumentMutation = { __typename?: 'Mutation', createLinkedDocument?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, user_name_en?: string | null, sort?: number | null, published: boolean, created_at: any } | null };
 
 export type UpdateLinkedDocumentMutationVariables = Exact<{
   input: LinkedDocumentInput;
 }>;
 
 
-export type UpdateLinkedDocumentMutation = { __typename?: 'Mutation', upsertLinkedDocument?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null, published: boolean, created_at: any } | null };
+export type UpdateLinkedDocumentMutation = { __typename?: 'Mutation', upsertLinkedDocument?: { __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, user_name_en?: string | null, sort?: number | null, published: boolean, created_at: any } | null };
 
 export type DeleteLinkedDocumentMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2899,6 +2899,7 @@ export const AllDocumentGroupsFieldsFragmentDoc = `
     fragment allDocumentGroupsFields on DocumentGroup {
   id
   name
+  name_en
   sort
   linked_documents {
     id
@@ -2996,6 +2997,7 @@ export const AllLinkedDocumentFieldsFragmentDoc = `
   id
   url
   user_name
+  user_name_en
   sort
   published
   created_at

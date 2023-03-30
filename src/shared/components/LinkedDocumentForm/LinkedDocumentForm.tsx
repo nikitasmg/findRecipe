@@ -106,6 +106,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
         cur = {
           id: Number(input.id),
           user_name: input.user_name,
+          user_name_en: input.user_name_en,
           url,
           published: Boolean(input.published),
           created_at: input.created_at

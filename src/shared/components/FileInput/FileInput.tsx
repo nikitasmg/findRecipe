@@ -78,13 +78,13 @@ export const FileInput: React.FC<Props> = ({
         <Box className='flex items-center gap-10 w-[310px]'>
           <Box className='flex gap-2 items-center w-[80%]'>
             <DescriptionIcon />
-            <Link to={url || fileUrl} target='_blank'>
-              <Typography className='text-ellipsis overflow-hidden'>
+            <Link className='w-full' to={url || fileUrl} target='_blank'>
+              <Typography className='text-ellipsis overflow-hidden w-full break-words'>
                 {selectedFile?.name ?? fileName}
               </Typography>
             </Link>
           </Box>
-          <CancelIcon
+          <CancelIcon 
             onClick={handleDeleteFile}
             onKeyPress={handleDeleteFile}
             tabIndex={0}
