@@ -1811,14 +1811,14 @@ export type VideoBroadcastInput = {
   url?: InputMaybe<Scalars['String']>;
 };
 
-export type AllActivityResultsFieldsFragment = { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any };
+export type AllActivityResultsFieldsFragment = { __typename?: 'ActivityResult', id: number, name: string, name_en?: string | null, result: number, measure_unit: string, measure_unit_en?: string | null, sort: number, created_at: any };
 
 export type ActivityResultByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ActivityResultByIdQuery = { __typename?: 'Query', activityResultById?: { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any } | null };
+export type ActivityResultByIdQuery = { __typename?: 'Query', activityResultById?: { __typename?: 'ActivityResult', id: number, name: string, name_en?: string | null, result: number, measure_unit: string, measure_unit_en?: string | null, sort: number, created_at: any } | null };
 
 export type ActivityResultsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1826,21 +1826,21 @@ export type ActivityResultsQueryVariables = Exact<{
 }>;
 
 
-export type ActivityResultsQuery = { __typename?: 'Query', activityResults: Array<{ __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any }> };
+export type ActivityResultsQuery = { __typename?: 'Query', activityResults: Array<{ __typename?: 'ActivityResult', id: number, name: string, name_en?: string | null, result: number, measure_unit: string, measure_unit_en?: string | null, sort: number, created_at: any }> };
 
 export type CreateActivityResultMutationVariables = Exact<{
   input: ActivityResultInput;
 }>;
 
 
-export type CreateActivityResultMutation = { __typename?: 'Mutation', createActivityResult?: { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any } | null };
+export type CreateActivityResultMutation = { __typename?: 'Mutation', createActivityResult?: { __typename?: 'ActivityResult', id: number, name: string, name_en?: string | null, result: number, measure_unit: string, measure_unit_en?: string | null, sort: number, created_at: any } | null };
 
 export type UpdateActivityResultMutationVariables = Exact<{
   input: ActivityResultInput;
 }>;
 
 
-export type UpdateActivityResultMutation = { __typename?: 'Mutation', upsertActivityResult?: { __typename?: 'ActivityResult', id: number, name: string, result: number, measure_unit: string, sort: number, created_at: any } | null };
+export type UpdateActivityResultMutation = { __typename?: 'Mutation', upsertActivityResult?: { __typename?: 'ActivityResult', id: number, name: string, name_en?: string | null, result: number, measure_unit: string, measure_unit_en?: string | null, sort: number, created_at: any } | null };
 
 export type DeleteActivityResultMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2852,8 +2852,10 @@ export const AllActivityResultsFieldsFragmentDoc = `
     fragment allActivityResultsFields on ActivityResult {
   id
   name
+  name_en
   result
   measure_unit
+  measure_unit_en
   sort
   created_at
 }

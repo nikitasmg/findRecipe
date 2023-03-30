@@ -12,16 +12,19 @@ import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { SaveButton } from "~/shared/components/SaveButton";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
+import { Languages } from "~/shared/types/Languages";
 
 interface Props {
+  lang: Languages;
   id?: number;
 }
 
-export const ActivityResultsDetailsForm: React.FC<Props> = ({ id }) => {
+export const ActivityResultsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
@@ -74,40 +77,71 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id }) => {
     update({ input });
   });
 
+  const isRusLang = lang === "ru";
+
   useEffect(() => {
     if (!isSuccess) {
       return;
     }
 
-    initFormValues(["name", "result", "measure_unit", "sort"], setValue, values);
+    initFormValues(
+      ["name", "name_en", "result", "measure_unit", "measure_unit_en", "sort"],
+      setValue,
+      values
+    );
   }, [values, isSuccess, setValue]);
 
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='name'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={
-                      <RequiredLabelWrapper>
-                        <Text>Indicator title</Text>
-                      </RequiredLabelWrapper>
-                    }
-                    value={value}
-                    error={!!getError("name")}
-                    {...register("name", baseRequiredTextValidation)}
-                  />
+          {isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <RequiredLabelWrapper>
+                          <Text>Indicator title</Text>
+                        </RequiredLabelWrapper>
+                      }
+                      value={value}
+                      error={!!getError("name")}
+                      {...register("name", baseRequiredTextValidation)}
+                    />
 
-                  <HelperText id='name' error={getError("name")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+                    <HelperText id='name' error={getError("name")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='name_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Indicator title</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      {...register("name_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <Controller
               control={control}
@@ -136,28 +170,54 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id }) => {
               )}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='measure_unit'
-              render={({ field: { value } }) => (
-                <FormControl fullWidth>
-                  <TextField
-                    label={
-                      <RequiredLabelWrapper>
-                        <Text>Measure unit</Text>
-                      </RequiredLabelWrapper>
-                    }
-                    value={value}
-                    error={!!getError("measure_unit")}
-                    {...register("measure_unit", baseRequired)}
-                  />
 
-                  <HelperText id='measure_unit' error={getError("measure_unit")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
+          {isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='measure_unit'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <RequiredLabelWrapper>
+                          <Text>Measure unit</Text>
+                        </RequiredLabelWrapper>
+                      }
+                      value={value}
+                      error={!!getError("measure_unit")}
+                      {...register("measure_unit", baseRequired)}
+                    />
+
+                    <HelperText id='measure_unit' error={getError("measure_unit")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRusLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='measure_unit_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Measure unit</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      {...register("measure_unit_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <Controller
               control={control}

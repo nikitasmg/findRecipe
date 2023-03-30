@@ -9,9 +9,12 @@ import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ActivityResultPageRoute } from "~shared/routes";
 import { useNavigationBack } from "~shared/hooks/useBackClick";
+import { useLang } from "~/shared/hooks/useLang";
 
 export const ActivityResultEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { lang, setLang } = useLang();
 
   const handleGoBack = useNavigationBack();
 
@@ -40,8 +43,9 @@ export const ActivityResultEdit: React.FC = () => {
               title={isEdit ? "Activity result editing" : "Activity result creating"}
               backHref={ActivityResultPageRoute}
               onRemove={isEdit ? handleDelete : undefined}
+              onLangChange={setLang}
             />
-            <ActivityResultsDetailsForm id={Number(id)} />
+            <ActivityResultsDetailsForm id={Number(id)} lang={lang} />
           </Box>
         </Box>
       </Panel>
