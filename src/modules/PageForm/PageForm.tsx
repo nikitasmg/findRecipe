@@ -35,7 +35,7 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
 
   const client = useGraphqlClient();
 
-  const { data } = usePageBySlugQuery(client, { slug }, { refetchOnMount: "always" });
+  const { data } = usePageBySlugQuery(client, { slug }, { refetchOnMount: "always", cacheTime: 0 });
 
   const { mutateAsync: updatePage, isLoading } = useUpdatePageMutation(client, {
     onSuccess: goBack
@@ -57,14 +57,21 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
         connect: newValues.connectDocuments ?? [],
         disconnect: newValues.disconnectDocuments ?? [],
         syncWithoutDetaching: newValues.updateDocuments ?? []
-      }
+      },
+      uploadGalleryImages: newValues.uploadGalleryImages,
+      deleteGalleryImages: newValues.deleteGalleryImages,
+      updateGallery: newValues.updateGallery
     };
 
     updatePage({ input });
   });
 
   useEffect(() => {
-    initFormValues(["name", "description", "imageUrl", "params", "parent_id"], setValue, values);
+    initFormValues(
+      ["name", "description", "imageUrl", "params", "parent_id", "gallery"],
+      setValue,
+      values
+    );
     setValue("seo.upsert.title", values?.seo?.title || values?.meta?.auto_title);
     setValue("seo.upsert.description", values?.seo?.description || values?.meta?.auto_description);
     setValue(

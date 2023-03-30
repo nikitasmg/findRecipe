@@ -104,8 +104,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
         "imageUrl",
         "on_index",
         "documents",
-        "uploadImage",
-        "gallery"
+        "uploadImage"
       ],
       setValue,
       values

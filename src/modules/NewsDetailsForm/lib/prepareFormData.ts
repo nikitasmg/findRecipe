@@ -47,10 +47,7 @@ export const prepareFormData = async (
             ?.map(compose(Number, prop("id")))
             .filter((tag) => not(newValues.tags?.includes(tag))) ?? []
       })
-    },
-    uploadGalleryImages: newValues.uploadGalleryImages,
-    deleteGalleryImages: newValues.deleteGalleryImages,
-    updateGallery: newValues.updateGallery
+    }
   };
 
   return input;
