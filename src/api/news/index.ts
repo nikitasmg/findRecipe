@@ -7,7 +7,7 @@ type Input = {
   items: number[];
 };
 
-export const useDeleteNews = () => {
+export const useHideNews = () => {
   const { mutateAsync, ...other } = useApiMutation();
 
   const fetch = useCallback(
@@ -15,7 +15,7 @@ export const useDeleteNews = () => {
       const mutation = gql`mutation deleteAllNews {
     ${variables.reduce((res: string, cur, i) => {
       return res.concat(
-        gql`item${i}: deleteNews(id: ${cur}) {
+        gql`item${i}: upsertNews(input: {id: ${cur}, published: false}) {
           id
         }\n`
       );
