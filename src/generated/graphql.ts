@@ -1862,14 +1862,14 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: { __typename?: 'User', id: number } | null };
 
-export type AllVideoBroadcastsFieldsFragment = { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null };
+export type AllVideoBroadcastsFieldsFragment = { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null };
 
 export type VideoBroadcastByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type VideoBroadcastByIdQuery = { __typename?: 'Query', videoBroadcastById?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+export type VideoBroadcastByIdQuery = { __typename?: 'Query', videoBroadcastById?: { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null } | null };
 
 export type VideoBroadcastsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1877,21 +1877,21 @@ export type VideoBroadcastsQueryVariables = Exact<{
 }>;
 
 
-export type VideoBroadcastsQuery = { __typename?: 'Query', videoBroadcasts: Array<{ __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null }> };
+export type VideoBroadcastsQuery = { __typename?: 'Query', videoBroadcasts: Array<{ __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null }> };
 
 export type CreateVideoBroadcastMutationVariables = Exact<{
   input: VideoBroadcastInput;
 }>;
 
 
-export type CreateVideoBroadcastMutation = { __typename?: 'Mutation', createVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+export type CreateVideoBroadcastMutation = { __typename?: 'Mutation', createVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null } | null };
 
 export type UpdateVideoBroadcastMutationVariables = Exact<{
   input: VideoBroadcastInput;
 }>;
 
 
-export type UpdateVideoBroadcastMutation = { __typename?: 'Mutation', upsertVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, sort: number, url?: string | null } | null };
+export type UpdateVideoBroadcastMutation = { __typename?: 'Mutation', upsertVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number, name: string, name_en?: string | null, sort: number, url?: string | null } | null };
 
 export type DeleteVideoBroadcastMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -1900,14 +1900,14 @@ export type DeleteVideoBroadcastMutationVariables = Exact<{
 
 export type DeleteVideoBroadcastMutation = { __typename?: 'Mutation', deleteVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number } | null };
 
-export type AllClustersFieldsFragment = { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any };
+export type AllClustersFieldsFragment = { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any };
 
 export type ClusterByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ClusterByIdQuery = { __typename?: 'Query', clusterById?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any } | null };
+export type ClusterByIdQuery = { __typename?: 'Query', clusterById?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
 
 export type ClustersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1915,21 +1915,21 @@ export type ClustersQueryVariables = Exact<{
 }>;
 
 
-export type ClustersQuery = { __typename?: 'Query', clusters: Array<{ __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any }> };
+export type ClustersQuery = { __typename?: 'Query', clusters: Array<{ __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any }> };
 
 export type CreateClusterMutationVariables = Exact<{
   input: ClusterInput;
 }>;
 
 
-export type CreateClusterMutation = { __typename?: 'Mutation', createCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any } | null };
+export type CreateClusterMutation = { __typename?: 'Mutation', createCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
 
 export type UpdateClusterMutationVariables = Exact<{
   input: ClusterInput;
 }>;
 
 
-export type UpdateClusterMutation = { __typename?: 'Mutation', upsertCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, sort: number, created_at: any, updated_at: any } | null };
+export type UpdateClusterMutation = { __typename?: 'Mutation', upsertCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
 
 export type DeleteClusterMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2864,6 +2864,7 @@ export const AllVideoBroadcastsFieldsFragmentDoc = `
     fragment allVideoBroadcastsFields on VideoBroadcast {
   id
   name
+  name_en
   sort
   url
 }
@@ -2876,6 +2877,11 @@ export const AllClustersFieldsFragmentDoc = `
   column_one_text
   column_two_name
   column_two_text
+  name_en
+  column_one_name_en
+  column_one_text_en
+  column_two_name_en
+  column_two_text_en
   sort
   created_at
   updated_at
