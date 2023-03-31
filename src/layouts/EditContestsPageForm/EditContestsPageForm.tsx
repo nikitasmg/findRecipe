@@ -1,5 +1,5 @@
 import React from "react";
-import { ContestsBlocks } from "~/modules/ContestsBlocks";
+import { BlocksContests } from "~/modules/BlocksContests";
 import { PageForm } from "~/modules/PageForm";
 
 export const EditContestsPageForm: React.FC = () => {
@@ -7,7 +7,7 @@ export const EditContestsPageForm: React.FC = () => {
     <PageForm
       slug='contests'
       isDocumentsExist
-      render={(form) => <ContestsBlocks setValue={form.setValue} control={form.control} />}
+      render={(form) => <BlocksContests setValue={form.setValue} control={form.control} />}
     />
   );
 };
