@@ -13,8 +13,10 @@ import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { baseRequired } from "~/shared/lib/validation";
+import { getEventValueHandler } from "~/shared/lib/events";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
+import { curry } from "rambda";
 
 type FormFields = {
   name?: string;
@@ -181,6 +183,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                   apiKey={contentEditorKey}
                   value={value ?? ""}
                   {...register("content", baseRequired)}
+                  onChange={getEventValueHandler(curry(setValue)("content"))}
                   getUploadedUrl={getUploadedUrl}
                 />
 

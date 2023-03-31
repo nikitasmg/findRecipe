@@ -21,6 +21,7 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { getEventValueHandler } from "~/shared/lib/events";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { ContentEditor } from "~/shared/components/ContentEditor";
 import { Languages } from "~/shared/types/Languages";
@@ -78,9 +79,12 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
     control,
     handleSubmit,
     setValue,
-    formState: { errors },
-    register
+    formState: { errors, touchedFields },
+    register,
+    getValues
   } = useForm({ mode: "all" });
+
+  console.log(touchedFields);
 
   const getError = getErrorMessage(errors);
 
@@ -242,7 +246,9 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                     <FormControl error={!!getError("column_one_text")} fullWidth>
                       <RequiredLabelWrapper>
                         <Text
-                          className={clsx("text-sm", { "text-mainError": !!getError("content") })}
+                          className={clsx("text-sm", {
+                            "text-mainError": !!getError("column_one_text")
+                          })}
                         >
                           First column description
                         </Text>
@@ -252,8 +258,11 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                         apiKey={contentEditorKey}
                         value={value}
                         {...register("column_one_text", baseRequiredTextValidation)}
+                        onChange={getEventValueHandler((value) =>
+                          setValue("column_one_text", value, { shouldTouch: true })
+                        )}
                         getUploadedUrl={getUploadedUrl}
-                        settings={{ min_height: 200 }}
+                        size='small'
                       />
 
                       <HelperText id='column_one_text' error={getError("column_one_text")} />
@@ -280,7 +289,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                         value={value}
                         {...register("column_one_text_en")}
                         getUploadedUrl={getUploadedUrl}
-                        settings={{ min_height: 200 }}
+                        size='small'
                       />
                     </FormControl>
                   )}
@@ -368,8 +377,11 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                         apiKey={contentEditorKey}
                         value={value}
                         {...register("column_two_text", baseRequiredTextValidation)}
+                        onChange={getEventValueHandler((value) =>
+                          setValue("column_two_text", value, { shouldTouch: true })
+                        )}
                         getUploadedUrl={getUploadedUrl}
-                        settings={{ min_height: 200 }}
+                        size='small'
                       />
 
                       <HelperText id='column_two_text' error={getError("column_two_text")} />
@@ -396,7 +408,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                         value={value}
                         {...register("column_two_text_en")}
                         getUploadedUrl={getUploadedUrl}
-                        settings={{ min_height: 200 }}
+                        size='small'
                       />
                     </FormControl>
                   )}
