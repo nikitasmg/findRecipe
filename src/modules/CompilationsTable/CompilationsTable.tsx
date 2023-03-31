@@ -1,6 +1,5 @@
 import {
   Box,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -44,7 +43,7 @@ export const CompilationsTable: React.FC = () => {
           handleReset={resetTitle}
         />
 
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

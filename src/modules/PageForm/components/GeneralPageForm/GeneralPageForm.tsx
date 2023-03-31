@@ -1,4 +1,5 @@
 import { Box, FormControl, TextField } from "@mui/material";
+import { curry } from "rambda";
 import React, { useCallback } from "react";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -9,6 +10,7 @@ import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { Text } from "~/shared/components/Text";
+import { getEventValueHandler } from "~/shared/lib/events";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
@@ -120,6 +122,7 @@ export const GeneralPageForm: React.FC<Props> = ({ register, control, setValue, 
                   apiKey={contentEditorKey}
                   value={value ?? ""}
                   {...register("description")}
+                  onChange={getEventValueHandler(curry(setValue)("description"))}
                   getUploadedUrl={getUploadedUrl}
                 />
               </FormControl>

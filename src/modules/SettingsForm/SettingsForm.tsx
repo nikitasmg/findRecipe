@@ -89,7 +89,7 @@ export const SettingsTabs = () => {
 
   return (
     <Box className='relative'>
-      <Box className='flex items-stretch justify-between gap-2 flex-col sm:flex-row'>
+      <Box className='flex items-stretch justify-between gap-2 flex-col h-9 sm:flex-row'>
         <Text component='h1' variant='h6'>
           Settings Edit
         </Text>

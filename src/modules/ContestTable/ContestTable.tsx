@@ -1,7 +1,6 @@
 import {
   Box,
   CircularProgress,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -88,7 +87,7 @@ export const ContestTable: React.FC = () => {
           }
         />
 
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

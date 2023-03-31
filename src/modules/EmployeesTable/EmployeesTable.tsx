@@ -2,7 +2,6 @@ import React from "react";
 import {
   Box,
   CircularProgress,
-  Paper,
   Table,
   TableCell,
   TableContainer,
@@ -60,7 +59,7 @@ const EmployeesTable = () => {
           }
         />
 
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

@@ -1,7 +1,6 @@
 import {
   Box,
   CircularProgress,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -53,7 +52,7 @@ export const EventsTable: React.FC = () => {
   }));
 
   const { data, isLoading } = useEventsQuery(client, variables, {
-    refetchOnMount: "always"  
+    refetchOnMount: "always"
   });
 
   const events = data?.events;
@@ -88,7 +87,7 @@ export const EventsTable: React.FC = () => {
           }
         />
 
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>

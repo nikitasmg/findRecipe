@@ -1,7 +1,6 @@
 import {
   Box,
   CircularProgress,
-  Paper,
   Table,
   TableCell,
   TableContainer,
@@ -50,7 +49,7 @@ export const ClustersTable: React.FC = () => {
           resetFilters={resetFilters}
         />
 
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
