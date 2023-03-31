@@ -54,12 +54,12 @@ const theme = createTheme({
       defaultProps: {
         sx: {
           "&:first-child": {
-            borderRadius: "8px 0px 0px 8px",
+            borderRadius: `${tableTheme.borderRadius} 0px 0px ${tableTheme.borderRadius}`,
             borderLeft: tableTheme.border,
             position: "static"
           },
           "&:last-child": {
-            borderRadius: "0px 8px 8px 0",
+            borderRadius: `0px ${tableTheme.borderRadius} ${tableTheme.borderRadius} 0px`,
             borderRight: tableTheme.border
           },
           "&:first-child:before": {
