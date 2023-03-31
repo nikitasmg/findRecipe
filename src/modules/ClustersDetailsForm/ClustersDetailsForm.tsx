@@ -80,8 +80,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
     handleSubmit,
     setValue,
     formState: { errors, touchedFields },
-    register,
-    getValues
+    register
   } = useForm({ mode: "all" });
 
   console.log(touchedFields);

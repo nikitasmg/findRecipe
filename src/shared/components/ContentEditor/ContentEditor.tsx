@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { createEvent } from "./lib/createEvent";
 import { getNativeFileUrl } from "./lib/getNativeFileUrl";
 import styles from "./ContentEditor.module.scss";
-import { compose, curry, flip } from "rambda";
 
 type EditorEvent = { target: { value: string; name: string } };
 
