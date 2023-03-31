@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from "react";
-import { grey } from "@mui/material/colors";
 import { ThemeProvider, createTheme, StyledEngineProvider } from "@mui/material/styles";
 
 const colors = {
@@ -8,32 +7,85 @@ const colors = {
   secondary: "#08205C"
 };
 
+const tableTheme = {
+  borderRadius: "8px",
+  boxShadow: "0px 2px 7px rgba(116, 116, 116, 0.05)",
+  border: "1px solid rgba(14, 129, 60, 0.15)",
+  heightTableHead: "56px"
+};
+
 const theme = createTheme({
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          overflowX: "inherit",
+          boxShadow: "none"
+        }
+      }
+    },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          borderCollapse: "separate",
+          borderSpacing: "0px 8px"
+        }
+      }
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          borderColor: colors.primary,
+          boxShadow: tableTheme.boxShadow,
+          borderRadius: tableTheme.borderRadius,
+          position: "relative"
+        }
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          background: "none",
+          border: tableTheme.border,
+          borderLeft: "none",
+          borderRight: "none"
+        }
+      },
+      defaultProps: {
+        sx: {
+          "&:first-child": {
+            borderRadius: "8px 0px 0px 8px",
+            borderLeft: tableTheme.border,
+            position: "static"
+          },
+          "&:last-child": {
+            borderRadius: "0px 8px 8px 0",
+            borderRight: tableTheme.border
+          },
+          "&:first-child:before": {
+            content: "''",
+            position: "absolute",
+            height: "100%",
+            top: 0,
+            left: 0,
+            borderRadius: tableTheme.borderRadius,
+            width: "100%",
+            display: "block",
+            boxShadow: tableTheme.boxShadow
+          }
+        }
+      }
+    },
     MuiTableHead: {
-      defaultProps: {
-        sx: {
-          "& .MuiTableCell-head": {
-            background: grey[200]
-          }
+      styleOverrides: {
+        root: {
+          borderRadius: tableTheme.borderRadius,
+          borderColor: colors.primary,
+          height: tableTheme.heightTableHead
         }
       }
     },
-    MuiTableBody: {
-      defaultProps: {
-        sx: {
-          "& tr:nth-of-type(2n)": {
-            background: grey[200]
-          },
-          "& .MuiTableRow-hover:hover": {
-            background: "none"
-          },
-          "& .MuiTableRow-hover:nth-of-type(2n):hover": {
-            background: grey[200]
-          }
-        }
-      }
-    },
+    MuiTableBody: {},
 
     MuiInputLabel: {
       defaultProps: {
