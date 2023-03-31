@@ -1,7 +1,6 @@
 import {
   Box,
   CircularProgress,
-  Paper,
   Table,
   TableCell,
   TableContainer,
@@ -133,7 +132,7 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
         }
       />
 
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>

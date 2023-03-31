@@ -17,12 +17,7 @@ const tableTheme = {
 const theme = createTheme({
   components: {
     MuiPaper: {
-      styleOverrides: {
-        root: {
-          overflowX: "inherit",
-          boxShadow: "none"
-        }
-      }
+      styleOverrides: {}
     },
     MuiTable: {
       styleOverrides: {
@@ -71,7 +66,8 @@ const theme = createTheme({
             borderRadius: tableTheme.borderRadius,
             width: "100%",
             display: "block",
-            boxShadow: tableTheme.boxShadow
+            boxShadow: tableTheme.boxShadow,
+            zIndex: -1
           }
         }
       }

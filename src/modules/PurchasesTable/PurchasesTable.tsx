@@ -56,7 +56,7 @@ export const PurchasesTable: React.FC = () => {
           }
         />
 
-        <TableContainer component={Paper}>
+        <TableContainer>
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
