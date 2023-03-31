@@ -1,66 +1,45 @@
-import { FormFieldsSocial } from "../SocialSettingsForm";
-import { Button, Grid, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { Control, Controller, UseFormRegister } from "react-hook-form";
+import { Control, Controller, Path } from "react-hook-form";
 import { Text } from "~/shared/components/Text";
 import { ButtonDelete } from "~/shared/components/ButtonDelete";
 import { SocialItems } from "~/shared/types/socials";
 
-type Props = {
-  register: UseFormRegister<FormFieldsSocial>;
-  control?: Control<FormFieldsSocial, unknown>;
-  setValue: (name: keyof FormFieldsSocial, value: string) => void;
-  handleOpenForm: () => void;
-  setActive: (social: keyof FormFieldsSocial) => void;
+type Params = Partial<Record<SocialItems, string | undefined>>;
+
+export type SocialItemProps<T extends Params> = {
   handleSubmit: () => void;
-  social: SocialItems;
+  setValue: (name: keyof T, value: string) => void;
+  socialType: SocialItems;
+  control?: Control<T, unknown>;
 };
 
-export const SocialItem: React.FC<Props> = ({
-  register,
-  control,
-  handleOpenForm,
+export function SocialItem<T extends Params>({
   handleSubmit,
-  setActive,
   setValue,
-  social
-}) => {
+  socialType,
+  control
+}: SocialItemProps<T>): React.ReactElement {
   const deleteHandler = () => {
-    setValue(social, "");
+    setValue(socialType, "");
     handleSubmit();
-  };
-
-  const editHandler = () => {
-    setActive(social);
-    handleOpenForm();
   };
 
   return (
     <>
-      <Grid item columns={10} xs={10}>
+      <Grid item columns={12} xs={12} className='flex gap-2'>
         <Controller
           control={control}
-          name={social}
-          render={({ field: { value } }) => (
-            <TextField
-              fullWidth
-              value={value}
-              label={<Text>{social}</Text>}
-              {...register(social)}
-            />
+          name={socialType as Path<T>}
+          render={({ field }) => (
+            <TextField fullWidth {...field} label={<Text>{socialType}</Text>} />
           )}
         />
-      </Grid>
-      <Grid item columns={2} xs={2}>
-        <Button onClick={editHandler} color='info'>
-          <EditIcon />
-        </Button>
-        <ButtonDelete onClick={deleteHandler} variant='text'>
+        <ButtonDelete onClick={deleteHandler} type='button' variant='text' className='min-w-fit'>
           <DeleteIcon />
         </ButtonDelete>
       </Grid>
     </>
   );
-};
+}

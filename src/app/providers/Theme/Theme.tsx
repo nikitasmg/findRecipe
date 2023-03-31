@@ -114,6 +114,11 @@ const theme = createTheme({
           height: "300px"
         }
       }
+    },
+    MuiInputBase: {
+      defaultProps: {
+        size: "small"
+      }
     }
   },
   palette: {
