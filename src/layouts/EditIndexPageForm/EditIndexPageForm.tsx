@@ -3,5 +3,7 @@ import { BlocksIndexPage } from "~/modules/BlocksIndexPage";
 import { PageForm } from "~/modules/PageForm";
 
 export const EditIndexPageForm: React.FC = () => {
-  return <PageForm slug='index' render={(form) => <BlocksIndexPage {...form} />} />;
+  return (
+    <PageForm slug='index' render={(form, lang) => <BlocksIndexPage {...form} lang={lang} />} />
+  );
 };

@@ -7,7 +7,9 @@ export const EditContestsPageForm: React.FC = () => {
     <PageForm
       slug='contests'
       isDocumentsExist
-      render={(form) => <BlocksContests setValue={form.setValue} control={form.control} />}
+      render={(form, lang) => (
+        <BlocksContests lang={lang} setValue={form.setValue} control={form.control} />
+      )}
     />
   );
 };

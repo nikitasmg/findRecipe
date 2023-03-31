@@ -1,14 +1,16 @@
 import { FormControl, FormLabel, TextField } from "@mui/material";
 import { curry } from "rambda";
-import React from "react";
+import React, { Fragment } from "react";
 import { Control, Controller, FieldErrors, UseFormGetValues } from "react-hook-form";
 import { GalleryImage, UpdateGalleryInput, UploadGalleryInput } from "~/generated/graphql";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { GalleryInput } from "~/shared/components/GalleryInput";
 import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { getErrorMessage } from "~/shared/lib/getError";
+import { Languages } from "~/shared/types/Languages";
 
 export type BannerFields = {
   gallery?: GalleryImage[];
@@ -17,16 +19,19 @@ export type BannerFields = {
   updateGallery?: UpdateGalleryInput[];
   "params.banner.title"?: string;
   "params.banner.description"?: string;
+  "params.banner.title_en"?: string;
+  "params.banner.description_en"?: string;
 };
 
 type Props = {
+  lang: Languages;
   errors?: FieldErrors<BannerFields>;
   setValue?: (name: keyof BannerFields, value: unknown) => void;
   getValues?: UseFormGetValues<BannerFields>;
   control?: Control<BannerFields, unknown>;
 };
 
-export const Banner: React.FC<Props> = ({ errors, setValue, getValues, control }) => {
+export const Banner: React.FC<Props> = ({ errors, setValue, getValues, control, lang }) => {
   if (!setValue) {
     return null;
   }
@@ -59,6 +64,17 @@ export const Banner: React.FC<Props> = ({ errors, setValue, getValues, control }
     setValue?.("updateGallery", (current ?? []).concat(images));
   };
 
+  const isRusLang = lang === "ru";
+
+  const names: {
+    name: "params.banner.title" | "params.banner.title_en";
+    description: "params.banner.description" | "params.banner.description_en";
+  } = isRusLang
+    ? { name: "params.banner.title", description: "params.banner.description" }
+    : { name: "params.banner.title_en", description: "params.banner.description_en" };
+
+  const LabelWrapper = isRusLang ? Fragment : EnLabelWrapper;
+
   return (
     <>
       <FormControl fullWidth>
@@ -84,26 +100,34 @@ export const Banner: React.FC<Props> = ({ errors, setValue, getValues, control }
 
       <Controller
         control={control}
-        name='params.banner.title'
+        name={names.name}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
-            label={<Text>Title on the banner</Text>}
+            label={
+              <LabelWrapper>
+                <Text>Title on the banner</Text>
+              </LabelWrapper>
+            }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)("params.banner.title"))}
+            onChange={getEventValueHandler(curry(setValue)(names.name))}
           />
         )}
       />
 
       <Controller
         control={control}
-        name='params.banner.description'
+        name={names.description}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
-            label={<Text>Description on the banner</Text>}
+            label={
+              <LabelWrapper>
+                <Text>Description on the banner</Text>
+              </LabelWrapper>
+            }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)("params.banner.description"))}
+            onChange={getEventValueHandler(curry(setValue)(names.description))}
           />
         )}
       />
