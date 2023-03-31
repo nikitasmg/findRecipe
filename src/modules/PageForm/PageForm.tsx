@@ -9,6 +9,7 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { useLang } from "~/shared/hooks/useLang";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { PagesRoute } from "~/shared/routes";
+import { Languages } from "~/shared/types/Languages";
 import { LinkedDocumentForm } from "../LinkedDocumentForm";
 import { BlocksForm } from "./components/BlocksForm";
 import { GeneralPageForm } from "./components/GeneralPageForm";
@@ -17,13 +18,15 @@ import { SeoForm } from "./components/SeoForm";
 type Props = {
   slug: string;
   isDocumentsExist?: boolean;
-  render?: (form: Partial<UseFormReturn>) => JSX.Element;
+  render?: (form: Partial<UseFormReturn>, lang: Languages) => JSX.Element;
 };
 
 export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) => {
   const [step, setStep] = useState(0);
 
   const { lang, setLang } = useLang();
+
+  const form = useForm();
 
   const {
     handleSubmit,
@@ -32,7 +35,7 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
     register,
     getValues,
     formState: { errors }
-  } = useForm();
+  } = form;
 
   const goBack = useNavigationBack();
 
@@ -130,9 +133,7 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
     if (render) {
       forms.push({
         tabTitle: "Blocks",
-        component: (
-          <BlocksForm setValue={setValue} control={control} getValues={getValues} render={render} />
-        )
+        component: <BlocksForm lang={lang} form={form} render={render} />
       });
     }
 

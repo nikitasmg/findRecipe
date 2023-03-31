@@ -12,7 +12,7 @@ type Props = {
   control?: Control<ParamsFormFields, unknown>;
 };
 
-export const ContestsBlocks: React.FC<Props> = ({ setValue, control }) => {
+export const BlocksContests: React.FC<Props> = ({ setValue, control }) => {
   return (
     <Box>
       <EmailField setValue={setValue} control={control} />

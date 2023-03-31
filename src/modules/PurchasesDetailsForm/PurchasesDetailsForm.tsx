@@ -112,6 +112,7 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id, 
                       multiline
                       fullWidth
                       value={value}
+                      error={getError("name")}
                       label={
                         <RequiredLabelWrapper>
                           <Text>Title</Text>
