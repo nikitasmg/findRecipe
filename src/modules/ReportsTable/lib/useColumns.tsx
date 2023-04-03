@@ -44,7 +44,7 @@ export const useColumns = (
             className='transition-all'
             to={`${ReportsPageEdit.replace(":id", row.id as string)}`}
           >
-            {value as string}
+            {(value as string)?.slice(0, 100).concat("...")}
           </Link>
         );
       }

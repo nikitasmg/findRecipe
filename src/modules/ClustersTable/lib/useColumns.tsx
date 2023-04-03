@@ -29,7 +29,7 @@ export const useColumns = (
             className='transition-all'
             to={`${ClustersPageEdit.replace(":id", row.id as string)}`}
           >
-            {value as string}
+            {(value as string)?.slice(0, 100).concat("...")}
           </Link>
         );
       }

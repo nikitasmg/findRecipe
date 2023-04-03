@@ -76,7 +76,7 @@ export const useColumns = (
       render: (value, row) => {
         return (
           <Link className='transition-all' to={`${NewsPageEdit.replace(":id", row.id as string)}`}>
-            {value as string}
+            {(value as string)?.slice(0, 100).concat("...")}
           </Link>
         );
       }
