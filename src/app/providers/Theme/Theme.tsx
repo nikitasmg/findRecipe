@@ -49,7 +49,7 @@ const theme = createTheme({
       },
       defaultProps: {
         sx: {
-          "&:first-child": {
+          "&:first-of-type": {
             borderRadius: `${tableTheme.borderRadius} 0px 0px ${tableTheme.borderRadius}`,
             borderLeft: tableTheme.border,
             position: "static"
@@ -58,7 +58,7 @@ const theme = createTheme({
             borderRadius: `0px ${tableTheme.borderRadius} ${tableTheme.borderRadius} 0px`,
             borderRight: tableTheme.border,
           },
-          "&:first-child:before": {
+          "&:first-of-type:before": {
             content: "''",
             position: "absolute",
             height: "100%",
