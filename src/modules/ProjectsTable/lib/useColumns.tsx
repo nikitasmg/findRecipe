@@ -59,7 +59,7 @@ export const useColumns = (
             className='transition-all'
             to={`${ProjectsPageEdit.replace(":id", row.id as string)}`}
           >
-            {value as string}
+            {(value as string)?.slice(0, 100).concat("...")}
           </Link>
         );
       }
@@ -89,7 +89,7 @@ export const useColumns = (
         />
       ),
       render: (value) => {
-        return (value as Contest)?.name;
+        return (value as Contest)?.name?.slice(0, 100).concat("...");
       },
       style: {
         width: "200px"
@@ -107,7 +107,8 @@ export const useColumns = (
       ),
       style: {
         width: "200px"
-      }
+      },
+      render: (value) => (value as string)?.slice(0, 100).concat("...")
     }
   ];
 };

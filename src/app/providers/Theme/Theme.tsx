@@ -11,7 +11,8 @@ const tableTheme = {
   borderRadius: "8px",
   boxShadow: "0px 2px 7px rgba(116, 116, 116, 0.05)",
   border: "1px solid rgba(14, 129, 60, 0.15)",
-  heightTableHead: "56px"
+  heightTableHead: "56px",
+  heightTableRow: "153px"
 };
 
 const theme = createTheme({
@@ -33,7 +34,7 @@ const theme = createTheme({
           borderColor: colors.primary,
           boxShadow: tableTheme.boxShadow,
           borderRadius: tableTheme.borderRadius,
-          position: "relative"
+          position: "relative",
         }
       }
     },
@@ -43,21 +44,21 @@ const theme = createTheme({
           background: "none",
           border: tableTheme.border,
           borderLeft: "none",
-          borderRight: "none"
+          borderRight: "none",
         }
       },
       defaultProps: {
         sx: {
-          "&:first-child": {
+          "&:first-of-type": {
             borderRadius: `${tableTheme.borderRadius} 0px 0px ${tableTheme.borderRadius}`,
             borderLeft: tableTheme.border,
             position: "static"
           },
           "&:last-child": {
             borderRadius: `0px ${tableTheme.borderRadius} ${tableTheme.borderRadius} 0px`,
-            borderRight: tableTheme.border
+            borderRight: tableTheme.border,
           },
-          "&:first-child:before": {
+          "&:first-of-type:before": {
             content: "''",
             position: "absolute",
             height: "100%",
@@ -67,7 +68,7 @@ const theme = createTheme({
             width: "100%",
             display: "block",
             boxShadow: tableTheme.boxShadow,
-            zIndex: -1
+            zIndex: -1,
           }
         }
       }
@@ -81,7 +82,15 @@ const theme = createTheme({
         }
       }
     },
-    MuiTableBody: {},
+    MuiTableBody: {
+      styleOverrides:{
+        root: {
+          "& .MuiTableRow-root":{
+            height: tableTheme.heightTableRow
+          }
+        }
+      }
+    },
 
     MuiInputLabel: {
       defaultProps: {
