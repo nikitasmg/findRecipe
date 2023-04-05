@@ -67,13 +67,22 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const isCreate = editRow?.id === "new";
-
+  
+    if(!newValues?.name){
+      if(editRow?.id==="new"){
+        setRows((oldRows) => oldRows.filter((el)=> el.id !== "new"));
+        setEditRow(null);
+        setNewValues({});
+      }
+      return;
+    }
+   
     if (!isCreate && editRow) {
       update({ ...editRow, ...newValues, id: Number(editRow.id) });
       setNewValues({});
       return;
     }
-
+    
     const newRow = {
       sort: rows.length + 1,
       name: newValues?.name ?? "",
@@ -82,6 +91,7 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
 
     create(newRow);
     setRows((rows) => rows.slice(0, -1).concat({ id: "new", ...newRow }));
+    setNewValues({});
   };
 
   return (
