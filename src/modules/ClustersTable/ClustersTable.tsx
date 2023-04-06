@@ -33,7 +33,7 @@ export const ClustersTable: React.FC = () => {
   } = useClusters();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
-
+ 
   return (
     <Panel>
       <Box className='flex flex-col gap-6 p-4'>
@@ -53,7 +53,7 @@ export const ClustersTable: React.FC = () => {
           <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
-                <CellDragHandle disabled />
+                <CellDragHandle style={{ visibility: "hidden" }} disabled />
 
                 {columns.map((column) => (
                   <TableCell key={column.id} align={column.align} style={column.style}>
