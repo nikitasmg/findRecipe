@@ -30,7 +30,9 @@ export const useColumns = (
             className='transition-all'
             to={`${BroadcastsPageEdit.replace(":id", row.id as string)}`}
           >
-            {(value as string)?.slice(0, 100).concat("...")}
+            {(value as string)?.length > 100
+            ? (value as string)?.slice(0, 100).concat("...")
+            : (value as string)}
           </Link>
         );
       }
@@ -55,7 +57,9 @@ export const useColumns = (
       },
       render: (value) => (
         <SourceLink className='transition-all' to={value as string} target='_blank'>
-          {(value as string)?.slice(0, 100).concat("...")}
+          {(value as string)?.length > 100
+            ? (value as string)?.slice(0, 100).concat("...")
+            : (value as string)}
         </SourceLink>
       )
     }
