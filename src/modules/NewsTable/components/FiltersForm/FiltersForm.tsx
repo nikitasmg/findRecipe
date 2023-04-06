@@ -67,7 +67,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
                     notched
                     label={<Text component='span'>Category</Text>}
                     name='category'
-                    id='category-select'
                   />
                 }
                 value={(params?.category as string) ?? ""}

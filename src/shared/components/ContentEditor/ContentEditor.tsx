@@ -50,7 +50,8 @@ export const ContentEditor: React.FC<Props> = React.memo(
         <Box
           className={clsx("relative z-999", {
             "min-h-[200px]": size === "small",
-            "min-h-600px": size === "medium",
+            "min-h-[600px]": size === "medium",
+            "text-transparent": isLoading,
             [styles.editor_error]: error
           })}
         >

@@ -30,7 +30,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
   };
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={4} className='w-full lg:w-[70%]'>
       <Grid item columns={12} xs={12}>
         <Controller
           control={control}

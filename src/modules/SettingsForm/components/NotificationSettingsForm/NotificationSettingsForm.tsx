@@ -14,7 +14,7 @@ type Props = {
 
 export const NotificationSettingsForm: React.FC<Props> = ({ register, control }) => {
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={4} className='w-full lg:w-[70%]'>
       <Grid item columns={12} xs={12}>
         <Controller
           control={control}

@@ -125,7 +125,6 @@ export const SettingsTabs = () => {
                   handleOpenForm={handleOpenForm}
                   handleCloseForm={handleCloseForm}
                   open={open}
-                  register={register}
                   handleSubmit={onSubmit}
                   setValue={setValue}
                   control={control}
