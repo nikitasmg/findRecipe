@@ -139,11 +139,15 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, la
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <LinkInput
-                    label={<Text>Link</Text>}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Link</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
                     type='url'
                     error={!!getError("url")}
-                    {...register("url")}
+                    {...register("url", baseRequiredTextValidation)}
                     onChange={(e) => setValue("url", e.target.value)}
                   />
 
