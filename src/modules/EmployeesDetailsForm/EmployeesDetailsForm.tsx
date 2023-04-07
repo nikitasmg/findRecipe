@@ -225,7 +225,7 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
                     variant='outlined'
                     id='email'
                     error={!!getError("email")}
-                    {...register("email", getBaseEmailValidation({ required: false }))}
+                    {...register("email", getBaseEmailValidation({ required: true }))}
                   />
 
                   <HelperText id='email' error={getError("email")} />
