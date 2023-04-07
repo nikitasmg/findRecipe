@@ -4,10 +4,11 @@ import { DragHandle } from "../SortableTable";
 
 type Props = {
   disabled?: boolean;
+  style?: React.CSSProperties;
 };
 
-export const CellDragHandle: React.FC<Props> = ({ disabled = false }) => (
+export const CellDragHandle: React.FC<Props> = ({ disabled = false, style }) => (
   <TableCell key='drag' className='w-[5%]'>
-    <DragHandle disabled={disabled} />
+    <DragHandle style={style} disabled={disabled} />
   </TableCell>
 );
