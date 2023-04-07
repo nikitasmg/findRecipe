@@ -7,7 +7,7 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { LinkInput } from "~/shared/components/LinkInput";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequiredTextValidation } from "~/shared/lib/validation";
+import { baseRequiredTextValidation, getBaseUrlValidation } from "~/shared/lib/validation";
 import { Languages } from "~/shared/types/Languages";
 
 type FormFields = {
@@ -205,7 +205,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 value={value}
                 type='learn_more'
                 error={!!getError("learn_more")}
-                {...register("learn_more")}
+                {...register("learn_more", getBaseUrlValidation({required: true}))}
                 onChange={(e) => setValue("learn_more", e.target.value)}
               />
 
