@@ -53,7 +53,9 @@ export const useColumns = (
             className='transition-all'
             to={`${EventsPageEdit.replace(":id", row.id as string)}`}
           >
-            {(value as string)?.slice(0, 100).concat("...")}
+            {(value as string)?.length > 100
+              ? (value as string)?.slice(0, 100).concat("...")
+              : (value as string)}
           </Link>
         );
       }
@@ -72,7 +74,10 @@ export const useColumns = (
       style: {
         width: "25%"
       },
-      render: (value) => (value as string)?.slice(0, 100).concat("...")
+      render: (value) =>
+        (value as string)?.length > 100
+          ? (value as string)?.slice(0, 100).concat("...")
+          : (value as string)
     },
 
     {

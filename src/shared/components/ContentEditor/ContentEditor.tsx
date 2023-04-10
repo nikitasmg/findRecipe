@@ -87,6 +87,7 @@ export const ContentEditor: React.FC<Props> = React.memo(
               autosave_restore_when_empty: false,
               autosave_retention: "2m",
               image_advtab: true,
+              deprecation_warnings: false,
               importcss_append: true,
               images_upload_handler: (blob) => {
                 getUploadedUrl?.(blob.blobUri());
