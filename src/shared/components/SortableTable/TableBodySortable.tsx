@@ -8,7 +8,7 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
-  DragEndEvent
+  DragEndEvent,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -16,6 +16,7 @@ import {
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 import { compose, equals, prop } from "rambda";
+import { restrictToParentElement } from "@dnd-kit/modifiers";
 
 type Item = {
   id: string | number;
@@ -62,9 +63,14 @@ export const TableBodySortable = <T extends Item>({
   };
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      modifiers={[restrictToParentElement]}
+    >
       <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        <TableBody>{children}</TableBody>
+          <TableBody>{children}</TableBody>
       </SortableContext>
     </DndContext>
   );
