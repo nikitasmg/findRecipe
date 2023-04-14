@@ -125,11 +125,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
             render={({ field: { value } }) => (
               <FormControl fullWidth>
                 <TextField
-                  label={
-                    <RequiredLabelWrapper>
-                      <Text>News announcement</Text>
-                    </RequiredLabelWrapper>
-                  }
+                  label={<Text>News announcement</Text>}
                   value={value ?? ""}
                   multiline
                   fullWidth
@@ -137,7 +133,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                   InputProps={{
                     inputComponent: TextareaAutosize
                   }}
-                  {...register("description", baseRequired)}
+                  {...register("description")}
                 />
                 <HelperText id='description' error={getError("description")} />
               </FormControl>

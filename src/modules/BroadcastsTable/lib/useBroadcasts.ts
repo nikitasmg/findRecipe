@@ -38,7 +38,7 @@ export const useBroadcasts = () => {
 
   const broadcasts = data?.videoBroadcasts;
 
-  const { mutateAsync: resort } = useResort("upsertPurchase");
+  const { mutateAsync: resort } = useResort("upsertVideoBroadcast");
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     setRows((rows) => {
