@@ -15,6 +15,19 @@ export const useColumns = (
 
   return [
     {
+      id: "id",
+      label: (
+        <TableHeadCell
+          title='ID'
+          cellId='id'
+          onSortClick={getClickHandler("id")}
+          sortProps={getActiveProps("id")}
+        />
+      ),
+      align: "center"
+    },
+    
+    {
       id: "name",
       label: (
         <TableHeadCell
