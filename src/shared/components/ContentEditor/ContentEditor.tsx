@@ -1,7 +1,7 @@
 import React, { forwardRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { RawEditorSettings } from "tinymce";
-import { Box, Skeleton } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import clsx from "clsx";
 import { createEvent } from "./lib/createEvent";
 import { getNativeFileUrl } from "./lib/getNativeFileUrl";
@@ -56,11 +56,9 @@ export const ContentEditor: React.FC<Props> = React.memo(
           })}
         >
           {(!apiKey || isLoading) && (
-            <Skeleton
-              className='absolute top-0 left-0 h-full w-full z-999'
-              variant='rectangular'
-              height={height}
-            />
+            <Box className='flex h-[20vh] w-full justify-center items-center'>
+              <CircularProgress />
+            </Box>
           )}
           <Editor
             ref={ref as React.LegacyRef<Editor>}

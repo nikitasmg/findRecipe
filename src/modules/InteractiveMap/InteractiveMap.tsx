@@ -22,6 +22,7 @@ import { InteractiveMapPageEdit } from "~/shared/routes";
 import { FiltersForm } from "./components/FiltersForm";
 import { useColumns } from "./lib/useColumns";
 import { ItemsGroups } from "./types";
+import { EmptyView } from "~/shared/components/EmptyView";
 
 export const InteractiveMap: React.FC = () => {
   const history = useNavigate();
@@ -112,6 +113,8 @@ export const InteractiveMap: React.FC = () => {
               </TableBody>
             )}
           </Table>
+
+          {!mapObjects?.length && !isLoading && <EmptyView />}
 
           {isLoading && (
             <Box className='flex h-[20vh] w-full justify-center items-center'>

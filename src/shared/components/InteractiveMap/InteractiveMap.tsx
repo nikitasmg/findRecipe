@@ -31,15 +31,18 @@ export const InteractiveMap: React.FC<Props> = ({ onSelect }) => {
   const maxScale = 2.5;
 
   const zoomIn = () => {
-    zoomRef.current?.scaleTo({
-      ...zoom,
+    zoomRef.current?.alignCenter({
+      x: (imgRef.current?.offsetWidth as number) / 2 ?? 0,
+      y: (imgRef.current?.offsetHeight as number) / 2 ?? 0,
       scale: Math.min((zoom?.scale ?? 1) + 0.5, maxScale)
     });
   };
 
   const zoomOut = () => {
-    zoomRef.current?.scaleTo({
-      ...zoom,
+    if (zoom.scale < 1) return;
+    zoomRef.current?.alignCenter({
+      x: (imgRef.current?.offsetWidth as number) / 2 ?? 0,
+      y: (imgRef.current?.offsetHeight as number) / 2 ?? 0,
       scale: Math.min((zoom?.scale ?? 1) - 0.5, maxScale)
     });
   };
