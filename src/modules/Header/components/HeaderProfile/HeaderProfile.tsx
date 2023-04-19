@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { CircularProgress, Fade, Menu, MenuItem, Typography } from "@mui/material";
+import { Fade, Menu, MenuItem, Typography } from "@mui/material";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation, useMeQuery } from "~/generated/graphql";
@@ -37,15 +37,13 @@ export const HeaderProfile: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data, isLoading, isSuccess } = useMeQuery(client);
+  const { data, isSuccess } = useMeQuery(client);
 
   const unAuth = useAuthStore((state) => state.unAuth);
 
-  const { mutateAsync: logout, isLoading: isLogoutLoading } = useLogoutMutation(client);
+  const { mutateAsync: logout } = useLogoutMutation(client);
 
   const name = data?.me.name ?? "";
-
-  const loaderVisible = isLoading || isLogoutLoading;
 
   const isEmptyProfile = !name && isSuccess;
 
@@ -58,7 +56,6 @@ export const HeaderProfile: React.FC = () => {
   return (
     <Fragment>
       <Button className='flex' onClick={handleClick}>
-        {loaderVisible && <CircularProgress />}
         <Typography className='text-mainText'>{name}</Typography>
 
         {isEmptyProfile && <ManageAccountsIcon />}

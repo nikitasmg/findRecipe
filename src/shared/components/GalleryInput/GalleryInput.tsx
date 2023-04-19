@@ -172,7 +172,16 @@ export const GalleryInput: React.FC<Props> = ({
   return (
     <Box className='flex flex-col gap-6 pt-2'>
       <MultipleImageInput onChange={onAddImages} />
-      <SortableList cols={4} rowHeight={200} gap={10} onSortEnd={onSortEnd} axis='xy' distance={1}>
+      <SortableList
+        cols={4}
+        rowHeight={200}
+        gap={10}
+        lockToContainerEdges={true}
+        lockOffset={0}
+        onSortEnd={onSortEnd}
+        axis='xy'
+        distance={1}
+      >
         {(value ?? []).map((item, i) => (
           <SortableItem
             index={i}
@@ -202,7 +211,7 @@ export const GalleryInput: React.FC<Props> = ({
         </DialogTitle>
         <DialogContent>
           <Box component='form' className='flex flex-col gap-6' onSubmit={handleUpdateSubmit}>
-            <Box className='h-[50vh] w-[50vw] flex items-center justify-center'>
+            <Box className='flex items-center justify-center'>
               <img
                 className='max-h-full object-cover'
                 src={imagePreview?.url as string}
