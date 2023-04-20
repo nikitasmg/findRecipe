@@ -122,14 +122,18 @@ export const GeneralProjectsForm: React.FC<Props> = ({
                   <FormControl fullWidth>
                     <TextField
                       label={
-                        <EnLabelWrapper>
-                          <Text>Title</Text>
-                        </EnLabelWrapper>
+                        <RequiredLabelWrapper>
+                          <EnLabelWrapper>
+                            <Text>Title</Text>
+                          </EnLabelWrapper>
+                        </RequiredLabelWrapper>
                       }
                       value={value}
                       variant='outlined'
-                      {...register("name_en")}
+                      error={!!getError("name_en")}
+                      {...register("name_en", baseRequiredTextValidation)}
                     />
+                    <HelperText id='name_en' error={getError("name_en")} />
                   </FormControl>
                 )}
               />
@@ -233,7 +237,7 @@ export const GeneralProjectsForm: React.FC<Props> = ({
               control={control}
               name='deadline'
               render={({ field: { value } }) => (
-                <FormControl error={getError("deadline")} fullWidth>
+                <FormControl fullWidth>
                   <DatePicker
                     className='w-full'
                     views={["year"]}
@@ -246,8 +250,6 @@ export const GeneralProjectsForm: React.FC<Props> = ({
                       <TextField {...props} variant='outlined' size='small' />
                     )}
                   />
-
-                  <HelperText id='deadline' error={getError("deadline")} />
                 </FormControl>
               )}
             />
