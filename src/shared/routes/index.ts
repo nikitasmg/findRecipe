@@ -124,6 +124,12 @@ export const BroadcastsPageEdit = `${BroadcastsPageRoute}/edit/:id`;
 
 export const BroadcastsPageCreate = `${BroadcastsPageRoute}/create`;
 
+export const StcPhotoGalleryPageRoute = "/photogallery";
+
+export const StcPhotoGalleryPageEdit = `${StcPhotoGalleryPageRoute}/edit/:id`;
+
+export const StcPhotoGalleryPageCreate = `${StcPhotoGalleryPageRoute}/create`;
+
 export const ActivityResultPageRoute = "/activity-result";
 
 export const ActivityResultPageEdit = `${ActivityResultPageRoute}/edit/:id`;
