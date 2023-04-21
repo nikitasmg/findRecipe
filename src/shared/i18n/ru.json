@@ -258,6 +258,8 @@
   "Rotation": "Поворот",
   "Zoom": "Приближение",
   "Video broadcasts": "Видеотрансляции",
+  "Video presentation": "Видеопрезентация",
+  "Video 360": "Видео 360",
   "Broadcast editing": "Редактирование видеотрансляции",
   "Broadcast creating": "Создание видеотрансляции",
   "STC in Surgut": "НТЦ в Сургуте",
@@ -273,5 +275,7 @@
   "Title on the banner": "Заголовок на баннере",
   "Description on the banner": "Описание на баннере",
   "Hide news": "Скрыть новости",
-  "Add social": "Добавить социальную сеть"
+  "Add social": "Добавить социальную сеть",
+  "Photo gallery": "Фотогалерея",
+  "About project": "О проекте"
 }

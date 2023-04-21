@@ -14,14 +14,27 @@ import { LinkedDocumentForm } from "../LinkedDocumentForm";
 import { BlocksForm } from "./components/BlocksForm";
 import { GeneralPageForm } from "./components/GeneralPageForm";
 import { SeoForm } from "./components/SeoForm";
+import { StcTechnologiesForm } from "./components/StcTechnologiesForm";
+import { AboutProjectForm } from "./components/AboutProjectForm";
+import { VideoPresentationForm } from "./components/VideoPresentationForm";
 
 type Props = {
   slug: string;
   isDocumentsExist?: boolean;
+  isVideoPresentation?: boolean;
+  isAboutProject?: boolean;
+  isStcTechnologiesSection?: boolean;
   render?: (form: Partial<UseFormReturn>, lang: Languages) => JSX.Element;
 };
 
-export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) => {
+export const PageForm: React.FC<Props> = ({
+  slug,
+  render,
+  isDocumentsExist,
+  isVideoPresentation,
+  isAboutProject,
+  isStcTechnologiesSection
+}) => {
   const [step, setStep] = useState(0);
 
   const { lang, setLang } = useLang();
@@ -134,6 +147,44 @@ export const PageForm: React.FC<Props> = ({ slug, render, isDocumentsExist }) =>
       forms.push({
         tabTitle: "Blocks",
         component: <BlocksForm lang={lang} form={form} render={render} />
+      });
+    }
+    if (isStcTechnologiesSection) {
+      forms.push({
+        tabTitle: "Центр высоких биомедицинских технологий",
+        component: (
+          <StcTechnologiesForm
+            control={control}
+            setValue={setValue}
+            lang={lang}
+            register={register}
+            errors={errors}
+          />
+        )
+      });
+    }
+
+    if (isAboutProject) {
+      forms.push({
+        tabTitle: "About project",
+        component: (
+          <AboutProjectForm control={control} setValue={setValue} lang={lang} register={register} />
+        )
+      });
+    }
+
+    if (isVideoPresentation) {
+      forms.push({
+        tabTitle: "Video presentation",
+        component: (
+          <VideoPresentationForm
+            control={control}
+            setValue={setValue}
+            lang={lang}
+            register={register}
+            errors={errors}
+          />
+        )
       });
     }
 
