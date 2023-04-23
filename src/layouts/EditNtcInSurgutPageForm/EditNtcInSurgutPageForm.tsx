@@ -8,6 +8,7 @@ export const EditNtcInSurgutPageForm: React.FC = () => {
       isDocumentsExist
       isStcTechnologiesSection
       isAboutProject
+      isStcServices
       isVideoPresentation
     />
   );

@@ -64,6 +64,7 @@ export const StcPhotoGalleryDetailsForm: React.FC<StcPhotoGalleryDetailsProps> =
 
   const onSubmit = handleSubmit((newValues) => {
     const { imageUrl, ...preparedValues } = newValues;
+    console.log(imageUrl);
     const input: StcPhotoGalleryInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...preparedValues,
