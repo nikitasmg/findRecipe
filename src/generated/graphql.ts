@@ -58,13 +58,13 @@ export type CategoryBelongsTo = {
 
 export type Cluster = {
   __typename?: 'Cluster';
-  column_one_name: Scalars['String'];
+  column_one_name?: Maybe<Scalars['String']>;
   column_one_name_en?: Maybe<Scalars['String']>;
-  column_one_text: Scalars['String'];
+  column_one_text?: Maybe<Scalars['String']>;
   column_one_text_en?: Maybe<Scalars['String']>;
-  column_two_name: Scalars['String'];
+  column_two_name?: Maybe<Scalars['String']>;
   column_two_name_en?: Maybe<Scalars['String']>;
-  column_two_text: Scalars['String'];
+  column_two_text?: Maybe<Scalars['String']>;
   column_two_text_en?: Maybe<Scalars['String']>;
   created_at: Scalars['DateTime'];
   id: Scalars['Int'];
@@ -94,11 +94,14 @@ export type ClusterInput = {
  *
  * https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=22%3A392&t=jQzNk4jyD9g3QDdg-0
  */
-export type Contest = {
+export type Contest = Searchable & {
   __typename?: 'Contest';
   created_at: Scalars['DateTime'];
   date?: Maybe<Scalars['Date']>;
   deadline?: Maybe<Scalars['DateTime']>;
+  /** Используется только для поиска */
+  description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<Document>>>;
   id: Scalars['Int'];
   linked_documents?: Maybe<Array<Maybe<LinkedDocument>>>;
@@ -196,7 +199,7 @@ export type EmployeeInput = {
   subdivision?: InputMaybe<SubdivisionBelongsTo>;
 };
 
-export type Event = {
+export type Event = Searchable & {
   __typename?: 'Event';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
@@ -316,10 +319,15 @@ export type LikedDocumentPivotInput = {
   sort?: InputMaybe<Scalars['Int']>;
 };
 
-export type LinkedDocument = {
+export type LinkedDocument = Searchable & {
   __typename?: 'LinkedDocument';
   created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  /** Используется только для поиска */
+  name?: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
   published: Scalars['Boolean'];
   sort?: Maybe<Scalars['Int']>;
   updated_at: Scalars['DateTime'];
@@ -433,10 +441,12 @@ export type Mutation = {
   deleteReport?: Maybe<Report>;
   deleteSetting?: Maybe<Setting>;
   deleteStaffControl?: Maybe<StaffControl>;
+  deleteStcPhotoGallery?: Maybe<StcPhotoGallery>;
   deleteSubdivision?: Maybe<Subdivision>;
   /** Нельзя удалить суперпользователя, ID=1 */
   deleteUser?: Maybe<User>;
   deleteVacancy?: Maybe<Vacancy>;
+  deleteVideo360?: Maybe<Video360>;
   deleteVideoBroadcast?: Maybe<VideoBroadcast>;
   login: Scalars['String'];
   logout?: Maybe<User>;
@@ -465,9 +475,11 @@ export type Mutation = {
   upsertReport?: Maybe<Report>;
   upsertSetting?: Maybe<Setting>;
   upsertStaffControl?: Maybe<StaffControl>;
+  upsertStcPhotoGallery?: Maybe<StcPhotoGallery>;
   upsertSubdivision?: Maybe<Subdivision>;
   upsertUser?: Maybe<User>;
   upsertVacancy?: Maybe<Vacancy>;
+  upsertVideo360?: Maybe<Video360>;
   upsertVideoBroadcast?: Maybe<VideoBroadcast>;
 };
 
@@ -572,6 +584,11 @@ export type MutationDeleteStaffControlArgs = {
 };
 
 
+export type MutationDeleteStcPhotoGalleryArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationDeleteSubdivisionArgs = {
   id: Scalars['Int'];
 };
@@ -583,6 +600,11 @@ export type MutationDeleteUserArgs = {
 
 
 export type MutationDeleteVacancyArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteVideo360Args = {
   id: Scalars['Int'];
 };
 
@@ -730,6 +752,11 @@ export type MutationUpsertStaffControlArgs = {
 };
 
 
+export type MutationUpsertStcPhotoGalleryArgs = {
+  input: StcPhotoGalleryInput;
+};
+
+
 export type MutationUpsertSubdivisionArgs = {
   input: SubdivisionInput;
 };
@@ -745,11 +772,16 @@ export type MutationUpsertVacancyArgs = {
 };
 
 
+export type MutationUpsertVideo360Args = {
+  input: Video360Input;
+};
+
+
 export type MutationUpsertVideoBroadcastArgs = {
   input: VideoBroadcastInput;
 };
 
-export type News = {
+export type News = Searchable & {
   __typename?: 'News';
   category?: Maybe<NewsCategory>;
   category_id?: Maybe<Scalars['Int']>;
@@ -911,18 +943,29 @@ export type Page = {
   meta?: Maybe<Meta>;
   name: Scalars['String'];
   name_en?: Maybe<Scalars['String']>;
+  page_content_gallery?: Maybe<Array<Maybe<PageContentGalleryImage>>>;
   params?: Maybe<Scalars['JSON']>;
   parent?: Maybe<Page>;
   parent_id?: Maybe<Scalars['Int']>;
   seo?: Maybe<Seo>;
   slug: Scalars['String'];
   sort: Scalars['Int'];
+  stc_photo_gallery?: Maybe<Array<Maybe<StcPhotoGallery>>>;
   updated_at: Scalars['DateTime'];
 };
 
 export type PageBelongsTo = {
   connect?: InputMaybe<Scalars['Int']>;
   disconnect?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type PageContentGalleryImage = {
+  __typename?: 'PageContentGalleryImage';
+  alt?: Maybe<Scalars['String']>;
+  alt_en?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  sort?: Maybe<Scalars['Int']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 /** Information about pagination using a Relay style cursor connection. */
@@ -950,6 +993,7 @@ export type PageInput = {
   deleteDocuments?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   deleteImage?: InputMaybe<Scalars['Boolean']>;
+  deletePageContentGalleryImages?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   description?: InputMaybe<Scalars['String']>;
   description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
@@ -962,11 +1006,14 @@ export type PageInput = {
   seo?: InputMaybe<SeoBelongsTo>;
   slug?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
+  stc_photo_gallery?: InputMaybe<StcPhotoGalleryBelongsTo>;
   updateDocuments?: InputMaybe<Array<InputMaybe<UpdateDocumentInput>>>;
   updateGallery?: InputMaybe<Array<InputMaybe<UpdateGalleryInput>>>;
+  updatePageContentGallery?: InputMaybe<Array<InputMaybe<UpdatePageContentGalleryInput>>>;
   uploadDocuments?: InputMaybe<Array<InputMaybe<UploadDocumentInput>>>;
   uploadGalleryImages?: InputMaybe<Array<InputMaybe<UploadGalleryInput>>>;
   uploadImage?: InputMaybe<Scalars['Upload']>;
+  uploadPageContentGalleryImages?: InputMaybe<Array<InputMaybe<UploadPageContentGalleryInput>>>;
 };
 
 export type PageParentBelongsTo = {
@@ -1021,7 +1068,7 @@ export type PartnerInput = {
 };
 
 /** https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=0%3A1&t=nnLdQLBhEJ10FXQM-0 */
-export type Project = {
+export type Project = Searchable & {
   __typename?: 'Project';
   /** Аннотация проекта */
   annotation?: Maybe<Scalars['String']>;
@@ -1032,6 +1079,9 @@ export type Project = {
   created_at: Scalars['DateTime'];
   /** Срок выполнения */
   deadline?: Maybe<Scalars['String']>;
+  /** Используется только для поиска */
+  description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   /** Код ГРНТИ */
   grnti_number?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -1122,7 +1172,7 @@ export type ProjectPaginator = {
  *
  * https://www.figma.com/file/Fz119iA3vsOI9BcSAoqEQG/UGRA?node-id=39%3A1842&t=XUMjF8DKdEord54I-0
  */
-export type Purchase = {
+export type Purchase = Searchable & {
   __typename?: 'Purchase';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
@@ -1191,12 +1241,14 @@ export type Query = {
   purchases: Array<Purchase>;
   reportById?: Maybe<Report>;
   reports: Array<Report>;
-  search: SearchResult;
+  search?: Maybe<SearchablePaginator>;
   settingById?: Maybe<Setting>;
   settingByName?: Maybe<Setting>;
   settings: Array<Setting>;
   staffControlById?: Maybe<StaffControl>;
   staffControls: Array<StaffControl>;
+  stcPhotoGalleries: Array<StcPhotoGallery>;
+  stcPhotoGalleryById?: Maybe<StcPhotoGallery>;
   subdivisionById?: Maybe<Subdivision>;
   subdivisions: Array<Subdivision>;
   userByEmail?: Maybe<User>;
@@ -1204,6 +1256,8 @@ export type Query = {
   users?: Maybe<UserPaginator>;
   vacancies: Array<Vacancy>;
   vacancyById?: Maybe<Vacancy>;
+  video360: Array<Video360>;
+  video360ById?: Maybe<Video360>;
   videoBroadcastById?: Maybe<VideoBroadcast>;
   videoBroadcasts: Array<VideoBroadcast>;
 };
@@ -1445,7 +1499,8 @@ export type QueryReportsArgs = {
 
 
 export type QuerySearchArgs = {
-  limit?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']>;
   query: Scalars['String'];
 };
 
@@ -1474,6 +1529,17 @@ export type QueryStaffControlByIdArgs = {
 export type QueryStaffControlsArgs = {
   filter?: InputMaybe<Array<FilterByClause>>;
   orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryStcPhotoGalleriesArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryStcPhotoGalleryByIdArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -1517,6 +1583,17 @@ export type QueryVacancyByIdArgs = {
 };
 
 
+export type QueryVideo360Args = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryVideo360ByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryVideoBroadcastByIdArgs = {
   id: Scalars['Int'];
 };
@@ -1550,7 +1627,7 @@ export type QueryProjectsOrderByRelationOrderByClause = {
   order: SortOrder;
 };
 
-export type Report = {
+export type Report = Searchable & {
   __typename?: 'Report';
   created_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
@@ -1578,17 +1655,21 @@ export type ReportInput = {
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
-export type SearchResult = {
-  __typename?: 'SearchResult';
-  contests: Array<Maybe<Contest>>;
-  events: Array<Maybe<Event>>;
-  news: Array<Maybe<News>>;
-  organizers: Array<Maybe<Organizer>>;
-  partners: Array<Maybe<Partner>>;
-  projects: Array<Maybe<Project>>;
-  purchases: Array<Maybe<Purchase>>;
-  reports: Array<Maybe<Report>>;
-  vacancies: Array<Maybe<Vacancy>>;
+export type Searchable = {
+  description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
+};
+
+/** A paginated list of Searchable items. */
+export type SearchablePaginator = {
+  __typename?: 'SearchablePaginator';
+  /** A list of Searchable items. */
+  data: Array<Searchable>;
+  /** Pagination information about the list of items. */
+  paginatorInfo: PaginatorInfo;
 };
 
 export type Seo = {
@@ -1682,6 +1763,40 @@ export type StaffControlInput = {
   uploadImage?: InputMaybe<Scalars['Upload']>;
 };
 
+/** Галерея с описанием для страниц (НТЦ Сургут) */
+export type StcPhotoGallery = {
+  __typename?: 'StcPhotoGallery';
+  created_at: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  image?: Maybe<Image>;
+  imageThumbs?: Maybe<ImageThumbs>;
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
+  page?: Maybe<Page>;
+  sort: Scalars['Int'];
+  updated_at: Scalars['DateTime'];
+};
+
+export type StcPhotoGalleryBelongsTo = {
+  connect?: InputMaybe<Scalars['Int']>;
+  create?: InputMaybe<StcPhotoGalleryInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type StcPhotoGalleryInput = {
+  deleteImage?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  uploadImage?: InputMaybe<Scalars['Upload']>;
+};
+
 export type Subdivision = {
   __typename?: 'Subdivision';
   id: Scalars['Int'];
@@ -1733,6 +1848,13 @@ export type UpdateGalleryInput = {
   sort?: InputMaybe<Scalars['Int']>;
 };
 
+export type UpdatePageContentGalleryInput = {
+  alt?: InputMaybe<Scalars['String']>;
+  alt_en?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  sort?: InputMaybe<Scalars['Int']>;
+};
+
 export type UploadDocumentInput = {
   sort?: InputMaybe<Scalars['Int']>;
   upload: Scalars['Upload'];
@@ -1741,6 +1863,13 @@ export type UploadDocumentInput = {
 };
 
 export type UploadGalleryInput = {
+  alt?: InputMaybe<Scalars['String']>;
+  alt_en?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  upload: Scalars['Upload'];
+};
+
+export type UploadPageContentGalleryInput = {
   alt?: InputMaybe<Scalars['String']>;
   alt_en?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['Int']>;
@@ -1773,7 +1902,7 @@ export type UserPaginator = {
   paginatorInfo: PaginatorInfo;
 };
 
-export type Vacancy = {
+export type Vacancy = Searchable & {
   __typename?: 'Vacancy';
   description?: Maybe<Scalars['String']>;
   description_en?: Maybe<Scalars['String']>;
@@ -1792,6 +1921,27 @@ export type VacancyInput = {
   name_en?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['Int']>;
+};
+
+export type Video360 = {
+  __typename?: 'Video360';
+  description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
+  sort: Scalars['Int'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type Video360Input = {
+  description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  url?: InputMaybe<Scalars['String']>;
 };
 
 export type VideoBroadcast = {
@@ -1900,14 +2050,14 @@ export type DeleteVideoBroadcastMutationVariables = Exact<{
 
 export type DeleteVideoBroadcastMutation = { __typename?: 'Mutation', deleteVideoBroadcast?: { __typename?: 'VideoBroadcast', id: number } | null };
 
-export type AllClustersFieldsFragment = { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any };
+export type AllClustersFieldsFragment = { __typename?: 'Cluster', id: number, name: string, column_one_name?: string | null, column_one_text?: string | null, column_two_name?: string | null, column_two_text?: string | null, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any };
 
 export type ClusterByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ClusterByIdQuery = { __typename?: 'Query', clusterById?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
+export type ClusterByIdQuery = { __typename?: 'Query', clusterById?: { __typename?: 'Cluster', id: number, name: string, column_one_name?: string | null, column_one_text?: string | null, column_two_name?: string | null, column_two_text?: string | null, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
 
 export type ClustersQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -1915,21 +2065,21 @@ export type ClustersQueryVariables = Exact<{
 }>;
 
 
-export type ClustersQuery = { __typename?: 'Query', clusters: Array<{ __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any }> };
+export type ClustersQuery = { __typename?: 'Query', clusters: Array<{ __typename?: 'Cluster', id: number, name: string, column_one_name?: string | null, column_one_text?: string | null, column_two_name?: string | null, column_two_text?: string | null, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any }> };
 
 export type CreateClusterMutationVariables = Exact<{
   input: ClusterInput;
 }>;
 
 
-export type CreateClusterMutation = { __typename?: 'Mutation', createCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
+export type CreateClusterMutation = { __typename?: 'Mutation', createCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name?: string | null, column_one_text?: string | null, column_two_name?: string | null, column_two_text?: string | null, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
 
 export type UpdateClusterMutationVariables = Exact<{
   input: ClusterInput;
 }>;
 
 
-export type UpdateClusterMutation = { __typename?: 'Mutation', upsertCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name: string, column_one_text: string, column_two_name: string, column_two_text: string, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
+export type UpdateClusterMutation = { __typename?: 'Mutation', upsertCluster?: { __typename?: 'Cluster', id: number, name: string, column_one_name?: string | null, column_one_text?: string | null, column_two_name?: string | null, column_two_text?: string | null, name_en?: string | null, column_one_name_en?: string | null, column_one_text_en?: string | null, column_two_name_en?: string | null, column_two_text_en?: string | null, sort: number, created_at: any, updated_at: any } | null };
 
 export type DeleteClusterMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2253,6 +2403,7 @@ export type AllNewsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
   filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
 }>;
+
 
 export type AllNewsQuery = { __typename?: 'Query', allNewsIds?: { __typename?: 'NewsPaginator', data: Array<{ __typename?: 'News', id: number }> } | null };
 
@@ -2707,6 +2858,44 @@ export type StaffControlItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type StaffControlItemsQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', name: string, children?: Array<{ __typename?: 'Page', name: string, id: number } | null> | null }> };
 
+export type AllStcPhotoGalleryFieldsFragment = { __typename?: 'StcPhotoGallery', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
+
+export type StcPhotoGalleryByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type StcPhotoGalleryByIdQuery = { __typename?: 'Query', stcPhotoGalleryById?: { __typename?: 'StcPhotoGallery', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+
+export type StcPhotoGalleriesQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type StcPhotoGalleriesQuery = { __typename?: 'Query', stcPhotoGalleries: Array<{ __typename?: 'StcPhotoGallery', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
+
+export type CreateStcPhotoGalleryMutationVariables = Exact<{
+  input: StcPhotoGalleryInput;
+}>;
+
+
+export type CreateStcPhotoGalleryMutation = { __typename?: 'Mutation', createStcPhotoGallery?: { __typename?: 'StcPhotoGallery', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+
+export type UpdateStcPhotoGalleryMutationVariables = Exact<{
+  input: StcPhotoGalleryInput;
+}>;
+
+
+export type UpdateStcPhotoGalleryMutation = { __typename?: 'Mutation', upsertStcPhotoGallery?: { __typename?: 'StcPhotoGallery', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
+
+export type DeleteStcPhotoGalleryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteStcPhotoGalleryMutation = { __typename?: 'Mutation', deleteStcPhotoGallery?: { __typename?: 'StcPhotoGallery', id: number } | null };
+
 export type AllSubdivisionsFieldsFragment = { __typename?: 'Subdivision', id: number, name: string, name_en?: string | null, sort: number };
 
 export type SubdivisionByIdQueryVariables = Exact<{
@@ -2846,6 +3035,44 @@ export type DeleteVacancyMutationVariables = Exact<{
 
 
 export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: number } | null };
+
+export type AllVideo360FieldsFragment = { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null };
+
+export type Video360ByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Video360ByIdQuery = { __typename?: 'Query', video360ById?: { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null } | null };
+
+export type Video360QueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type Video360Query = { __typename?: 'Query', video360: Array<{ __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null }> };
+
+export type CreateVideo360MutationVariables = Exact<{
+  input: Video360Input;
+}>;
+
+
+export type CreateVideo360Mutation = { __typename?: 'Mutation', createVideo360?: { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null } | null };
+
+export type UpdateVideo360MutationVariables = Exact<{
+  input: Video360Input;
+}>;
+
+
+export type UpdateVideo360Mutation = { __typename?: 'Mutation', upsertVideo360?: { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null } | null };
+
+export type DeleteVideo360MutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteVideo360Mutation = { __typename?: 'Mutation', deleteVideo360?: { __typename?: 'Video360', id: number } | null };
 
 export const AllActivityResultsFieldsFragmentDoc = `
     fragment allActivityResultsFields on ActivityResult {
@@ -3289,6 +3516,21 @@ export const AllFieldsFragmentDoc = `
   created_at
 }
     `;
+export const AllStcPhotoGalleryFieldsFragmentDoc = `
+    fragment allStcPhotoGalleryFields on StcPhotoGallery {
+  id
+  name
+  name_en
+  description
+  description_en
+  sort
+  image {
+    id
+    url
+  }
+  imageUrl
+}
+    `;
 export const AllUsersFieldsFragmentDoc = `
     fragment allUsersFields on User {
   id
@@ -3308,6 +3550,17 @@ export const AllVacanciesFieldsFragmentDoc = `
   description_en
   sort
   published
+}
+    `;
+export const AllVideo360FieldsFragmentDoc = `
+    fragment allVideo360Fields on Video360 {
+  id
+  name
+  name_en
+  description
+  description_en
+  sort
+  url
 }
     `;
 export const ActivityResultByIdDocument = `
@@ -5741,6 +5994,108 @@ export const useStaffControlItemsQuery = <
       fetcher<StaffControlItemsQuery, StaffControlItemsQueryVariables>(client, StaffControlItemsDocument, variables, headers),
       options
     );
+export const StcPhotoGalleryByIdDocument = `
+    query stcPhotoGalleryById($id: Int!) {
+  stcPhotoGalleryById(id: $id) {
+    ...allStcPhotoGalleryFields
+  }
+}
+    ${AllStcPhotoGalleryFieldsFragmentDoc}`;
+export const useStcPhotoGalleryByIdQuery = <
+      TData = StcPhotoGalleryByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: StcPhotoGalleryByIdQueryVariables,
+      options?: UseQueryOptions<StcPhotoGalleryByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StcPhotoGalleryByIdQuery, TError, TData>(
+      ['stcPhotoGalleryById', variables],
+      fetcher<StcPhotoGalleryByIdQuery, StcPhotoGalleryByIdQueryVariables>(client, StcPhotoGalleryByIdDocument, variables, headers),
+      options
+    );
+export const StcPhotoGalleriesDocument = `
+    query stcPhotoGalleries($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  stcPhotoGalleries(orderBy: $orderBy, filter: $filter) {
+    ...allStcPhotoGalleryFields
+  }
+}
+    ${AllStcPhotoGalleryFieldsFragmentDoc}`;
+export const useStcPhotoGalleriesQuery = <
+      TData = StcPhotoGalleriesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: StcPhotoGalleriesQueryVariables,
+      options?: UseQueryOptions<StcPhotoGalleriesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<StcPhotoGalleriesQuery, TError, TData>(
+      variables === undefined ? ['stcPhotoGalleries'] : ['stcPhotoGalleries', variables],
+      fetcher<StcPhotoGalleriesQuery, StcPhotoGalleriesQueryVariables>(client, StcPhotoGalleriesDocument, variables, headers),
+      options
+    );
+export const CreateStcPhotoGalleryDocument = `
+    mutation createStcPhotoGallery($input: StcPhotoGalleryInput!) {
+  createStcPhotoGallery: upsertStcPhotoGallery(input: $input) {
+    ...allStcPhotoGalleryFields
+  }
+}
+    ${AllStcPhotoGalleryFieldsFragmentDoc}`;
+export const useCreateStcPhotoGalleryMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateStcPhotoGalleryMutation, TError, CreateStcPhotoGalleryMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateStcPhotoGalleryMutation, TError, CreateStcPhotoGalleryMutationVariables, TContext>(
+      ['createStcPhotoGallery'],
+      (variables?: CreateStcPhotoGalleryMutationVariables) => fetcher<CreateStcPhotoGalleryMutation, CreateStcPhotoGalleryMutationVariables>(client, CreateStcPhotoGalleryDocument, variables, headers)(),
+      options
+    );
+export const UpdateStcPhotoGalleryDocument = `
+    mutation updateStcPhotoGallery($input: StcPhotoGalleryInput!) {
+  upsertStcPhotoGallery(input: $input) {
+    ...allStcPhotoGalleryFields
+  }
+}
+    ${AllStcPhotoGalleryFieldsFragmentDoc}`;
+export const useUpdateStcPhotoGalleryMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateStcPhotoGalleryMutation, TError, UpdateStcPhotoGalleryMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateStcPhotoGalleryMutation, TError, UpdateStcPhotoGalleryMutationVariables, TContext>(
+      ['updateStcPhotoGallery'],
+      (variables?: UpdateStcPhotoGalleryMutationVariables) => fetcher<UpdateStcPhotoGalleryMutation, UpdateStcPhotoGalleryMutationVariables>(client, UpdateStcPhotoGalleryDocument, variables, headers)(),
+      options
+    );
+export const DeleteStcPhotoGalleryDocument = `
+    mutation deleteStcPhotoGallery($id: Int!) {
+  deleteStcPhotoGallery(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteStcPhotoGalleryMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteStcPhotoGalleryMutation, TError, DeleteStcPhotoGalleryMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteStcPhotoGalleryMutation, TError, DeleteStcPhotoGalleryMutationVariables, TContext>(
+      ['deleteStcPhotoGallery'],
+      (variables?: DeleteStcPhotoGalleryMutationVariables) => fetcher<DeleteStcPhotoGalleryMutation, DeleteStcPhotoGalleryMutationVariables>(client, DeleteStcPhotoGalleryDocument, variables, headers)(),
+      options
+    );
 export const SubdivisionByIdDocument = `
     query subdivisionById($id: Int!) {
   subdivisionById(id: $id) {
@@ -6114,5 +6469,107 @@ export const useDeleteVacancyMutation = <
     useMutation<DeleteVacancyMutation, TError, DeleteVacancyMutationVariables, TContext>(
       ['deleteVacancy'],
       (variables?: DeleteVacancyMutationVariables) => fetcher<DeleteVacancyMutation, DeleteVacancyMutationVariables>(client, DeleteVacancyDocument, variables, headers)(),
+      options
+    );
+export const Video360ByIdDocument = `
+    query video360ById($id: Int!) {
+  video360ById(id: $id) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useVideo360ByIdQuery = <
+      TData = Video360ByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: Video360ByIdQueryVariables,
+      options?: UseQueryOptions<Video360ByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<Video360ByIdQuery, TError, TData>(
+      ['video360ById', variables],
+      fetcher<Video360ByIdQuery, Video360ByIdQueryVariables>(client, Video360ByIdDocument, variables, headers),
+      options
+    );
+export const Video360Document = `
+    query video360($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  video360(orderBy: $orderBy, filter: $filter) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useVideo360Query = <
+      TData = Video360Query,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: Video360QueryVariables,
+      options?: UseQueryOptions<Video360Query, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<Video360Query, TError, TData>(
+      variables === undefined ? ['video360'] : ['video360', variables],
+      fetcher<Video360Query, Video360QueryVariables>(client, Video360Document, variables, headers),
+      options
+    );
+export const CreateVideo360Document = `
+    mutation createVideo360($input: Video360Input!) {
+  createVideo360: upsertVideo360(input: $input) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useCreateVideo360Mutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateVideo360Mutation, TError, CreateVideo360MutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateVideo360Mutation, TError, CreateVideo360MutationVariables, TContext>(
+      ['createVideo360'],
+      (variables?: CreateVideo360MutationVariables) => fetcher<CreateVideo360Mutation, CreateVideo360MutationVariables>(client, CreateVideo360Document, variables, headers)(),
+      options
+    );
+export const UpdateVideo360Document = `
+    mutation updateVideo360($input: Video360Input!) {
+  upsertVideo360(input: $input) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useUpdateVideo360Mutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateVideo360Mutation, TError, UpdateVideo360MutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateVideo360Mutation, TError, UpdateVideo360MutationVariables, TContext>(
+      ['updateVideo360'],
+      (variables?: UpdateVideo360MutationVariables) => fetcher<UpdateVideo360Mutation, UpdateVideo360MutationVariables>(client, UpdateVideo360Document, variables, headers)(),
+      options
+    );
+export const DeleteVideo360Document = `
+    mutation deleteVideo360($id: Int!) {
+  deleteVideo360(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteVideo360Mutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteVideo360Mutation, TError, DeleteVideo360MutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteVideo360Mutation, TError, DeleteVideo360MutationVariables, TContext>(
+      ['deleteVideo360'],
+      (variables?: DeleteVideo360MutationVariables) => fetcher<DeleteVideo360Mutation, DeleteVideo360MutationVariables>(client, DeleteVideo360Document, variables, headers)(),
       options
     );

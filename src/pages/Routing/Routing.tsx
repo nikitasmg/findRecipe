@@ -52,7 +52,13 @@ import {
   BroadcastsPageCreate,
   ClustersPageRoute,
   ClustersPageEdit,
-  ClustersPageCreate
+  ClustersPageCreate,
+  StcPhotoGalleryPageRoute,
+  StcPhotoGalleryPageEdit,
+  StcPhotoGalleryPageCreate,
+  Video360PageRoute,
+  Video360PageEdit,
+  Video360PageCreate
 } from "~shared/routes";
 
 import { PagesEditRouting } from "./PagesEditRouting";
@@ -128,6 +134,18 @@ const Broadcasts = lazy(() =>
 );
 const BroadcastsEdit = lazy(() =>
   import("~/pages/BroadcastsEdit").then((module) => ({ default: module.BroadcastsEdit }))
+);
+const Video360 = lazy(() =>
+  import("~/pages/Video360").then((module) => ({ default: module.Video360 }))
+);
+const Video360Edit = lazy(() =>
+  import("~/pages/Video360Edit").then((module) => ({ default: module.Video360Edit }))
+);
+const StcPhotoGallery = lazy(() =>
+  import("~/pages/StcPhotoGallery").then((module) => ({ default: module.StcPhotoGallery }))
+);
+const StcPhotoGalleryEdit = lazy(() =>
+  import("~/pages/StcPhotoGalleryEdit").then((module) => ({ default: module.StcPhotoGalleryEdit }))
 );
 const ActivityResult = lazy(() =>
   import("~/pages/ActivityResult").then((module) => ({ default: module.ActivityResult }))
@@ -488,6 +506,55 @@ export const Routing: React.FC = () => {
         element={
           <BaseProtectedLayout>
             <BroadcastsEdit />
+          </BaseProtectedLayout>
+        }
+      />
+      <Route
+        path={Video360PageRoute}
+        element={
+          <BaseProtectedLayout>
+            <Video360 />
+          </BaseProtectedLayout>
+        }
+      />
+      <Route
+        path={Video360PageEdit}
+        element={
+          <BaseProtectedLayout>
+            <Video360Edit />
+          </BaseProtectedLayout>
+        }
+      />
+
+      <Route
+        path={Video360PageCreate}
+        element={
+          <BaseProtectedLayout>
+            <Video360Edit />
+          </BaseProtectedLayout>
+        }
+      />
+      <Route
+        path={StcPhotoGalleryPageRoute}
+        element={
+          <BaseProtectedLayout>
+            <StcPhotoGallery />
+          </BaseProtectedLayout>
+        }
+      />
+      <Route
+        path={StcPhotoGalleryPageEdit}
+        element={
+          <BaseProtectedLayout>
+            <StcPhotoGalleryEdit />
+          </BaseProtectedLayout>
+        }
+      />
+      <Route
+        path={StcPhotoGalleryPageCreate}
+        element={
+          <BaseProtectedLayout>
+            <StcPhotoGalleryEdit />
           </BaseProtectedLayout>
         }
       />

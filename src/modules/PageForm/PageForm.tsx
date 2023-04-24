@@ -17,12 +17,14 @@ import { SeoForm } from "./components/SeoForm";
 import { StcTechnologiesForm } from "./components/StcTechnologiesForm";
 import { AboutProjectForm } from "./components/AboutProjectForm";
 import { VideoPresentationForm } from "./components/VideoPresentationForm";
+import { StcServicesForm } from "./components/StcServicesForm";
 
 type Props = {
   slug: string;
   isDocumentsExist?: boolean;
   isVideoPresentation?: boolean;
   isAboutProject?: boolean;
+  isStcServices?: boolean;
   isStcTechnologiesSection?: boolean;
   render?: (form: Partial<UseFormReturn>, lang: Languages) => JSX.Element;
 };
@@ -33,6 +35,7 @@ export const PageForm: React.FC<Props> = ({
   isDocumentsExist,
   isVideoPresentation,
   isAboutProject,
+  isStcServices,
   isStcTechnologiesSection
 }) => {
   const [step, setStep] = useState(0);
@@ -149,11 +152,27 @@ export const PageForm: React.FC<Props> = ({
         component: <BlocksForm lang={lang} form={form} render={render} />
       });
     }
-    if (isStcTechnologiesSection) {
+    if (isAboutProject) {
       forms.push({
-        tabTitle: "Центр высоких биомедицинских технологий",
+        tabTitle: "About project",
         component: (
-          <StcTechnologiesForm
+          <AboutProjectForm control={control} setValue={setValue} lang={lang} register={register} />
+        )
+      });
+    }
+    if (isStcServices) {
+      forms.push({
+        tabTitle: "Stc services",
+        component: (
+          <StcServicesForm control={control} setValue={setValue} lang={lang} register={register} />
+        )
+      });
+    }
+    if (isVideoPresentation) {
+      forms.push({
+        tabTitle: "Video presentation",
+        component: (
+          <VideoPresentationForm
             control={control}
             setValue={setValue}
             lang={lang}
@@ -163,21 +182,11 @@ export const PageForm: React.FC<Props> = ({
         )
       });
     }
-
-    if (isAboutProject) {
+    if (isStcTechnologiesSection) {
       forms.push({
-        tabTitle: "About project",
+        tabTitle: "Центр высоких биомедицинских технологий",
         component: (
-          <AboutProjectForm control={control} setValue={setValue} lang={lang} register={register} />
-        )
-      });
-    }
-
-    if (isVideoPresentation) {
-      forms.push({
-        tabTitle: "Video presentation",
-        component: (
-          <VideoPresentationForm
+          <StcTechnologiesForm
             control={control}
             setValue={setValue}
             lang={lang}

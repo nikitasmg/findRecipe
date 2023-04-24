@@ -42,8 +42,6 @@ export const VideoPresentationForm: React.FC<Props> = ({
 
   const isRusLang = lang === "ru";
 
-  console.log(lang, isRusLang);
-
   const names: {
     title: "params.VideoPresentation.title" | "params.VideoPresentation.title_en";
     description: "params.VideoPresentation.description" | "params.VideoPresentation.description_en";

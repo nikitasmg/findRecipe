@@ -17,7 +17,9 @@ import {
   ReportsPageRoute,
   ActivityResultPageRoute,
   BroadcastsPageRoute,
-  ClustersPageRoute
+  StcPhotoGalleryPageRoute,
+  ClustersPageRoute,
+  Video360PageRoute
 } from "~shared/routes";
 
 const paths = [
@@ -98,6 +100,14 @@ const paths = [
       {
         label: "Video broadcasts",
         path: BroadcastsPageRoute
+      },
+      {
+        label: "Photo gallery",
+        path: StcPhotoGalleryPageRoute
+      },
+      {
+        label: "Video 360",
+        path: Video360PageRoute
       }
     ]
   },
