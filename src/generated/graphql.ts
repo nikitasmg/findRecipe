@@ -446,6 +446,7 @@ export type Mutation = {
   /** Нельзя удалить суперпользователя, ID=1 */
   deleteUser?: Maybe<User>;
   deleteVacancy?: Maybe<Vacancy>;
+  deleteVideo360?: Maybe<Video360>;
   deleteVideoBroadcast?: Maybe<VideoBroadcast>;
   login: Scalars['String'];
   logout?: Maybe<User>;
@@ -478,6 +479,7 @@ export type Mutation = {
   upsertSubdivision?: Maybe<Subdivision>;
   upsertUser?: Maybe<User>;
   upsertVacancy?: Maybe<Vacancy>;
+  upsertVideo360?: Maybe<Video360>;
   upsertVideoBroadcast?: Maybe<VideoBroadcast>;
 };
 
@@ -598,6 +600,11 @@ export type MutationDeleteUserArgs = {
 
 
 export type MutationDeleteVacancyArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteVideo360Args = {
   id: Scalars['Int'];
 };
 
@@ -762,6 +769,11 @@ export type MutationUpsertUserArgs = {
 
 export type MutationUpsertVacancyArgs = {
   input: VacancyInput;
+};
+
+
+export type MutationUpsertVideo360Args = {
+  input: Video360Input;
 };
 
 
@@ -1244,6 +1256,8 @@ export type Query = {
   users?: Maybe<UserPaginator>;
   vacancies: Array<Vacancy>;
   vacancyById?: Maybe<Vacancy>;
+  video360: Array<Video360>;
+  video360ById?: Maybe<Video360>;
   videoBroadcastById?: Maybe<VideoBroadcast>;
   videoBroadcasts: Array<VideoBroadcast>;
 };
@@ -1565,6 +1579,17 @@ export type QueryVacanciesArgs = {
 
 
 export type QueryVacancyByIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryVideo360Args = {
+  filter?: InputMaybe<Array<FilterByClause>>;
+  orderBy?: InputMaybe<Array<OrderByClause>>;
+};
+
+
+export type QueryVideo360ByIdArgs = {
   id: Scalars['Int'];
 };
 
@@ -1896,6 +1921,27 @@ export type VacancyInput = {
   name_en?: InputMaybe<Scalars['String']>;
   published?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['Int']>;
+};
+
+export type Video360 = {
+  __typename?: 'Video360';
+  description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  name_en?: Maybe<Scalars['String']>;
+  sort: Scalars['Int'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type Video360Input = {
+  description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  name_en?: InputMaybe<Scalars['String']>;
+  sort?: InputMaybe<Scalars['Int']>;
+  url?: InputMaybe<Scalars['String']>;
 };
 
 export type VideoBroadcast = {
@@ -2990,6 +3036,44 @@ export type DeleteVacancyMutationVariables = Exact<{
 
 export type DeleteVacancyMutation = { __typename?: 'Mutation', deleteVacancy?: { __typename?: 'Vacancy', id: number } | null };
 
+export type AllVideo360FieldsFragment = { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null };
+
+export type Video360ByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Video360ByIdQuery = { __typename?: 'Query', video360ById?: { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null } | null };
+
+export type Video360QueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
+  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
+}>;
+
+
+export type Video360Query = { __typename?: 'Query', video360: Array<{ __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null }> };
+
+export type CreateVideo360MutationVariables = Exact<{
+  input: Video360Input;
+}>;
+
+
+export type CreateVideo360Mutation = { __typename?: 'Mutation', createVideo360?: { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null } | null };
+
+export type UpdateVideo360MutationVariables = Exact<{
+  input: Video360Input;
+}>;
+
+
+export type UpdateVideo360Mutation = { __typename?: 'Mutation', upsertVideo360?: { __typename?: 'Video360', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, sort: number, url?: string | null } | null };
+
+export type DeleteVideo360MutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteVideo360Mutation = { __typename?: 'Mutation', deleteVideo360?: { __typename?: 'Video360', id: number } | null };
+
 export const AllActivityResultsFieldsFragmentDoc = `
     fragment allActivityResultsFields on ActivityResult {
   id
@@ -3466,6 +3550,17 @@ export const AllVacanciesFieldsFragmentDoc = `
   description_en
   sort
   published
+}
+    `;
+export const AllVideo360FieldsFragmentDoc = `
+    fragment allVideo360Fields on Video360 {
+  id
+  name
+  name_en
+  description
+  description_en
+  sort
+  url
 }
     `;
 export const ActivityResultByIdDocument = `
@@ -6374,5 +6469,107 @@ export const useDeleteVacancyMutation = <
     useMutation<DeleteVacancyMutation, TError, DeleteVacancyMutationVariables, TContext>(
       ['deleteVacancy'],
       (variables?: DeleteVacancyMutationVariables) => fetcher<DeleteVacancyMutation, DeleteVacancyMutationVariables>(client, DeleteVacancyDocument, variables, headers)(),
+      options
+    );
+export const Video360ByIdDocument = `
+    query video360ById($id: Int!) {
+  video360ById(id: $id) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useVideo360ByIdQuery = <
+      TData = Video360ByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: Video360ByIdQueryVariables,
+      options?: UseQueryOptions<Video360ByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<Video360ByIdQuery, TError, TData>(
+      ['video360ById', variables],
+      fetcher<Video360ByIdQuery, Video360ByIdQueryVariables>(client, Video360ByIdDocument, variables, headers),
+      options
+    );
+export const Video360Document = `
+    query video360($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
+  video360(orderBy: $orderBy, filter: $filter) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useVideo360Query = <
+      TData = Video360Query,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: Video360QueryVariables,
+      options?: UseQueryOptions<Video360Query, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<Video360Query, TError, TData>(
+      variables === undefined ? ['video360'] : ['video360', variables],
+      fetcher<Video360Query, Video360QueryVariables>(client, Video360Document, variables, headers),
+      options
+    );
+export const CreateVideo360Document = `
+    mutation createVideo360($input: Video360Input!) {
+  createVideo360: upsertVideo360(input: $input) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useCreateVideo360Mutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateVideo360Mutation, TError, CreateVideo360MutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateVideo360Mutation, TError, CreateVideo360MutationVariables, TContext>(
+      ['createVideo360'],
+      (variables?: CreateVideo360MutationVariables) => fetcher<CreateVideo360Mutation, CreateVideo360MutationVariables>(client, CreateVideo360Document, variables, headers)(),
+      options
+    );
+export const UpdateVideo360Document = `
+    mutation updateVideo360($input: Video360Input!) {
+  upsertVideo360(input: $input) {
+    ...allVideo360Fields
+  }
+}
+    ${AllVideo360FieldsFragmentDoc}`;
+export const useUpdateVideo360Mutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateVideo360Mutation, TError, UpdateVideo360MutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateVideo360Mutation, TError, UpdateVideo360MutationVariables, TContext>(
+      ['updateVideo360'],
+      (variables?: UpdateVideo360MutationVariables) => fetcher<UpdateVideo360Mutation, UpdateVideo360MutationVariables>(client, UpdateVideo360Document, variables, headers)(),
+      options
+    );
+export const DeleteVideo360Document = `
+    mutation deleteVideo360($id: Int!) {
+  deleteVideo360(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteVideo360Mutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteVideo360Mutation, TError, DeleteVideo360MutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteVideo360Mutation, TError, DeleteVideo360MutationVariables, TContext>(
+      ['deleteVideo360'],
+      (variables?: DeleteVideo360MutationVariables) => fetcher<DeleteVideo360Mutation, DeleteVideo360MutationVariables>(client, DeleteVideo360Document, variables, headers)(),
       options
     );

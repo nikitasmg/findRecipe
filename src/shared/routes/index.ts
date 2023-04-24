@@ -124,6 +124,12 @@ export const BroadcastsPageEdit = `${BroadcastsPageRoute}/edit/:id`;
 
 export const BroadcastsPageCreate = `${BroadcastsPageRoute}/create`;
 
+export const Video360PageRoute = "/video360";
+
+export const Video360PageEdit = `${Video360PageRoute}/edit/:id`;
+
+export const Video360PageCreate = `${Video360PageRoute}/create`;
+
 export const StcPhotoGalleryPageRoute = "/photogallery";
 
 export const StcPhotoGalleryPageEdit = `${StcPhotoGalleryPageRoute}/edit/:id`;
