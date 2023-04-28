@@ -326,7 +326,7 @@ export type LinkedDocument = Searchable & {
   description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   /** Используется только для поиска */
-  name: Scalars['String'];
+  name?: Scalars['String'];
   name_en?: Maybe<Scalars['String']>;
   published: Scalars['Boolean'];
   sort?: Maybe<Scalars['Int']>;
@@ -1730,7 +1730,7 @@ export type Searchable = {
   description?: Maybe<Scalars['String']>;
   description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  name: Scalars['String'];
+  name?: Scalars['String'];
   name_en?: Maybe<Scalars['String']>;
 };
 
@@ -2638,44 +2638,6 @@ export type DeleteOrganizerMutationVariables = Exact<{
 
 export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id: number } | null };
 
-export type AllPageCardFieldsFragment = { __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, url_name?: string | null, url_name_en?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
-
-export type PageCardByIdQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type PageCardByIdQuery = { __typename?: 'Query', pageCardById?: { __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, url_name?: string | null, url_name_en?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
-
-export type PageCardsQueryVariables = Exact<{
-  orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
-  filter?: InputMaybe<Array<FilterByClause> | FilterByClause>;
-}>;
-
-
-export type PageCardsQuery = { __typename?: 'Query', pageCards: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, url_name?: string | null, url_name_en?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null }> };
-
-export type CreatePageCardMutationVariables = Exact<{
-  input: PageCardInput;
-}>;
-
-
-export type CreatePageCardMutation = { __typename?: 'Mutation', createPageCard?: { __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, url_name?: string | null, url_name_en?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
-
-export type UpdatePageCardMutationVariables = Exact<{
-  input: PageCardInput;
-}>;
-
-
-export type UpdatePageCardMutation = { __typename?: 'Mutation', upsertPageCard?: { __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, url_name?: string | null, url_name_en?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null };
-
-export type DeletePageCardMutationVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type DeletePageCardMutation = { __typename?: 'Mutation', deletePageCard?: { __typename?: 'PageCard', id: number } | null };
-
 export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null };
 
 export type PageByIdQueryVariables = Exact<{
@@ -3454,24 +3416,6 @@ export const AllOrganizerFieldsFragmentDoc = `
     url
   }
   created_at
-}
-    `;
-export const AllPageCardFieldsFragmentDoc = `
-    fragment allPageCardFields on PageCard {
-  id
-  name
-  name_en
-  description
-  description_en
-  url_name
-  url_name_en
-  route
-  sort
-  image {
-    id
-    url
-  }
-  imageUrl
 }
     `;
 export const AllPageFieldsFragmentDoc = `
@@ -5319,108 +5263,6 @@ export const useDeleteOrganizerMutation = <
     useMutation<DeleteOrganizerMutation, TError, DeleteOrganizerMutationVariables, TContext>(
       ['deleteOrganizer'],
       (variables?: DeleteOrganizerMutationVariables) => fetcher<DeleteOrganizerMutation, DeleteOrganizerMutationVariables>(client, DeleteOrganizerDocument, variables, headers)(),
-      options
-    );
-export const PageCardByIdDocument = `
-    query pageCardById($id: Int!) {
-  pageCardById(id: $id) {
-    ...allPageCardFields
-  }
-}
-    ${AllPageCardFieldsFragmentDoc}`;
-export const usePageCardByIdQuery = <
-      TData = PageCardByIdQuery,
-      TError = unknown
-    >(
-      client: GraphQLClient,
-      variables: PageCardByIdQueryVariables,
-      options?: UseQueryOptions<PageCardByIdQuery, TError, TData>,
-      headers?: RequestInit['headers']
-    ) =>
-    useQuery<PageCardByIdQuery, TError, TData>(
-      ['pageCardById', variables],
-      fetcher<PageCardByIdQuery, PageCardByIdQueryVariables>(client, PageCardByIdDocument, variables, headers),
-      options
-    );
-export const PageCardsDocument = `
-    query pageCards($orderBy: [OrderByClause!], $filter: [FilterByClause!]) {
-  pageCards(orderBy: $orderBy, filter: $filter) {
-    ...allPageCardFields
-  }
-}
-    ${AllPageCardFieldsFragmentDoc}`;
-export const usePageCardsQuery = <
-      TData = PageCardsQuery,
-      TError = unknown
-    >(
-      client: GraphQLClient,
-      variables?: PageCardsQueryVariables,
-      options?: UseQueryOptions<PageCardsQuery, TError, TData>,
-      headers?: RequestInit['headers']
-    ) =>
-    useQuery<PageCardsQuery, TError, TData>(
-      variables === undefined ? ['pageCards'] : ['pageCards', variables],
-      fetcher<PageCardsQuery, PageCardsQueryVariables>(client, PageCardsDocument, variables, headers),
-      options
-    );
-export const CreatePageCardDocument = `
-    mutation createPageCard($input: PageCardInput!) {
-  createPageCard: upsertPageCard(input: $input) {
-    ...allPageCardFields
-  }
-}
-    ${AllPageCardFieldsFragmentDoc}`;
-export const useCreatePageCardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      client: GraphQLClient,
-      options?: UseMutationOptions<CreatePageCardMutation, TError, CreatePageCardMutationVariables, TContext>,
-      headers?: RequestInit['headers']
-    ) =>
-    useMutation<CreatePageCardMutation, TError, CreatePageCardMutationVariables, TContext>(
-      ['createPageCard'],
-      (variables?: CreatePageCardMutationVariables) => fetcher<CreatePageCardMutation, CreatePageCardMutationVariables>(client, CreatePageCardDocument, variables, headers)(),
-      options
-    );
-export const UpdatePageCardDocument = `
-    mutation updatePageCard($input: PageCardInput!) {
-  upsertPageCard(input: $input) {
-    ...allPageCardFields
-  }
-}
-    ${AllPageCardFieldsFragmentDoc}`;
-export const useUpdatePageCardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      client: GraphQLClient,
-      options?: UseMutationOptions<UpdatePageCardMutation, TError, UpdatePageCardMutationVariables, TContext>,
-      headers?: RequestInit['headers']
-    ) =>
-    useMutation<UpdatePageCardMutation, TError, UpdatePageCardMutationVariables, TContext>(
-      ['updatePageCard'],
-      (variables?: UpdatePageCardMutationVariables) => fetcher<UpdatePageCardMutation, UpdatePageCardMutationVariables>(client, UpdatePageCardDocument, variables, headers)(),
-      options
-    );
-export const DeletePageCardDocument = `
-    mutation deletePageCard($id: Int!) {
-  deletePageCard(id: $id) {
-    id
-  }
-}
-    `;
-export const useDeletePageCardMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      client: GraphQLClient,
-      options?: UseMutationOptions<DeletePageCardMutation, TError, DeletePageCardMutationVariables, TContext>,
-      headers?: RequestInit['headers']
-    ) =>
-    useMutation<DeletePageCardMutation, TError, DeletePageCardMutationVariables, TContext>(
-      ['deletePageCard'],
-      (variables?: DeletePageCardMutationVariables) => fetcher<DeletePageCardMutation, DeletePageCardMutationVariables>(client, DeletePageCardDocument, variables, headers)(),
       options
     );
 export const PageByIdDocument = `
