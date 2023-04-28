@@ -101,8 +101,7 @@ export const PageForm: React.FC<Props> = ({
         "imageUrl",
         "params",
         "parent_id",
-        "gallery",
-        "page_cards"
+        "gallery"
       ],
       setValue,
       values
