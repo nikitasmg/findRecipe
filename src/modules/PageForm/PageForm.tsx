@@ -26,7 +26,6 @@ type Props = {
   isAboutProject?: boolean;
   isAdditionalTab?: boolean;
   additionalTabTitle?: string;
-  isPageCards?: boolean;
   isStcTechnologiesSection?: boolean;
   render?: (form: Partial<UseFormReturn>, lang: Languages) => JSX.Element;
 };
@@ -85,7 +84,6 @@ export const PageForm: React.FC<Props> = ({
         disconnect: newValues.disconnectDocuments ?? [],
         syncWithoutDetaching: newValues.updateDocuments ?? []
       },
-      page_cards: { connect: newValues.connectPageCards ?? [] },
       uploadGalleryImages: newValues.uploadGalleryImages,
       deleteGalleryImages: newValues.deleteGalleryImages,
       updateGallery: newValues.updateGallery
