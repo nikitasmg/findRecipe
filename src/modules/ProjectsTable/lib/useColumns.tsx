@@ -59,7 +59,9 @@ export const useColumns = (
             className='transition-all'
             to={`${ProjectsPageEdit.replace(":id", row.id as string)}`}
           >
-            {(value as string)?.slice(0, 100).concat("...")}
+            {(value as string)?.length > 100
+              ? (value as string)?.slice(0, 100).concat("...")
+              : (value as string)}
           </Link>
         );
       }
@@ -108,7 +110,28 @@ export const useColumns = (
       style: {
         width: "200px"
       },
-      render: (value) => (value as string)?.slice(0, 100).concat("...")
+      render: (value) =>
+        (value as string)?.length > 100
+          ? (value as string)?.slice(0, 100).concat("...")
+          : (value as string)
+    },
+    {
+      id: "region",
+      label: (
+        <TableHeadCell
+          title='Region'
+          cellId='region'
+          onSortClick={getClickHandler("region")}
+          sortProps={getActiveProps("region")}
+        />
+      ),
+      style: {
+        width: "200px"
+      },
+      render: (value) =>
+        (value as string)?.length > 100
+          ? (value as string)?.slice(0, 100).concat("...")
+          : (value as string)
     }
   ];
 };

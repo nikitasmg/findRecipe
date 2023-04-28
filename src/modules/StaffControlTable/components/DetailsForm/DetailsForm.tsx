@@ -25,6 +25,7 @@ type FormFields = {
   description?: string;
   name_en?: string;
   description_en?: string;
+  email?: string;
   imageUrl?: string | null;
   uploadImage?: File | null;
   deleteImage?: boolean;
@@ -110,6 +111,7 @@ export const DetailsForm: React.FC<Props> = ({
     setValue("description", activeStaff.description ?? "");
     setValue("name_en", activeStaff.name_en ?? "");
     setValue("description_en", activeStaff.description_en ?? "");
+    setValue("email", activeStaff.email ?? "");
     setValue("imageUrl", activeStaff.imageUrl);
   }, [activeStaff, setValue]);
 
@@ -214,6 +216,26 @@ export const DetailsForm: React.FC<Props> = ({
                 inputComponent: TextareaAutosize
               }}
               {...register("description_en")}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name='email'
+          render={({ field: { value } }) => (
+            <TextField
+              multiline
+              fullWidth
+              value={value}
+              label={
+                <EnLabelWrapper>
+                  <Text>Email</Text>
+                </EnLabelWrapper>
+              }
+              InputProps={{
+                inputComponent: TextareaAutosize
+              }}
+              {...register("email")}
             />
           )}
         />

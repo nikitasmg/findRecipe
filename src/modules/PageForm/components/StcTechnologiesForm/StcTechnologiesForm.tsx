@@ -13,6 +13,7 @@ import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { getBaseUrlValidation } from "~/shared/lib/validation";
+import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
 
 export type StcTechnologiesFields = {
@@ -21,6 +22,7 @@ export type StcTechnologiesFields = {
   "params.StcTechnologies.title_en"?: string;
   "params.StcTechnologies.description_en"?: string;
   "params.StcTechnologies.link"?: string;
+  params?: { StcTechnologies?: FieldErrors };
 };
 
 type Props = {
@@ -38,6 +40,8 @@ export const StcTechnologiesForm: React.FC<Props> = ({
   control,
   lang
 }) => {
+  const addAlert = useAlertsStore((state) => state.addAlert);
+
   const client = useGraphqlClient();
 
   const { data: { settingByName } = {} } = useSettingByNameQuery(
@@ -51,7 +55,10 @@ export const StcTechnologiesForm: React.FC<Props> = ({
   if (!setValue) {
     return null;
   }
-  const getError = getErrorMessage(errors);
+  const getError = getErrorMessage(errors?.params?.StcTechnologies ?? {});
+  if (errors?.params?.StcTechnologies) {
+    addAlert("error", "Invalid link Center for High Biomedical Technologies");
+  }
   const isRusLang = lang === "ru";
 
   const names: {
@@ -122,11 +129,11 @@ export const StcTechnologiesForm: React.FC<Props> = ({
               }
               value={value}
               type={names.link}
-              error={!!getError(names.link)}
+              error={!!getError("link")}
               {...register(names.link, getBaseUrlValidation({ required: true }))}
               onChange={getEventValueHandler(curry(setValue)(names.link))}
             />
-            <HelperText id='url' error={getError("url")} />
+            <HelperText id='link' error={getError("link")} />
           </FormControl>
         )}
       />

@@ -96,6 +96,8 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang }) => {
         "leader_rank_en",
         "organization",
         "organization_en",
+        "region",
+        "region_en",
         "deadline",
         "grnti_number",
         "status_text",

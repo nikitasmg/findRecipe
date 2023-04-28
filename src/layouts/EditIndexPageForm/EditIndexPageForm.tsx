@@ -4,6 +4,10 @@ import { PageForm } from "~/modules/PageForm";
 
 export const EditIndexPageForm: React.FC = () => {
   return (
-    <PageForm slug='index' render={(form, lang) => <BlocksIndexPage {...form} lang={lang} />} />
+    <PageForm
+      slug='index'
+      render={(form, lang) => <BlocksIndexPage {...form} lang={lang} />}
+      isPageCards
+    />
   );
 };

@@ -10,6 +10,7 @@ import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { getBaseUrlValidation } from "~/shared/lib/validation";
+import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
 
 export type VideoPresentationFields = {
@@ -18,6 +19,7 @@ export type VideoPresentationFields = {
   "params.VideoPresentation.title_en"?: string;
   "params.VideoPresentation.description_en"?: string;
   "params.VideoPresentation.link"?: string;
+  params?: { VideoPresentation?: FieldErrors };
 };
 
 type Props = {
@@ -35,10 +37,17 @@ export const VideoPresentationForm: React.FC<Props> = ({
   register,
   errors
 }) => {
+  const addAlert = useAlertsStore((state) => state.addAlert);
+
   if (!setValue) {
     return null;
   }
-  const getError = getErrorMessage(errors);
+
+  const getError = getErrorMessage(errors?.params?.VideoPresentation ?? {});
+
+  if (errors?.params?.VideoPresentation) {
+    addAlert("error", "Invalid link video presentation");
+  }
 
   const isRusLang = lang === "ru";
 
@@ -108,11 +117,12 @@ export const VideoPresentationForm: React.FC<Props> = ({
               }
               value={value}
               type={names.link}
-              error={!!getError(names.link)}
+              id='link'
+              error={!!getError("link")}
               {...register(names.link, getBaseUrlValidation({ required: true }))}
               onChange={getEventValueHandler(curry(setValue)(names.link))}
             />
-            <HelperText id='url' error={getError("url")} />
+            <HelperText id='link' error={getError("link")} />
           </FormControl>
         )}
       />

@@ -8,7 +8,8 @@ export const EditNtcInSurgutPageForm: React.FC = () => {
       isDocumentsExist
       isStcTechnologiesSection
       isAboutProject
-      isStcServices
+      isAdditionalTab
+      additionalTabTitle={"Stc services"}
       isVideoPresentation
     />
   );

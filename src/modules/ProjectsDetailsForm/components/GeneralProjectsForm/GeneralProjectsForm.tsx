@@ -24,6 +24,8 @@ type FormFields = {
   leader_en?: string;
   organization?: string;
   organization_en?: string;
+  region?: string;
+  region_en?: string;
   deadline?: string;
   grnti_number?: string;
   status_text?: string;
@@ -225,6 +227,52 @@ export const GeneralProjectsForm: React.FC<Props> = ({
                       value={value}
                       variant='outlined'
                       {...register("organization_en")}
+                    />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='region'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={<Text>Region</Text>}
+                      value={value}
+                      variant='outlined'
+                      id='region'
+                      error={!!getError("region")}
+                      {...register("region")}
+                    />
+
+                    <HelperText id='region' error={getError("region")} />
+                  </FormControl>
+                )}
+              />
+            </Grid>
+          )}
+
+          {!isRuLang && (
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name='region_en'
+                render={({ field: { value } }) => (
+                  <FormControl fullWidth>
+                    <TextField
+                      label={
+                        <EnLabelWrapper>
+                          <Text>Region</Text>
+                        </EnLabelWrapper>
+                      }
+                      value={value}
+                      variant='outlined'
+                      {...register("region_en")}
                     />
                   </FormControl>
                 )}
