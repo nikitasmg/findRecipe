@@ -18,6 +18,7 @@ import { StcTechnologiesForm } from "./components/StcTechnologiesForm";
 import { AboutProjectForm } from "./components/AboutProjectForm";
 import { VideoPresentationForm } from "./components/VideoPresentationForm";
 import { AdditionalTabForm } from "./components/AdditionalTabForm";
+import { InfoBlockCardsForm } from "./components/InfoBlockCardsForm/InfoBlockCardsForm";
 
 type Props = {
   slug: string;
@@ -26,6 +27,7 @@ type Props = {
   isAboutProject?: boolean;
   isAdditionalTab?: boolean;
   additionalTabTitle?: string;
+  isInfoBlockCards?: boolean;
   isStcTechnologiesSection?: boolean;
   render?: (form: Partial<UseFormReturn>, lang: Languages) => JSX.Element;
 };
@@ -37,6 +39,7 @@ export const PageForm: React.FC<Props> = ({
   isVideoPresentation,
   isAboutProject,
   isAdditionalTab,
+  isInfoBlockCards,
   additionalTabTitle = "Additional description",
   isStcTechnologiesSection
 }) => {
@@ -166,6 +169,20 @@ export const PageForm: React.FC<Props> = ({
         tabTitle: additionalTabTitle,
         component: (
           <AdditionalTabForm
+            control={control}
+            setValue={setValue}
+            lang={lang}
+            register={register}
+          />
+        )
+      });
+    }
+
+    if (isInfoBlockCards) {
+      forms.push({
+        tabTitle: "Info blocks",
+        component: (
+          <InfoBlockCardsForm
             control={control}
             setValue={setValue}
             lang={lang}

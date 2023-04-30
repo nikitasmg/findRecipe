@@ -326,7 +326,7 @@ export type LinkedDocument = Searchable & {
   description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   /** Используется только для поиска */
-  name: Scalars['String'];
+  name?: Scalars['String'];
   name_en?: Maybe<Scalars['String']>;
   published: Scalars['Boolean'];
   sort?: Maybe<Scalars['Int']>;
@@ -1730,7 +1730,7 @@ export type Searchable = {
   description?: Maybe<Scalars['String']>;
   description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  name: Scalars['String'];
+  name?: Scalars['String'];
   name_en?: Maybe<Scalars['String']>;
 };
 
