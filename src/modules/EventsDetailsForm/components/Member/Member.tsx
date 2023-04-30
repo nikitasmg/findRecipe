@@ -11,7 +11,6 @@ import {
   OrganizerInput,
   PartnerInput
 } from "~/generated/graphql";
-import { AvatarInput } from "~/shared/components/AvatarInput";
 import { Button } from "~/shared/components/Button";
 import { Text } from "~/shared/components/Text";
 import { SaveButton } from "~/shared/components/SaveButton";
@@ -20,6 +19,7 @@ import { useModal } from "~/shared/hooks/useModal";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { getMemberHooksByName } from "../../lib/getMemberHooksByName";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
+import { ImageInput } from "~/shared/components/ImageInput";
 
 type UpsertInput = OrganizerInput | PartnerInput;
 
@@ -213,7 +213,7 @@ export const Member: React.FC<Props> = ({
               onKeyPress={getOpenFormHandler(member)}
             >
               <img
-                className='rounded-full w-[60px] h-[60px]'
+                className='min-h-[150px] object-contain'
                 src={member.imageUrl ?? ""}
                 alt={member.name}
               />
@@ -238,10 +238,11 @@ export const Member: React.FC<Props> = ({
             control={control}
             name='imageUrl'
             render={({ field: { value } }) => (
-              <AvatarInput
+              <ImageInput
                 addAlert={addAlert}
                 id='file-input'
                 url={value ?? ""}
+                {...register("imageUrl")}
                 onChange={(file) => {
                   setValue("file", file as File);
                   setValue("imageUrl", URL.createObjectURL(file as File));

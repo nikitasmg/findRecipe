@@ -17,14 +17,17 @@ import { SeoForm } from "./components/SeoForm";
 import { StcTechnologiesForm } from "./components/StcTechnologiesForm";
 import { AboutProjectForm } from "./components/AboutProjectForm";
 import { VideoPresentationForm } from "./components/VideoPresentationForm";
-import { StcServicesForm } from "./components/StcServicesForm";
+import { AdditionalTabForm } from "./components/AdditionalTabForm";
+import { InfoBlockCardsForm } from "./components/InfoBlockCardsForm/InfoBlockCardsForm";
 
 type Props = {
   slug: string;
   isDocumentsExist?: boolean;
   isVideoPresentation?: boolean;
   isAboutProject?: boolean;
-  isStcServices?: boolean;
+  isAdditionalTab?: boolean;
+  additionalTabTitle?: string;
+  isInfoBlockCards?: boolean;
   isStcTechnologiesSection?: boolean;
   render?: (form: Partial<UseFormReturn>, lang: Languages) => JSX.Element;
 };
@@ -35,7 +38,9 @@ export const PageForm: React.FC<Props> = ({
   isDocumentsExist,
   isVideoPresentation,
   isAboutProject,
-  isStcServices,
+  isAdditionalTab,
+  isInfoBlockCards,
+  additionalTabTitle = "Additional description",
   isStcTechnologiesSection
 }) => {
   const [step, setStep] = useState(0);
@@ -86,7 +91,6 @@ export const PageForm: React.FC<Props> = ({
       deleteGalleryImages: newValues.deleteGalleryImages,
       updateGallery: newValues.updateGallery
     };
-
     updatePage({ input });
   });
 
@@ -160,11 +164,30 @@ export const PageForm: React.FC<Props> = ({
         )
       });
     }
-    if (isStcServices) {
+    if (isAdditionalTab) {
       forms.push({
-        tabTitle: "Stc services",
+        tabTitle: additionalTabTitle,
         component: (
-          <StcServicesForm control={control} setValue={setValue} lang={lang} register={register} />
+          <AdditionalTabForm
+            control={control}
+            setValue={setValue}
+            lang={lang}
+            register={register}
+          />
+        )
+      });
+    }
+
+    if (isInfoBlockCards) {
+      forms.push({
+        tabTitle: "Info blocks",
+        component: (
+          <InfoBlockCardsForm
+            control={control}
+            setValue={setValue}
+            lang={lang}
+            register={register}
+          />
         )
       });
     }
@@ -182,9 +205,10 @@ export const PageForm: React.FC<Props> = ({
         )
       });
     }
+
     if (isStcTechnologiesSection) {
       forms.push({
-        tabTitle: "Центр высоких биомедицинских технологий",
+        tabTitle: "Center for High Biomedical Technologies",
         component: (
           <StcTechnologiesForm
             control={control}

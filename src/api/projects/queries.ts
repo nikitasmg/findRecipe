@@ -31,6 +31,8 @@ export const ProjectsFragment = gql`
     leader_rank_en
     organization
     organization_en
+    region
+    region_en
     annotation
     annotation_en
     plan_results

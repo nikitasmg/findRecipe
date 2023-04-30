@@ -10,21 +10,21 @@ import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { Languages } from "~/shared/types/Languages";
 
-export type StcServicesFields = {
-  "params.StcServices.title"?: string;
-  "params.StcServices.description"?: string;
-  "params.StcServices.title_en"?: string;
-  "params.StcServices.description_en"?: string;
+export type AdditionalTabFields = {
+  "params.title"?: string;
+  "params.description"?: string;
+  "params.title_en"?: string;
+  "params.description_en"?: string;
 };
 
 type Props = {
   lang: Languages;
-  register: UseFormRegister<StcServicesFields>;
-  setValue?: (name: keyof StcServicesFields, value: unknown) => void;
-  control?: Control<StcServicesFields, unknown>;
+  register: UseFormRegister<AdditionalTabFields>;
+  setValue?: (name: keyof AdditionalTabFields, value: unknown) => void;
+  control?: Control<AdditionalTabFields, unknown>;
 };
 
-export const StcServicesForm: React.FC<Props> = ({ register, setValue, control, lang }) => {
+export const AdditionalTabForm: React.FC<Props> = ({ register, setValue, control, lang }) => {
   const client = useGraphqlClient();
 
   const { data: { settingByName } = {} } = useSettingByNameQuery(
@@ -42,16 +42,16 @@ export const StcServicesForm: React.FC<Props> = ({ register, setValue, control, 
   const isRusLang = lang === "ru";
 
   const names: {
-    title: "params.StcServices.title" | "params.StcServices.title_en";
-    description: "params.StcServices.description" | "params.StcServices.description_en";
+    title: "params.title" | "params.title_en";
+    description: "params.description" | "params.description_en";
   } = isRusLang
     ? {
-        title: "params.StcServices.title",
-        description: "params.StcServices.description"
+        title: "params.title",
+        description: "params.description"
       }
     : {
-        title: "params.StcServices.title_en",
-        description: "params.StcServices.description_en"
+        title: "params.title_en",
+        description: "params.description_en"
       };
 
   const contentEditorKey = settingByName?.value;

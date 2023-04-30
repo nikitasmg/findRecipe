@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  Switch,
-  TextareaAutosize,
-  TextField
-} from "@mui/material";
+import { Box, FormControl, FormControlLabel, Grid, Switch, TextField } from "@mui/material";
 import {
   VacancyInput,
   useCreateVacancyMutation,
+  useSettingByNameQuery,
   useUpdateVacancyMutation,
+  useUploadMutation,
   useVacancyByIdQuery
 } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -28,6 +22,10 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
+import { ContentEditor } from "~/shared/components/ContentEditor";
+import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
+import { getEventValueHandler } from "~/shared/lib/events";
+import { curry } from "rambda";
 
 interface VacanciesDetailsFormProps {
   lang: Languages;
@@ -38,6 +36,16 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { data: { settingByName } = {} } = useSettingByNameQuery(
+    client,
+    {
+      name: "content_editor"
+    },
+    { refetchOnMount: "always" }
+  );
+
+  const { mutateAsync: upload } = useUploadMutation(client);
 
   const { data, isSuccess } = useVacancyByIdQuery(
     client,
@@ -103,6 +111,17 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, 
     );
   }, [values, isSuccess, setValue]);
 
+  const contentEditorKey = settingByName?.value;
+
+  const getUploadedUrl = useCallback(
+    (url: string) => {
+      return fileFromBlobUrl(url).then((file) =>
+        upload({ file }).then((url) => `${process.env.REACT_APP_FILES_URL}${url.upload}`)
+      );
+    },
+    [upload]
+  );
+
   return (
     <form onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
@@ -154,51 +173,38 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, 
             </Grid>
           )}
 
-          {isRusLang && (
+          {contentEditorKey && isRusLang && (
             <Grid item xs={12}>
               <Controller
                 control={control}
                 name='description'
                 render={({ field: { value } }) => (
                   <FormControl fullWidth>
-                    <TextField
-                      multiline
-                      fullWidth
-                      value={value}
-                      label={<Text>Description</Text>}
-                      InputProps={{
-                        inputComponent: TextareaAutosize
-                      }}
+                    <ContentEditor
+                      apiKey={contentEditorKey}
+                      value={value ?? ""}
                       {...register("description")}
+                      onChange={getEventValueHandler(curry(setValue)("description"))}
+                      getUploadedUrl={getUploadedUrl}
                     />
-
-                    <HelperText id='description' error={getError("description")} />
                   </FormControl>
                 )}
               />
             </Grid>
           )}
 
-          {!isRusLang && (
+          {contentEditorKey && !isRusLang && (
             <Grid item xs={12}>
               <Controller
                 control={control}
                 name='description_en'
                 render={({ field: { value } }) => (
                   <FormControl fullWidth>
-                    <TextField
-                      multiline
-                      fullWidth
-                      value={value}
-                      label={
-                        <EnLabelWrapper>
-                          <Text>Description</Text>
-                        </EnLabelWrapper>
-                      }
-                      InputProps={{
-                        inputComponent: TextareaAutosize
-                      }}
+                    <ContentEditor
+                      apiKey={contentEditorKey}
+                      value={value ?? ""}
                       {...register("description_en")}
+                      getUploadedUrl={getUploadedUrl}
                     />
                   </FormControl>
                 )}

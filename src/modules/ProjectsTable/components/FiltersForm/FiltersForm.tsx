@@ -55,6 +55,16 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               variant='outlined'
             />
           </Grid>
+
+          <Grid item columns={12} xs={12}>
+            <TextField
+              fullWidth
+              value={params?.regionLike}
+              label={<Text>Region</Text>}
+              onChange={getChangeHandler("regionLike")}
+              variant='outlined'
+            />
+          </Grid>
         </Grid>
       </form>
     );

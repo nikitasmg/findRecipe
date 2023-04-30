@@ -180,6 +180,7 @@
   "Projects editing": "Редактирование проекта",
   "Projects creating": "Создание проекта",
   "Information": "Информация",
+  "Info blocks": "Инфо блоки",
   "Annotation": "Аннотация",
   "Plan results": "Планируемый результат",
   "Result annotation": "Аннотация результата",
@@ -280,5 +281,7 @@
   "Hide news": "Скрыть новости",
   "Add social": "Добавить социальную сеть",
   "Photo gallery": "Фотогалерея",
-  "About project": "О проекте"
+  "About project": "О проекте",
+  "Region": "Регион",
+  "Center for High Biomedical Technologies": "Центр высоких биомедицинских технологий"
 }

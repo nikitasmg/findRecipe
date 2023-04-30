@@ -32,6 +32,20 @@ export const PagesFragment = gql`
       user_name
       sort
     }
+    page_cards {
+      id
+      name
+      name_en
+      description
+      url_name
+      route
+      sort
+      image {
+        id
+        url
+      }
+      imageUrl
+    }
     parent_id
     created_at
     updated_at

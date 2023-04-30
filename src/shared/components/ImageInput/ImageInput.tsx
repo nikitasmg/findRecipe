@@ -28,7 +28,7 @@ export const ImageInput = forwardRef<HTMLDivElement, Props>(
     }, [selectedImage]);
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-      const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.webp)$/i;
+      const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.webp|\.svg)$/i;
 
       const filePath = e.target.value;
 
@@ -70,14 +70,14 @@ export const ImageInput = forwardRef<HTMLDivElement, Props>(
           </Box>
         )}
         {isImagePreview && (
-          <Box className='relative text-red-700 w-fit p-6'>
+          <Box className='relative text-red-700 p-6'>
             <CancelIcon
               onClick={handleDeleteImage}
               onKeyPress={handleDeleteImage}
               tabIndex={0}
               className='absolute right-0 top-0 cursor-pointer'
             />
-            <img src={imageUrl || url} alt={selectedImage?.name} className='h-auto w-[100%]' />
+            <img src={imageUrl || url} alt={selectedImage?.name} className='max-w-[200px]' />
           </Box>
         )}
       </Box>

@@ -7,6 +7,7 @@ export const StaffControlFragment = gql`
     name_en
     description
     description_en
+    email
     sort
     page_id
     imageUrl
