@@ -9,6 +9,7 @@ import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { getErrorMessage } from "~/shared/lib/getError";
+import { getBaseUrlValidation } from "~/shared/lib/validation";
 import { Languages } from "~/shared/types/Languages";
 
 export type VideoPresentationFields = {
@@ -108,10 +109,10 @@ export const VideoPresentationForm: React.FC<Props> = ({
               value={value}
               type={names.link}
               error={!!getError(names.link)}
-              {...register(names.link)}
+              {...register(names.link, getBaseUrlValidation({ required: true }))}
               onChange={getEventValueHandler(curry(setValue)(names.link))}
             />
-            <HelperText id='url' error={getError("url")} />
+            <HelperText id={names.link} error={getError(names.link)} />
           </FormControl>
         )}
       />

@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import * as R from "rambda";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { usePageBySlugQuery, useUpdatePageMutation } from "~/generated/graphql";
@@ -16,9 +17,10 @@ import { GeneralPageForm } from "./components/GeneralPageForm";
 import { SeoForm } from "./components/SeoForm";
 import { StcTechnologiesForm } from "./components/StcTechnologiesForm";
 import { AboutProjectForm } from "./components/AboutProjectForm";
-import { VideoPresentationForm } from "./components/VideoPresentationForm";
 import { AdditionalTabForm } from "./components/AdditionalTabForm";
 import { InfoBlockCardsForm } from "./components/InfoBlockCardsForm/InfoBlockCardsForm";
+import { VideoPresentationForm } from "./components/VideoPresentationForm";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 type Props = {
   slug: string;
@@ -47,7 +49,9 @@ export const PageForm: React.FC<Props> = ({
 
   const { lang, setLang } = useLang();
 
-  const form = useForm();
+  const form = useForm({ mode: "onBlur" });
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   const {
     handleSubmit,
@@ -134,8 +138,21 @@ export const PageForm: React.FC<Props> = ({
     }
   }, [values, setValue]);
 
+  useEffect(() => {
+    if (
+      R.hasPath(["params", "VideoPresentation"], errors) ||
+      R.hasPath(["params", "StcTechnologies"], errors)
+    ) {
+      addAlert("error", "Invalid input Form");
+    }
+  }, [addAlert, errors, step]);
+
   const getForms = () => {
-    const forms = [
+    const forms: {
+      tabTitle: string;
+      component: JSX.Element;
+      hasErrors?: boolean;
+    }[] = [
       {
         tabTitle: "General data",
         component: (
@@ -194,6 +211,7 @@ export const PageForm: React.FC<Props> = ({
     if (isVideoPresentation) {
       forms.push({
         tabTitle: "Video presentation",
+        hasErrors: R.hasPath(["params", "VideoPresentation"], errors),
         component: (
           <VideoPresentationForm
             control={control}
@@ -209,6 +227,7 @@ export const PageForm: React.FC<Props> = ({
     if (isStcTechnologiesSection) {
       forms.push({
         tabTitle: "Center for High Biomedical Technologies",
+        hasErrors: R.hasPath(["params", "StcTechnologies"], errors),
         component: (
           <StcTechnologiesForm
             control={control}

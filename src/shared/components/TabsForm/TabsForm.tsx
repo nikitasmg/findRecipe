@@ -6,6 +6,7 @@ import { Text } from "../Text";
 import { TabPanel } from "../TabPanel";
 import { LinkButton } from "../LinkButton";
 import { SaveButton } from "../SaveButton";
+import { red } from "@mui/material/colors";
 
 type Props = {
   forms: {
@@ -62,7 +63,7 @@ export const TabsForm: React.FC<Props> = ({
               key={index}
               label={
                 <Box className='flex items-center'>
-                  {hasErrors && <ErrorIcon />}
+                  {hasErrors && <ErrorIcon sx={{ color: red[500] }} />}
                   <Text className='normal-case' component='span'>
                     {tabTitle}
                   </Text>
