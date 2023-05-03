@@ -808,6 +808,8 @@ export type News = Searchable & {
   image?: Maybe<Image>;
   imageThumbs?: Maybe<Array<Maybe<ImageThumbs>>>;
   imageUrl?: Maybe<Scalars['String']>;
+  image_description?: Maybe<Scalars['String']>;
+  image_description_en?: Maybe<Scalars['String']>;
   meta?: Maybe<Meta>;
   name: Scalars['String'];
   name_en?: Maybe<Scalars['String']>;
@@ -847,6 +849,8 @@ export type NewsInput = {
   description?: InputMaybe<Scalars['String']>;
   description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  image_description?: InputMaybe<Scalars['String']>;
+  image_description_en?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   name_en?: InputMaybe<Scalars['String']>;
   on_index?: InputMaybe<Scalars['Boolean']>;
@@ -2453,14 +2457,14 @@ export type DeleteMapObjectMutationVariables = Exact<{
 
 export type DeleteMapObjectMutation = { __typename?: 'Mutation', deleteMapObject?: { __typename?: 'MapObject', id: number } | null };
 
-export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null };
+export type AllNewsFieldsFragment = { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, image_description?: string | null, image_description_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null };
 
 export type NewsByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type NewsByIdQuery = { __typename?: 'Query', newsById?: { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, image_description?: string | null, image_description_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type NewsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2470,7 +2474,7 @@ export type NewsQueryVariables = Exact<{
 }>;
 
 
-export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null }> } | null };
+export type NewsQuery = { __typename?: 'Query', news?: { __typename?: 'NewsPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, image_description?: string | null, image_description_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null }> } | null };
 
 export type AllNewsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2501,14 +2505,14 @@ export type CreateNewsMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewsMutation = { __typename?: 'Mutation', createNews?: { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type CreateNewsMutation = { __typename?: 'Mutation', createNews?: { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, image_description?: string | null, image_description_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type UpdateNewsMutationVariables = Exact<{
   input: NewsInput;
 }>;
 
 
-export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
+export type UpdateNewsMutation = { __typename?: 'Mutation', upsertNews?: { __typename?: 'News', id: number, name: string, name_en?: string | null, slug: string, content?: string | null, content_en?: string | null, description?: string | null, description_en?: string | null, imageUrl?: string | null, source?: string | null, source_name?: string | null, source_name_en?: string | null, image_description?: string | null, image_description_en?: string | null, published?: boolean | null, created_at: any, updated_at: any, published_at?: any | null, on_index?: boolean | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null, category?: { __typename?: 'NewsCategory', id: number, name: string, name_en?: string | null, sort: number } | null, tags?: Array<{ __typename?: 'NewsTag', id: number, name: string, name_en?: string | null, sort: number } | null> | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null } | null };
 
 export type DeleteNewsMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -3351,6 +3355,8 @@ export const AllNewsFieldsFragmentDoc = `
   source
   source_name
   source_name_en
+  image_description
+  image_description_en
   published
   image {
     id

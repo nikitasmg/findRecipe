@@ -30,6 +30,8 @@ export const prepareFormData = async (
     content_en: newValues.content_en,
     description_en: newValues.description_en,
     on_index: newValues.on_index,
+    image_description: newValues.image_description,
+    image_description_en: newValues.image_description_en,
     source: newValues.source,
     source_name: newValues.source_name,
     source_name_en: newValues.source_name_en,

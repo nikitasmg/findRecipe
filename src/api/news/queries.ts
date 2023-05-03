@@ -14,6 +14,8 @@ export const NewsFragment = gql`
     source
     source_name
     source_name_en
+    image_description
+    image_description_en
     published
     image {
       id

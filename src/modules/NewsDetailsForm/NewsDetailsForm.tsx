@@ -90,6 +90,8 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
         "content",
         "content_en",
         "source",
+        "image_description",
+        "image_description_en",
         "source_name",
         "source_name_en",
         "published",
