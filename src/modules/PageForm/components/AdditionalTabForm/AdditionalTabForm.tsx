@@ -63,6 +63,7 @@ export const AdditionalTabForm: React.FC<Props> = ({ register, setValue, control
       <Controller
         control={control}
         name={names.title}
+        key={lang.concat(names.title)}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -81,6 +82,7 @@ export const AdditionalTabForm: React.FC<Props> = ({ register, setValue, control
         <Controller
           control={control}
           name={names.description}
+          key={lang.concat(names.description)}
           render={({ field: { value } }) => (
             <FormControl fullWidth>
               <ContentEditor

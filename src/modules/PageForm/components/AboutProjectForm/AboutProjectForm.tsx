@@ -62,6 +62,7 @@ export const AboutProjectForm: React.FC<Props> = ({ register, setValue, control,
     <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
       <Controller
         control={control}
+        key={lang.concat(names.title)}
         name={names.title}
         render={({ field: { value } }) => (
           <TextField
@@ -80,6 +81,7 @@ export const AboutProjectForm: React.FC<Props> = ({ register, setValue, control,
       {contentEditorKey && (
         <Controller
           control={control}
+          key={lang.concat(names.description)}
           name={names.description}
           render={({ field: { value } }) => (
             <FormControl fullWidth>
