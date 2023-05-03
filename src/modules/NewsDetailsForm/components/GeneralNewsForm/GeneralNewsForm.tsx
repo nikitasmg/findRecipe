@@ -26,6 +26,8 @@ type FormFields = {
   content?: string;
   content_en?: string;
   imageUrl?: string;
+  image_description?: string;
+  image_description_en?: string;
 };
 
 type Props = {
@@ -155,6 +157,51 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 {...field}
                 fullWidth
                 error={!!getError("description_en")}
+                InputProps={{
+                  inputComponent: TextareaAutosize
+                }}
+              />
+            )}
+          />
+        )}
+
+        {isRuLang && (
+          <Controller
+            control={control}
+            name='image_description'
+            render={({ field: { value } }) => (
+              <FormControl fullWidth>
+                <TextField
+                  label={<Text>Image caption</Text>}
+                  value={value ?? ""}
+                  multiline
+                  fullWidth
+                  error={!!getError("image_description")}
+                  InputProps={{
+                    inputComponent: TextareaAutosize
+                  }}
+                  {...register("image_description")}
+                />
+                <HelperText id='image_description' error={getError("image_description")} />
+              </FormControl>
+            )}
+          />
+        )}
+
+        {!isRuLang && (
+          <Controller
+            control={control}
+            name='image_description_en'
+            render={({ field }) => (
+              <TextField
+                label={
+                  <EnLabelWrapper>
+                    <Text>Image caption</Text>
+                  </EnLabelWrapper>
+                }
+                {...field}
+                fullWidth
+                error={!!getError("image_description_en")}
                 InputProps={{
                   inputComponent: TextareaAutosize
                 }}
