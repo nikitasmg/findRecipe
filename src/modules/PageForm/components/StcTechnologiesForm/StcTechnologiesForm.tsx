@@ -77,6 +77,7 @@ export const StcTechnologiesForm: React.FC<Props> = ({
     <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
       <Controller
         control={control}
+        key={lang.concat(names.title)}
         name={names.title}
         render={({ field: { value } }) => (
           <TextField
@@ -95,6 +96,7 @@ export const StcTechnologiesForm: React.FC<Props> = ({
       {contentEditorKey && (
         <Controller
           control={control}
+          key={lang.concat(names.description)}
           name={names.description}
           render={({ field: { value } }) => (
             <FormControl fullWidth>

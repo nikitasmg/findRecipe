@@ -4,28 +4,27 @@ import React, { Fragment } from "react";
 import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useUploadMutation } from "~/generated/graphql";
-
+import {
+  CARDS_ONE_DESCRIPTION,
+  CARDS_ONE_DESCRIPTION_EN,
+  CARDS_ONE_IMAGE,
+  CARDS_ONE_ROUTE,
+  CARDS_ONE_TITLE,
+  CARDS_ONE_TITLE_EN,
+  CARDS_TWO_DESCRIPTION,
+  CARDS_TWO_DESCRIPTION_EN,
+  CARDS_TWO_IMAGE,
+  CARDS_TWO_ROUTE,
+  CARDS_TWO_TITLE,
+  CARDS_TWO_TITLE_EN
+} from "./constants";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
-
-export type InfoBlockCardsFields = {
-  "params.Cards_1.Title"?: string;
-  "params.Cards_1.Description"?: string;
-  "params.Cards_1.Title_en"?: string;
-  "params.Cards_1.Description_en"?: string;
-  "params.Cards_1.Image"?: string;
-  "params.Cards_1.Route"?: string;
-  "params.Cards_2.Title"?: string;
-  "params.Cards_2.Description"?: string;
-  "params.Cards_2.Title_en"?: string;
-  "params.Cards_2.Description_en"?: string;
-  "params.Cards_2.Image"?: string;
-  "params.Cards_2.Route"?: string;
-};
+import { InfoBlockCardsFields, NamesInfoBlock } from "./types";
 
 type Props = {
   lang: Languages;
@@ -44,35 +43,26 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
 
   const isRusLang = lang === "ru";
 
-  const names: {
-    cardOneTitle: "params.Cards_1.Title" | "params.Cards_1.Title_en";
-    cardOneDescription: "params.Cards_1.Description" | "params.Cards_1.Description_en";
-    cardOneImage: "params.Cards_1.Image";
-    cardOneRoute: "params.Cards_1.Route";
-    cardTwoTitle: "params.Cards_2.Title" | "params.Cards_2.Title_en";
-    cardTwoDescription: "params.Cards_2.Description" | "params.Cards_2.Description_en";
-    cardTwoImage: "params.Cards_2.Image";
-    cardTwoRoute: "params.Cards_2.Route";
-  } = isRusLang
+  const names: NamesInfoBlock = isRusLang
     ? {
-        cardOneTitle: "params.Cards_1.Title",
-        cardOneDescription: "params.Cards_1.Description",
-        cardOneImage: "params.Cards_1.Image",
-        cardOneRoute: "params.Cards_1.Route",
-        cardTwoTitle: "params.Cards_2.Title",
-        cardTwoDescription: "params.Cards_2.Description",
-        cardTwoImage: "params.Cards_2.Image",
-        cardTwoRoute: "params.Cards_2.Route"
+        cardOneTitle: CARDS_ONE_TITLE,
+        cardOneDescription: CARDS_ONE_DESCRIPTION,
+        cardOneImage: CARDS_ONE_IMAGE,
+        cardOneRoute: CARDS_ONE_ROUTE,
+        cardTwoTitle: CARDS_TWO_TITLE,
+        cardTwoDescription: CARDS_TWO_DESCRIPTION,
+        cardTwoImage: CARDS_TWO_IMAGE,
+        cardTwoRoute: CARDS_TWO_ROUTE
       }
     : {
-        cardOneTitle: "params.Cards_1.Title_en",
-        cardOneDescription: "params.Cards_1.Description_en",
-        cardOneImage: "params.Cards_1.Image",
-        cardOneRoute: "params.Cards_1.Route",
-        cardTwoTitle: "params.Cards_2.Title_en",
-        cardTwoDescription: "params.Cards_2.Description_en",
-        cardTwoImage: "params.Cards_2.Image",
-        cardTwoRoute: "params.Cards_2.Route"
+        cardOneTitle: CARDS_ONE_TITLE_EN,
+        cardOneDescription: CARDS_ONE_DESCRIPTION_EN,
+        cardOneImage: CARDS_ONE_IMAGE,
+        cardOneRoute: CARDS_ONE_ROUTE,
+        cardTwoTitle: CARDS_TWO_TITLE_EN,
+        cardTwoDescription: CARDS_TWO_DESCRIPTION_EN,
+        cardTwoImage: CARDS_TWO_IMAGE,
+        cardTwoRoute: CARDS_TWO_ROUTE
       };
 
   const LabelWrapper = isRusLang ? Fragment : EnLabelWrapper;
@@ -108,6 +98,7 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
       />
       <Controller
         control={control}
+        key={lang.concat(names.cardOneTitle)}
         name={names.cardOneTitle}
         render={({ field: { value } }) => (
           <TextField
@@ -124,6 +115,7 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
       />
       <Controller
         control={control}
+        key={lang.concat(names.cardOneDescription)}
         name={names.cardOneDescription}
         render={({ field: { value } }) => (
           <TextField
@@ -171,6 +163,7 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
       />
       <Controller
         control={control}
+        key={lang.concat(names.cardTwoTitle)}
         name={names.cardTwoTitle}
         render={({ field: { value } }) => (
           <TextField
@@ -187,6 +180,7 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
       />
       <Controller
         control={control}
+        key={lang.concat(names.cardTwoDescription)}
         name={names.cardTwoDescription}
         render={({ field: { value } }) => (
           <TextField

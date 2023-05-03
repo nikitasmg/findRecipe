@@ -101,6 +101,7 @@ export const Banner: React.FC<Props> = ({ errors, setValue, getValues, control, 
       <Controller
         control={control}
         name={names.name}
+        key={lang.concat(names.name)}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -118,6 +119,7 @@ export const Banner: React.FC<Props> = ({ errors, setValue, getValues, control, 
       <Controller
         control={control}
         name={names.description}
+        key={lang.concat(names.description)}
         render={({ field: { value } }) => (
           <TextField
             fullWidth

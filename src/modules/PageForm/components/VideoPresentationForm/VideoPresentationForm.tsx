@@ -65,6 +65,7 @@ export const VideoPresentationForm: React.FC<Props> = ({
       <Controller
         control={control}
         name={names.title}
+        key={lang.concat(names.title)}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -82,6 +83,7 @@ export const VideoPresentationForm: React.FC<Props> = ({
       <Controller
         control={control}
         name={names.description}
+        key={lang.concat(names.description)}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
