@@ -13,18 +13,18 @@ import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
 
 export type InfoBlockCardsFields = {
-  "params.BlockOneTitle"?: string;
-  "params.BlockOneDescription"?: string;
-  "params.BlockOneTitle_en"?: string;
-  "params.BlockOneDescription_en"?: string;
-  "params.blockOneImage"?: string;
-  "params.blockOneRoute"?: string;
-  "params.BlockTwoTitle"?: string;
-  "params.BlockTwoDescription"?: string;
-  "params.BlockTwoTitle_en"?: string;
-  "params.BlockTwoDescription_en"?: string;
-  "params.blockTwoImage"?: string;
-  "params.blockTwoRoute"?: string;
+  "params.Cards_1.Title"?: string;
+  "params.Cards_1.Description"?: string;
+  "params.Cards_1.Title_en"?: string;
+  "params.Cards_1.Description_en"?: string;
+  "params.Cards_1.Image"?: string;
+  "params.Cards_1.Route"?: string;
+  "params.Cards_2.Title"?: string;
+  "params.Cards_2.Description"?: string;
+  "params.Cards_2.Title_en"?: string;
+  "params.Cards_2.Description_en"?: string;
+  "params.Cards_2.Image"?: string;
+  "params.Cards_2.Route"?: string;
 };
 
 type Props = {
@@ -45,55 +45,55 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
   const isRusLang = lang === "ru";
 
   const names: {
-    blockOneTitle: "params.BlockOneTitle" | "params.BlockOneTitle_en";
-    blockOneDescription: "params.BlockOneDescription" | "params.BlockOneDescription_en";
-    blockOneImage: "params.blockOneImage";
-    blockOneRoute: "params.blockOneRoute";
-    blockTwoTitle: "params.BlockTwoTitle" | "params.BlockTwoTitle_en";
-    blockTwoDescription: "params.BlockTwoDescription" | "params.BlockTwoDescription_en";
-    blockTwoImage: "params.blockTwoImage";
-    blockTwoRoute: "params.blockTwoRoute";
+    cardOneTitle: "params.Cards_1.Title" | "params.Cards_1.Title_en";
+    cardOneDescription: "params.Cards_1.Description" | "params.Cards_1.Description_en";
+    cardOneImage: "params.Cards_1.Image";
+    cardOneRoute: "params.Cards_1.Route";
+    cardTwoTitle: "params.Cards_2.Title" | "params.Cards_2.Title_en";
+    cardTwoDescription: "params.Cards_2.Description" | "params.Cards_2.Description_en";
+    cardTwoImage: "params.Cards_2.Image";
+    cardTwoRoute: "params.Cards_2.Route";
   } = isRusLang
     ? {
-        blockOneTitle: "params.BlockOneTitle",
-        blockOneDescription: "params.BlockOneDescription",
-        blockOneImage: "params.blockOneImage",
-        blockOneRoute: "params.blockOneRoute",
-        blockTwoTitle: "params.BlockTwoTitle",
-        blockTwoDescription: "params.BlockTwoDescription",
-        blockTwoImage: "params.blockTwoImage",
-        blockTwoRoute: "params.blockTwoRoute"
+        cardOneTitle: "params.Cards_1.Title",
+        cardOneDescription: "params.Cards_1.Description",
+        cardOneImage: "params.Cards_1.Image",
+        cardOneRoute: "params.Cards_1.Route",
+        cardTwoTitle: "params.Cards_2.Title",
+        cardTwoDescription: "params.Cards_2.Description",
+        cardTwoImage: "params.Cards_2.Image",
+        cardTwoRoute: "params.Cards_2.Route"
       }
     : {
-        blockOneTitle: "params.BlockOneTitle_en",
-        blockOneDescription: "params.BlockOneDescription_en",
-        blockOneImage: "params.blockOneImage",
-        blockOneRoute: "params.blockOneRoute",
-        blockTwoTitle: "params.BlockTwoTitle_en",
-        blockTwoDescription: "params.BlockTwoDescription_en",
-        blockTwoImage: "params.blockTwoImage",
-        blockTwoRoute: "params.blockTwoRoute"
+        cardOneTitle: "params.Cards_1.Title_en",
+        cardOneDescription: "params.Cards_1.Description_en",
+        cardOneImage: "params.Cards_1.Image",
+        cardOneRoute: "params.Cards_1.Route",
+        cardTwoTitle: "params.Cards_2.Title_en",
+        cardTwoDescription: "params.Cards_2.Description_en",
+        cardTwoImage: "params.Cards_2.Image",
+        cardTwoRoute: "params.Cards_2.Route"
       };
 
   const LabelWrapper = isRusLang ? Fragment : EnLabelWrapper;
-  const deleteHandlerOne = () => setValue(names.blockOneImage, "");
+  const deleteHandlerOne = () => setValue(names.cardOneImage, "");
   const uploadHandlerOne: (file?: File | null) => void = (file) => {
     upload({ file })
       .then((url) => `${process.env.REACT_APP_FILES_URL}${url.upload}`)
-      .then((url) => setValue(names.blockOneImage, url));
+      .then((url) => setValue(names.cardOneImage, url));
   };
-  const deleteHandlerTwo = () => setValue(names.blockTwoImage, "");
+  const deleteHandlerTwo = () => setValue(names.cardTwoImage, "");
   const uploadHandlerTwo: (file?: File | null) => void = (file) => {
     upload({ file })
       .then((url) => `${process.env.REACT_APP_FILES_URL}${url.upload}`)
-      .then((url) => setValue(names.blockTwoImage, url));
+      .then((url) => setValue(names.cardTwoImage, url));
   };
 
   return (
     <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
       <Controller
         control={control}
-        name={names.blockOneImage}
+        name={names.cardOneImage}
         render={({ field: { value } }) => (
           <ImageInput
             addAlert={addAlert}
@@ -108,7 +108,7 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
       />
       <Controller
         control={control}
-        name={names.blockOneTitle}
+        name={names.cardOneTitle}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -118,13 +118,13 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
               </LabelWrapper>
             }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)(names.blockOneTitle))}
+            onChange={getEventValueHandler(curry(setValue)(names.cardOneTitle))}
           />
         )}
       />
       <Controller
         control={control}
-        name={names.blockOneDescription}
+        name={names.cardOneDescription}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -134,13 +134,13 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
               </LabelWrapper>
             }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)(names.blockOneDescription))}
+            onChange={getEventValueHandler(curry(setValue)(names.cardOneDescription))}
           />
         )}
       />
       <Controller
         control={control}
-        name={names.blockOneRoute}
+        name={names.cardOneRoute}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -150,13 +150,13 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
               </LabelWrapper>
             }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)(names.blockOneRoute))}
+            onChange={getEventValueHandler(curry(setValue)(names.cardOneRoute))}
           />
         )}
       />
       <Controller
         control={control}
-        name={names.blockTwoImage}
+        name={names.cardTwoImage}
         render={({ field: { value } }) => (
           <ImageInput
             addAlert={addAlert}
@@ -171,7 +171,7 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
       />
       <Controller
         control={control}
-        name={names.blockTwoTitle}
+        name={names.cardTwoTitle}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -181,13 +181,13 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
               </LabelWrapper>
             }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)(names.blockTwoTitle))}
+            onChange={getEventValueHandler(curry(setValue)(names.cardTwoTitle))}
           />
         )}
       />
       <Controller
         control={control}
-        name={names.blockTwoDescription}
+        name={names.cardTwoDescription}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -197,13 +197,13 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
               </LabelWrapper>
             }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)(names.blockTwoDescription))}
+            onChange={getEventValueHandler(curry(setValue)(names.cardTwoDescription))}
           />
         )}
       />
       <Controller
         control={control}
-        name={names.blockTwoRoute}
+        name={names.cardTwoRoute}
         render={({ field: { value } }) => (
           <TextField
             fullWidth
@@ -213,7 +213,7 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
               </LabelWrapper>
             }
             value={value}
-            onChange={getEventValueHandler(curry(setValue)(names.blockTwoRoute))}
+            onChange={getEventValueHandler(curry(setValue)(names.cardTwoRoute))}
           />
         )}
       />

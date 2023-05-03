@@ -28,7 +28,7 @@ export const ImageInput = forwardRef<HTMLDivElement, Props>(
     }, [selectedImage]);
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-      const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.webp|\.svg)$/i;
+      const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.webp)$/i;
 
       const filePath = e.target.value;
 
