@@ -42,7 +42,7 @@ export const prepareFormData = async (
       ...(Boolean(!newValues.category) && { disconnect: true })
     },
     tags: {
-      ...(Boolean(newValues.tags) && { connect: newValues.tags }),
+      ...(Boolean(newValues.tags) && { syncWithoutDetaching: newValues.tags }),
       ...(Boolean(values?.tags) && {
         disconnect:
           values?.tags
@@ -51,6 +51,5 @@ export const prepareFormData = async (
       })
     }
   };
-
   return input;
 };
