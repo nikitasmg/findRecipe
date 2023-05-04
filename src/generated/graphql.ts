@@ -1899,6 +1899,7 @@ export type TagBelongsToMany = {
   connect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   create?: InputMaybe<Array<InputMaybe<NewsTagInput>>>;
   disconnect?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  syncWithoutDetaching?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 /** Specify if you want to include or exclude trashed results from a query. */

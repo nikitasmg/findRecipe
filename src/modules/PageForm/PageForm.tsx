@@ -143,7 +143,7 @@ export const PageForm: React.FC<Props> = ({
       R.hasPath(["params", "VideoPresentation"], errors) ||
       R.hasPath(["params", "StcTechnologies"], errors)
     ) {
-      addAlert("error", "Invalid input Form");
+      addAlert("error", "Fill in all required fields");
     }
   }, [addAlert, errors, step]);
 
