@@ -115,6 +115,11 @@ export const PageForm: React.FC<Props> = ({
     );
     setValue("seo.upsert.title", values?.seo?.title || values?.meta?.auto_title);
     setValue("seo.upsert.description", values?.seo?.description || values?.meta?.auto_description);
+    setValue("seo.upsert.title_en", values?.seo?.title_en || values?.meta?.auto_title_en);
+    setValue(
+      "seo.upsert.description_en",
+      values?.seo?.description_en || values?.meta?.auto_description_en
+    );
     setValue(
       "children",
       values?.children?.map((child) => child?.id)
@@ -251,7 +256,7 @@ export const PageForm: React.FC<Props> = ({
 
     forms.push({
       tabTitle: "SEO",
-      component: <SeoForm errors={errors} register={register} control={control} />
+      component: <SeoForm errors={errors} register={register} control={control} lang={lang} />
     });
 
     return forms;

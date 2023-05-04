@@ -414,9 +414,13 @@ export type MapObjectInput = {
 export type Meta = {
   __typename?: 'Meta';
   auto_description: Scalars['String'];
+  auto_description_en: Scalars['String'];
   auto_title: Scalars['String'];
+  auto_title_en: Scalars['String'];
   description: Scalars['String'];
+  description_en: Scalars['String'];
   title: Scalars['String'];
+  title_en: Scalars['String'];
 };
 
 export type Mutation = {
@@ -1574,6 +1578,7 @@ export type QueryReportsArgs = {
 
 
 export type QuerySearchArgs = {
+  filter?: InputMaybe<Array<FilterByClause>>;
   first?: InputMaybe<Scalars['Int']>;
   page?: InputMaybe<Scalars['Int']>;
   query: Scalars['String'];
@@ -1750,8 +1755,10 @@ export type SearchablePaginator = {
 export type Seo = {
   __typename?: 'Seo';
   description?: Maybe<Scalars['String']>;
+  description_en?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
+  title_en?: Maybe<Scalars['String']>;
 };
 
 export type SeoBelongsTo = {
@@ -1760,8 +1767,10 @@ export type SeoBelongsTo = {
 
 export type SeoInput = {
   description?: InputMaybe<Scalars['String']>;
+  description_en?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
+  title_en?: InputMaybe<Scalars['String']>;
 };
 
 export type Setting = {
@@ -2643,21 +2652,21 @@ export type DeleteOrganizerMutationVariables = Exact<{
 
 export type DeleteOrganizerMutation = { __typename?: 'Mutation', deleteOrganizer?: { __typename?: 'Organizer', id: number } | null };
 
-export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null };
+export type AllPageFieldsFragment = { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null };
 
 export type PageByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null } | null };
+export type PageByIdQuery = { __typename?: 'Query', pageById?: { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null } | null };
 
 export type PageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null } | null };
+export type PageBySlugQuery = { __typename?: 'Query', pageBySlug?: { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null } | null };
 
 export type PagesQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderByClause> | OrderByClause>;
@@ -2680,7 +2689,7 @@ export type UpdatePageMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, description?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null } | null };
+export type UpdatePageMutation = { __typename?: 'Mutation', upsertPage?: { __typename?: 'Page', id: number, name: string, name_en?: string | null, slug: string, sort: number, description?: string | null, description_en?: string | null, imageUrl?: string | null, params?: any | null, parent_id?: number | null, created_at: any, updated_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null, seo?: { __typename?: 'Seo', title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null, meta?: { __typename?: 'Meta', auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, children?: Array<{ __typename?: 'Page', id: number } | null> | null, linked_documents?: Array<{ __typename?: 'LinkedDocument', id: number, url: string, user_name?: string | null, sort?: number | null } | null> | null, page_cards?: Array<{ __typename?: 'PageCard', id: number, name: string, name_en?: string | null, description?: string | null, url_name?: string | null, route?: string | null, sort: number, imageUrl?: string | null, image?: { __typename?: 'Image', id: number, url?: string | null } | null } | null> | null, gallery?: Array<{ __typename?: 'GalleryImage', id: number, url?: string | null, alt?: string | null, sort?: number | null } | null> | null } | null };
 
 export type UpdatePageParentMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2727,14 +2736,14 @@ export type DeletePartnerMutationVariables = Exact<{
 
 export type DeletePartnerMutation = { __typename?: 'Mutation', deletePartner?: { __typename?: 'Partner', id: number } | null };
 
-export type AllProjectsFieldsFragment = { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null };
+export type AllProjectsFieldsFragment = { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, title_en: string, description: string, description_en: string, auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null };
 
 export type ProjectByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ProjectByIdQuery = { __typename?: 'Query', projectById?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type ProjectByIdQuery = { __typename?: 'Query', projectById?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, title_en: string, description: string, description_en: string, auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null } | null };
 
 export type ProjectsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<QueryProjectsOrderByRelationOrderByClause> | QueryProjectsOrderByRelationOrderByClause>;
@@ -2744,21 +2753,21 @@ export type ProjectsQueryVariables = Exact<{
 }>;
 
 
-export type ProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null }> } | null };
+export type ProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', lastPage: number, total: number, perPage: number }, data: Array<{ __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, title_en: string, description: string, description_en: string, auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null }> } | null };
 
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, title_en: string, description: string, description_en: string, auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null } | null };
 
 export type UpdateProjectMutationVariables = Exact<{
   input: ProjectInput;
 }>;
 
 
-export type UpdateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, description: string, auto_title: string, auto_description: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, description?: string | null } | null } | null };
+export type UpdateProjectMutation = { __typename?: 'Mutation', upsertProject?: { __typename?: 'Project', id: number, knowledge_field_id?: number | null, contest_id?: number | null, number: string, name: string, name_en?: string | null, slug: string, leader?: string | null, leader_en?: string | null, leader_rank?: string | null, leader_rank_en?: string | null, organization?: string | null, organization_en?: string | null, region?: string | null, region_en?: string | null, annotation?: string | null, annotation_en?: string | null, plan_results?: string | null, plan_results_en?: string | null, publications?: string | null, publications_en?: string | null, result_annotation?: string | null, result_annotation_en?: string | null, result_usage?: string | null, result_usage_en?: string | null, year?: number | null, grnti_number?: string | null, status_text?: string | null, status_text_en?: string | null, deadline?: string | null, created_at: any, updated_at: any, knowledge_field?: { __typename?: 'KnowledgeField', id?: number | null, name: string, name_en?: string | null, sort: number } | null, contest?: { __typename?: 'Contest', id: number, name: string, number?: number | null, status?: ContestStatus | null, deadline?: any | null, date?: any | null, created_at: any, updated_at: any } | null, meta?: { __typename?: 'Meta', title: string, title_en: string, description: string, description_en: string, auto_title: string, auto_description: string, auto_title_en: string, auto_description_en: string } | null, seo?: { __typename?: 'Seo', id: number, title?: string | null, title_en?: string | null, description?: string | null, description_en?: string | null } | null } | null };
 
 export type DeleteProjectMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -3441,11 +3450,15 @@ export const AllPageFieldsFragmentDoc = `
   }
   seo {
     title
+    title_en
     description
+    description_en
   }
   meta {
     auto_title
     auto_description
+    auto_title_en
+    auto_description_en
   }
   params
   children {
@@ -3545,14 +3558,20 @@ export const AllProjectsFieldsFragmentDoc = `
   deadline
   meta {
     title
+    title_en
     description
+    description_en
     auto_title
     auto_description
+    auto_title_en
+    auto_description_en
   }
   seo {
     id
     title
+    title_en
     description
+    description_en
   }
   created_at
   updated_at

@@ -15,7 +15,7 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
 import { AdditionalProjectsForm } from "./components/AdditionalProjectsForm";
 import { GeneralProjectsForm } from "./components/GeneralProjectsForm";
-import { SeoProjectsForm } from "./components/SeoProjectsForm";
+import { SeoForm } from "../PageForm/components/SeoForm";
 
 type Props = {
   lang: Languages;
@@ -116,6 +116,13 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang }) => {
       setValue,
       values
     );
+    setValue("seo.upsert.title", values?.seo?.title || values?.meta?.auto_title);
+    setValue("seo.upsert.description", values?.seo?.description || values?.meta?.auto_description);
+    setValue("seo.upsert.title_en", values?.seo?.title_en || values?.meta?.auto_title_en);
+    setValue(
+      "seo.upsert.description_en",
+      values?.seo?.description_en || values?.meta?.auto_description_en
+    );
   }, [values, isSuccess, setValue]);
 
   return (
@@ -163,7 +170,7 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang }) => {
         },
         {
           tabTitle: "SEO",
-          component: <SeoProjectsForm errors={errors} register={register} control={control} />
+          component: <SeoForm errors={errors} register={register} control={control} lang={lang} />
         }
       ]}
     />

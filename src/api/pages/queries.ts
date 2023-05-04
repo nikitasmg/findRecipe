@@ -16,11 +16,15 @@ export const PagesFragment = gql`
     }
     seo {
       title
+      title_en
       description
+      description_en
     }
     meta {
       auto_title
       auto_description
+      auto_title_en
+      auto_description_en
     }
     params
     children {

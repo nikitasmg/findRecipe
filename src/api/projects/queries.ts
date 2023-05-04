@@ -50,14 +50,20 @@ export const ProjectsFragment = gql`
     deadline
     meta {
       title
+      title_en
       description
+      description_en
       auto_title
       auto_description
+      auto_title_en
+      auto_description_en
     }
     seo {
       id
       title
+      title_en
       description
+      description_en
     }
     created_at
     updated_at
