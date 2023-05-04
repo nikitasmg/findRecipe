@@ -5,12 +5,16 @@ import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useUploadMutation } from "~/generated/graphql";
 import {
+  CARDS_ONE_BUTTON_NAME,
+  CARDS_ONE_BUTTON_NAME_EN,
   CARDS_ONE_DESCRIPTION,
   CARDS_ONE_DESCRIPTION_EN,
   CARDS_ONE_IMAGE,
   CARDS_ONE_ROUTE,
   CARDS_ONE_TITLE,
   CARDS_ONE_TITLE_EN,
+  CARDS_TWO_BUTTON_NAME,
+  CARDS_TWO_BUTTON_NAME_EN,
   CARDS_TWO_DESCRIPTION,
   CARDS_TWO_DESCRIPTION_EN,
   CARDS_TWO_IMAGE,
@@ -47,20 +51,24 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
     ? {
         cardOneTitle: CARDS_ONE_TITLE,
         cardOneDescription: CARDS_ONE_DESCRIPTION,
+        cardOneButtonName: CARDS_ONE_BUTTON_NAME,
         cardOneImage: CARDS_ONE_IMAGE,
         cardOneRoute: CARDS_ONE_ROUTE,
         cardTwoTitle: CARDS_TWO_TITLE,
         cardTwoDescription: CARDS_TWO_DESCRIPTION,
+        cardTwoButtonName: CARDS_TWO_BUTTON_NAME,
         cardTwoImage: CARDS_TWO_IMAGE,
         cardTwoRoute: CARDS_TWO_ROUTE
       }
     : {
         cardOneTitle: CARDS_ONE_TITLE_EN,
         cardOneDescription: CARDS_ONE_DESCRIPTION_EN,
+        cardOneButtonName: CARDS_ONE_BUTTON_NAME_EN,
         cardOneImage: CARDS_ONE_IMAGE,
         cardOneRoute: CARDS_ONE_ROUTE,
         cardTwoTitle: CARDS_TWO_TITLE_EN,
         cardTwoDescription: CARDS_TWO_DESCRIPTION_EN,
+        cardTwoButtonName: CARDS_TWO_BUTTON_NAME_EN,
         cardTwoImage: CARDS_TWO_IMAGE,
         cardTwoRoute: CARDS_TWO_ROUTE
       };
@@ -132,6 +140,23 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
       />
       <Controller
         control={control}
+        key={lang.concat(names.cardOneButtonName)}
+        name={names.cardOneButtonName}
+        render={({ field: { value } }) => (
+          <TextField
+            fullWidth
+            label={
+              <LabelWrapper>
+                <Text>Button name</Text>
+              </LabelWrapper>
+            }
+            value={value}
+            onChange={getEventValueHandler(curry(setValue)(names.cardOneButtonName))}
+          />
+        )}
+      />
+      <Controller
+        control={control}
         name={names.cardOneRoute}
         render={({ field: { value } }) => (
           <TextField
@@ -192,6 +217,23 @@ export const InfoBlockCardsForm: React.FC<Props> = ({ setValue, control, lang })
             }
             value={value}
             onChange={getEventValueHandler(curry(setValue)(names.cardTwoDescription))}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        key={lang.concat(names.cardTwoButtonName)}
+        name={names.cardTwoButtonName}
+        render={({ field: { value } }) => (
+          <TextField
+            fullWidth
+            label={
+              <LabelWrapper>
+                <Text>Button name</Text>
+              </LabelWrapper>
+            }
+            value={value}
+            onChange={getEventValueHandler(curry(setValue)(names.cardTwoButtonName))}
           />
         )}
       />
