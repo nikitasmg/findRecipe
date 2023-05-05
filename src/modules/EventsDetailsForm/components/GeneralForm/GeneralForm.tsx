@@ -7,20 +7,19 @@ import {
   TextField
 } from "@mui/material";
 import React from "react";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { curry } from "rambda";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import { HelperText } from "~/shared/components/HelperText";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { Text } from "~/shared/components/Text";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { DatePicker } from "~/shared/components/DatePicker";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
+import { DateTimePicker } from "@mui/x-date-pickers";
 
 export type GeneralFormFields = {
   name?: string;
@@ -204,11 +203,12 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
           name='start'
           render={({ field: { value } }) => (
             <FormControl error={getError("start")}>
-              <DatePicker
+              <DateTimePicker
                 className='w-full'
                 label={<Text>Start date</Text>}
                 value={value ?? null}
                 onChange={curry(setValue)("start")}
+                renderInput={(params) => <TextField size='small' {...params} />}
               />
 
               <HelperText id='date' error={getError("start")} />
@@ -221,9 +221,9 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
           name='end'
           render={({ field: { value } }) => (
             <FormControl error={getError("end")}>
-              <TimePicker
+              <DateTimePicker
                 className='w-full'
-                label={<Text>Event time</Text>}
+                label={<Text>Finish date</Text>}
                 value={value ?? null}
                 onChange={curry(setValue)("end")}
                 renderInput={(params) => <TextField size='small' {...params} />}
