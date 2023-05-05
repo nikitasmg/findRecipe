@@ -146,7 +146,7 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
                       }
                       value={value}
                       variant='outlined'
-                      {...register("name", getFullNameValidation({ required: false }))}
+                      {...register("name_en", getFullNameValidation({ required: false }))}
                     />
                   </FormControl>
                 )}
