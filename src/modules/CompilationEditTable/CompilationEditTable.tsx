@@ -67,22 +67,22 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const isCreate = editRow?.id === "new";
-  
-    if(!newValues?.name){
-      if(editRow?.id==="new"){
-        setRows((oldRows) => oldRows.filter((el)=> el.id !== "new"));
+
+    if (!newValues?.name && !newValues?.name_en) {
+      if (editRow?.id === "new") {
+        setRows((oldRows) => oldRows.filter((el) => el.id !== "new"));
         setEditRow(null);
         setNewValues({});
       }
       return;
     }
-   
+
     if (!isCreate && editRow) {
       update({ ...editRow, ...newValues, id: Number(editRow.id) });
       setNewValues({});
       return;
     }
-    
+
     const newRow = {
       sort: rows.length + 1,
       name: newValues?.name ?? "",
@@ -142,10 +142,19 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
 
                   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
                     const { name, value } = e.target;
-                    setNewValues((oldValues) => ({
-                      ...oldValues,
-                      [name]: value
-                    }));
+                    setNewValues((oldValues) => {
+                      if (lang === "en") {
+                        return {
+                          ...oldValues,
+                          name_en: value
+                        };
+                      } else {
+                        return {
+                          ...oldValues,
+                          [name]: value
+                        };
+                      }
+                    });
                   };
 
                   const editableProps = editRow?.id === row.id ? { handleChange } : undefined;
