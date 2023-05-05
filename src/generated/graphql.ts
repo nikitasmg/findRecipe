@@ -2888,6 +2888,7 @@ export type UpdateSettingsMutationVariables = Exact<{
   schedule?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
   address?: InputMaybe<Scalars['String']>;
+  address_en?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailPress?: InputMaybe<Scalars['String']>;
   send_email_notify?: InputMaybe<Scalars['String']>;
@@ -2900,7 +2901,7 @@ export type UpdateSettingsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: 'Mutation', phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, vk?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, facebook?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, telegram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, instagram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, whatsapp?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
+export type UpdateSettingsMutation = { __typename?: 'Mutation', phone?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, email?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, emailPress?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, schedule?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, send_email_notify?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, content_editor?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, vk?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, facebook?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, telegram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, instagram?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, whatsapp?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null, address_en?: { __typename?: 'Setting', id: number, name: string, value?: string | null } | null };
 
 export type AllFieldsFragment = { __typename?: 'StaffControl', id: number, name: string, name_en?: string | null, description?: string | null, description_en?: string | null, email?: string | null, sort: number, page_id?: number | null, imageUrl?: string | null, created_at: any, image?: { __typename?: 'Image', id: number, url?: string | null } | null };
 
@@ -5925,7 +5926,7 @@ export const useSettingsQuery = <
       options
     );
 export const UpdateSettingsDocument = `
-    mutation updateSettings($schedule: String, $phone: String, $address: String, $email: String, $emailPress: String, $send_email_notify: String, $content_editor: String, $vk: String, $facebook: String, $telegram: String, $instagram: String, $whatsapp: String) {
+    mutation updateSettings($schedule: String, $phone: String, $address: String, $address_en: String, $email: String, $emailPress: String, $send_email_notify: String, $content_editor: String, $vk: String, $facebook: String, $telegram: String, $instagram: String, $whatsapp: String) {
   phone: upsertSetting(input: {id: 1, name: "phone", value: $phone}) {
     ...allSettingsFields
   }
@@ -5966,6 +5967,11 @@ export const UpdateSettingsDocument = `
     ...allSettingsFields
   }
   whatsapp: upsertSetting(input: {id: 12, name: "whatsapp", value: $whatsapp}) {
+    ...allSettingsFields
+  }
+  address_en: upsertSetting(
+    input: {id: 13, name: "address_en", value: $address_en}
+  ) {
     ...allSettingsFields
   }
 }

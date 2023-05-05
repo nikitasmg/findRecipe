@@ -26,6 +26,8 @@ const handleSuccessResponse = (response: Response<unknown>) => {
 
   const isUpsert = key.startsWith("upsert");
 
+  const isSettings = key.startsWith("phone");
+
   const isDelete = key.startsWith("delete");
 
   if (isCreate) {
@@ -38,6 +40,10 @@ const handleSuccessResponse = (response: Response<unknown>) => {
 
   if (isDelete) {
     getDefaultSuccessDelete();
+  }
+
+  if (isSettings) {
+    getDefaultSuccessUpdate();
   }
 
   return response;
