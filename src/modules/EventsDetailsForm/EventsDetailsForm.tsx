@@ -76,7 +76,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id, lang }) => {
       place_en: newValues.place_en,
       start: newValues.start,
       end: newValues.end,
-      ...(Boolean(!newValues.uploadImage) && { deleteImage: true }),
+      ...(Boolean(newValues.uploadImage) && { deleteImage: true }),
       partners: newValues.partnersBelongs,
       organizers: newValues.organizersBelongs,
       linked_documents: {
