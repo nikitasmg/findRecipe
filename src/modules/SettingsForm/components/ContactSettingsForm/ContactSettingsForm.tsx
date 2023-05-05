@@ -11,6 +11,7 @@ export type FormFieldsContacts = {
   schedule?: string;
   phone?: string;
   address?: string;
+  address_en?: string;
   email?: string;
   emailPress?: string;
 };
@@ -64,6 +65,23 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
               value={value ?? ""}
               label={<Text>Address</Text>}
               {...register("address")}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid item columns={12} xs={12}>
+        <Controller
+          control={control}
+          name='address_en'
+          render={({ field: { value } }) => (
+            <TextField
+              id='address_en'
+              fullWidth
+              variant='outlined'
+              value={value ?? ""}
+              label={<Text>Адрес (en)</Text>}
+              {...register("address_en")}
             />
           )}
         />

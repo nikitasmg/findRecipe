@@ -45,6 +45,7 @@ export const UpdateSettings = gql`
     $schedule: String
     $phone: String
     $address: String
+    $address_en: String
     $email: String
     $emailPress: String
     $send_email_notify: String
@@ -96,6 +97,9 @@ export const UpdateSettings = gql`
       ...allSettingsFields
     }
     whatsapp: upsertSetting(input: { id: 12, name: "whatsapp", value: $whatsapp }) {
+      ...allSettingsFields
+    }
+    address_en: upsertSetting(input: { id: 13, name: "address_en", value: $address_en }) {
       ...allSettingsFields
     }
   }
