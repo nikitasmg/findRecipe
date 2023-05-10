@@ -27,6 +27,7 @@ import { resortArray } from "~/shared/lib/resortArray";
 import { MultipleImageInput } from "../MultipleImageInput";
 import { Text } from "../Text";
 import { SaveButton } from "../SaveButton";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 const SortableItem = SortableElement<PropsWithChildren<ImageListItemProps>>(
   ({ children, ...props }: PropsWithChildren<ImageListItemProps>) => (
@@ -60,6 +61,8 @@ export const GalleryInput: React.FC<Props> = ({
   const [imagePreview, setImagePreview] = useState<Partial<GalleryImage> | null>(null);
 
   const { open, handleClose, handleOpen } = useModal();
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   const getHandlerImageClick =
     (image?: Partial<GalleryImage> | null): React.MouseEventHandler<HTMLLIElement> =>
@@ -117,7 +120,15 @@ export const GalleryInput: React.FC<Props> = ({
     };
 
   const onAddImages = (files?: File[] | null) => {
+    const duplicateImage = value?.filter((obj1) => {
+      return files?.some((obj2) => obj1.alt === obj2.name);
+    });
+
     if (!files) {
+      return;
+    }
+    if (duplicateImage?.length) {
+      addAlert("error", "Already exist");
       return;
     }
 
@@ -139,15 +150,20 @@ export const GalleryInput: React.FC<Props> = ({
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     setValue((rows = []) => {
+      console.log({ rows, oldIndex, newIndex });
+
       const newRows = resortArray(oldIndex, newIndex, rows);
+
+      console.log({ newRows });
 
       const updates = newRows.reduce((res: Omit<GalleryImage, "url">[], cur, i) => {
         if (cur.id) {
           res.push({ sort: i + 1, alt: cur.alt, id: cur.id });
         }
-
         return res;
       }, []);
+
+      console.log(updates);
 
       updates.map((update) => onUpdate?.(update));
 
@@ -185,7 +201,7 @@ export const GalleryInput: React.FC<Props> = ({
         {(value ?? []).map((item, i) => (
           <SortableItem
             index={i}
-            key={item.id ?? i}
+            key={item.url}
             className='relative overflow-hidden shadow-md'
             onClick={getHandlerImageClick(item)}
           >
