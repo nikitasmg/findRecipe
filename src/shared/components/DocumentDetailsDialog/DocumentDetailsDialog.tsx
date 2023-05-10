@@ -212,6 +212,14 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                   setValue("title", "");
                   setValue("format", "");
                 }}
+                onDrop={(file) => {
+                  setValue("file", file);
+
+                  const format = getFileFormat(file?.name ?? "");
+
+                  setValue("format", format);
+                  setValue("title", getFileName(file?.name ?? ""));
+                }}
               />
 
               <HelperText id='url' error={getError("url")} />

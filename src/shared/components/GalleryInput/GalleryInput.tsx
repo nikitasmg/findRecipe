@@ -145,7 +145,6 @@ export const GalleryInput: React.FC<Props> = ({
         if (cur.id) {
           res.push({ sort: i + 1, alt: cur.alt, id: cur.id });
         }
-
         return res;
       }, []);
 
@@ -185,7 +184,7 @@ export const GalleryInput: React.FC<Props> = ({
         {(value ?? []).map((item, i) => (
           <SortableItem
             index={i}
-            key={item.id ?? i}
+            key={item.url}
             className='relative overflow-hidden shadow-md'
             onClick={getHandlerImageClick(item)}
           >
