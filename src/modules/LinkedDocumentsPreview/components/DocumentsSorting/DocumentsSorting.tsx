@@ -19,12 +19,6 @@ export const DocumentsSorting: React.FC<Props> = ({ activeOrder, handleChangeOrd
         <Text component='span'>Sort by</Text>:
       </Typography>
       <TableHeadCell
-        title='ID'
-        cellId='id'
-        onSortClick={getClickHandler("id")}
-        sortProps={getActiveProps("id")}
-      />
-      <TableHeadCell
         title='Title'
         cellId='user_name'
         onSortClick={getClickHandler("user_name")}
