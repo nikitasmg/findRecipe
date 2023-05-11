@@ -205,7 +205,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 value={value}
                 type='learn_more'
                 error={!!getError("learn_more")}
-                {...register("learn_more", getBaseUrlValidation({required: true}))}
+                {...register("learn_more", getBaseUrlValidation({ required: false }))}
                 onChange={(e) => setValue("learn_more", e.target.value)}
               />
 
