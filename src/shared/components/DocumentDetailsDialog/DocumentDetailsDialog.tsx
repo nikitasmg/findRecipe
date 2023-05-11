@@ -141,7 +141,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
 
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>
-      <Box className='flex flex-col gap-10 p-6 max-w-[360px]' component='form' onSubmit={onSubmit}>
+      <Box className='flex flex-col gap-10 p-6 w-[360px]' component='form' onSubmit={onSubmit}>
         <Text variant='h5'>{document ? "Edit document" : "Create document"}</Text>
 
         <Controller
@@ -246,7 +246,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                 <Text>Not selected</Text>
               </MenuItem>
               {groups.map((group) => (
-                <MenuItem key={group.id} value={group.id}>
+                <MenuItem sx={{ width: "300px" }} key={group.id} value={group.id}>
                   {group.name}
                 </MenuItem>
               ))}

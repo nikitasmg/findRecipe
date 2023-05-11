@@ -220,7 +220,11 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
-                    label={<Text>Email</Text>}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Email</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
                     variant='outlined'
                     id='email'
