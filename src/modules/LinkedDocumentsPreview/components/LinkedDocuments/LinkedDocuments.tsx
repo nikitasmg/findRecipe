@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { compose, concat, equals, filter, not, prop, reduce, when, append } from "rambda";
@@ -155,10 +155,11 @@ export const LinkedDocuments: React.FC<Props> = ({
       <DocumentsSorting activeOrder={activeOrder} handleChangeOrder={handleChangeOrder} />
 
       <Box className='flex flex-wrap w-full gap-4'>
-        {isLoading &&
-          Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className='w-[160px] rounded-lg' variant='rectangular' height={160} />
-          ))}
+        {isLoading && (
+          <Box className='flex h-[20vh] w-full justify-center items-center'>
+            <CircularProgress />
+          </Box>
+        )}
 
         {documents?.map((document) => (
           <DragSourceWrapper

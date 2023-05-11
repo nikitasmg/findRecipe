@@ -20,6 +20,7 @@ import { initFormValues } from "~/shared/lib/initFormValues";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 interface BroadcastsDetailsProps {
   lang: Languages;
@@ -30,6 +31,8 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, la
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   const { data, isSuccess } = useVideoBroadcastByIdQuery(
     client,
@@ -60,6 +63,10 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, la
   const getError = getErrorMessage(errors);
 
   const onSubmit = handleSubmit((newValues) => {
+    if (!newValues.name) {
+      addAlert("error", "Fill in all required fields");
+      return;
+    }
     const input: VideoBroadcastInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
       ...newValues,
