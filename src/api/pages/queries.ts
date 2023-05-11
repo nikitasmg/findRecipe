@@ -34,7 +34,10 @@ export const PagesFragment = gql`
       id
       url
       user_name
+      user_name_en
       sort
+      published
+      created_at
     }
     page_cards {
       id
