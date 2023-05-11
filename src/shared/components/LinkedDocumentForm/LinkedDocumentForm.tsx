@@ -204,7 +204,7 @@ export const LinkedDocumentForm: React.FC<Props> = ({
           size='small'
           onChange={handleSelectDocument}
           renderOption={(props, option) => (
-            <Box component='li' {...props}>
+            <Box component='li' {...props} key={option.value.id}>
               {option.label}
             </Box>
           )}
