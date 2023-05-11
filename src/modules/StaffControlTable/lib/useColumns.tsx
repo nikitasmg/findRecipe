@@ -16,20 +16,6 @@ export const useColumns = (
 
   return [
     {
-      id: "sort",
-      label: (
-        <TableHeadCell
-          title='ID'
-          cellId='sort'
-          align='center'
-          onSortClick={getClickHandler("sort")}
-          sortProps={getActiveProps("sort")}
-        />
-      ),
-      align: "center",
-      style: { width: "50px", textAlign: "center" }
-    },
-    {
       id: "imageUrl",
       label: <TableHeadCell title='Image' cellId='imageUrl' />,
       style: { width: "140px", textAlign: "center" },
@@ -66,7 +52,20 @@ export const useColumns = (
         );
       }
     },
-
+    {
+      id: "sort",
+      label: (
+        <TableHeadCell
+          title='Sort'
+          cellId='sort'
+          align='center'
+          onSortClick={getClickHandler("sort")}
+          sortProps={getActiveProps("sort")}
+        />
+      ),
+      align: "center",
+      style: { width: "50px", textAlign: "center" }
+    },
     {
       id: "description",
       label: (
