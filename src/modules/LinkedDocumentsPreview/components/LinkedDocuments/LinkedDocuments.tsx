@@ -119,6 +119,9 @@ export const LinkedDocuments: React.FC<Props> = ({
           prop("createLinkedDocument")
         )
       )
+      .then((newDocument) =>
+        setDocuments(documents.concat(newDocument as LinkedDocumentsWithoutUpdated))
+      )
       .then(onClose);
 
     return createPromise.then(compose(Number, prop("id"), prop("createLinkedDocument")));

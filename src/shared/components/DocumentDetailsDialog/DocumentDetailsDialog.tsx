@@ -78,7 +78,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
         ...(Boolean(newValues.file) && { upload: newValues.file }),
         user_name: `${newValues.title}.${newValues.format}`,
         user_name_en: newValues.user_name_en,
-        published: newValues.published
+        published: newValues.published ?? false
       };
 
       let connectId: number | null = null;
