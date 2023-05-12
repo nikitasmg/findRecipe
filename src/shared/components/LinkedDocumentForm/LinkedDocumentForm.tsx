@@ -23,6 +23,7 @@ import { UploadDocumentsButton } from "../UploadDocumentsButton";
 import { DocumentCard } from "../DocumentCard";
 import { BoxContainerSortable } from "../SortableBox/BoxContainerSortable";
 import { BoxItemSortable } from "../SortableBox/BoxItemSortable";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 export type LinkedDocumentsFormFields = {
   documents?: LinkedDocumentsWithoutUpdated[];
@@ -70,6 +71,8 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   const [activeDocument, setActiveDocument] = useState<LinkedDocumentsWithoutUpdated | null>();
 
   const { open, handleClose, handleOpen } = useModal();
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   const onUpload = (documents: LinkedDocumentsWithoutUpdated[]) => {
     setValue(
@@ -144,9 +147,14 @@ export const LinkedDocumentForm: React.FC<Props> = ({
     }
 
     const document = option.value;
+    const currentDocuments = getValues("documents") ?? [];
 
     const newConnect = (getValues("connectDocuments") ?? [])?.concat(String(document.id));
-    const currentDocuments = getValues("documents") ?? [];
+
+    if (currentDocuments.some((el) => el.id === document.id)) {
+      addAlert("warning", "Already exist");
+      return;
+    }
 
     setValue("documents", currentDocuments.concat(document));
     setValue("connectDocuments", newConnect);

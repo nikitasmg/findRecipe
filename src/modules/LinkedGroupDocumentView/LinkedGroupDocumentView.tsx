@@ -12,12 +12,12 @@ import {
   useLinkedDocumentsQuery,
   useDocumentGroupsQuery
 } from "~/generated/graphql";
-import { useResort } from "~/api/resort";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import {
   LinkedDocumentForm,
   LinkedDocumentsFormFields
 } from "~/shared/components/LinkedDocumentForm";
+import { useResortDocumentsInGroup } from "~/api/documentGroups";
 
 type Props = {
   groupId: DocumentGroup["id"];
@@ -50,7 +50,7 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     { refetchOnMount: "always" }
   );
 
-  const { mutateAsync: resort } = useResort("upsertDocumentGroup");
+  const { mutateAsync: resort } = useResortDocumentsInGroup();
 
   const groups = groupsData?.documentGroups ?? [];
 
@@ -78,6 +78,10 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
     updateGroup({ input });
   };
 
+  const resortDocuments = (items: Pick<LinkedDocumentsWithoutUpdated, "id" | "sort">[]) => {
+    resort({ groupId, items });
+  };
+
   useEffect(() => {
     const group = data?.documentGroupById;
     const documents: LinkedDocumentsWithoutUpdated[] =
@@ -100,7 +104,7 @@ export const LinkedDocumentView: React.FC<Props> = ({ groupId }) => {
       allDocuments={allData?.linkedDocuments ?? []}
       onAddDocuments={onAddDocuments}
       onRemoveDocument={onRemoveDocument}
-      onResort={resort}
+      onResort={resortDocuments}
     />
   );
 };
