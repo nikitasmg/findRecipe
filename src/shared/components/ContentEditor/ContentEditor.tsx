@@ -107,6 +107,7 @@ export const ContentEditor: React.FC<Props> = React.memo(
               content_css: "default",
               content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
               statusbar: false,
+              table_default_attributes: {},
               ...settings
             }}
           />
