@@ -12,7 +12,8 @@ export const useColumns = (lang: Languages): Column[] => {
       id: nameId,
       label: <TableHeadCell title='Value' cellId={nameId} />,
       style: {
-        minWidth: "55%"
+        minWidth: "55%",
+        paddingLeft: 10
       },
       render: (value, _, editOptions) => {
         if (!editOptions) {

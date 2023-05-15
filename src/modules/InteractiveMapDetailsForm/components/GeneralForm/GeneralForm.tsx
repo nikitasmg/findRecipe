@@ -36,8 +36,8 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
   const isRusLang = lang === "ru";
 
   return (
-    <Box className='flex flex-col lg:flex-row gap-6'>
-      <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>
+    <Box className='flex flex-col lg:flex-row gap-10'>
+      <Box className='flex flex-col gap-10 w-full lg:w-[70%]'>
         {isRusLang && (
           <Controller
             control={control}
@@ -205,7 +205,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 value={value}
                 type='learn_more'
                 error={!!getError("learn_more")}
-                {...register("learn_more", getBaseUrlValidation({required: true}))}
+                {...register("learn_more", getBaseUrlValidation({ required: true }))}
                 onChange={(e) => setValue("learn_more", e.target.value)}
               />
 

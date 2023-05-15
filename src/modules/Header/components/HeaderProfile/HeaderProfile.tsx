@@ -1,15 +1,13 @@
 import React, { Fragment } from "react";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Fade, Menu, MenuItem, Typography } from "@mui/material";
-import clsx from "clsx";
+import { Fade, IconButton, Menu, MenuItem } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogoutMutation, useMeQuery } from "~/generated/graphql";
+import { useLogoutMutation } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { LoginPageRoute, SettingsPage } from "~shared/routes";
 import { Text } from "~shared/components/Text";
 import { Button } from "~/shared/components/Button";
 import { useAuthStore } from "~/shared/stores/auth";
+import { MoreVert } from "@mui/icons-material";
 
 const links = [
   {
@@ -37,15 +35,9 @@ export const HeaderProfile: React.FC = () => {
 
   const client = useGraphqlClient();
 
-  const { data, isSuccess } = useMeQuery(client);
-
   const unAuth = useAuthStore((state) => state.unAuth);
 
   const { mutateAsync: logout } = useLogoutMutation(client);
-
-  const name = data?.me.name ?? "";
-
-  const isEmptyProfile = !name && isSuccess;
 
   const handleLogoutClick = () => {
     unAuth();
@@ -55,18 +47,9 @@ export const HeaderProfile: React.FC = () => {
 
   return (
     <Fragment>
-      <Button className='flex' onClick={handleClick}>
-        <Typography className='text-mainText'>{name}</Typography>
-
-        {isEmptyProfile && <ManageAccountsIcon />}
-
-        <ExpandMoreIcon
-          className={clsx("transition-transform duration-500 ease-in-out transform text-mainText", {
-            "rotate-180": open,
-            "rotate-0": !open
-          })}
-        />
-      </Button>
+      <IconButton onClick={handleClick}>
+        <MoreVert className='text-mainText text-[24px]' />
+      </IconButton>
       <Menu
         id={id}
         MenuListProps={{

@@ -16,6 +16,6 @@ type Props<T extends Params = Params> = FormProps<T> & {
 
 export const BlocksForm: React.FC<Props> = ({ render, ...props }) => {
   return (
-    <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>{render(props.form, props.lang)}</Box>
+    <Box className='flex flex-col gap-10 w-full lg:w-[70%]'>{render(props.form, props.lang)}</Box>
   );
 };

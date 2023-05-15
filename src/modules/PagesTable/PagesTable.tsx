@@ -104,7 +104,7 @@ export const PagesTable: React.FC = () => {
 
   return (
     <Panel>
-      <Box className='flex flex-col gap-6 p-4'>
+      <Box className='flex flex-col gap-6'>
         <TableActions
           searchProps={{
             searchValue: title,

@@ -9,6 +9,7 @@ import { useLang } from "~/shared/hooks/useLang";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
+import { useBroadcastsStore } from "~stores/broadcasts";
 
 export const BroadcastsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +21,10 @@ export const BroadcastsEdit: React.FC = () => {
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = useBroadcastsStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: deleteVideoBroadcast } = useDeleteVideoBroadcastMutation(client, {
     onSuccess: handleGoBack
@@ -36,14 +41,16 @@ export const BroadcastsEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='flex flex-col gap-6 items-center p-3'>
+        <Box className='flex flex-col gap-6 items-center'>
           <DetailsHead
             title={isEdit ? "Broadcast editing" : "Broadcast creating"}
             onBackClick={handleGoBack}
             onRemove={isEdit ? handleDelete : undefined}
             onLangChange={setLang}
+            isLoading={isSaveLoading}
+            formName='broadcastsForm'
           />
-          <BroadcastsDetailsForm id={Number(id)} lang={lang} />
+          <BroadcastsDetailsForm id={Number(id)} lang={lang} formName='broadcastsForm' />
         </Box>
       </Panel>
     </PageWrapper>

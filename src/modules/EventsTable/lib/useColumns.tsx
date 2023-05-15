@@ -31,7 +31,9 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
-      align: "center"
+      style: { width: 50 },
+      align: "center",
+      className: "text-grayLight"
     },
 
     {
@@ -44,9 +46,7 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      style: {
-        width: "30%"
-      },
+      style: { minWidth: 250, maxWidth: 290 },
       render: (value, row) => {
         return (
           <Link
@@ -71,9 +71,7 @@ export const useColumns = (
           sortProps={getActiveProps("description")}
         />
       ),
-      style: {
-        width: "25%"
-      },
+      style: { minWidth: 250, maxWidth: 290 },
       render: (value) =>
         (value as string)?.length > 100
           ? (value as string)?.slice(0, 100).concat("...")
@@ -93,7 +91,6 @@ export const useColumns = (
       style: {
         width: "120px"
       },
-      align: "center",
       format: formatDateForTable
     },
 
@@ -110,7 +107,6 @@ export const useColumns = (
       style: {
         minWidth: "170px"
       },
-      align: "center",
       format: formatDateForTable
     },
 

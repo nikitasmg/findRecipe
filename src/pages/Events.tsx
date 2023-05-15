@@ -12,12 +12,7 @@ export const Events: React.FC = () => {
 
   return (
     <PageWrapper>
-      <PageTableTitle
-        title='Events'
-        countTitle='count events'
-        isLoading={isLoading}
-        count={count}
-      />
+      <PageTableTitle title='Events' isLoading={isLoading} count={count} sitePath='events' />
       <EventsTable />
     </PageWrapper>
   );

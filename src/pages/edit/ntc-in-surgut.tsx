@@ -1,15 +1,12 @@
 import React from "react";
-import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
-import { Text } from "~/shared/components/Text";
 import { EditNtcInSurgutPageForm } from "~/layouts/EditNtcInSurgutPageForm";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
 
 export const EditNtcInSurgutPage: React.FC = () => (
   <PageWrapper>
-    <PageTitle>
-      <Text>Edit NTC in Surgut page</Text>
-    </PageTitle>
+    <PageTableTitle title='NTC in Surgut page' sitePath='ntc-in-surgut' />
     <Panel>
       <EditNtcInSurgutPageForm />
     </Panel>

@@ -8,7 +8,7 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DeepPartial } from "react-hook-form";
 import { MapObject, useMapObjectsQuery } from "~/generated/graphql";
@@ -23,9 +23,15 @@ import { FiltersForm } from "./components/FiltersForm";
 import { useColumns } from "./lib/useColumns";
 import { ItemsGroups } from "./types";
 import { EmptyView } from "~/shared/components/EmptyView";
+import { useInteractiveMapStore } from "~stores/interactiveMap";
 
 export const InteractiveMap: React.FC = () => {
   const history = useNavigate();
+
+  const { setCount, setLoading } = useInteractiveMapStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const {
     variables,
@@ -61,15 +67,23 @@ export const InteractiveMap: React.FC = () => {
 
   const columns = useColumns(activeOrder, handleChangeOrder);
 
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(mapObjects?.length ?? 0);
+  }, [mapObjects, setCount]);
+
   return (
     <Box className='flex flex-col gap-6' component='form'>
-      <Box className='w-full flex justify-center border rounded'>
-        <Box className='w-full h-fit pb-2'>
+      <Box className='w-full flex justify-center border rounded-lg mb-4'>
+        <Box className='w-full h-fit'>
           <Map onSelect={handleSelect} />
         </Box>
       </Box>
 
-      <Box className='flex flex-col gap-6 p-4'>
+      <Box className='flex flex-col gap-6'>
         <TableActions
           searchProps={{
             searchValue: title,
@@ -102,7 +116,12 @@ export const InteractiveMap: React.FC = () => {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align} style={column.style}>
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={column.style}
+                            className={column.className}
+                          >
                             {column.render?.(value, row as MapObject) ?? value}
                           </TableCell>
                         );

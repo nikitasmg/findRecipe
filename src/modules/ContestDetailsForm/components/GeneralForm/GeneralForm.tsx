@@ -36,117 +36,115 @@ export const GeneralForm: React.FC<Props> = ({ register, errors, setValue, contr
   const isRuLang = lang === "ru";
 
   return (
-    <Box className='flex flex-col lg:flex-row gap-6'>
-      <Box className='flex flex-col gap-6 lg:w-[70%]'>
-        {isRuLang && (
-          <Controller
-            control={control}
-            name='name'
-            render={({ field: { value } }) => (
-              <FormControl fullWidth>
-                <TextField
-                  label={
-                    <RequiredLabelWrapper>
-                      <Text>Title</Text>
-                    </RequiredLabelWrapper>
-                  }
-                  value={value}
-                  error={!!getError("name")}
-                  {...register("name", baseRequiredTextValidation)}
-                />
-
-                <HelperText id='name' error={getError("name")} />
-              </FormControl>
-            )}
-          />
-        )}
-
-        {!isRuLang && (
-          <Controller
-            control={control}
-            name='name_en'
-            render={({ field: { value } }) => (
-              <FormControl fullWidth>
-                <TextField
-                  label={
-                    <EnLabelWrapper>
-                      <Text>Title</Text>
-                    </EnLabelWrapper>
-                  }
-                  value={value}
-                  {...register("name_en")}
-                />
-              </FormControl>
-            )}
-          />
-        )}
-
-        <NumberField register={register} errors={errors} setValue={setValue} control={control} />
-
-        <FormControl fullWidth>
-          <Controller
-            control={control}
-            name='status'
-            render={({ field: { value = [], onChange } }) => (
+    <Box className='flex flex-col gap-10 lg:w-[70%]'>
+      {isRuLang && (
+        <Controller
+          control={control}
+          name='name'
+          render={({ field: { value } }) => (
+            <FormControl fullWidth>
               <TextField
-                select
-                label={<Text>Status</Text>}
-                name='status'
-                SelectProps={{
-                  value: value,
-                  name: "status",
-                  onChange: onChange
-                }}
-              >
-                <MenuItem key={"empty"} value={""}>
-                  <Text>Not selected</Text>
-                </MenuItem>
-                {Object.entries(ContestStatus).map(([key, value]) => {
-                  return (
-                    <MenuItem key={key} value={value}>
-                      <Text>{key}</Text>
-                    </MenuItem>
-                  );
-                })}
-              </TextField>
-            )}
-          />
-        </FormControl>
-
-        <Controller
-          control={control}
-          name='deadline'
-          render={({ field: { value } }) => (
-            <FormControl error={getError("deadline")}>
-              <DatePicker
-                className='w-full'
-                label={<Text>Deadline</Text>}
-                value={value ?? null}
-                onChange={curry(setValue)("deadline")}
+                label={
+                  <RequiredLabelWrapper>
+                    <Text>Title</Text>
+                  </RequiredLabelWrapper>
+                }
+                value={value}
+                error={!!getError("name")}
+                {...register("name", baseRequiredTextValidation)}
               />
 
-              <HelperText id='deadline' error={getError("deadline")} />
+              <HelperText id='name' error={getError("name")} />
             </FormControl>
           )}
         />
+      )}
 
+      {!isRuLang && (
         <Controller
           control={control}
-          name='date'
+          name='name_en'
           render={({ field: { value } }) => (
-            <FormControl error={getError("date")}>
-              <DatePicker
-                className='w-full'
-                label={<Text>Date of summing up</Text>}
-                value={value ?? null}
-                onChange={curry(setValue)("date")}
+            <FormControl fullWidth>
+              <TextField
+                label={
+                  <EnLabelWrapper>
+                    <Text>Title</Text>
+                  </EnLabelWrapper>
+                }
+                value={value}
+                {...register("name_en")}
               />
-
-              <HelperText id='date' error={getError("date")} />
             </FormControl>
           )}
         />
-      </Box>
+      )}
+
+      <NumberField register={register} errors={errors} setValue={setValue} control={control} />
+
+      <FormControl fullWidth>
+        <Controller
+          control={control}
+          name='status'
+          render={({ field: { value = [], onChange } }) => (
+            <TextField
+              select
+              label={<Text>Status</Text>}
+              name='status'
+              SelectProps={{
+                value: value,
+                name: "status",
+                onChange: onChange
+              }}
+            >
+              <MenuItem key={"empty"} value={""}>
+                <Text>Not selected</Text>
+              </MenuItem>
+              {Object.entries(ContestStatus).map(([key, value]) => {
+                return (
+                  <MenuItem key={key} value={value}>
+                    <Text>{key}</Text>
+                  </MenuItem>
+                );
+              })}
+            </TextField>
+          )}
+        />
+      </FormControl>
+
+      <Controller
+        control={control}
+        name='deadline'
+        render={({ field: { value } }) => (
+          <FormControl error={getError("deadline")}>
+            <DatePicker
+              className='w-full'
+              label={<Text>Deadline</Text>}
+              value={value ?? null}
+              onChange={curry(setValue)("deadline")}
+            />
+
+            <HelperText id='deadline' error={getError("deadline")} />
+          </FormControl>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name='date'
+        render={({ field: { value } }) => (
+          <FormControl error={getError("date")}>
+            <DatePicker
+              className='w-full'
+              label={<Text>Date of summing up</Text>}
+              value={value ?? null}
+              onChange={curry(setValue)("date")}
+            />
+
+            <HelperText id='date' error={getError("date")} />
+          </FormControl>
+        )}
+      />
     </Box>
   );
 };

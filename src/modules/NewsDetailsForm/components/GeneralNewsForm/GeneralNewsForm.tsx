@@ -1,4 +1,11 @@
-import { Box, FormControl, TextareaAutosize, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  Switch,
+  TextareaAutosize,
+  TextField
+} from "@mui/material";
 import React, { useCallback } from "react";
 import clsx from "clsx";
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
@@ -17,6 +24,7 @@ import { getEventValueHandler } from "~/shared/lib/events";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
 import { curry } from "rambda";
+import { getCheckedHandler } from "~shared/lib/getCheckedHandler";
 
 type FormFields = {
   name?: string;
@@ -28,6 +36,8 @@ type FormFields = {
   imageUrl?: string;
   image_description?: string;
   image_description_en?: string;
+  published?: boolean;
+  on_index?: boolean;
 };
 
 type Props = {
@@ -51,6 +61,8 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
     { refetchOnMount: "always" }
   );
 
+  const handleChecked = getCheckedHandler(setValue);
+
   const contentEditorKey = data?.settingByName?.value;
 
   const getUploadedUrl = useCallback(
@@ -67,8 +79,31 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
   const isRuLang = lang === "ru";
 
   return (
-    <Box className='flex flex-col lg:flex-row gap-6'>
-      <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <Box className='flex flex-col lg:flex-row gap-10'>
+      <Box className='flex flex-col gap-10 grow-[2] lg:w-[70%] order-last'>
+        <Box className='flex gap-16'>
+          <Controller
+            control={control}
+            name='on_index'
+            render={({ field: { value } }) => (
+              <FormControlLabel
+                control={<Switch checked={!!value} onChange={handleChecked("on_index")} />}
+                label={<Text>Visible on home page</Text>}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='published'
+            render={({ field: { value } }) => (
+              <FormControlLabel
+                control={<Switch checked={!!value} onChange={handleChecked("published")} />}
+                label={<Text>Published</Text>}
+              />
+            )}
+          />
+        </Box>
+
         {isRuLang && (
           <Controller
             control={control}
@@ -217,7 +252,11 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
             render={({ field: { value } }) => (
               <FormControl error={!!getError("content")} fullWidth>
                 <RequiredLabelWrapper>
-                  <Text className={clsx("text-sm", { "text-mainError": !!getError("content") })}>
+                  <Text
+                    className={clsx("text-base font-medium mb-2", {
+                      "text-mainError": !!getError("content")
+                    })}
+                  >
                     Description
                   </Text>
                 </RequiredLabelWrapper>
@@ -243,7 +282,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
             render={({ field: { value, onChange } }) => (
               <FormControl fullWidth>
                 <EnLabelWrapper>
-                  <Text className='text-sm'>Description</Text>
+                  <Text className='text-base font-medium mb-2'>Description</Text>
                 </EnLabelWrapper>
                 <ContentEditor
                   name='content_en'

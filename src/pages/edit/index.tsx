@@ -1,15 +1,12 @@
 import React from "react";
 import { EditIndexPageForm } from "~/layouts/EditIndexPageForm";
-import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
-import { Text } from "~/shared/components/Text";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
 
 export const EditIndexPage: React.FC = () => (
   <PageWrapper>
-    <PageTitle>
-      <Text>Edit index page</Text>
-    </PageTitle>
+    <PageTableTitle title='Index page' sitePath='/' />
     <Panel>
       <EditIndexPageForm />
     </Panel>

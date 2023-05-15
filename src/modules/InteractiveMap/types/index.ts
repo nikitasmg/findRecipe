@@ -7,6 +7,7 @@ export interface Column {
   style?: CSSProperties;
   align?: "right" | "center";
   render?: (_value: unknown, row: Partial<MapObject>) => ReactNode;
+  className?: string;
 }
 
 export const ItemsGroups = {

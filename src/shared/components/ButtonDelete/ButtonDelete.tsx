@@ -8,10 +8,10 @@ import {
 } from "@mui/material";
 import React, { ReactElement } from "react";
 import { styled } from "@mui/material/styles";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useModal } from "~/shared/hooks/useModal";
 import { Button } from "../Button";
 import { Text } from "../Text";
+import { CartIcon } from "~shared/components/Icons";
 
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} arrow placement='bottom-end' classes={{ popper: className }} />
@@ -58,7 +58,6 @@ export const ButtonDelete: React.FC<ButtonProps & { children?: ReactElement }> =
                 className='px-2 w-full min-w-fit'
                 variant='outlined'
                 color='success'
-                size='small'
                 onClick={handleClose}
               >
                 No
@@ -68,9 +67,8 @@ export const ButtonDelete: React.FC<ButtonProps & { children?: ReactElement }> =
                 className='px-2 w-full min-w-fit'
                 variant='outlined'
                 color='error'
-                size='small'
                 onClick={onSuccess}
-                startIcon={<DeleteIcon />}
+                startIcon={<CartIcon />}
               >
                 Yes
               </Button>
@@ -81,10 +79,9 @@ export const ButtonDelete: React.FC<ButtonProps & { children?: ReactElement }> =
         arrow
       >
         <Button
-          startIcon={!children && <DeleteIcon />}
+          startIcon={!children && <CartIcon />}
           variant='outlined'
           color='error'
-          size='small'
           {...buttonProps}
           onClick={handleClick}
         >

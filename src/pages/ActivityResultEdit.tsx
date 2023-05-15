@@ -10,6 +10,7 @@ import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ActivityResultPageRoute } from "~shared/routes";
 import { useNavigationBack } from "~shared/hooks/useBackClick";
 import { useLang } from "~/shared/hooks/useLang";
+import { useActivityResultsStore } from "~stores/activityResult";
 
 export const ActivityResultEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,10 @@ export const ActivityResultEdit: React.FC = () => {
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = useActivityResultsStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: remove } = useDeleteActivityResultMutation(client, {
     onSuccess: handleGoBack
@@ -37,16 +42,16 @@ export const ActivityResultEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='p-4'>
-          <Box className='flex flex-col gap-6 items-center'>
-            <DetailsHead
-              title={isEdit ? "Activity result editing" : "Activity result creating"}
-              backHref={ActivityResultPageRoute}
-              onRemove={isEdit ? handleDelete : undefined}
-              onLangChange={setLang}
-            />
-            <ActivityResultsDetailsForm id={Number(id)} lang={lang} />
-          </Box>
+        <Box className='flex flex-col gap-6 items-center'>
+          <DetailsHead
+            title={isEdit ? "Activity result editing" : "Activity result creating"}
+            backHref={ActivityResultPageRoute}
+            onRemove={isEdit ? handleDelete : undefined}
+            onLangChange={setLang}
+            isLoading={isSaveLoading}
+            formName='activityResultsForm'
+          />
+          <ActivityResultsDetailsForm id={Number(id)} lang={lang} formName='activityResultsForm' />
         </Box>
       </Panel>
     </PageWrapper>

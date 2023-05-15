@@ -4,9 +4,15 @@ import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
 import { resortArray } from "~/shared/lib/resortArray";
+import { useClustersStore } from "~stores/clusters";
 
 export const useClusters = () => {
   const [rows, setRows] = useState<Cluster[]>([]);
+
+  const { setCount, setLoading } = useClustersStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const {
     variables,
@@ -44,6 +50,14 @@ export const useClusters = () => {
       return newRows;
     });
   };
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(clusters?.length ?? 0);
+  }, [clusters, setCount]);
 
   useEffect(() => {
     setRows(clusters ?? []);

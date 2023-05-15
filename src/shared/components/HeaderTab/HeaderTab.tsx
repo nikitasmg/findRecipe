@@ -30,6 +30,8 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ tab, value, handleSelect, 
 
   const id = open ? tab.label : undefined;
 
+  const labelClassName = "text-secondaryText text-[16px] leading-[19px]";
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setWidth(`${Math.floor(event.currentTarget.getBoundingClientRect().width)}px`);
     setAnchorEl(event.currentTarget);
@@ -45,12 +47,22 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ tab, value, handleSelect, 
   };
 
   if (!tab.children) {
-    return <Tab onClick={handleItemClick} value={value} label={<Text>{tab.label}</Text>} />;
+    return (
+      <Tab
+        className='h-[72px]'
+        sx={{ opacity: 1 }}
+        onClick={handleItemClick}
+        value={value}
+        label={<Text className={labelClassName}>{tab.label}</Text>}
+      />
+    );
   }
 
   return (
     <>
       <Tab
+        className='h-[72px]'
+        sx={{ opacity: 1 }}
         onClick={handleClick}
         id={id}
         aria-controls={id}
@@ -59,10 +71,10 @@ export const HeaderTab: React.FC<HeaderTabProps> = ({ tab, value, handleSelect, 
         value={value}
         label={
           <Box className='flex'>
-            <Text className='text-black'>{tab.label}</Text>
+            <Text className={labelClassName}>{tab.label}</Text>
             <ExpandMoreIcon
               className={clsx(
-                "transition-transform duration-500 ease-in-out transform text-black",
+                "transition-transform duration-500 ease-in-out transform text-secondaryText",
                 {
                   "rotate-180": open,
                   "rotate-0": !open

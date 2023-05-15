@@ -1,9 +1,9 @@
 import { Box, Icon, Input, InputProps } from "@mui/material";
 import React, { ChangeEvent, forwardRef } from "react";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useAlertsStore } from "~shared/stores/alerts";
 import { Text } from "../Text";
 import { useTranslation } from "react-i18next";
+import { CloudUploadIcon } from "~shared/components/Icons";
 
 type Props = {
   id?: string;
@@ -37,11 +37,11 @@ export const MultipleImageInput = forwardRef<HTMLDivElement, Props>(
 
     return (
       <Box ref={ref} className='w-full flex justify-center'>
-        <Box className='flex items-center relative w-full h-[100px] transition hover:bg-gray-200 rounded-xl border-dashed border-2 border-primary'>
+        <Box className='flex items-center relative w-full h-[200px] transition hover:bg-gray-200 rounded-xl border border-dashed border-primary'>
           <Input
             inputProps={{
               accept: "image/*",
-              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2",
+              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2 p-0",
               multiple: true
             }}
             className='!absolute w-full h-full opacity-0'
@@ -50,9 +50,11 @@ export const MultipleImageInput = forwardRef<HTMLDivElement, Props>(
             onChange={handleImage}
             {...other}
           />
-          <label htmlFor={id} className='w-full text-center text-primary text-lg cursor-pointer'>
-            <Icon className='w-auto h-[50px]' component={CloudUploadIcon} />
-            <Text>Upload or drop image</Text>
+          <label htmlFor={id} className='w-full flex flex-col items-center cursor-pointer p-9'>
+            <Icon className='w-[71px] h-[71px]' component={CloudUploadIcon} />
+            <Text className='pt-5 lg:w-[220px] text-center font-medium text-base'>
+              Upload or drop image
+            </Text>
           </label>
         </Box>
       </Box>

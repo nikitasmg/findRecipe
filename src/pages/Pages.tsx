@@ -12,7 +12,7 @@ export const Pages: React.FC = () => {
 
   return (
     <PageWrapper>
-      <PageTableTitle title='Pages' countTitle='count pages' isLoading={isLoading} count={count} />
+      <PageTableTitle title='Pages' isLoading={isLoading} count={count} />
       <PagesTable />
     </PageWrapper>
   );

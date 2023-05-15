@@ -23,7 +23,7 @@ export const SeoForm: React.FC<Props> = ({ register, errors, control, lang }) =>
   const getError = getErrorMessage(errors);
 
   return (
-    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <Box className='flex flex-col gap-10 lg:w-[70%]'>
       {isRusLang && (
         <Controller
           control={control}

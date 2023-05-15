@@ -1,7 +1,9 @@
+@import "./overrides.css";
+@import "../assets/fonts/Inter/stylesheet.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./overrides.css";
 
 html {
   @apply h-[100%] text-sm;
@@ -9,5 +11,5 @@ html {
 
 body,
 #root {
-  @apply min-h-[100%] h-[100%] flex flex-col bg-gray-100;
+  @apply min-h-[100%] h-[100%] flex flex-col bg-secondaryBg;
 }

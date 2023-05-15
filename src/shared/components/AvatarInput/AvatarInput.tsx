@@ -1,6 +1,5 @@
 import { AlertColor, Avatar, Box, Icon, Input, InputProps, Modal, Slider } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Cropper, { Area } from "react-easy-crop";
 import React, { ChangeEvent, useCallback, useState } from "react";
 import { useModal } from "~/shared/hooks/useModal";
@@ -8,6 +7,7 @@ import { fileFromBlobUrl } from "~shared/lib/fileFromBlobUrl";
 import { Text } from "../Text";
 import getCroppedImg from "./lib/getCropImage";
 import { SaveButton } from "../SaveButton";
+import { CloudUploadIcon } from "../Icons";
 
 type Props = {
   id: string;
@@ -118,7 +118,7 @@ export const AvatarInput: React.FC<Props> = ({
             value={value}
             inputProps={{
               accept: "image/*",
-              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2"
+              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2 p-0"
             }}
             className='!absolute w-full h-full opacity-0 top-0 left-0 z-2'
             type='file'
@@ -126,9 +126,9 @@ export const AvatarInput: React.FC<Props> = ({
             onChange={handleImage}
             {...other}
           />
-          <label htmlFor={id} className='w-full text-center text-primary text-lg cursor-pointer'>
-            <Icon className='w-auto h-[50px]' component={CloudUploadIcon} />
-            <Text>Upload or drop image</Text>
+          <label htmlFor={id} className='w-full flex flex-col items-center cursor-pointer p-5'>
+            <Icon className='w-[71px] h-[71px]' component={CloudUploadIcon} />
+            <Text className='pt-5 text-center font-medium text-base'>Upload or drop image</Text>
           </label>
         </Box>
       )}

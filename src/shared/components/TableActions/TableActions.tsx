@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
 import React, { ChangeEvent, MouseEvent, ReactNode } from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { useModal } from "~/shared/hooks/useModal";
 import { SearchInput } from "../SearchInput";
 import { Text } from "../Text";
 import { Button } from "../Button";
 import { ModalFilters } from "../ModalFilters";
-import { LinkButton } from "../LinkButton";
 import { FiltersControl, Props as FiltersControlProps } from "../FiltersControl";
+import { AddButton } from "~shared/components/AddButton";
 
 type Props = {
   searchProps: {
@@ -65,16 +64,9 @@ export const TableActions: React.FC<Props> = ({
             </>
           )}
         </Box>
-        <Box className='flex gap-2 flex-col sm:flex-row'>
+        <Box className='flex gap-4 flex-col sm:flex-row'>
           {addButtonProps && (
-            <LinkButton
-              variant='outlined'
-              onClick={addButtonProps?.onAddClick}
-              href={addButtonProps?.addHref}
-              startIcon={<AddBoxRoundedIcon />}
-            >
-              Add
-            </LinkButton>
+            <AddButton onClick={addButtonProps?.onAddClick} href={addButtonProps?.addHref} />
           )}
           {contentButtons}
         </Box>

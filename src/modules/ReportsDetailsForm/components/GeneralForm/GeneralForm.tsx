@@ -41,8 +41,8 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
   const isRusLang = lang === "ru";
 
   return (
-    <Box className='flex flex-col lg:flex-row gap-6'>
-      <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <Box className='flex flex-col lg:flex-row gap-10'>
+      <Box className='flex flex-col gap-10 grow-[2] lg:w-[70%] order-last'>
         {isRusLang && (
           <Controller
             control={control}

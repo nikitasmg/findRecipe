@@ -13,23 +13,28 @@ import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { LinkInput } from "~/shared/components/LinkInput";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
+import { useBroadcastsStore } from "~stores/broadcasts";
 
 interface BroadcastsDetailsProps {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, lang }) => {
+export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, lang, formName }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useBroadcastsStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useVideoBroadcastByIdQuery(
     client,
@@ -48,6 +53,10 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, la
     useUpdateVideoBroadcastMutation(client, { onSuccess: goBack });
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -85,7 +94,7 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, la
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
           {isRusLang && (
@@ -170,9 +179,6 @@ export const BroadcastsDetailsForm: React.FC<BroadcastsDetailsProps> = ({ id, la
             />
           </Grid>
         </Grid>
-      </Box>
-      <Box className='w-full flex'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

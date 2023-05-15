@@ -1,6 +1,5 @@
 import React from "react";
 import { useColumns } from "./lib/useColumns";
-import { Panel } from "~/shared/components/Panel";
 import {
   Box,
   CircularProgress,
@@ -18,6 +17,7 @@ import { TableBodySortable, TableRowSortable } from "~/shared/components/Sortabl
 import { StcPhotoGallery } from "~/generated/graphql";
 import { DeepPartial } from "react-hook-form";
 import { useStcPhotoGallery } from "./lib/useStcPhotoGallery";
+import { TableWrapper } from "~shared/components/TableWrapper";
 
 export const StcPhotoGalleryTable = () => {
   const {
@@ -35,64 +35,66 @@ export const StcPhotoGalleryTable = () => {
   const columns = useColumns(activeOrder, handleChangeOrder);
 
   return (
-    <Panel>
-      <Box className='flex flex-col gap-6 p-4'>
-        <TableActions
-          searchProps={{
-            searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange),
-            resetTitle
-          }}
-          addButtonProps={{
-            addHref: StcPhotoGalleryPageCreate
-          }}
-          resetFilters={resetFilters}
-        />
+    <TableWrapper>
+      <TableActions
+        searchProps={{
+          searchValue: title,
+          searchChange: getEventValueHandler(handleTitleChange),
+          resetTitle
+        }}
+        addButtonProps={{
+          addHref: StcPhotoGalleryPageCreate
+        }}
+        resetFilters={resetFilters}
+      />
 
-        <TableContainer>
-          <Table stickyHeader aria-label='sticky table'>
-            <TableHead>
-              <TableRow>
-                <CellDragHandle style={{ visibility: "hidden" }} disabled />
+      <TableContainer>
+        <Table stickyHeader aria-label='sticky table'>
+          <TableHead>
+            <TableRow>
+              <CellDragHandle style={{ visibility: "hidden" }} disabled />
 
-                {columns.map((column) => (
-                  <TableCell key={column.id} align={column.align} style={column.style}>
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
+              {columns.map((column) => (
+                <TableCell key={column.id} align={column.align} style={column.style}>
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
 
-            {!isLoading && (
-              <TableBodySortable onSortEnd={onSortEnd} items={rows ?? []}>
-                {rows?.map((row: DeepPartial<StcPhotoGallery>, index) => {
-                  return (
-                    <TableRowSortable key={row.id} id={row.id ?? index}>
-                      <CellDragHandle />
+          {!isLoading && (
+            <TableBodySortable onSortEnd={onSortEnd} items={rows ?? []}>
+              {rows?.map((row: DeepPartial<StcPhotoGallery>, index) => {
+                return (
+                  <TableRowSortable key={row.id} id={row.id ?? index}>
+                    <CellDragHandle />
 
-                      {columns.map((column) => {
-                        const value = row[column.id as keyof StcPhotoGallery];
+                    {columns.map((column) => {
+                      const value = row[column.id as keyof StcPhotoGallery];
 
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.render?.(value, row) ?? column.format?.(value) ?? value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRowSortable>
-                  );
-                })}
-              </TableBodySortable>
-            )}
-          </Table>
-
-          {isLoading && (
-            <Box className='flex h-[20vh] w-full justify-center items-center'>
-              <CircularProgress />
-            </Box>
+                      return (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          className={column.className}
+                        >
+                          {column.render?.(value, row) ?? column.format?.(value) ?? value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRowSortable>
+                );
+              })}
+            </TableBodySortable>
           )}
-        </TableContainer>
-      </Box>
-    </Panel>
+        </Table>
+
+        {isLoading && (
+          <Box className='flex h-[20vh] w-full justify-center items-center'>
+            <CircularProgress />
+          </Box>
+        )}
+      </TableContainer>
+    </TableWrapper>
   );
 };

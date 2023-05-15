@@ -23,6 +23,7 @@ import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 import { DetailsForm } from "./components/DetailsForm";
+import { useStaffControlStore } from "~stores/staffControl";
 
 type Props = {
   pageId?: number;
@@ -52,6 +53,11 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
   });
 
   const client = useGraphqlClient();
+
+  const { setCount, setLoading } = useStaffControlStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const { data, isLoading, refetch } = useStaffControlsQuery(
     client,
@@ -115,6 +121,14 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
     setRows(staffControls ?? []);
   }, [staffControls]);
 
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(staffControls?.length ?? 0);
+  }, [staffControls, setCount]);
+
   return (
     <Box className='flex flex-col gap-6'>
       <TableActions
@@ -156,7 +170,12 @@ export const StaffControlTable: React.FC<Props> = ({ pageId }) => {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align} style={column.style}>
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={column.style}
+                          className={column.className}
+                        >
                           {column.render?.(value, row) ?? column.format?.(value) ?? value}
                         </TableCell>
                       );

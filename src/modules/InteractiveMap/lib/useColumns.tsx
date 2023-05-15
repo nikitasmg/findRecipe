@@ -25,7 +25,8 @@ export const useColumns = (
         />
       ),
       style: { width: 50 },
-      align: "center"
+      align: "center",
+      className: "text-grayLight"
     },
 
     {

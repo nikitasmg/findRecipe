@@ -24,9 +24,11 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
-      align: "center"
+      style: { width: 50 },
+      align: "center",
+      className: "text-grayLight"
     },
-    
+
     {
       id: "name",
       label: (
@@ -44,8 +46,8 @@ export const useColumns = (
             to={`${BroadcastsPageEdit.replace(":id", row.id as string)}`}
           >
             {(value as string)?.length > 100
-            ? (value as string)?.slice(0, 100).concat("...")
-            : (value as string)}
+              ? (value as string)?.slice(0, 100).concat("...")
+              : (value as string)}
           </Link>
         );
       }

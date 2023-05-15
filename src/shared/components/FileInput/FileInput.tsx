@@ -2,9 +2,9 @@ import { Box, Icon, Input, Typography } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CancelIcon from "@mui/icons-material/Cancel";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Text } from "../Text";
 import { Link } from "../Link";
+import { CloudUploadIcon } from "../Icons";
 
 type Props = {
   id: string;
@@ -57,19 +57,19 @@ export const FileInput: React.FC<Props> = ({
   return (
     <>
       {!isPreview && (
-        <Box className='flex items-center relative w-[310px] h-[100px] transition hover:bg-gray-200 rounded-xl border-dashed border-2 border-primary'>
+        <Box className='flex items-center relative w-[310px] h-[150px] transition hover:bg-gray-200 rounded-xl border border-dashed border-primary'>
           <Input
             inputProps={{
-              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2"
+              className: "!absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0 z-2 p-0"
             }}
             className='!absolute w-full h-full opacity-0'
             type='file'
             id={id}
             onChange={handleFile}
           />
-          <label htmlFor={id} className='w-full text-center text-primary text-lg cursor-pointer'>
-            <Icon className='w-auto h-[50px]' component={CloudUploadIcon} />
-            <Text>Upload or drop file</Text>
+          <label htmlFor={id} className='w-full flex flex-col items-center cursor-pointer p-5'>
+            <Icon className='w-[71px] h-[71px]' component={CloudUploadIcon} />
+            <Text className='pt-5 text-center font-medium text-base'>Upload or drop file</Text>
           </label>
         </Box>
       )}
@@ -84,7 +84,7 @@ export const FileInput: React.FC<Props> = ({
               </Typography>
             </Link>
           </Box>
-          <CancelIcon 
+          <CancelIcon
             onClick={handleDeleteFile}
             onKeyPress={handleDeleteFile}
             tabIndex={0}

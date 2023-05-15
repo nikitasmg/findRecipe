@@ -15,6 +15,7 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
 import { LinkedDocumentsFormFields, LinkedDocumentForm } from "../LinkedDocumentForm";
 import { Languages } from "~/shared/types/Languages";
+import { useEventsStore } from "~stores/events";
 
 type FormFields = GeneralFormFields &
   AdditionalFormFields &
@@ -23,14 +24,19 @@ type FormFields = GeneralFormFields &
 type Props = {
   lang: Languages;
   id?: number;
+  formName?: string;
 };
 
-export const EventsDetailsForm: React.FC<Props> = ({ id, lang }) => {
+export const EventsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useEventsStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useEventByIdQuery(
     client,
@@ -51,6 +57,10 @@ export const EventsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const values = data?.eventById;
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -143,6 +153,7 @@ export const EventsDetailsForm: React.FC<Props> = ({ id, lang }) => {
       backHref={EventsPageRoute}
       activeStep={step}
       isLoading={isLoading}
+      formName={formName}
       forms={[
         {
           tabTitle: "General data",

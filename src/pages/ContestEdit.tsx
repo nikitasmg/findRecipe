@@ -10,6 +10,7 @@ import { PageWrapper } from "~/shared/components/PageWrapper";
 import { ContestPageRoute } from "~/shared/routes";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { useLang } from "~/shared/hooks/useLang";
+import { useContestStore } from "~stores/contest";
 
 export const ContestEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,10 @@ export const ContestEdit: React.FC = () => {
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = useContestStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: deleteContest } = useDeleteContestMutation(client, { onSuccess: goBack });
 
@@ -35,16 +40,16 @@ export const ContestEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='p-4'>
-          <Box className='flex flex-col gap-6 items-center'>
-            <DetailsHead
-              title={isEdit ? "Contest editing" : "Contest creating"}
-              backHref={ContestPageRoute}
-              onRemove={isEdit ? handleDelete : undefined}
-              onLangChange={setLang}
-            />
-            <ContestDetailsForm id={Number(id)} lang={lang} />
-          </Box>
+        <Box className='flex flex-col gap-6 items-center'>
+          <DetailsHead
+            title={isEdit ? "Contest editing" : "Contest creating"}
+            backHref={ContestPageRoute}
+            onRemove={isEdit ? handleDelete : undefined}
+            onLangChange={setLang}
+            isLoading={isSaveLoading}
+            formName='contestForm'
+          />
+          <ContestDetailsForm id={Number(id)} lang={lang} formName='contestForm' />
         </Box>
       </Panel>
     </PageWrapper>

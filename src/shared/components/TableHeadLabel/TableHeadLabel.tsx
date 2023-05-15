@@ -40,6 +40,16 @@ export const TableHeadCell: React.FC<PropsWithChildren<Props>> = ({
       {(popupState: PopupState) => (
         <Fragment>
           <Box className={clsx("flex items-center", { "justify-center": align === "center" })}>
+            {sortProps && (
+              <TableSortLabel
+                className={clsx(styles.sortIcon, {
+                  "cursor-default": !handleClickSort,
+                  [styles.sortActive]: sortProps.active
+                })}
+                onClick={handleClickSort}
+                {...sortProps}
+              />
+            )}
             <Button
               className={clsx("!block !min-w-fit text-mainText p-0", {
                 "cursor-default": !handleClickSort,
@@ -51,16 +61,6 @@ export const TableHeadCell: React.FC<PropsWithChildren<Props>> = ({
             >
               {title}
             </Button>
-            {sortProps && (
-              <TableSortLabel
-                className={clsx(styles.sortIcon, {
-                  "cursor-default": !handleClickSort,
-                  [styles.sortActive]: sortProps.active
-                })}
-                onClick={handleClickSort}
-                {...sortProps}
-              />
-            )}
             {isFilterActive && !!removeFilter && (
               <FilterListOffIcon tabIndex={-1} onClick={disableFilter} />
             )}

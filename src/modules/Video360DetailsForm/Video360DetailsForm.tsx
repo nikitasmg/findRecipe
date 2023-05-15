@@ -13,23 +13,28 @@ import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { LinkInput } from "~/shared/components/LinkInput";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
+import { useVideo360Store } from "~stores/video360";
 
 interface Video360DetailsProps {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const Video360DetailsForm: React.FC<Video360DetailsProps> = ({ id, lang }) => {
+export const Video360DetailsForm: React.FC<Video360DetailsProps> = ({ id, lang, formName }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useVideo360Store((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useVideo360ByIdQuery(
     client,
@@ -52,6 +57,10 @@ export const Video360DetailsForm: React.FC<Video360DetailsProps> = ({ id, lang }
   );
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -93,7 +102,7 @@ export const Video360DetailsForm: React.FC<Video360DetailsProps> = ({ id, lang }
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
           {isRusLang && (
@@ -232,9 +241,6 @@ export const Video360DetailsForm: React.FC<Video360DetailsProps> = ({ id, lang }
             />
           </Grid>
         </Grid>
-      </Box>
-      <Box className='w-full flex'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

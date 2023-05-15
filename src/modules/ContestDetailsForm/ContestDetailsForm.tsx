@@ -16,15 +16,17 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
 import { DocumentFormFields, DocumentsForm } from "./components/DocumentsForm";
+import { useContestStore } from "~stores/contest";
 
 type FormFields = DocumentFormFields & GeneralFormFields;
 
 type Props = {
   lang: Languages;
   id?: number;
+  formName?: string;
 };
 
-export const ContestDetailsForm: React.FC<Props> = ({ id, lang }) => {
+export const ContestDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
@@ -32,6 +34,10 @@ export const ContestDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const goBack = useNavigationBack();
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useContestStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useContestByIdQuery(
     client,
@@ -62,6 +68,10 @@ export const ContestDetailsForm: React.FC<Props> = ({ id, lang }) => {
 
   const isLoading = isCreateLoading || isUpdateLoading;
 
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
+
   const onSubmit = handleSubmit((newValues) => {
     const input: ContestInput = {
       ...(Boolean(values?.id) && { id: values?.id }),
@@ -89,6 +99,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id, lang }) => {
 
     updateContest({ input });
   });
+
   useEffect(() => {
     if (!isSuccess) {
       return;
@@ -113,7 +124,7 @@ export const ContestDetailsForm: React.FC<Props> = ({ id, lang }) => {
       handleStepChange={setStep}
       backHref={NewsPageRoute}
       activeStep={step}
-      isLoading={isLoading}
+      formName={formName}
       forms={[
         {
           tabTitle: "General data",

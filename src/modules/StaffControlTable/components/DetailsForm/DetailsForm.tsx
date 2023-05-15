@@ -1,7 +1,6 @@
 import { Box, Drawer, FormControl, TextareaAutosize, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import RemoveIcon from "@mui/icons-material/Delete";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
   StaffControl,
@@ -19,6 +18,7 @@ import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
+import { CartIcon } from "~shared/components/Icons";
 
 type FormFields = {
   name?: string;
@@ -246,7 +246,7 @@ export const DetailsForm: React.FC<Props> = ({
             color='error'
             type='button'
             variant='outlined'
-            startIcon={<RemoveIcon />}
+            startIcon={<CartIcon />}
             onClick={handleRemove}
           >
             Delete

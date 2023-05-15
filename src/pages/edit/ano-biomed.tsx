@@ -1,15 +1,12 @@
 import React from "react";
 import { EditAnoBiomedPageForm } from "~/layouts/EditAnoBiomedPageForm";
-import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
-import { Text } from "~/shared/components/Text";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
 
 export const EditAnoBiomedPage: React.FC = () => (
   <PageWrapper>
-    <PageTitle>
-      <Text>Edit ano-biomed page</Text>
-    </PageTitle>
+    <PageTableTitle title='Ano-biomed page' sitePath='about/ano-biomed' />
     <Panel>
       <EditAnoBiomedPageForm />
     </Panel>

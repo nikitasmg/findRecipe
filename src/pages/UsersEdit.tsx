@@ -9,6 +9,7 @@ import { PageWrapper } from "~/shared/components/PageWrapper";
 import { UsersPageRoute } from "~shared/routes";
 import { useNavigationBack } from "~shared/hooks/useBackClick";
 import { UsersDetailsForm } from "~/modules/UsersDetailsForm";
+import { useUsersStore } from "~stores/users";
 
 export const UsersEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,6 +19,10 @@ export const UsersEdit: React.FC = () => {
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = useUsersStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: deleteUser } = useDeleteUserMutation(client, {
     onSuccess: handleGoBack
@@ -34,15 +39,15 @@ export const UsersEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='p-4'>
-          <Box className='flex flex-col gap-6 items-center'>
-            <DetailsHead
-              title={isEdit ? "User editing" : "User creating"}
-              backHref={UsersPageRoute}
-              onRemove={isEdit ? handleDelete : undefined}
-            />
-            <UsersDetailsForm id={Number(id)} />
-          </Box>
+        <Box className='flex flex-col gap-6 items-center'>
+          <DetailsHead
+            title={isEdit ? "User editing" : "User creating"}
+            backHref={UsersPageRoute}
+            onRemove={isEdit ? handleDelete : undefined}
+            formName='usersForm'
+            isLoading={isSaveLoading}
+          />
+          <UsersDetailsForm id={Number(id)} formName='usersForm' />
         </Box>
       </Panel>
     </PageWrapper>

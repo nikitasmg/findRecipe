@@ -15,9 +15,9 @@ export const Documents: React.FC = () => {
     <PageWrapper>
       <PageTableTitle
         title='Documents'
-        countTitle='count documents'
         isLoading={isLoading}
         count={count}
+        sitePath='about/documents'
       />
       <Panel>
         <LinkedDocumentsPreview />

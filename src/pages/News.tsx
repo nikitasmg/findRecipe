@@ -12,7 +12,7 @@ export const News: React.FC = () => {
 
   return (
     <PageWrapper>
-      <PageTableTitle title='News' countTitle='count news' isLoading={isLoading} count={count} />
+      <PageTableTitle title='News' isLoading={isLoading} count={count} sitePath='news' />
       <NewsTable />
     </PageWrapper>
   );

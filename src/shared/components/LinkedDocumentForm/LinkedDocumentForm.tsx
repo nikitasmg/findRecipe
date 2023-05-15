@@ -192,8 +192,8 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   }, [activeDocument, onActiveChange]);
 
   return (
-    <Box className='flex flex-col gap-4'>
-      <Box className='flex flex-col gap-4 md:items-stretch md:flex-row items-center'>
+    <Box className='flex flex-col gap-10'>
+      <Box className='flex flex-col gap-6 md:items-stretch md:flex-row items-center'>
         <Autocomplete
           disablePortal
           id='documents'

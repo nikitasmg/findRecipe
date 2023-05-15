@@ -18,7 +18,7 @@ export const SeoNewsForm: React.FC<Props> = ({ register, errors, control }) => {
   const getError = getErrorMessage(errors);
 
   return (
-    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <Box className='flex flex-col gap-10 grow-[2] lg:w-[70%] order-last'>
       <Controller
         control={control}
         name='seo.upsert.title'

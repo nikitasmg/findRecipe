@@ -1,30 +1,25 @@
 import { Box, CircularProgress, Table, TableCell, TableHead, TableRow } from "@mui/material";
 import React, { useRef, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import { useNavigationBack } from "~/shared/hooks/useBackClick";
-import { useLang } from "~/shared/hooks/useLang";
-import { Panel } from "~/shared/components/Panel";
 import { Text } from "~/shared/components/Text";
 import { TableBodyCellActions } from "~/shared/components/TableBodyCellActions";
 import { TableHeadCellActions } from "~/shared/components/TableHeadCellActions";
 import { TableBodySortable, TableRowSortable as Row } from "~/shared/components/SortableTable";
-import { DetailsHead } from "~/shared/components/DetailsHead";
 import { CellDragHandle } from "~/shared/components/CellDragHandle";
-import { Button } from "~/shared/components/Button";
-import { LangSwitcher } from "~/shared/components/LangSwitcher";
 import { resortArray } from "~/shared/lib/resortArray";
 import { CompilationItem } from "~/shared/types/Compilation";
 import { useCompilations } from "./lib/useCompilations";
 import { useColumns } from "./lib/getColumns";
+import { TableWrapper } from "~shared/components/TableWrapper";
+import { Languages } from "~shared/types/Languages";
+import { AddButton } from "~shared/components/AddButton";
 
 type Props = {
+  lang: Languages;
   id: number;
 };
 
-export const CompilationEditTable: React.FC<Props> = ({ id }) => {
+export const CompilationEditTable: React.FC<Props> = ({ id, lang }) => {
   const [editRow, setEditRow] = useState<CompilationItem | null>(null);
-
-  const { lang, setLang } = useLang();
 
   const [newValues, setNewValues] = useState<Partial<Omit<CompilationItem, "id">>>();
 
@@ -43,8 +38,6 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   } = useCompilations(id);
 
   const columns = useColumns(lang);
-
-  const handleBackClick = useNavigationBack();
 
   const handleAddClick = () => {
     setRows((oldRows) => {
@@ -95,119 +88,101 @@ export const CompilationEditTable: React.FC<Props> = ({ id }) => {
   };
 
   return (
-    <Panel>
-      <Box className='flex flex-col gap-6 p-4'>
-        <DetailsHead title='Compilations editing' onBackClick={handleBackClick} />
+    <TableWrapper>
+      <Text className='font-bold' variant='h5'>
+        {compilationMeta?.heading ?? ""}
+      </Text>
+      <form onSubmit={handleSubmit} onSubmitCapture={handleSubmit} ref={formRef}>
+        <Table stickyHeader aria-label='sticky table'>
+          <TableHead>
+            <TableRow>
+              <CellDragHandle disabled />
 
-        <Box
-          component='section'
-          className='flex flex-col items-center justify-center flex-wrap gap-1 w-full py-4'
-        >
-          <Text variant='h6'>{compilationMeta?.heading ?? ""}</Text>
-          {compilationMeta?.langExist && <LangSwitcher onLangChange={setLang} />}
-        </Box>
-        <form onSubmit={handleSubmit} onSubmitCapture={handleSubmit} ref={formRef}>
-          <Table stickyHeader aria-label='sticky table'>
-            <TableHead>
-              <TableRow>
-                <CellDragHandle disabled />
+              {columns.map((column) => (
+                <TableCell key={column.id} align={column.align} style={column.style}>
+                  {column.label}
+                </TableCell>
+              ))}
 
-                {columns.map((column) => (
-                  <TableCell key={column.id} align={column.align} style={column.style}>
-                    {column.label}
-                  </TableCell>
-                ))}
+              <TableHeadCellActions />
+            </TableRow>
+          </TableHead>
 
-                <TableHeadCellActions />
-              </TableRow>
-            </TableHead>
+          {!isLoading && (
+            <TableBodySortable items={rows ?? []} onSortEnd={onSortEnd}>
+              {rows?.map((row, i) => {
+                const handleEdit = () => {
+                  setEditRow(row);
+                };
 
-            {!isLoading && (
-              <TableBodySortable items={rows ?? []} onSortEnd={onSortEnd}>
-                {rows?.map((row, i) => {
-                  const handleEdit = () => {
-                    setEditRow(row);
-                  };
+                const handleSuccess = () => {
+                  formRef.current?.dispatchEvent(new Event("submit"));
+                  setEditRow(null);
+                };
 
-                  const handleSuccess = () => {
-                    formRef.current?.dispatchEvent(new Event("submit"));
-                    setEditRow(null);
-                  };
+                const handleRemove = () => {
+                  remove(row.id);
+                  setNewValues({});
+                  setEditRow(null);
+                };
 
-                  const handleRemove = () => {
-                    remove(row.id);
-                    setNewValues({});
-                    setEditRow(null);
-                  };
+                const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+                  const { name, value } = e.target;
+                  setNewValues((oldValues) => {
+                    if (lang === "en") {
+                      return {
+                        ...oldValues,
+                        name_en: value
+                      };
+                    } else {
+                      return {
+                        ...oldValues,
+                        [name]: value
+                      };
+                    }
+                  });
+                };
 
-                  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-                    const { name, value } = e.target;
-                    setNewValues((oldValues) => {
-                      if (lang === "en") {
-                        return {
-                          ...oldValues,
-                          name_en: value
-                        };
-                      } else {
-                        return {
-                          ...oldValues,
-                          [name]: value
-                        };
-                      }
-                    });
-                  };
+                const editableProps = editRow?.id === row.id ? { handleChange } : undefined;
 
-                  const editableProps = editRow?.id === row.id ? { handleChange } : undefined;
+                const spinnerVisible = isMutationLoading;
 
-                  const spinnerVisible = isMutationLoading;
+                return (
+                  <Row key={row.id} id={row.id ?? i}>
+                    <CellDragHandle />
 
-                  return (
-                    <Row key={row.id} id={row.id ?? i}>
-                      <CellDragHandle />
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.render?.(value, row, editableProps) ?? value}
+                        </TableCell>
+                      );
+                    })}
 
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.render?.(value, row, editableProps) ?? value}
-                          </TableCell>
-                        );
-                      })}
-
-                      <TableBodyCellActions
-                        spinnerVisible={spinnerVisible}
-                        isEditMode={!!editableProps}
-                        handleEdit={handleEdit}
-                        handleSuccess={handleSuccess}
-                        handleRemove={handleRemove}
-                      />
-                    </Row>
-                  );
-                })}
-              </TableBodySortable>
-            )}
-          </Table>
-          <Box className='flex justify-center py-6'>
-            <Button
-              disabled={!!editRow}
-              onClick={handleAddClick}
-              fullWidth
-              size='large'
-              variant='outlined'
-              startIcon={<AddIcon />}
-              textProps={{ align: "center" }}
-            >
-              Add
-            </Button>
-          </Box>
-
-          {isLoading && (
-            <Box className='flex h-[20vh] w-full justify-center items-center'>
-              <CircularProgress />
-            </Box>
+                    <TableBodyCellActions
+                      spinnerVisible={spinnerVisible}
+                      isEditMode={!!editableProps}
+                      handleEdit={handleEdit}
+                      handleSuccess={handleSuccess}
+                      handleRemove={handleRemove}
+                    />
+                  </Row>
+                );
+              })}
+            </TableBodySortable>
           )}
-        </form>
-      </Box>
-    </Panel>
+        </Table>
+        <Box className='flex justify-center py-6'>
+          <AddButton disabled={!!editRow} onClick={handleAddClick} fullWidth />
+        </Box>
+
+        {isLoading && (
+          <Box className='flex h-[20vh] w-full justify-center items-center'>
+            <CircularProgress />
+          </Box>
+        )}
+      </form>
+    </TableWrapper>
   );
 };

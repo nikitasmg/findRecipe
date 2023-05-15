@@ -10,7 +10,6 @@ import {
 import { DeepPartial } from "react-hook-form";
 import React from "react";
 import { Vacancy } from "~/generated/graphql";
-import { Panel } from "~shared/components/Panel";
 import { CellDragHandle } from "~shared/components/CellDragHandle";
 import { TableActions } from "~/shared/components/TableActions";
 import { TableBodySortable, TableRowSortable } from "~shared/components/SortableTable";
@@ -19,6 +18,7 @@ import { VacanciesPageCreate } from "~/shared/routes";
 import { useColumns } from "./lib/useColumns";
 import { useVacancies } from "./lib/useVacancies";
 import { FiltersForm } from "./components/FiltersForm";
+import { TableWrapper } from "~shared/components/TableWrapper";
 
 export const VacanciesTable: React.FC = () => {
   const {
@@ -38,69 +38,65 @@ export const VacanciesTable: React.FC = () => {
   const columns = useColumns(activeOrder, handleChangeOrder);
 
   return (
-    <Panel>
-      <Box className='flex flex-col gap-6 p-4'>
-        <TableActions
-          searchProps={{
-            searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange),
-            resetTitle
-          }}
-          addButtonProps={{
-            addHref: VacanciesPageCreate
-          }}
-          resetFilters={resetFilters}
-          filterModalInnerForm={
-            <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
-          }
-        />
+    <TableWrapper>
+      <TableActions
+        searchProps={{
+          searchValue: title,
+          searchChange: getEventValueHandler(handleTitleChange),
+          resetTitle
+        }}
+        addButtonProps={{
+          addHref: VacanciesPageCreate
+        }}
+        resetFilters={resetFilters}
+        filterModalInnerForm={
+          <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
+        }
+      />
 
-        <TableContainer>
-          <Table stickyHeader aria-label='sticky table'>
-            <TableHead>
-              <TableRow>
-                <CellDragHandle disabled />
+      <TableContainer>
+        <Table stickyHeader aria-label='sticky table'>
+          <TableHead>
+            <TableRow>
+              <CellDragHandle disabled />
 
-                {columns.map((column) => (
-                  <TableCell key={column.id} align={column.align} style={column.style}>
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
+              {columns.map((column) => (
+                <TableCell key={column.id} align={column.align} style={column.style}>
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
 
-            {!isLoading && (
-              <TableBodySortable items={rows ?? []} onSortEnd={onSortEnd}>
-                {rows?.map((row: DeepPartial<Vacancy>, i) => {
-                  return (
-                    <TableRowSortable key={row.id} id={row.id ?? i}>
-                      <CellDragHandle />
+          {!isLoading && (
+            <TableBodySortable items={rows ?? []} onSortEnd={onSortEnd}>
+              {rows?.map((row: DeepPartial<Vacancy>, i) => {
+                return (
+                  <TableRowSortable key={row.id} id={row.id ?? i}>
+                    <CellDragHandle />
 
-                      {columns.map((column) => {
-                        const value = row[column.id];
+                    {columns.map((column) => {
+                      const value = row[column.id];
 
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.render?.(value, row) ??
-                              column.format?.(value as string) ??
-                              value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRowSortable>
-                  );
-                })}
-              </TableBodySortable>
-            )}
-          </Table>
-
-          {isLoading && (
-            <Box className='flex h-[20vh] w-full justify-center items-center'>
-              <CircularProgress />
-            </Box>
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.render?.(value, row) ?? column.format?.(value as string) ?? value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRowSortable>
+                );
+              })}
+            </TableBodySortable>
           )}
-        </TableContainer>
-      </Box>
-    </Panel>
+        </Table>
+
+        {isLoading && (
+          <Box className='flex h-[20vh] w-full justify-center items-center'>
+            <CircularProgress />
+          </Box>
+        )}
+      </TableContainer>
+    </TableWrapper>
   );
 };

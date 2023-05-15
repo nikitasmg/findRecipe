@@ -9,6 +9,7 @@ import { useLang } from "~/shared/hooks/useLang";
 import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
+import { useVacanciesStore } from "~stores/vacancies";
 
 export const VacanciesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +21,10 @@ export const VacanciesEdit: React.FC = () => {
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = useVacanciesStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: deleteVacancy } = useDeleteVacancyMutation(client, {
     onSuccess: handleGoBack
@@ -36,14 +41,16 @@ export const VacanciesEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='flex flex-col gap-6 items-center p-3'>
+        <Box className='flex flex-col gap-6 items-center'>
           <DetailsHead
             title={isEdit ? "Vacancy editing" : "Vacancy creating"}
             onBackClick={handleGoBack}
             onRemove={isEdit ? handleDelete : undefined}
             onLangChange={setLang}
+            isLoading={isSaveLoading}
+            formName='vacanciesForm'
           />
-          <VacanciesDetailsForm id={Number(id)} lang={lang} />
+          <VacanciesDetailsForm id={Number(id)} lang={lang} formName='vacanciesForm' />
         </Box>
       </Panel>
     </PageWrapper>

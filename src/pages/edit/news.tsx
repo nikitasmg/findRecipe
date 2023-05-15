@@ -1,15 +1,12 @@
 import React from "react";
 import { EditNewsPageForm } from "~/layouts/EditNewsPageForm";
-import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
-import { Text } from "~/shared/components/Text";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
 
 export const EditNewsPage: React.FC = () => (
   <PageWrapper>
-    <PageTitle>
-      <Text>Edit news page</Text>
-    </PageTitle>
+    <PageTableTitle title='News page' sitePath='news' />
     <Panel>
       <EditNewsPageForm />
     </Panel>

@@ -75,7 +75,7 @@ export const LinkedDocumentsPreview: React.FC = () => {
   }, [groupsData]);
 
   return (
-    <Box className='flex flex-col gap-10 p-4'>
+    <Box className='flex flex-col gap-10'>
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <Box className='flex flex-wrap justify-between gap-6'>
           <Text component='h1' variant='h4' whiteSpace='nowrap'>

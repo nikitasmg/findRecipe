@@ -143,7 +143,7 @@ export const DocumentsUpload: React.FC<Props> = ({
               <DragHandle />
               <Box className='flex gap-2' onClick={getSelectFileHandler(file)}>
                 <DescriptionIcon />
-                <Typography className='text-primary hover:text-primaryActive hover:underline cursor-pointer'>
+                <Typography className='text-primary hover:text-primary-dark hover:underline cursor-pointer'>
                   {file.title}
                 </Typography>
               </Box>

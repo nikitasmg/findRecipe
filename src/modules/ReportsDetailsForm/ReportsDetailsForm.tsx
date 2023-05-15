@@ -14,20 +14,26 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { GeneralForm, GeneralFormFields } from "./components/GeneralForm";
 import { LinkedDocumentForm, LinkedDocumentsFormFields } from "../LinkedDocumentForm";
 import { Languages } from "~/shared/types/Languages";
+import { useReportsStore } from "~stores/reports";
 
 type FormFields = GeneralFormFields & LinkedDocumentsFormFields & { uploadImage?: File | null };
 
 type Props = {
   lang: Languages;
   id?: number;
+  formName?: string;
 };
 
-export const ReportsDetailsForm: React.FC<Props> = ({ id, lang }) => {
+export const ReportsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useReportsStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useReportByIdQuery(
     client,
@@ -48,6 +54,10 @@ export const ReportsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const values = data?.reportById;
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -117,11 +127,11 @@ export const ReportsDetailsForm: React.FC<Props> = ({ id, lang }) => {
 
   return (
     <TabsForm
+      formName={formName}
       handleSubmit={onSubmit}
       handleStepChange={setStep}
       backHref={EventsPageRoute}
       activeStep={step}
-      isLoading={isLoading}
       forms={[
         {
           tabTitle: "General data",

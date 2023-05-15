@@ -5,9 +5,15 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
 import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { resortArray } from "~/shared/lib/resortArray";
+import { useBroadcastsStore } from "~stores/broadcasts";
 
 export const useBroadcasts = () => {
   const [rows, setRows] = useState<VideoBroadcast[]>([]);
+
+  const { setCount, setLoading } = useBroadcastsStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const {
     variables,
@@ -49,6 +55,14 @@ export const useBroadcasts = () => {
       return newRows;
     });
   };
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(broadcasts?.length ?? 0);
+  }, [broadcasts, setCount]);
 
   useEffect(() => {
     setRows(broadcasts as VideoBroadcast[]);

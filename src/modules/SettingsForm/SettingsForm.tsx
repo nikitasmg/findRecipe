@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { useForm } from "react-hook-form";
 import {
   useSettingsQuery,
@@ -21,7 +20,6 @@ import {
   FormFieldsNotification
 } from "~/modules/SettingsForm/components/NotificationSettingsForm";
 
-import { LinkButton } from "../../shared/components/LinkButton";
 import {
   FormFieldsSocial,
   SocialSettingsForm
@@ -29,6 +27,7 @@ import {
 import { Text } from "~shared/components/Text";
 import { TabsForm } from "~/shared/components/TabsForm";
 import { useModal } from "~/shared/hooks/useModal";
+import { AddButton } from "~shared/components/AddButton";
 
 export type FormFields = FormFieldsContacts &
   FormFieldsApiKeys &
@@ -93,11 +92,7 @@ export const SettingsTabs = () => {
         <Text component='h1' variant='h6'>
           Settings Edit
         </Text>
-        {step === 1 && (
-          <LinkButton variant='outlined' onClick={handleOpenForm} startIcon={<AddBoxRoundedIcon />}>
-            Add
-          </LinkButton>
-        )}
+        {step === 1 && <AddButton onClick={handleOpenForm} />}
       </Box>
 
       <Box className='mt-4'>

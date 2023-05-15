@@ -26,22 +26,22 @@ export const useColumns = (
           sortProps={getActiveProps("sort")}
         />
       ),
+      style: { width: 50 },
       align: "center",
-      style: { width: "50px", textAlign: "center" }
+      className: "text-grayLight"
     },
     {
       id: "imageUrl",
       label: <TableHeadCell title='Image' cellId='imageUrl' />,
-      style: { width: "140px", textAlign: "center" },
+      style: { width: 155, paddingLeft: 8 },
       render: (value, row) => (
         <img
-          className='w-[50px] h-auto shrink-0'
+          className='w-[155px] h-[90px] rounded object-cover'
           loading='lazy'
           src={(value as string) ?? ""}
           alt={row.name as string}
         />
-      ),
-      align: "center"
+      )
     },
 
     {
@@ -54,11 +54,12 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
+      style: { width: 300 },
       render: (value, row) => {
         return (
           <Box
             tabIndex={0}
-            className='text-primary hover:text-primaryActive cursor-pointer'
+            className='text-primary hover:text-primary-dark cursor-pointer'
             onClick={() => handleRowClick(row as StaffControl)}
           >
             {value as string}
@@ -77,7 +78,12 @@ export const useColumns = (
           sortProps={getActiveProps("description")}
         />
       ),
-      style: { width: "250px" }
+      render: (value) => {
+        return (value as string)?.length > 100
+          ? (value as string)?.slice(0, 100).concat("...")
+          : (value as string);
+      },
+      style: { width: 300 }
     },
 
     {
@@ -92,7 +98,7 @@ export const useColumns = (
         />
       ),
       align: "center",
-      style: { width: "250px", textAlign: "center" },
+      style: { width: 150, textAlign: "center" },
       format: formatDateForTable
     }
   ];

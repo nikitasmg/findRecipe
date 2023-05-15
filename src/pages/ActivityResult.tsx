@@ -14,9 +14,9 @@ export const ActivityResult: React.FC = () => {
     <PageWrapper>
       <PageTableTitle
         title='Activity results'
-        countTitle='count activity results'
         isLoading={isLoading}
         count={count}
+        sitePath='about/result'
       />
       <ActivityResultsTable />
     </PageWrapper>

@@ -40,6 +40,9 @@ export const useColumns = (
             {(value as string)?.slice(0, 100).concat("...")}
           </Link>
         );
+      },
+      style: {
+        width: "250px"
       }
     },
 
@@ -54,7 +57,7 @@ export const useColumns = (
         />
       ),
       style: {
-        width: "350px"
+        width: "250px"
       },
       format: formatDescriptionForTable
     },

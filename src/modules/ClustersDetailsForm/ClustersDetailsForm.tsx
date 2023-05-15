@@ -15,7 +15,6 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
@@ -25,16 +24,22 @@ import { getEventValueHandler } from "~/shared/lib/events";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { ContentEditor } from "~/shared/components/ContentEditor";
 import { Languages } from "~/shared/types/Languages";
+import { useClustersStore } from "~stores/clusters";
 
 interface ClustersDetailsFormProps {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, lang }) => {
+export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, lang, formName }) => {
   const isCreate = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useClustersStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useClusterByIdQuery(
     client,
@@ -55,6 +60,10 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
   });
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const { mutateAsync: upload } = useUploadMutation(client);
 
@@ -79,11 +88,9 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
     control,
     handleSubmit,
     setValue,
-    formState: { errors, touchedFields },
+    formState: { errors },
     register
   } = useForm({ mode: "all" });
-
-  console.log(touchedFields);
 
   const getError = getErrorMessage(errors);
 
@@ -129,7 +136,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
           {isRusLang && (
@@ -245,7 +252,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                     <FormControl error={!!getError("column_one_text")} fullWidth>
                       <RequiredLabelWrapper>
                         <Text
-                          className={clsx("text-sm", {
+                          className={clsx("text-base font-medium mb-2", {
                             "text-mainError": !!getError("column_one_text")
                           })}
                         >
@@ -281,7 +288,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                   render={({ field: { value } }) => (
                     <FormControl fullWidth>
                       <EnLabelWrapper>
-                        <Text className='text-sm'>First column description</Text>
+                        <Text className='text-base font-medium mb-2'>First column description</Text>
                       </EnLabelWrapper>
                       <ContentEditor
                         apiKey={contentEditorKey}
@@ -364,7 +371,7 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                     <FormControl error={!!getError("column_two_text")} fullWidth>
                       <RequiredLabelWrapper>
                         <Text
-                          className={clsx("text-sm", {
+                          className={clsx("text-base font-medium mb-2", {
                             "text-mainError": !!getError("column_two_text")
                           })}
                         >
@@ -400,7 +407,9 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
                   render={({ field: { value } }) => (
                     <FormControl fullWidth>
                       <EnLabelWrapper>
-                        <Text className='text-sm'>Second column description</Text>
+                        <Text className='text-base font-medium mb-2'>
+                          Second column description
+                        </Text>
                       </EnLabelWrapper>
                       <ContentEditor
                         apiKey={contentEditorKey}
@@ -432,9 +441,6 @@ export const ClustersDetailsForm: React.FC<ClustersDetailsFormProps> = ({ id, la
             </Grid>
           )}
         </Grid>
-      </Box>
-      <Box className='w-full flex'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );
