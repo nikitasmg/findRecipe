@@ -209,7 +209,7 @@ export const GeneralNewsForm: React.FC<Props> = ({ register, setValue, errors, c
                 onChange={(e) => setValue("learn_more", e.target.value)}
               />
 
-              <HelperText id='url' error={getError("url")} />
+              <HelperText id='learn_more' error={getError("learn_more")} />
             </FormControl>
           )}
         />

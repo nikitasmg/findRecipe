@@ -17,6 +17,8 @@ import { AdditionalNewsForm } from "./components/AdditionalNewsForm";
 import { GeneralNewsForm } from "./components/GeneralNewsForm";
 import { SeoNewsForm } from "./components/SeoNewsForm";
 import { prepareFormData } from "./lib/prepareFormData";
+import { either, has, isEmpty } from "rambda";
+import { useAlertsStore } from "~/shared/stores/alerts";
 
 type Props = {
   lang: Languages;
@@ -31,6 +33,8 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   const { data, isSuccess } = useNewsByIdQuery(
     client,
@@ -116,6 +120,12 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
     setValue("seo.upsert.description", values?.seo?.description || values?.meta?.auto_description);
   }, [values, isSuccess, setValue]);
 
+  useEffect(() => {
+    if (!isEmpty(errors)) {
+      addAlert("error", "Fill in all required fields");
+    }
+  }, [errors, step, addAlert]);
+
   return (
     <TabsForm
       handleSubmit={onSubmit}
@@ -126,6 +136,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
       forms={[
         {
           tabTitle: "General data",
+          hasErrors: either(has("name"), has("content"))(errors),
           component: (
             <GeneralNewsForm
               setValue={setValue}
@@ -138,6 +149,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
         },
         {
           tabTitle: "Additional data",
+          hasErrors: has("published_at")(errors),
           component: (
             <AdditionalNewsForm
               setValue={setValue}
