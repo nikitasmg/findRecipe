@@ -63,8 +63,8 @@ export const ContentEditor: React.FC<Props> = React.memo(
           <Editor
             ref={ref as React.LegacyRef<Editor>}
             onInit={(_, editor) => {
-              editor.setContent(value);
               setIsLoading(false);
+              editor.setContent(value);
             }}
             value={value}
             apiKey={apiKey}
