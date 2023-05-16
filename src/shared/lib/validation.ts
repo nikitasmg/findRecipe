@@ -14,6 +14,20 @@ export const emailValidation = (value: string) =>
 
 export const baseRequired = { required: "This is required" };
 
+export const baseMaxLength = { 
+  maxLength: {
+    value: 255,
+    message: "Max length 255 character"
+  }
+};
+export const baseMaxLengthRequired = { 
+  ...baseRequired,
+  maxLength: {
+    value: 255,
+    message: "Max length 255 character"
+  }
+};
+
 export const baseMinLengthText = {
   minLength: {
     value: 1,

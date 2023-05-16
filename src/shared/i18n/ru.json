@@ -8,6 +8,7 @@
   "Email address": "Почта",
   "Enter email": "Введите почту",
   "This is required": "Обязательное поле",
+  "Max length 255 character": "Максимальное колличество символов 255",
   "Invalid email": "Неверно введена почта",
   "Min length of password is 6": "Минимальная длина пароля 6 символов",
   "Enter password": "Введите пароль",
