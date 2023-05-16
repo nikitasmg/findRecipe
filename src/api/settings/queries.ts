@@ -43,6 +43,7 @@ export const UpdateSettings = gql`
 
   mutation updateSettings(
     $schedule: String
+    $schedule_en: String
     $phone: String
     $address: String
     $address_en: String
@@ -100,6 +101,9 @@ export const UpdateSettings = gql`
       ...allSettingsFields
     }
     address_en: upsertSetting(input: { id: 13, name: "address_en", value: $address_en }) {
+      ...allSettingsFields
+    }
+    schedule_en: upsertSetting(input: { id: 14, name: "schedule_en", value: $schedule_en }) {
       ...allSettingsFields
     }
   }
