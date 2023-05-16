@@ -62,7 +62,7 @@ export const TabsForm: React.FC<Props> = ({
             <Tab
               key={index}
               label={
-                <Box className='flex items-center'>
+                <Box className='flex items-center gap-x-2'>
                   {hasErrors && <ErrorIcon sx={{ color: red[500] }} />}
                   <Text className='normal-case' component='span'>
                     {tabTitle}

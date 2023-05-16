@@ -92,6 +92,7 @@ export const LinkedDocuments: React.FC<Props> = ({
         cur = {
           id: Number(values.id),
           user_name: values.user_name,
+          user_name_en: values.user_name_en,
           url,
           published: Boolean(values.published),
           created_at: values.created_at
@@ -100,7 +101,6 @@ export const LinkedDocuments: React.FC<Props> = ({
 
       return append(cur, res);
     };
-
     setDocuments(reduce(updateByInputReducer, []));
     onClose();
 
