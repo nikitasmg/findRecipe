@@ -35,6 +35,7 @@ export const prepareFormData = async (
     source: newValues.source,
     source_name: newValues.source_name,
     source_name_en: newValues.source_name_en,
+    seo: newValues.seo,
     uploadImage: newValues.uploadImage,
     ...(Boolean(newValues.deleteImage) && { deleteImage: true }),
     category: {

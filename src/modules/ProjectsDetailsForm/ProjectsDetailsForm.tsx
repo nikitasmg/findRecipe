@@ -15,7 +15,7 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
 import { AdditionalProjectsForm } from "./components/AdditionalProjectsForm";
 import { GeneralProjectsForm } from "./components/GeneralProjectsForm";
-import { SeoForm } from "../PageForm/components/SeoForm";
+import { SeoForm } from "../../shared/components/SeoForm";
 
 type Props = {
   lang: Languages;
