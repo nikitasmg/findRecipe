@@ -20,7 +20,6 @@ export const useStcPhotoGallery = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,

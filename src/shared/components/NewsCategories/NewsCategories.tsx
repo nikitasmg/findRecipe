@@ -83,6 +83,7 @@ export const NewsCategories: React.FC<NewsCategoriesProps> = ({
 
   useEffect(() => {
     handleSubmit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCategoryId]);
 
   return (
