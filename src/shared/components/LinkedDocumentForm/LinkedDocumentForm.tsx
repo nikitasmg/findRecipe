@@ -95,8 +95,10 @@ export const LinkedDocumentForm: React.FC<Props> = ({
   };
 
   const handleUpdate = (
-    input: LinkedDocumentInput & { created_at?: LinkedDocument["created_at"] }
+    values: LinkedDocumentInput & { created_at?: LinkedDocument["created_at"] }
   ) => {
+    const input = { ...values };
+    delete input.created_at;
     update({ input });
 
     const updateByInputReducer = (

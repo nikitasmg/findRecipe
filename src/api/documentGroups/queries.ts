@@ -10,6 +10,7 @@ export const DocumentGroupsFragment = gql`
       id
       sort
       user_name
+      user_name_en
       url
       created_at
       published
