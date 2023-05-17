@@ -18,12 +18,14 @@ import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useAlertsStore } from "~/shared/stores/alerts";
+import { NumericInput } from "~/shared/components/NumericInput";
 import { CartIcon } from "~shared/components/Icons";
 
 type FormFields = {
   name?: string;
   description?: string;
   name_en?: string;
+  sort?: number | undefined;
   description_en?: string;
   email?: string;
   imageUrl?: string | null;
@@ -75,7 +77,8 @@ export const DetailsForm: React.FC<Props> = ({
     const input = {
       ...(Boolean(!isCreate) && { id: activeStaff?.id }),
       ...newValues,
-      page_id: Number(pageId)
+      page_id: Number(pageId),
+      sort: newValues.sort ? Number(newValues.sort) : 0
     };
 
     delete (input as StaffControl).imageUrl;
@@ -113,6 +116,7 @@ export const DetailsForm: React.FC<Props> = ({
     setValue("description_en", activeStaff.description_en ?? "");
     setValue("email", activeStaff.email ?? "");
     setValue("imageUrl", activeStaff.imageUrl);
+    setValue("sort", activeStaff.sort);
   }, [activeStaff, setValue]);
 
   return (
@@ -196,6 +200,17 @@ export const DetailsForm: React.FC<Props> = ({
               }}
               {...register("description")}
             />
+          )}
+        />
+        <Controller
+          control={control}
+          name='sort'
+          render={({ field }) => (
+            <FormControl fullWidth>
+              <NumericInput label={<Text>Sorting</Text>} {...register("sort")} {...field} />
+
+              <HelperText id='sort' error={getError("sort")} />
+            </FormControl>
           )}
         />
 

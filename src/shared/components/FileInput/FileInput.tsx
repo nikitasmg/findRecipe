@@ -1,5 +1,5 @@
 import { Box, Icon, Input, Typography } from "@mui/material";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Text } from "../Text";
@@ -9,6 +9,7 @@ import { CloudUploadIcon } from "../Icons";
 type Props = {
   id: string;
   onFileChange?: (file?: File | null) => void;
+  onDrop?: (file?: File | null) => void;
   onUrlChange?: (url?: string) => void;
   onDelete?: () => void;
   withPreview?: boolean;
@@ -19,6 +20,7 @@ type Props = {
 export const FileInput: React.FC<Props> = ({
   id,
   onFileChange,
+  onDrop,
   onUrlChange,
   withPreview = true,
   url = "",
@@ -31,6 +33,10 @@ export const FileInput: React.FC<Props> = ({
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     onFileChange?.(e.target.files?.[0]);
     setSelectedFile(e.target.files?.[0]);
+  };
+  const dropFile = (e: DragEvent<HTMLDivElement>) => {
+    onDrop?.(e.dataTransfer?.files?.[0]);
+    setSelectedFile(e.dataTransfer?.files?.[0]);
   };
 
   const handleDeleteFile = () => {
@@ -66,6 +72,7 @@ export const FileInput: React.FC<Props> = ({
             type='file'
             id={id}
             onChange={handleFile}
+            onDrop={dropFile}
           />
           <label htmlFor={id} className='w-full flex flex-col items-center cursor-pointer p-5'>
             <Icon className='w-[71px] h-[71px]' component={CloudUploadIcon} />

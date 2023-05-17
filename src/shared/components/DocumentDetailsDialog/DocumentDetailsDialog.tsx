@@ -17,7 +17,7 @@ import {
 } from "~/generated/graphql";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
+import { baseMaxLength, baseMaxLengthRequired, baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { getFileName } from "~/shared/lib/getFileName";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
@@ -78,7 +78,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
         ...(Boolean(newValues.file) && { upload: newValues.file }),
         user_name: `${newValues.title}.${newValues.format}`,
         user_name_en: newValues.user_name_en,
-        published: newValues.published
+        published: newValues.published ?? false
       };
 
       let connectId: number | null = null;
@@ -141,7 +141,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
 
   return (
     <Drawer anchor='right' open={open} onClose={onClose}>
-      <Box className='flex flex-col gap-10 p-6 max-w-[360px]' component='form' onSubmit={onSubmit}>
+      <Box className='flex flex-col gap-10 p-6 w-[360px]' component='form' onSubmit={onSubmit}>
         <Text variant='h5'>{document ? "Edit document" : "Create document"}</Text>
 
         <Controller
@@ -158,7 +158,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                 }
                 {...field}
                 error={!!getError("title")}
-                {...register("title", baseRequiredTextValidation)}
+                {...register("title", baseMaxLengthRequired)}
               />
 
               <HelperText id='title' error={getError("title")} />
@@ -179,8 +179,11 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                   </EnLabelWrapper>
                 }
                 {...field}
-                {...register("user_name_en")}
+                error={!!getError("user_name_en")}
+                {...register("user_name_en", baseMaxLength)}
               />
+
+              <HelperText id='user_name_en' error={getError("user_name_en")} />
             </FormControl>
           )}
         />
@@ -212,6 +215,14 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                   setValue("title", "");
                   setValue("format", "");
                 }}
+                onDrop={(file) => {
+                  setValue("file", file);
+
+                  const format = getFileFormat(file?.name ?? "");
+
+                  setValue("format", format);
+                  setValue("title", getFileName(file?.name ?? ""));
+                }}
               />
 
               <HelperText id='url' error={getError("url")} />
@@ -238,7 +249,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                 <Text>Not selected</Text>
               </MenuItem>
               {groups.map((group) => (
-                <MenuItem key={group.id} value={group.id}>
+                <MenuItem sx={{ width: "300px" }} key={group.id} value={group.id}>
                   {group.name}
                 </MenuItem>
               ))}

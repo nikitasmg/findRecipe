@@ -42,11 +42,15 @@ export const NewsFragment = gql`
     seo {
       id
       title
+      title_en
       description
+      description_en
     }
     meta {
       auto_title
       auto_description
+      auto_title_en
+      auto_description_en
     }
     created_at
     updated_at

@@ -15,8 +15,10 @@ import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
 import { AdditionalNewsForm } from "./components/AdditionalNewsForm";
 import { GeneralNewsForm } from "./components/GeneralNewsForm";
-import { SeoNewsForm } from "./components/SeoNewsForm";
 import { prepareFormData } from "./lib/prepareFormData";
+import { either, has, isEmpty } from "rambda";
+import { useAlertsStore } from "~/shared/stores/alerts";
+import { SeoForm } from "../../shared/components/SeoForm";
 import { useNewsStore } from "~stores/news";
 
 type Props = {
@@ -37,6 +39,8 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const { setIsSaveLoading } = useNewsStore((state) => ({
     setIsSaveLoading: state.setIsSaveLoading
   }));
+
+  const addAlert = useAlertsStore((state) => state.addAlert);
 
   const { data, isSuccess } = useNewsByIdQuery(
     client,
@@ -124,7 +128,18 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
 
     setValue("seo.upsert.title", values?.seo?.title || values?.meta?.auto_title);
     setValue("seo.upsert.description", values?.seo?.description || values?.meta?.auto_description);
+    setValue("seo.upsert.title_en", values?.seo?.title_en || values?.meta?.auto_title_en);
+    setValue(
+      "seo.upsert.description_en",
+      values?.seo?.description_en || values?.meta?.auto_description_en
+    );
   }, [values, isSuccess, setValue]);
+
+  useEffect(() => {
+    if (!isEmpty(errors)) {
+      addAlert("error", "Fill in all required fields");
+    }
+  }, [errors, step, addAlert]);
 
   return (
     <TabsForm
@@ -137,6 +152,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
       forms={[
         {
           tabTitle: "General data",
+          hasErrors: either(has("name"), has("content"))(errors),
           component: (
             <GeneralNewsForm
               setValue={setValue}
@@ -149,6 +165,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
         },
         {
           tabTitle: "Additional data",
+          hasErrors: has("published_at")(errors),
           component: (
             <AdditionalNewsForm
               setValue={setValue}
@@ -162,7 +179,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
         },
         {
           tabTitle: "SEO",
-          component: <SeoNewsForm errors={errors} register={register} control={control} />
+          component: <SeoForm errors={errors} register={register} control={control} lang={lang} />
         }
       ]}
     />

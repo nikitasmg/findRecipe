@@ -63,8 +63,8 @@ export const ContentEditor: React.FC<Props> = React.memo(
           <Editor
             ref={ref as React.LegacyRef<Editor>}
             onInit={(_, editor) => {
-              editor.setContent(value);
               setIsLoading(false);
+              editor.setContent(value);
             }}
             value={value}
             apiKey={apiKey}
@@ -107,6 +107,7 @@ export const ContentEditor: React.FC<Props> = React.memo(
               content_css: "default",
               content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
               statusbar: false,
+              table_default_attributes: {},
               ...settings
             }}
           />

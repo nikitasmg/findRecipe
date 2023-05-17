@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { compose, concat, equals, filter, not, prop, reduce, when, append } from "rambda";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
@@ -91,6 +91,7 @@ export const LinkedDocuments: React.FC<Props> = ({
         cur = {
           id: Number(values.id),
           user_name: values.user_name,
+          user_name_en: values.user_name_en,
           url,
           published: Boolean(values.published),
           created_at: values.created_at
@@ -99,7 +100,6 @@ export const LinkedDocuments: React.FC<Props> = ({
 
       return append(cur, res);
     };
-
     setDocuments(reduce(updateByInputReducer, []));
     onClose();
 
@@ -117,6 +117,9 @@ export const LinkedDocuments: React.FC<Props> = ({
           ),
           prop("createLinkedDocument")
         )
+      )
+      .then((newDocument) =>
+        setDocuments(documents.concat(newDocument as LinkedDocumentsWithoutUpdated))
       )
       .then(onClose);
 
@@ -148,10 +151,11 @@ export const LinkedDocuments: React.FC<Props> = ({
       <DocumentsSorting activeOrder={activeOrder} handleChangeOrder={handleChangeOrder} />
 
       <Box className='flex flex-wrap w-full gap-4'>
-        {isLoading &&
-          Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className='w-[160px] rounded-lg' variant='rectangular' height={160} />
-          ))}
+        {isLoading && (
+          <Box className='flex h-[20vh] w-full justify-center items-center'>
+            <CircularProgress />
+          </Box>
+        )}
 
         {documents?.map((document) => (
           <DragSourceWrapper

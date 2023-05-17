@@ -19,15 +19,14 @@ export const useColumns = (
       id: "sort",
       label: (
         <TableHeadCell
-          title='ID'
+          title='Sort'
           cellId='sort'
           align='center'
           onSortClick={getClickHandler("sort")}
           sortProps={getActiveProps("sort")}
         />
       ),
-      style: { width: 50 },
-      align: "center",
+      style: { width: "50px", textAlign: "center" },
       className: "text-grayLight"
     },
     {
@@ -67,7 +66,6 @@ export const useColumns = (
         );
       }
     },
-
     {
       id: "description",
       label: (

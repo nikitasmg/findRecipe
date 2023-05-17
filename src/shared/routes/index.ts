@@ -46,7 +46,7 @@ export const PagesRoute = "/pages";
 
 export const PagesEdit = "/pages/edit/:slug";
 
-export const PagesEditIndex = "/pages/edit/index";
+export const PagesEditIndex = "/pages/edit/home";
 
 export const PagesEditNews = "/pages/edit/news";
 

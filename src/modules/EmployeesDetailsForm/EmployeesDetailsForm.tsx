@@ -159,7 +159,7 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({
                       }
                       value={value}
                       variant='outlined'
-                      {...register("name", getFullNameValidation({ required: false }))}
+                      {...register("name_en", getFullNameValidation({ required: false }))}
                     />
                   </FormControl>
                 )}
@@ -233,7 +233,11 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({
               render={({ field: { value } }) => (
                 <FormControl fullWidth>
                   <TextField
-                    label={<Text>Email</Text>}
+                    label={
+                      <RequiredLabelWrapper>
+                        <Text>Email</Text>
+                      </RequiredLabelWrapper>
+                    }
                     value={value}
                     variant='outlined'
                     id='email'

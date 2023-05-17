@@ -65,7 +65,7 @@ export const PurchasesTable: React.FC = () => {
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <CellDragHandle disabled />
+              <CellDragHandle disabled hidden />
 
               {columns.map((column) => (
                 <TableCell key={column.id} align={column.align} style={column.style}>

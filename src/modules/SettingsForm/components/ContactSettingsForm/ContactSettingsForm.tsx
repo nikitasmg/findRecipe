@@ -6,9 +6,11 @@ import { HelperText } from "~shared/components/HelperText";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { getBaseEmailValidation } from "~shared/lib/validation";
 import { PhoneInput } from "~/shared/components/PhoneInput";
+import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 
 export type FormFieldsContacts = {
   schedule?: string;
+  schedule_en?: string;
   phone?: string;
   address?: string;
   address_en?: string;
@@ -56,6 +58,31 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
       <Grid item columns={12} xs={12}>
         <Controller
           control={control}
+          name='schedule_en'
+          render={({ field: { value } }) => (
+            <TextField
+              id='schedule_en'
+              multiline
+              fullWidth
+              value={value ?? ""}
+              variant='outlined'
+              label={
+                <EnLabelWrapper>
+                  <Text>Schedule</Text>
+                </EnLabelWrapper>
+              }
+              InputProps={{
+                inputComponent: TextareaAutosize
+              }}
+              {...register("schedule_en")}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid item columns={12} xs={12}>
+        <Controller
+          control={control}
           name='address'
           render={({ field: { value } }) => (
             <TextField
@@ -80,7 +107,11 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
               fullWidth
               variant='outlined'
               value={value ?? ""}
-              label={<Text>Адрес (en)</Text>}
+              label={
+                <EnLabelWrapper>
+                  <Text>Address</Text>
+                </EnLabelWrapper>
+              }
               {...register("address_en")}
             />
           )}

@@ -76,6 +76,11 @@ export const ReportsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
       name_en: newValues.name_en,
       description_en: newValues.description_en,
       imageUrl: undefined,
+      linked_documents: {
+        connect: newValues.connectDocuments ?? [],
+        disconnect: newValues.disconnectDocuments ?? [],
+        syncWithoutDetaching: newValues.updateDocuments ?? []
+      },
       uploadImage: newValues.uploadImage,
       ...(Boolean(!newValues.imageUrl) && { deleteImage: true })
     };
