@@ -14,7 +14,7 @@ import { Languages } from "~/shared/types/Languages";
 import { LinkedDocumentForm } from "../LinkedDocumentForm";
 import { BlocksForm } from "./components/BlocksForm";
 import { GeneralPageForm } from "./components/GeneralPageForm";
-import { SeoForm } from "./components/SeoForm";
+import { SeoForm } from "../../shared/components/SeoForm";
 import { StcTechnologiesForm } from "./components/StcTechnologiesForm";
 import { AboutProjectForm } from "./components/AboutProjectForm";
 import { AdditionalTabForm } from "./components/AdditionalTabForm";
