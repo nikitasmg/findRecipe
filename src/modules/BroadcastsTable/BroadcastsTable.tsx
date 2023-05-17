@@ -18,34 +18,44 @@ import { TableBodySortable, TableRowSortable } from "~shared/components/Sortable
 import { TableActions } from "~shared/components/TableActions";
 import { useBroadcasts } from "./lib/useBroadcasts";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const BroadcastsTable: React.FC = () => {
   const {
     title,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    broadcasts
   } = useBroadcasts();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
+
+  const handleTitle = (value: string) => {
+    setTitle(value);
+    handleSearchTitle(value);
+  };
 
   return (
     <TableWrapper>
       <TableActions
         searchProps={{
           searchValue: title,
-          searchChange: getEventValueHandler(handleTitleChange),
+          searchChange: getEventValueHandler(handleTitle),
           resetTitle
         }}
         addButtonProps={{
           addHref: BroadcastsPageCreate
         }}
         resetFilters={resetFilters}
+        searchTitle='Search'
+        searchOnly
       />
 
       <TableContainer>
@@ -88,6 +98,8 @@ export const BroadcastsTable: React.FC = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!broadcasts?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

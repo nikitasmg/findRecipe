@@ -18,13 +18,13 @@ import { resortArray } from "~/shared/lib/resortArray";
 import { ReportsPageCreate } from "~/shared/routes";
 import { useRequestState } from "~/shared/hooks/useRequestState";
 import { CellDragHandle } from "~shared/components/CellDragHandle";
-import { Panel } from "~shared/components/Panel";
 import { TableActions } from "~/shared/components/TableActions";
 import { TableBodySortable, TableRowSortable } from "~/shared/components/SortableTable";
 import { useReportsStore } from "~stores/reports";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const ReportsTable: React.FC = () => {
   const [rows, setRows] = useState<DeepPartial<Report>[]>([]);
@@ -38,7 +38,9 @@ export const ReportsTable: React.FC = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name", { filterFormats: { created_atLike: formatDayJsForFilters } });
 
   const client = useGraphqlClient();
@@ -101,6 +103,9 @@ export const ReportsTable: React.FC = () => {
           addHref: ReportsPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -141,6 +146,8 @@ export const ReportsTable: React.FC = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!reports?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

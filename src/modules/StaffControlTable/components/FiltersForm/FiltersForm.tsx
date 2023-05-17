@@ -18,17 +18,17 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.descriptionLike}
+              value={params?.descriptionLike ?? ""}
               label={<Text>Description</Text>}
               onChange={getChangeHandler("descriptionLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}

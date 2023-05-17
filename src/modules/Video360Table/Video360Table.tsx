@@ -18,34 +18,44 @@ import { TableActions } from "~shared/components/TableActions";
 import { useVideo360 } from "./lib/useVideo360";
 import { Video360PageCreate } from "~/shared/routes";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const Video360Table: React.FC = () => {
   const {
     title,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    video360
   } = useVideo360();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
+
+  const handleTitle = (value: string) => {
+    setTitle(value);
+    handleSearchTitle(value);
+  };
 
   return (
     <TableWrapper>
       <TableActions
         searchProps={{
           searchValue: title,
-          searchChange: getEventValueHandler(handleTitleChange),
+          searchChange: getEventValueHandler(handleTitle),
           resetTitle
         }}
         addButtonProps={{
           addHref: Video360PageCreate
         }}
         resetFilters={resetFilters}
+        searchTitle='Search'
+        searchOnly
       />
 
       <TableContainer>
@@ -88,6 +98,8 @@ export const Video360Table: React.FC = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!video360?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

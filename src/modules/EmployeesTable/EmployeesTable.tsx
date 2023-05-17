@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Box,
   CircularProgress,
@@ -18,6 +18,8 @@ import { TableBodySortable, TableRowSortable } from "~/shared/components/Sortabl
 import { EmployeesPageCreate } from "~shared/routes";
 import { getEventValueHandler } from "~shared/lib/events";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
+import { mapIdToValue } from "~shared/lib/mapIdToValue";
 
 const EmployeesTable = () => {
   const {
@@ -32,10 +34,18 @@ const EmployeesTable = () => {
     rows,
     onSortEnd,
     subdivisions,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit,
+    employees
   } = useEmployees();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
+
+  const additionalFilterChipsData = useMemo(
+    () => ({ subdivision: mapIdToValue("id", "name", subdivisions) }),
+    [subdivisions]
+  );
 
   return (
     <TableWrapper>
@@ -49,6 +59,10 @@ const EmployeesTable = () => {
           addHref: EmployeesPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        additionalFilterChipsData={additionalFilterChipsData}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm
             params={params}
@@ -98,6 +112,8 @@ const EmployeesTable = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!employees?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

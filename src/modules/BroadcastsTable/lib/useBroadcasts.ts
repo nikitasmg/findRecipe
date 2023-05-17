@@ -20,11 +20,12 @@ export const useBroadcasts = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle
   } = useRequestState("name", {
     filterFormats: {
       created_atLike: formatDayJsForFilters
@@ -72,13 +73,15 @@ export const useBroadcasts = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle,
+    broadcasts
   };
 };

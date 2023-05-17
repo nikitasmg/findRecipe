@@ -9,10 +9,16 @@ import {
   TableRow
 } from "@mui/material";
 import { prop } from "rambda";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DeepPartial } from "react-hook-form";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { News, SortOrder, useAllNewsQuery, useNewsQuery } from "~/generated/graphql";
+import {
+  News,
+  SortOrder,
+  useAllNewsQuery,
+  useNewsQuery,
+  useNewsTagsQuery
+} from "~/generated/graphql";
 import { useHideNews } from "~/api/news";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { NewsPageCreate } from "~/shared/routes";
@@ -28,6 +34,8 @@ import { FiltersForm } from "./components/FiltersForm";
 import { Button } from "~/shared/components/Button";
 import { CustomCheckbox } from "~shared/components/CustomCheckbox";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { mapIdToValue } from "~shared/lib/mapIdToValue";
+import { NewsCategories } from "~shared/components/NewsCategories";
 
 export const NewsTable: React.FC = () => {
   const [selected, setSelected] = useState<Set<number>>(new Set([]));
@@ -43,7 +51,9 @@ export const NewsTable: React.FC = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name", {
     filterFormats: {
       published_atLike: formatDayJsForFilters
@@ -81,6 +91,13 @@ export const NewsTable: React.FC = () => {
   const indeterminate = selected.size > 0 && selected.size < total;
 
   const allChecked = total > 0 && selected.size === total;
+
+  const { data: tags } = useNewsTagsQuery(client, {}, { refetchOnMount: "always" });
+
+  const additionalFilterChipsData = useMemo(
+    () => ({ tags: mapIdToValue("id", "name", tags?.newsTags, "#") }),
+    [tags]
+  );
 
   const onSelectAllClick = () => {
     if (allChecked) {
@@ -136,6 +153,11 @@ export const NewsTable: React.FC = () => {
           addHref: NewsPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        additionalFilterChipsData={additionalFilterChipsData}
+        excludedChipsKeys={["category"]}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -151,6 +173,8 @@ export const NewsTable: React.FC = () => {
           </Button>
         }
       />
+
+      <NewsCategories handleSubmit={handleSubmit} handleChangeFilter={handleFilterChange} />
 
       <TableContainer>
         <Table stickyHeader aria-label='sticky table'>

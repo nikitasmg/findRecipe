@@ -26,33 +26,25 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={3}>
             <TextField
               fullWidth
-              value={params?.position}
+              value={params?.position ?? ""}
               label={<Text>Position</Text>}
               onChange={getChangeHandler("position")}
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
-            <NumericInput
-              value={Number(params?.additional)}
-              label={<Text>Additional number</Text>}
-              name='additional'
-              onChange={getChangeHandler("additional")}
-            />
-          </Grid>
-
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={3}>
             <TextField
               fullWidth
-              value={params?.email}
+              value={params?.email ?? ""}
               label={<Text>Email</Text>}
               onChange={getChangeHandler("email")}
             />
           </Grid>
-          <Grid item columns={12} xs={12}>
+
+          <Grid item columns={12} xs={12} lg={3}>
             <FormControl fullWidth>
               <TextField
                 id='subdivision-select'
@@ -72,6 +64,16 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
                 ))}
               </TextField>
             </FormControl>
+          </Grid>
+
+          <Grid item columns={12} xs={12} lg={3}>
+            <NumericInput
+              value={Number(params?.additional)}
+              label={<Text>Additional number</Text>}
+              name='additional'
+              onChange={getChangeHandler("additional")}
+              inputProps={{ className: "!w-full" }}
+            />
           </Grid>
         </Grid>
       </form>

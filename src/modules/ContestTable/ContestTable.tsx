@@ -9,7 +9,7 @@ import {
   TableRow
 } from "@mui/material";
 import React, { useEffect } from "react";
-import { Contest, useContestsQuery } from "~/generated/graphql";
+import { Contest, ContestStatus, useContestsQuery } from "~/generated/graphql";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { ContestPageCreate } from "~/shared/routes";
 import { useContestStore } from "~/shared/stores/contest";
@@ -21,6 +21,8 @@ import { getEventValueHandler } from "~/shared/lib/events";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
+import { useTranslation } from "react-i18next";
 
 export const ContestTable: React.FC = () => {
   const {
@@ -34,7 +36,9 @@ export const ContestTable: React.FC = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name", {
     filterFormats: {
       created_atLike: formatDayJsForFilters,
@@ -42,6 +46,8 @@ export const ContestTable: React.FC = () => {
       deadlineLike: formatDayJsForFilters
     }
   });
+
+  const { t } = useTranslation();
 
   const client = useGraphqlClient();
 
@@ -69,6 +75,14 @@ export const ContestTable: React.FC = () => {
     setCount(total);
   }, [total, setCount]);
 
+  const additionalFilterChipsData = {
+    status: {
+      [ContestStatus.Completed]: t("Completed"),
+      [ContestStatus.Acceptance]: t("Acceptance"),
+      [ContestStatus.Expertise]: t("Expertise")
+    }
+  };
+
   return (
     <TableWrapper>
       <TableActions
@@ -81,6 +95,10 @@ export const ContestTable: React.FC = () => {
           addHref: ContestPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        additionalFilterChipsData={additionalFilterChipsData}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -122,6 +140,8 @@ export const ContestTable: React.FC = () => {
             </TableBody>
           )}
         </Table>
+
+        {!contests?.data.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

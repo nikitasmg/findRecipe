@@ -24,7 +24,9 @@ export const useStcPhotoGallery = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle
   } = useRequestState("name", {
     filterFormats: {
       created_atLike: formatDayJsForFilters
@@ -72,13 +74,15 @@ export const useStcPhotoGallery = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    StcPhotoGallery
   };
 };

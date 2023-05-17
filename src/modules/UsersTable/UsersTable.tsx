@@ -19,14 +19,16 @@ import { useUsersStore } from "~/shared/stores/users";
 import { TableActions } from "~shared/components/TableActions";
 import { useColumns } from "~/modules/UsersTable/lib/useColumns";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 const UsersTable: React.FC = () => {
   const {
     variables,
     title,
+    setTitle,
     activeOrder,
     pagination,
-    handleTitleChange,
+    handleSearchTitle,
     handleChangePage,
     handleChangeOrder,
     resetTitle
@@ -51,6 +53,11 @@ const UsersTable: React.FC = () => {
 
   const columns = useColumns(activeOrder, handleChangeOrder);
 
+  const handleTitle = (value: string) => {
+    setTitle(value);
+    handleSearchTitle(value);
+  };
+
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading, setLoading]);
@@ -64,12 +71,14 @@ const UsersTable: React.FC = () => {
       <TableActions
         searchProps={{
           searchValue: title,
-          searchChange: getEventValueHandler(handleTitleChange),
+          searchChange: getEventValueHandler(handleTitle),
           resetTitle
         }}
         addButtonProps={{
           addHref: UsersPageCreate
         }}
+        searchTitle='Search'
+        searchOnly
       />
 
       <TableContainer>
@@ -111,6 +120,8 @@ const UsersTable: React.FC = () => {
             </TableBody>
           )}
         </Table>
+
+        {!users?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

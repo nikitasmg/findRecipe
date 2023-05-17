@@ -23,6 +23,7 @@ import { useActivityResultsStore } from "~stores/activityResult";
 import { useColumns } from "./lib/useColumns";
 import { FiltersForm } from "./components/FiltersForm";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const ActivityResultsTable: React.FC = () => {
   const [rows, setRows] = useState<Partial<ActivityResult>[]>([]);
@@ -36,7 +37,9 @@ export const ActivityResultsTable: React.FC = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name", { filterFormats: { created_atLike: formatDayJsForFilters } });
 
   const client = useGraphqlClient();
@@ -99,6 +102,9 @@ export const ActivityResultsTable: React.FC = () => {
           addHref: ActivityResultPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -139,6 +145,8 @@ export const ActivityResultsTable: React.FC = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!activityResults?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

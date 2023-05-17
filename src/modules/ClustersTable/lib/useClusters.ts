@@ -19,11 +19,12 @@ export const useClusters = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -67,13 +68,15 @@ export const useClusters = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle,
+    clusters
   };
 };

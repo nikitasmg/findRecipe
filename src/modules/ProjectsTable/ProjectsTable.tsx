@@ -21,6 +21,7 @@ import { FiltersForm } from "./components/FiltersForm";
 import { useProjectsStore } from "~stores/projects";
 import { getCurrentQueryVariables } from "~/modules/ProjectsTable/lib/getCurrentQueryVariables";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const ProjectsTable: React.FC = () => {
   const {
@@ -34,7 +35,9 @@ export const ProjectsTable: React.FC = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -74,6 +77,9 @@ export const ProjectsTable: React.FC = () => {
           addHref: ProjectsPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -114,6 +120,8 @@ export const ProjectsTable: React.FC = () => {
             </TableBody>
           )}
         </Table>
+
+        {!projects?.data.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

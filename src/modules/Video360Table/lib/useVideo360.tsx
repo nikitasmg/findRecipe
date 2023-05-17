@@ -20,7 +20,8 @@ export const useVideo360 = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
@@ -72,13 +73,15 @@ export const useVideo360 = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    video360
   };
 };

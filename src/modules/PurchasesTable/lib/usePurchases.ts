@@ -24,7 +24,9 @@ export const usePurchases = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name", {
     filterFormats: {
       created_atLike: formatDayJsForFilters
@@ -79,6 +81,9 @@ export const usePurchases = () => {
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit,
+    purchases
   };
 };

@@ -4,6 +4,7 @@
   "Administration system": "Система администрирования",
   "News Page": "Страница новостей",
   "News": "Новости",
+  "All news": "Все новости",
   "Home": "Главная",
   "Email address": "Почта",
   "Enter email": "Введите почту",
@@ -20,7 +21,8 @@
   "Content": "Контент",
   "Published at": "Дата публикации",
   "Rows per page:": "Строк на странице:",
-  "Fast search": "Быстрый поиск",
+  "Search": "Поиск",
+  "Filter + search": "Фильтр + поиск",
   "Add": "Добавить",
   "Language": "Язык",
   "Entities": "Сущности",
@@ -292,5 +294,6 @@
   "Image caption": "Подпись к изображению",
   "Hide": "Скрыть",
   "Count": "Количество",
-  "Page on the site": "Страница на сайте"
+  "Page on the site": "Страница на сайте",
+  "Find": "Найти"
 }

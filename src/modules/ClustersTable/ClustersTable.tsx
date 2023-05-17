@@ -18,34 +18,44 @@ import { TableActions } from "~shared/components/TableActions";
 import { useClusters } from "./lib/useClusters";
 import { useColumns } from "./lib/useColumns";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const ClustersTable: React.FC = () => {
   const {
     title,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    clusters
   } = useClusters();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
+
+  const handleTitle = (value: string) => {
+    setTitle(value);
+    handleSearchTitle(value);
+  };
 
   return (
     <TableWrapper>
       <TableActions
         searchProps={{
           searchValue: title,
-          searchChange: getEventValueHandler(handleTitleChange),
+          searchChange: getEventValueHandler(handleTitle),
           resetTitle
         }}
         addButtonProps={{
           addHref: ClustersPageEdit
         }}
         resetFilters={resetFilters}
+        searchTitle='Search'
+        searchOnly
       />
 
       <TableContainer>
@@ -84,6 +94,8 @@ export const ClustersTable: React.FC = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!clusters?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

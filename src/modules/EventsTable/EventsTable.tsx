@@ -23,6 +23,7 @@ import { getBooleanPresentationForBackend } from "~/shared/lib/getBooleanPresent
 import { FiltersForm } from "./components/FiltersForm";
 import { useColumns } from "./lib/useColumns";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const EventsTable: React.FC = () => {
   const {
@@ -36,7 +37,9 @@ export const EventsTable: React.FC = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name", {
     filterFormats: {
       created_atLike: formatDayJsForFilters,
@@ -81,6 +84,9 @@ export const EventsTable: React.FC = () => {
           addHref: EventsPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -122,6 +128,8 @@ export const EventsTable: React.FC = () => {
             </TableBody>
           )}
         </Table>
+
+        {!events?.data.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

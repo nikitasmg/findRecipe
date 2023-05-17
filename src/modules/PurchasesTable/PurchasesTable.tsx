@@ -19,6 +19,7 @@ import { TableBodySortable, TableRowSortable } from "~shared/components/Sortable
 import { usePurchases } from "~/modules/PurchasesTable/lib/usePurchases";
 import { TableActions } from "~shared/components/TableActions";
 import { TableWrapper } from "~/shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const PurchasesTable: React.FC = () => {
   const {
@@ -32,7 +33,10 @@ export const PurchasesTable: React.FC = () => {
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit,
+    purchases
   } = usePurchases();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
@@ -49,6 +53,9 @@ export const PurchasesTable: React.FC = () => {
           addHref: PurchasesPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -90,6 +97,8 @@ export const PurchasesTable: React.FC = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!purchases?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

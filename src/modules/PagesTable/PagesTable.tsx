@@ -18,6 +18,7 @@ import { Panel } from "~shared/components/Panel";
 import { TableActions } from "~/shared/components/TableActions";
 import { CustomNode } from "./components/CustomNode";
 import { CustomData } from "./types";
+import { EmptyView } from "~shared/components/EmptyView";
 
 const handleDrop =
   (
@@ -63,7 +64,7 @@ export const PagesTable: React.FC = () => {
 
   const { mutateAsync: updateParent } = useUpdatePageParentMutation(client);
 
-  const { variables, title, handleTitleChange, resetTitle } = useRequestState("name");
+  const { variables, title, setTitle, handleSearchTitle, resetTitle } = useRequestState("name");
 
   const { setCount, setLoading } = usePagesStore((state) => ({
     setLoading: state.setLoading,
@@ -77,6 +78,11 @@ export const PagesTable: React.FC = () => {
   const total = pages?.length ?? 0;
 
   const onDrop = handleDrop(treeData, setTreeData, updateParent);
+
+  const handleTitle = (value: string) => {
+    setTitle(value);
+    handleSearchTitle(value);
+  };
 
   useEffect(() => {
     setLoading(isLoading);
@@ -104,13 +110,15 @@ export const PagesTable: React.FC = () => {
 
   return (
     <Panel>
-      <Box className='flex flex-col gap-6'>
+      <Box className='flex flex-col'>
         <TableActions
           searchProps={{
             searchValue: title,
-            searchChange: getEventValueHandler(handleTitleChange),
+            searchChange: getEventValueHandler(handleTitle),
             resetTitle
           }}
+          searchTitle='Search'
+          searchOnly
         />
 
         <Box className='flex flex-col gap-6 lg:flex-row'>
@@ -136,6 +144,8 @@ export const PagesTable: React.FC = () => {
               </div>
             </DndProvider>
           )}
+
+          {!pages?.length && !isLoading && <EmptyView />}
 
           {isLoading && <Skeleton className='w-full' variant='rectangular' height={600} />}
         </Box>

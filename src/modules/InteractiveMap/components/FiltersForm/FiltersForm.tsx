@@ -18,47 +18,47 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.id}
+              value={params?.id ?? ""}
               label={<Text>Enter id</Text>}
               onChange={getChangeHandler("id")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.characteristicsLike}
+              value={params?.characteristicsLike ?? ""}
               label={<Text>Characteristics</Text>}
               onChange={getChangeHandler("characteristicsLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.areaLike}
+              value={params?.areaLike ?? ""}
               label={<Text>Area</Text>}
               onChange={getChangeHandler("areaLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.floorsLike}
+              value={params?.floorsLike ?? ""}
               label={<Text>Floors</Text>}
               onChange={getChangeHandler("floorsLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}

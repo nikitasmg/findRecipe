@@ -23,27 +23,27 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.id}
+              value={params?.id ?? ""}
               label={<Text>Enter id</Text>}
               onChange={getChangeHandler("id")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.descriptionLike}
+              value={params?.descriptionLike ?? ""}
               label={<Text>Description</Text>}
               onChange={getChangeHandler("descriptionLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}
@@ -52,7 +52,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid className='md:absolute md:bottom-[28px]' item columns={12} xs={12}>
             <FormControlLabel
               control={<Switch checked={!!params?.published} onChange={handlePublishedChange} />}
               label={<Text>Published</Text>}

@@ -18,34 +18,44 @@ import { StcPhotoGallery } from "~/generated/graphql";
 import { DeepPartial } from "react-hook-form";
 import { useStcPhotoGallery } from "./lib/useStcPhotoGallery";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const StcPhotoGalleryTable = () => {
   const {
     title,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    StcPhotoGallery
   } = useStcPhotoGallery();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
+
+  const handleTitle = (value: string) => {
+    setTitle(value);
+    handleSearchTitle(value);
+  };
 
   return (
     <TableWrapper>
       <TableActions
         searchProps={{
           searchValue: title,
-          searchChange: getEventValueHandler(handleTitleChange),
+          searchChange: getEventValueHandler(handleTitle),
           resetTitle
         }}
         addButtonProps={{
           addHref: StcPhotoGalleryPageCreate
         }}
         resetFilters={resetFilters}
+        searchTitle='Search'
+        searchOnly
       />
 
       <TableContainer>
@@ -88,6 +98,8 @@ export const StcPhotoGalleryTable = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!StcPhotoGallery?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

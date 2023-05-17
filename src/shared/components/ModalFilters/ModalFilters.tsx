@@ -1,23 +1,22 @@
-import { Box, Dialog, DialogActions, DialogContent } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { PropsWithChildren, ReactNode } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "../Button";
-import { Text } from "../Text";
+import clsx from "clsx";
+import { SearchIcon } from "~shared/components/Icons";
 
 type Props = {
   opened: boolean;
   handleClose: () => void;
-  title?: string;
 } & (
   | {
-      handleSuccess?: () => void;
+      handleSubmit?: () => void;
       footer?: never;
       handleDrop?: () => void;
     }
   | {
       footer?: ReactNode;
       handleDrop?: never;
-      handleSuccess?: never;
+      handleSubmit?: never;
     }
 );
 
@@ -26,8 +25,7 @@ export const ModalFilters: React.FC<PropsWithChildren<Props>> = ({
   footer,
   handleClose,
   handleDrop,
-  handleSuccess,
-  title,
+  handleSubmit,
   children
 }) => {
   const handleDropClick = () => {
@@ -36,45 +34,43 @@ export const ModalFilters: React.FC<PropsWithChildren<Props>> = ({
   };
 
   const handleApplyClick = () => {
-    handleSuccess?.();
+    handleSubmit?.();
     handleClose();
   };
 
   return (
-    <Dialog
-      open={opened}
-      onClose={handleClose}
-      className='!w-full'
-      PaperProps={{
-        className: "w-full h-full !max-w-full !max-h-[90%] sm:w-[600px] sm:h-fit overflow-auto"
-      }}
+    <Box
+      className={clsx(
+        "absolute w-full max-w-[1280px] bg-mainBg hidden z-50",
+        "rounded-lg border border-primary-30 p-[24px] pt-[45px] mt-3",
+        {
+          "!block": opened
+        }
+      )}
+      sx={{ boxShadow: "0px 2px 4px rgba(83, 83, 83, 0.1)" }}
     >
-      <Box className='flex items-center justify-between p-[20px]'>
-        <Text className='font-bold'>{title ?? "Filters"}</Text>
-
-        <Button onClick={handleClose} size='small' className='!min-w-fit'>
-          <CloseIcon />
-        </Button>
-      </Box>
-
-      <DialogContent>{children}</DialogContent>
+      {children}
 
       {footer}
 
       {!footer && (
-        <DialogActions>
+        <Box className='flex items-center justify-end gap-6 mt-9'>
           {handleDrop && (
-            <Button color='error' variant='outlined' onClick={handleDropClick}>
+            <Button variant='outlined' onClick={handleDropClick}>
               Drop
             </Button>
           )}
-          {handleSuccess && (
-            <Button variant='outlined' onClick={handleApplyClick}>
-              Apply
+          {handleSubmit && (
+            <Button
+              variant='contained'
+              onClick={handleApplyClick}
+              startIcon={<SearchIcon color='mainBg' />}
+            >
+              Find
             </Button>
           )}
-        </DialogActions>
+        </Box>
       )}
-    </Dialog>
+    </Box>
   );
 };

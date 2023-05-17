@@ -94,7 +94,7 @@ export const ContactSettingsForm: React.FC<Props> = ({ register, errors, setValu
           render={({ field: { value } }) => (
             <PhoneInput
               value={value ?? ""}
-              label={<Text component='span'>Contact phone</Text>}
+              label={<Text>Contact phone</Text>}
               variant='outlined'
               onChange={handlePhoneChange}
             />

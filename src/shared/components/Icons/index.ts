@@ -5,3 +5,4 @@ export * from "./ClockIcon";
 export * from "./CartIcon";
 export * from "./SaveIcon";
 export * from "./ExternalLinkIcon";
+export * from "./SearchIcon";

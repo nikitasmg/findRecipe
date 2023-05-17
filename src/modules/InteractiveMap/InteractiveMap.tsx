@@ -42,7 +42,9 @@ export const InteractiveMap: React.FC = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name", {
     filterFormats: {
       created_atLike: formatDayJsForFilters
@@ -83,7 +85,7 @@ export const InteractiveMap: React.FC = () => {
         </Box>
       </Box>
 
-      <Box className='flex flex-col gap-6'>
+      <Box className='flex flex-col'>
         <TableActions
           searchProps={{
             searchValue: title,
@@ -91,6 +93,9 @@ export const InteractiveMap: React.FC = () => {
             resetTitle
           }}
           resetFilters={resetFilters}
+          filters={params}
+          removeFilter={removeFilter}
+          handleSubmit={handleSubmit}
           filterModalInnerForm={
             <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
           }

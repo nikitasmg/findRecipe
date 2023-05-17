@@ -19,6 +19,7 @@ import { useColumns } from "./lib/useColumns";
 import { useVacancies } from "./lib/useVacancies";
 import { FiltersForm } from "./components/FiltersForm";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const VacanciesTable: React.FC = () => {
   const {
@@ -32,7 +33,10 @@ export const VacanciesTable: React.FC = () => {
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit,
+    vacancies
   } = useVacancies();
 
   const columns = useColumns(activeOrder, handleChangeOrder);
@@ -49,6 +53,9 @@ export const VacanciesTable: React.FC = () => {
           addHref: VacanciesPageCreate
         }}
         resetFilters={resetFilters}
+        filters={params}
+        removeFilter={removeFilter}
+        handleSubmit={handleSubmit}
         filterModalInnerForm={
           <FiltersForm params={params} handleChangeFilter={handleFilterChange} />
         }
@@ -90,6 +97,8 @@ export const VacanciesTable: React.FC = () => {
             </TableBodySortable>
           )}
         </Table>
+
+        {!vacancies?.length && !isLoading && <EmptyView />}
 
         {isLoading && (
           <Box className='flex h-[20vh] w-full justify-center items-center'>

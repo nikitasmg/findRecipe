@@ -3,14 +3,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { useRequestState } from "~/shared/hooks/useRequestState";
-import { Text } from "~/shared/components/Text";
-import { SearchInput } from "~/shared/components/SearchInput";
 import { useCompilationsStore } from "~/shared/stores/compilations";
 import { getColumns } from "./lib/getColumns";
 import { TableWrapper } from "~shared/components/TableWrapper";
+import { TableActions } from "~shared/components/TableActions";
+import { EmptyView } from "~shared/components/EmptyView";
 
 export const CompilationsTable: React.FC = () => {
-  const { title, handleTitleChange, resetTitle } = useRequestState("name");
+  const { title, setTitle, handleSearchTitle, resetFilters, resetTitle } = useRequestState("name");
 
   const { t } = useTranslation();
 
@@ -22,16 +22,22 @@ export const CompilationsTable: React.FC = () => {
 
   const columns = getColumns();
 
+  const handleTitle = (value: string) => {
+    setTitle(value);
+    handleSearchTitle(value);
+  };
+
   return (
     <TableWrapper>
-      <SearchInput
-        label={<Text>Fast search</Text>}
-        className='max-w-[330px]'
-        fullWidth
-        value={title}
-        onChange={getEventValueHandler(handleTitleChange)}
-        size='small'
-        handleReset={resetTitle}
+      <TableActions
+        searchProps={{
+          searchValue: title,
+          searchChange: getEventValueHandler(handleTitle),
+          resetTitle
+        }}
+        resetFilters={resetFilters}
+        searchTitle='Search'
+        searchOnly
       />
 
       <TableContainer>
@@ -72,6 +78,8 @@ export const CompilationsTable: React.FC = () => {
             })}
           </TableBody>
         </Table>
+
+        {!filteredCompilations?.length && <EmptyView />}
       </TableContainer>
     </TableWrapper>
   );

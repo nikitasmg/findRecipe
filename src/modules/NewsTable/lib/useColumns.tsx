@@ -45,7 +45,7 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
-      style: { width: 50 },
+      style: { width: 50, paddingRight: 24 },
       align: "center",
       className: "text-grayLight"
     },
