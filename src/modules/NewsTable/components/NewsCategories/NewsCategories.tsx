@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { NewsCategory, useNewsCategoriesQuery, useNewsQuery } from "~/generated/graphql";
 import { useTranslation } from "react-i18next";

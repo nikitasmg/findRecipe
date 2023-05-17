@@ -35,7 +35,7 @@ import { Button } from "~/shared/components/Button";
 import { CustomCheckbox } from "~shared/components/CustomCheckbox";
 import { TableWrapper } from "~shared/components/TableWrapper";
 import { mapIdToValue } from "~shared/lib/mapIdToValue";
-import { NewsCategories } from "~shared/components/NewsCategories";
+import { NewsCategories } from "./components/NewsCategories";
 
 export const NewsTable: React.FC = () => {
   const [selected, setSelected] = useState<Set<number>>(new Set([]));
