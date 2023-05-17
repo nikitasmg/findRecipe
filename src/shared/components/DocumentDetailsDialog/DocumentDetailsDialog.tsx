@@ -17,7 +17,7 @@ import {
 } from "~/generated/graphql";
 import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { getErrorMessage } from "~/shared/lib/getError";
-import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
+import { baseMaxLength, baseMaxLengthRequired, baseRequired } from "~/shared/lib/validation";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { getFileName } from "~/shared/lib/getFileName";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
@@ -158,7 +158,7 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                 }
                 {...field}
                 error={!!getError("title")}
-                {...register("title", baseRequiredTextValidation)}
+                {...register("title", baseMaxLengthRequired)}
               />
 
               <HelperText id='title' error={getError("title")} />
@@ -179,8 +179,11 @@ export const DocumentDetailsDialog: React.FC<Props> = ({
                   </EnLabelWrapper>
                 }
                 {...field}
-                {...register("user_name_en")}
+                error={!!getError("user_name_en")}
+                {...register("user_name_en", baseMaxLength)}
               />
+
+              <HelperText id='user_name_en' error={getError("user_name_en")} />
             </FormControl>
           )}
         />
