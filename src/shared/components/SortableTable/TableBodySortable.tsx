@@ -3,18 +3,13 @@ import React, { ReactNode } from "react";
 import {
   DndContext,
   closestCenter,
-  KeyboardSensor,
   MouseSensor,
   TouchSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
+  DragEndEvent
 } from "@dnd-kit/core";
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy
-} from "@dnd-kit/sortable";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { compose, equals, prop } from "rambda";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 
@@ -45,9 +40,6 @@ export const TableBodySortable = <T extends Item>({
         delay: 250,
         tolerance: 5
       }
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
     })
   );
 
@@ -70,7 +62,7 @@ export const TableBodySortable = <T extends Item>({
       modifiers={[restrictToParentElement]}
     >
       <SortableContext items={items} strategy={verticalListSortingStrategy}>
-          <TableBody>{children}</TableBody>
+        <TableBody>{children}</TableBody>
       </SortableContext>
     </DndContext>
   );
