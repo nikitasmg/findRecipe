@@ -26,10 +26,9 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
+      style: { width: 50 },
       align: "center",
-      style: {
-        width: "55px"
-      }
+      className: "text-grayLight"
     },
 
     {
@@ -53,6 +52,9 @@ export const useColumns = (
               : (value as string)}
           </Link>
         );
+      },
+      style: {
+        width: "270px"
       }
     },
 
@@ -66,7 +68,6 @@ export const useColumns = (
           sortProps={getActiveProps("number")}
         />
       ),
-      align: "center",
       style: {
         width: "80px"
       }
@@ -100,7 +101,6 @@ export const useColumns = (
       style: {
         width: "150px"
       },
-      align: "center",
       format: formatDateForTable
     },
 
@@ -110,15 +110,13 @@ export const useColumns = (
         <TableHeadCell
           title='Date of summing up'
           cellId='date'
-          align='center'
           onSortClick={getClickHandler("date")}
           sortProps={getActiveProps("date")}
         />
       ),
       style: {
-        width: "255px"
+        width: "230px"
       },
-      align: "center",
       format: formatDateForTable
     },
 
@@ -135,7 +133,6 @@ export const useColumns = (
       style: {
         width: "100px"
       },
-      align: "center",
       format: formatDateForTable
     }
   ];

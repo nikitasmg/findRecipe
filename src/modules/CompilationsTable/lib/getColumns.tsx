@@ -9,11 +9,15 @@ export const getColumns = (): Column[] => {
   return [
     {
       id: "id",
-      label: <Text>ID</Text>
+      label: <Text>ID</Text>,
+      style: { width: "10%" },
+      align: "center",
+      className: "text-grayLight"
     },
     {
       id: "heading",
       label: <Text>Heading</Text>,
+      style: { width: "30%", paddingLeft: 8 },
       render: (value, row) => (
         <Link className='w-full block' to={`${CompilationEditPage.replace(":id", `${row.id}`)}`}>
           <Text component='span'>{value as string}</Text>
@@ -23,6 +27,7 @@ export const getColumns = (): Column[] => {
     {
       id: "whereUseLink",
       label: <Text>Used in section</Text>,
+      style: { width: "50%", paddingLeft: 8 },
       render: (value) => {
         const { href: to, title } = value as Compilations["whereUseLink"];
         return (

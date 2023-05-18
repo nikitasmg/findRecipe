@@ -1,7 +1,6 @@
-import { Box, FormControl, FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
+import { Box, FormControl, MenuItem, TextField } from "@mui/material";
 import React from "react";
 import { curry } from "rambda";
-import { DateTimePicker } from "@mui/x-date-pickers";
 import {
   Control,
   Controller,
@@ -20,20 +19,18 @@ import { HelperText } from "~/shared/components/HelperText";
 import { Text } from "~/shared/components/Text";
 import { LinkInput } from "~/shared/components/LinkInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { baseRequired } from "~shared/lib/validation";
 import { Languages } from "~/shared/types/Languages";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
+import { DateTimePicker } from "~/shared/components/DateTimePicker";
 
 type FormFields = {
   source?: string;
   source_name?: string;
-  published?: boolean;
   published_at?: string;
   category?: NewsCategory["id"];
   tags?: string[];
-  on_index?: boolean;
   gallery?: GalleryImage;
   source_name_en?: string;
 };
@@ -62,12 +59,10 @@ export const AdditionalNewsForm: React.FC<Props> = ({
 
   const getError = getErrorMessage(errors);
 
-  const handleChecked = getCheckedHandler(setValue);
-
   const isRuLang = lang === "ru";
 
   return (
-    <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <Box className='flex flex-col gap-10 grow-[2] lg:w-[70%] order-last'>
       {isRuLang && (
         <Controller
           control={control}
@@ -120,17 +115,6 @@ export const AdditionalNewsForm: React.FC<Props> = ({
 
       <Controller
         control={control}
-        name='published'
-        render={({ field: { value } }) => (
-          <FormControlLabel
-            control={<Switch checked={!!value} onChange={handleChecked("published")} />}
-            label={<Text>Published</Text>}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
         name='published_at'
         render={({ field: { value } }) => (
           <FormControl error={getError("published_at")}>
@@ -144,7 +128,6 @@ export const AdditionalNewsForm: React.FC<Props> = ({
               value={value ?? null}
               {...register("published_at", baseRequired)}
               onChange={curry(setValue)("published_at")}
-              renderInput={(props) => <TextField {...props} size='small' />}
             />
 
             <HelperText id='published_at' error={getError("published_at")} />
@@ -209,17 +192,6 @@ export const AdditionalNewsForm: React.FC<Props> = ({
           )}
         />
       </FormControl>
-
-      <Controller
-        control={control}
-        name='on_index'
-        render={({ field: { value } }) => (
-          <FormControlLabel
-            control={<Switch checked={!!value} onChange={handleChecked("on_index")} />}
-            label={<Text>Visible on home page</Text>}
-          />
-        )}
-      />
     </Box>
   );
 };

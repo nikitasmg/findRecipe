@@ -1,6 +1,5 @@
 import { Box, CircularProgress } from "@mui/material";
 import React, { useMemo, useState } from "react";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { compose, concat, equals, filter, not, prop, reduce, when, append } from "rambda";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import {
@@ -16,13 +15,13 @@ import { LinkedDocumentsWithoutUpdated } from "~/api/linkedDocuments/overrides";
 import { DocumentCard } from "~/shared/components/DocumentCard";
 import { DocumentDetailsDialog } from "~/shared/components/DocumentDetailsDialog";
 import { Text } from "~/shared/components/Text";
-import { Button } from "~/shared/components/Button";
 import { DragSourceWrapper } from "~/shared/components/DragSourceWrapper";
 import { useModal } from "~/shared/hooks/useModal";
 import { getFileFormat } from "~/shared/lib/getFileFormat";
 import { ActiveOrder } from "~/shared/types/ActiveOrder";
 import { DocumentsSorting } from "../DocumentsSorting";
 import { GroupsMap } from "../../types";
+import { AddButton } from "~shared/components/AddButton";
 
 type Props = {
   activeOrder: ActiveOrder;
@@ -146,13 +145,7 @@ export const LinkedDocuments: React.FC<Props> = ({
     <Box className='flex flex-col gap-4'>
       <Box className='flex items-center justify-between'>
         <Text variant='h6'>Documents</Text>
-        <Button
-          variant='outlined'
-          onClick={getHandlerSelectDocument(null)}
-          startIcon={<AddBoxRoundedIcon />}
-        >
-          Add
-        </Button>
+        <AddButton onClick={getHandlerSelectDocument(null)} />
       </Box>
 
       <DocumentsSorting activeOrder={activeOrder} handleChangeOrder={handleChangeOrder} />

@@ -41,7 +41,7 @@ export const GroupDocuments: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='flex flex-col gap-10 p-4'>
+        <Box className='flex flex-col gap-10'>
           <Box className='flex flex-col gap-6 items-center'>
             <DetailsHead
               title={!isLoading ? data?.documentGroupById?.name ?? "Group" : ""}

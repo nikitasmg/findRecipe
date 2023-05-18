@@ -12,7 +12,7 @@ export const Users: React.FC = () => {
 
   return (
     <PageWrapper>
-      <PageTableTitle title='Users' countTitle='count users' isLoading={isLoading} count={count} />
+      <PageTableTitle title='Users' isLoading={isLoading} count={count} />
       <UsersTable />
     </PageWrapper>
   );

@@ -18,16 +18,16 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.id}
+              value={params?.id ?? ""}
               label={<Text>Enter id</Text>}
               onChange={getChangeHandler("id")}
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
               type='number'
@@ -35,13 +35,13 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               inputProps={{
                 step: "0.01"
               }}
-              value={params?.resultLike}
+              value={params?.resultLike ?? ""}
               label={<Text>Indicator statistics</Text>}
               onChange={getChangeHandler("resultLike")}
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}

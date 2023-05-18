@@ -24,10 +24,9 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
+      style: { width: 50 },
       align: "center",
-      style: {
-        width: "50px"
-      }
+      className: "text-grayLight"
     },
     {
       id: "number",

@@ -25,7 +25,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}
@@ -34,7 +34,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid className='md:absolute md:bottom-[28px]' item columns={12} xs={12}>
             <FormControlLabel
               control={<Switch checked={!!switchValue} onChange={handlePublishedChange} />}
               label={<Text>Published</Text>}

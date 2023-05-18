@@ -23,7 +23,9 @@ export const useEmployees = () => {
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    removeFilter,
+    handleSubmit
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -79,6 +81,9 @@ export const useEmployees = () => {
     rows,
     onSortEnd,
     subdivisions,
-    resetTitle
+    resetTitle,
+    employees,
+    removeFilter,
+    handleSubmit
   };
 };

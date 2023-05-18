@@ -1,11 +1,7 @@
 import {
-  FormControl,
   FormControlLabel,
   Grid,
-  InputLabel,
   MenuItem,
-  OutlinedInput,
-  Select,
   SelectChangeEvent,
   Switch,
   TextField
@@ -13,7 +9,7 @@ import {
 import { curry } from "rambda";
 import React, { forwardRef } from "react";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
-import { useNewsCategoriesQuery, useNewsTagsQuery } from "~/generated/graphql";
+import { useNewsTagsQuery } from "~/generated/graphql";
 import { Text } from "~/shared/components/Text";
 import { DatePicker } from "~/shared/components/DatePicker";
 import { getEventValueHandler } from "~/shared/lib/events";
@@ -35,8 +31,6 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
 
     const client = useGraphqlClient();
 
-    const { data: categories } = useNewsCategoriesQuery(client, {}, { refetchOnMount: "always" });
-
     const { data: tags } = useNewsTagsQuery(client, {}, { refetchOnMount: "always" });
 
     const handleTagChange = (e: SelectChangeEvent<unknown>) =>
@@ -45,46 +39,17 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <TextField
               fullWidth
-              value={params?.id}
+              value={params?.id ?? ""}
               label={<Text>Enter id</Text>}
               onChange={getChangeHandler("id")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
-            <FormControl fullWidth>
-              <InputLabel shrink id='category-select'>
-                <Text component='span'>Category</Text>
-              </InputLabel>
-              <Select
-                labelId='category-select'
-                input={
-                  <OutlinedInput
-                    notched
-                    label={<Text component='span'>Category</Text>}
-                    name='category'
-                  />
-                }
-                value={(params?.category as string) ?? ""}
-                onChange={getChangeHandler("category")}
-              >
-                <MenuItem key={"empty"} value={""}>
-                  <Text>Not selected</Text>
-                </MenuItem>
-                {categories?.newsCategories.map((category) => (
-                  <MenuItem key={category.id} value={category.id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <TextField
               select
               fullWidth
@@ -92,13 +57,16 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
               variant='outlined'
               label={<Text>Tags</Text>}
               SelectProps={{
-                value: params?.tags,
+                value: params?.tags ?? "",
                 onChange: handleTagChange,
                 MenuProps: {
                   className: "h-[300px]"
                 }
               }}
             >
+              <MenuItem key='empty' value=''>
+                <Text>Not selected</Text>
+              </MenuItem>
               {tags?.newsTags.map((tag) => (
                 <MenuItem key={tag.id} value={tag.id}>
                   #{tag.name}
@@ -107,7 +75,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             </TextField>
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <DatePicker
               className='w-full'
               label={<Text>Published at</Text>}
@@ -116,7 +84,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid className='md:absolute md:bottom-[28px]' item columns={12} xs={12}>
             <FormControlLabel
               control={<Switch checked={!!params?.on_index} onChange={handleOnIndexChange} />}
               label={<Text>On the main</Text>}

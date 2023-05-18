@@ -1,11 +1,22 @@
 import { ButtonProps } from "@mui/material";
 import React from "react";
-import SaveIcon from "@mui/icons-material/Save";
 import { Button } from "../Button";
+import { SaveIcon } from "../Icons";
 
-export const SaveButton: React.FC<ButtonProps> = ({ ...props }) => {
+type Props = ButtonProps & {
+  formName?: string;
+};
+
+export const SaveButton: React.FC<Props> = ({ formName, ...props }) => {
   return (
-    <Button startIcon={<SaveIcon />} type='submit' variant='outlined' size='small' {...props}>
+    <Button
+      startIcon={<SaveIcon />}
+      type='submit'
+      variant='contained'
+      color='primary'
+      form={formName}
+      {...props}
+    >
       Save
     </Button>
   );

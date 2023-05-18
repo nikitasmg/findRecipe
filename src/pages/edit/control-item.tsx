@@ -1,9 +1,8 @@
 import React from "react";
 import { EditControlItemPageForm } from "~/layouts/EditControlItemPageForm";
-import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
-import { Text } from "~/shared/components/Text";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
 
 type Props = {
   title: string;
@@ -12,9 +11,7 @@ type Props = {
 
 export const EditControlItemPage: React.FC<Props> = ({ title, slug }) => (
   <PageWrapper>
-    <PageTitle>
-      <Text>{title}</Text>
-    </PageTitle>
+    <PageTableTitle title={title} sitePath={`about/control/${slug}`} />
     <Panel>
       <EditControlItemPageForm slug={slug} />
     </Panel>

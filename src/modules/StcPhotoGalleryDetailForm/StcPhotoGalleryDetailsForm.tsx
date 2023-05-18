@@ -11,7 +11,6 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
@@ -21,16 +20,26 @@ import { Languages } from "~/shared/types/Languages";
 import { ImageInput } from "~/shared/components/ImageInput";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { NumericInput } from "~/shared/components/NumericInput";
+import { useStcPhotoGalleryStore } from "~stores/stcPhotoGallery";
 
 interface StcPhotoGalleryDetailsProps {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const StcPhotoGalleryDetailsForm: React.FC<StcPhotoGalleryDetailsProps> = ({ id, lang }) => {
+export const StcPhotoGalleryDetailsForm: React.FC<StcPhotoGalleryDetailsProps> = ({
+  id,
+  lang,
+  formName
+}) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useStcPhotoGalleryStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useStcPhotoGalleryByIdQuery(
     client,
@@ -51,6 +60,10 @@ export const StcPhotoGalleryDetailsForm: React.FC<StcPhotoGalleryDetailsProps> =
     useUpdateStcPhotoGalleryMutation(client, { onSuccess: goBack });
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -94,9 +107,9 @@ export const StcPhotoGalleryDetailsForm: React.FC<StcPhotoGalleryDetailsProps> =
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
-      <Box className='flex flex-col lg:flex-row gap-6'>
-        <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col mt-4'>
+      <Box className='flex flex-col lg:flex-row gap-10'>
+        <Box className='flex flex-col gap-10 grow-[2] lg:w-[70%] order-last'>
           {isRuLang && (
             <Controller
               control={control}
@@ -233,9 +246,6 @@ export const StcPhotoGalleryDetailsForm: React.FC<StcPhotoGalleryDetailsProps> =
             )}
           />
         </Box>
-      </Box>
-      <Box className='w-full flex'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

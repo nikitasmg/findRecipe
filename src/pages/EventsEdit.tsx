@@ -9,6 +9,7 @@ import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { useLang } from "~/shared/hooks/useLang";
+import { useEventsStore } from "~stores/events";
 
 export const EventsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +17,10 @@ export const EventsEdit: React.FC = () => {
   const { lang, setLang } = useLang();
 
   const handleGoBack = useNavigationBack();
+
+  const { isSaveLoading } = useEventsStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const isEdit = Number.isInteger(Number(id));
 
@@ -34,16 +39,16 @@ export const EventsEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='p-4'>
-          <Box className='flex flex-col gap-6 items-center'>
-            <DetailsHead
-              title={isEdit ? "Events editing" : "Events creating"}
-              onBackClick={handleGoBack}
-              onRemove={isEdit ? handleDelete : undefined}
-              onLangChange={setLang}
-            />
-            <EventsDetailsForm id={Number(id)} lang={lang} />
-          </Box>
+        <Box className='flex flex-col gap-6 items-center'>
+          <DetailsHead
+            title={isEdit ? "Events editing" : "Events creating"}
+            onBackClick={handleGoBack}
+            onRemove={isEdit ? handleDelete : undefined}
+            onLangChange={setLang}
+            formName='eventsForm'
+            isLoading={isSaveLoading}
+          />
+          <EventsDetailsForm id={Number(id)} lang={lang} formName='eventsForm' />
         </Box>
       </Panel>
     </PageWrapper>

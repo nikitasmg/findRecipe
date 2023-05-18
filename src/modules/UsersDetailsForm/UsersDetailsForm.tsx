@@ -20,18 +20,23 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { SaveButton } from "~/shared/components/SaveButton";
+import { useUsersStore } from "~stores/users";
 
 interface Props {
   id?: number;
+  formName?: string;
 }
 
-export const UsersDetailsForm: React.FC<Props> = ({ id }) => {
+export const UsersDetailsForm: React.FC<Props> = ({ id, formName }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useUsersStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useUserByIdQuery(
     client,
@@ -52,6 +57,10 @@ export const UsersDetailsForm: React.FC<Props> = ({ id }) => {
   });
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -86,7 +95,7 @@ export const UsersDetailsForm: React.FC<Props> = ({ id }) => {
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
           <Grid item xs={12}>
@@ -172,9 +181,6 @@ export const UsersDetailsForm: React.FC<Props> = ({ id }) => {
             </Grid>
           )}
         </Grid>
-      </Box>
-      <Box className='w-full flex mt-8'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

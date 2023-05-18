@@ -1,15 +1,12 @@
 import React from "react";
 import { EditProjectsPageForm } from "~/layouts/EditProjectsPageForm";
-import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { Panel } from "~/shared/components/Panel";
-import { Text } from "~/shared/components/Text";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
 
 export const EditProjectsPage: React.FC = () => (
   <PageWrapper>
-    <PageTitle>
-      <Text>Edit projects page</Text>
-    </PageTitle>
+    <PageTableTitle title='Projects page' sitePath='grants/projects' />
     <Panel>
       <EditProjectsPageForm />
     </Panel>

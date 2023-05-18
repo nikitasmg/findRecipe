@@ -44,7 +44,7 @@ export const DocumentsForm: React.FC<Props> = ({ register, control, setValue, ge
   };
 
   return (
-    <Box className='flex flex-col gap-6 items-start'>
+    <Box className='flex flex-col gap-10 items-start'>
       <Controller
         control={control}
         name='localDocuments.1'

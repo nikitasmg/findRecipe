@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const PathsPanel: React.FC<Props> = ({ paths, initialExpanded }) => (
-  <Panel>
+  <Panel className='!p-4'>
     {paths.map((path, i) => (
       <Path initialExpanded={initialExpanded} key={i} {...path} />
     ))}

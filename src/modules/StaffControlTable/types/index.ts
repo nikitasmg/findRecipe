@@ -8,4 +8,5 @@ export interface Column {
   align?: "right" | "center";
   format?: (_value: string) => string;
   render?: (_value: unknown, row: Record<string, unknown>) => ReactNode;
+  className?: string;
 }

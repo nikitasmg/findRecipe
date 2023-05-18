@@ -1,19 +1,27 @@
 import React from "react";
 import { InteractiveMap as Map } from "~/modules/InteractiveMap";
-import { PageTitle } from "~/shared/components/PageTitle";
 import { PageWrapper } from "~/shared/components/PageWrapper";
-import { Text } from "~/shared/components/Text";
-import { Panel } from "~/shared/components/Panel";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
+import { TableWrapper } from "~shared/components/TableWrapper";
+import { useInteractiveMapStore } from "~stores/interactiveMap";
 
 export const InteractiveMap: React.FC = () => {
+  const { count, isLoading } = useInteractiveMapStore((state) => ({
+    count: state.count,
+    isLoading: state.isLoading
+  }));
+
   return (
     <PageWrapper>
-      <PageTitle>
-        <Text className='px-4'>Interactive map</Text>
-      </PageTitle>
-      <Panel>
+      <PageTableTitle
+        title='Interactive map'
+        sitePath='ntc-in-surgut'
+        count={count}
+        isLoading={isLoading}
+      />
+      <TableWrapper>
         <Map />
-      </Panel>
+      </TableWrapper>
     </PageWrapper>
   );
 };

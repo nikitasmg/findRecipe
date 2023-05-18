@@ -59,42 +59,36 @@ export const StaffControlTabs = () => {
 
   return (
     <Box className='relative'>
-      <Text component='h1' variant='h6'>
-        Edit staff control
-      </Text>
-
-      <Box className='mt-4'>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            variant='scrollable'
-            scrollButtons='auto'
-            value={step}
-            onChange={handleTabChange}
-            aria-label='tabs'
-          >
-            {tabs?.map(({ tabTitle }, index) => (
-              <Tab
-                key={tabTitle}
-                label={
-                  <Box className='flex items-center'>
-                    <Text className='normal-case' component='span'>
-                      {tabTitle ?? ""}
-                    </Text>
-                  </Box>
-                }
-                id={`tab-${index}`}
-                aria-controls={`tabpanel-${index}`}
-              />
-            ))}
-          </Tabs>
-        </Box>
-
-        {tabs?.map(({ component }, index) => (
-          <TabPanel className='mt-8' key={index} value={step} index={index}>
-            {index === step && component}
-          </TabPanel>
-        ))}
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          variant='scrollable'
+          scrollButtons='auto'
+          value={step}
+          onChange={handleTabChange}
+          aria-label='tabs'
+        >
+          {tabs?.map(({ tabTitle }, index) => (
+            <Tab
+              key={tabTitle}
+              label={
+                <Box className='flex items-center'>
+                  <Text className='normal-case' component='span'>
+                    {tabTitle ?? ""}
+                  </Text>
+                </Box>
+              }
+              id={`tab-${index}`}
+              aria-controls={`tabpanel-${index}`}
+            />
+          ))}
+        </Tabs>
       </Box>
+
+      {tabs?.map(({ component }, index) => (
+        <TabPanel className='mt-8' key={index} value={step} index={index}>
+          {index === step && component}
+        </TabPanel>
+      ))}
     </Box>
   );
 };

@@ -19,7 +19,7 @@ import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { Languages } from "~/shared/types/Languages";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
-import { DateTimePicker } from "@mui/x-date-pickers";
+import { DateTimePicker } from "~shared/components/DateTimePicker";
 
 export type GeneralFormFields = {
   name?: string;
@@ -53,8 +53,23 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
   const isRuLang = lang === "ru";
 
   return (
-    <Box className='flex flex-col lg:flex-row gap-6'>
-      <Box className='flex flex-col gap-6 grow-[2] lg:w-[70%] order-last'>
+    <Box className='flex flex-col lg:flex-row gap-10'>
+      <Box className='flex flex-col gap-10 grow-[2] lg:w-[70%] order-last'>
+        <Controller
+          control={control}
+          name='published'
+          render={({ field: { value } }) => (
+            <FormControl fullWidth>
+              <FormControlLabel
+                control={<Switch checked={!!value} onChange={handleChecked("published")} />}
+                label={<Text>Published</Text>}
+              />
+
+              <HelperText id='published' error={getError("published")} />
+            </FormControl>
+          )}
+        />
+
         {isRuLang && (
           <Controller
             control={control}
@@ -185,21 +200,6 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
 
         <Controller
           control={control}
-          name='published'
-          render={({ field: { value } }) => (
-            <FormControl fullWidth>
-              <FormControlLabel
-                control={<Switch checked={!!value} onChange={handleChecked("published")} />}
-                label={<Text>Published</Text>}
-              />
-
-              <HelperText id='published' error={getError("published")} />
-            </FormControl>
-          )}
-        />
-
-        <Controller
-          control={control}
           name='start'
           render={({ field: { value } }) => (
             <FormControl error={getError("start")}>
@@ -208,7 +208,6 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
                 label={<Text>Start date</Text>}
                 value={value ?? null}
                 onChange={curry(setValue)("start")}
-                renderInput={(params) => <TextField size='small' {...params} />}
               />
 
               <HelperText id='date' error={getError("start")} />
@@ -226,7 +225,6 @@ export const GeneralForm: React.FC<Props> = ({ register, setValue, errors, contr
                 label={<Text>Finish date</Text>}
                 value={value ?? null}
                 onChange={curry(setValue)("end")}
-                renderInput={(params) => <TextField size='small' {...params} />}
               />
 
               <HelperText id='date' error={getError("start")} />

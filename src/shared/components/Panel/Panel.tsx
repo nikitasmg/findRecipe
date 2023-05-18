@@ -1,9 +1,19 @@
 import { Box } from "@mui/material";
 import React, { PropsWithChildren } from "react";
+import clsx from "clsx";
 
-export const Panel: React.FC<PropsWithChildren> = ({ children }) => {
+type Props = PropsWithChildren & {
+  className?: string;
+};
+
+export const Panel: React.FC<Props> = ({ children, className }) => {
   return (
-    <Box className='flex flex-col m-8 p-2 rounded-lg border-b-2 bg-mainBg max-w-[1280px] w-full overflow-auto'>
+    <Box
+      className={clsx(
+        "flex flex-col m-8 mt-6 p-[24px] rounded-lg bg-mainBg max-w-[1280px] w-full overflow-auto",
+        className
+      )}
+    >
       {children}
     </Box>
   );

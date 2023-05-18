@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { Compilations } from "~/shared/stores/compilations";
 
 export interface Column {
@@ -7,4 +7,6 @@ export interface Column {
   minWidth?: number;
   align?: "right" | "center";
   render?: (_value: unknown, row: Record<string, unknown>) => ReactNode;
+  style?: CSSProperties;
+  className?: string;
 }

@@ -10,18 +10,24 @@ import { Languages } from "~/shared/types/Languages";
 import { LinkedDocumentForm } from "../LinkedDocumentForm";
 import { GeneralNewsForm } from "./components/GeneralForm";
 import { prepareFormData } from "./lib/prepareFormData";
+import { useInteractiveMapStore } from "~stores/interactiveMap";
 
 type Props = {
   lang: Languages;
   id?: number;
+  formName?: string;
 };
 
-export const InteractiveMapDetailsForm: React.FC<Props> = ({ id, lang }) => {
+export const InteractiveMapDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useInteractiveMapStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useMapObjectByIdQuery(
     client,
@@ -36,6 +42,10 @@ export const InteractiveMapDetailsForm: React.FC<Props> = ({ id, lang }) => {
   });
 
   const values = data?.mapObjectById;
+
+  useEffect(() => {
+    setIsSaveLoading(isUpdateLoading);
+  }, [isUpdateLoading, setIsSaveLoading]);
 
   const {
     register,
@@ -95,7 +105,7 @@ export const InteractiveMapDetailsForm: React.FC<Props> = ({ id, lang }) => {
       handleStepChange={setStep}
       backHref={InteractiveMapFormRoute}
       activeStep={step}
-      isLoading={isUpdateLoading}
+      formName={formName}
       forms={[
         {
           tabTitle: "General data",

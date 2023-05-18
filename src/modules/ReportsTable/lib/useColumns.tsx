@@ -18,10 +18,10 @@ export const useColumns = (
     {
       id: "imageUrl",
       label: <TableHeadCell title='Image' cellId='imageUrl' />,
-      style: { width: 50 },
+      style: { width: 155, paddingLeft: 8 },
       render: (value, row) => (
         <img
-          className='w-[50px] h-auto'
+          className='w-[155px] h-[90px] rounded object-cover'
           loading='lazy'
           src={(value as string) ?? ""}
           alt={row.name as string}
@@ -47,7 +47,8 @@ export const useColumns = (
             {(value as string)?.slice(0, 100).concat("...")}
           </Link>
         );
-      }
+      },
+      style: { width: "250px" }
     },
     {
       id: "description",
@@ -59,7 +60,7 @@ export const useColumns = (
           sortProps={getActiveProps("description")}
         />
       ),
-      style: { width: "300px" },
+      style: { width: "250px" },
       format: formatDescriptionForTable
     },
     {

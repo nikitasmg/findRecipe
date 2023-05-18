@@ -9,6 +9,7 @@ import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { useLang } from "~/shared/hooks/useLang";
+import { useEmployeesStore } from "~stores/employees";
 
 export const EmployeesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +21,10 @@ export const EmployeesEdit: React.FC = () => {
   const isEdit = Number.isInteger(Number(id));
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = useEmployeesStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: deleteEmployee } = useDeleteEmployeeMutation(client, {
     onSuccess: handleGoBack
@@ -36,7 +41,7 @@ export const EmployeesEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='flex flex-col gap-6 items-center p-3'>
+        <Box className='flex flex-col gap-6 items-center'>
           <DetailsHead
             onBackClick={handleGoBack}
             {...(isEdit
@@ -48,8 +53,10 @@ export const EmployeesEdit: React.FC = () => {
                   title: "Employee creating"
                 })}
             onLangChange={setLang}
+            isLoading={isSaveLoading}
+            formName='employeesForm'
           />
-          <EmployeesDetailsForm id={Number(id)} lang={lang} />
+          <EmployeesDetailsForm id={Number(id)} lang={lang} formName='employeesForm' />
         </Box>
       </Panel>
     </PageWrapper>

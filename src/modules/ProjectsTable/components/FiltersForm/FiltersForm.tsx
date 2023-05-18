@@ -16,50 +16,50 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.id}
+              value={params?.id ?? ""}
               label={<Text>Enter id</Text>}
               onChange={getChangeHandler("id")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.numberLike}
+              value={params?.numberLike ?? ""}
               label={<Text>Project number</Text>}
               onChange={getChangeHandler("numberLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.leaderLike}
+              value={params?.leaderLike ?? ""}
               label={<Text>Leader</Text>}
               onChange={getChangeHandler("leaderLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.organizationLike}
+              value={params?.organizationLike ?? ""}
               label={<Text>Organization</Text>}
               onChange={getChangeHandler("organizationLike")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} xs={12} lg={4}>
             <TextField
               fullWidth
-              value={params?.regionLike}
+              value={params?.regionLike ?? ""}
               label={<Text>Region</Text>}
               onChange={getChangeHandler("regionLike")}
               variant='outlined'

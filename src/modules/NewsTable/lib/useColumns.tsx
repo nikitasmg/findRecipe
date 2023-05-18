@@ -45,16 +45,17 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
-      style: { width: 50 },
-      align: "center"
+      style: { width: 50, paddingRight: 24 },
+      align: "center",
+      className: "text-grayLight"
     },
     {
       id: "imageUrl",
       label: <TableHeadCell title='Image' cellId='imageUrl' />,
-      style: { minWidth: 50 },
+      style: { width: 155, paddingLeft: 8 },
       render: (value, row) => (
         <img
-          className='w-[50px] h-auto'
+          className='w-[155px] h-[90px] rounded object-cover'
           loading='lazy'
           src={(value as string) ?? ""}
           alt={row.name as string}
@@ -72,7 +73,7 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
-      style: { minWidth: 250 },
+      style: { minWidth: 250, maxWidth: 290 },
       render: (value, row) => {
         return (
           <Link className='transition-all' to={`${NewsPageEdit.replace(":id", row.id as string)}`}>
@@ -106,14 +107,12 @@ export const useColumns = (
         <TableHeadCell
           title='Published at'
           cellId='published_at'
-          align='center'
           onSortClick={getClickHandler("published_at")}
           sortProps={getActiveProps("published_at")}
         />
       ),
       style: { minWidth: 170 },
-      format: formatDateForTable,
-      align: "center"
+      format: formatDateForTable
     },
 
     {

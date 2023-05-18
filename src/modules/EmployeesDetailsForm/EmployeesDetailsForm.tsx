@@ -12,7 +12,6 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { getBaseEmailValidation, getFullNameValidation } from "~shared/lib/validation";
@@ -20,16 +19,26 @@ import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
+import { useEmployeesStore } from "~stores/employees";
 
 interface EmployeesDetailsFormProps {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, lang }) => {
+export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({
+  id,
+  lang,
+  formName
+}) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useEmployeesStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data: subdivisions } = useSubdivisionsQuery(client, {}, { refetchOnMount: "always" });
 
@@ -54,6 +63,10 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
   );
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -101,9 +114,9 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
-      <Box className='flex flex-col gap-6 w-full lg:w-[70%]'>
-        <Grid container columns={12} spacing={3}>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
+      <Box className='lg:w-[70%] mt-4'>
+        <Grid container columns={12} spacing={4}>
           {isRuLang && (
             <Grid item xs={12}>
               <Controller
@@ -272,7 +285,6 @@ export const EmployeesDetailsForm: React.FC<EmployeesDetailsFormProps> = ({ id, 
           </Grid>
         </Grid>
       </Box>
-      <SaveButton className='w-fit ml-auto' disabled={isLoading} />
     </form>
   );
 };

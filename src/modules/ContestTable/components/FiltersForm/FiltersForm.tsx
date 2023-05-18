@@ -1,12 +1,4 @@
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  TextField
-} from "@mui/material";
+import { Grid, MenuItem, SelectChangeEvent, TextField } from "@mui/material";
 import { curry } from "rambda";
 import React, { forwardRef } from "react";
 import { ContestStatus } from "~/generated/graphql";
@@ -24,62 +16,59 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
     const getChangeHandler = (cellId: string) =>
       getEventValueHandler((value: unknown) => handleChangeFilter(cellId, value));
 
+    const handleStatusChange = (e: SelectChangeEvent<unknown>) =>
+      handleChangeFilter("status", e.target.value);
+
     return (
       <form ref={ref}>
         <Grid container spacing={4}>
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <TextField
               fullWidth
-              value={params?.id}
+              value={params?.id ?? ""}
               label={<Text>Enter id</Text>}
               onChange={getChangeHandler("id")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <TextField
               fullWidth
-              value={params?.number}
+              value={params?.number ?? ""}
               label={<Text>Number</Text>}
               onChange={getChangeHandler("number")}
               variant='outlined'
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
-            <FormControl fullWidth>
-              <InputLabel shrink id='status-select'>
-                <Text component='span'>Status</Text>
-              </InputLabel>
-              <Select
-                labelId='status-select'
-                input={
-                  <OutlinedInput
-                    notched
-                    label={<Text component='span'>Status</Text>}
-                    name='category'
-                    id='status-select'
-                  />
+          <Grid item columns={12} lg={4} xs={12}>
+            <TextField
+              select
+              fullWidth
+              name='category'
+              variant='outlined'
+              label={<Text>Status</Text>}
+              SelectProps={{
+                value: params?.status ?? "",
+                onChange: handleStatusChange,
+                MenuProps: {
+                  className: "h-[300px]"
                 }
-                value={(params?.status as string) ?? ""}
-                onChange={getChangeHandler("status")}
-              >
-                <MenuItem key={"empty"} value={""}>
-                  <Text>Not selected</Text>
+              }}
+            >
+              <MenuItem key='empty' value=''>
+                <Text>Not selected</Text>
+              </MenuItem>
+              {Object.entries(ContestStatus).map(([key, value]) => (
+                <MenuItem key={key} value={value}>
+                  <Text>{key}</Text>
                 </MenuItem>
-                {Object.entries(ContestStatus).map(([key, value]) => {
-                  return (
-                    <MenuItem key={key} value={value}>
-                      <Text>{key}</Text>
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
+              ))}
+            </TextField>
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <DatePicker
               className='w-full'
               label={<Text>Deadline</Text>}
@@ -88,7 +77,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <DatePicker
               className='w-full'
               label={<Text>Start date</Text>}
@@ -97,7 +86,7 @@ export const FiltersForm: React.FC<Props> = forwardRef<HTMLFormElement, Props>(
             />
           </Grid>
 
-          <Grid item columns={12} xs={12}>
+          <Grid item columns={12} lg={4} xs={12}>
             <DatePicker
               className='w-full'
               label={<Text>Created at</Text>}

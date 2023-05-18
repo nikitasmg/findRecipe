@@ -22,22 +22,31 @@ import { NumericInput } from "~shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
 import { LinkInput } from "~/shared/components/LinkInput";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
+import { usePurchasesStore } from "~stores/purchases";
 
 interface PurchasesDetailsFormProps {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id, lang }) => {
+export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({
+  id,
+  lang,
+  formName
+}) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = usePurchasesStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = usePurchaseByIdQuery(
     client,
@@ -60,6 +69,10 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id, 
   );
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -98,9 +111,29 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id, 
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='published'
+              render={({ field: { value } }) => (
+                <FormControl>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={!!value}
+                        onChange={(event) => setValue("published", event.target.checked)}
+                      />
+                    }
+                    label={<Text>Published</Text>}
+                  />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
           {isRusLang && (
             <Grid item xs={12}>
               <Controller
@@ -192,30 +225,7 @@ export const PurchasesDetailsForm: React.FC<PurchasesDetailsFormProps> = ({ id, 
               )}
             />
           </Grid>
-
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='published'
-              render={({ field: { value } }) => (
-                <FormControl>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={!!value}
-                        onChange={(event) => setValue("published", event.target.checked)}
-                      />
-                    }
-                    label={<Text>Published</Text>}
-                  />
-                </FormControl>
-              )}
-            />
-          </Grid>
         </Grid>
-      </Box>
-      <Box className='w-full flex'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

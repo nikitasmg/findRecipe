@@ -4,20 +4,27 @@ import { useResort } from "~/api/resort";
 import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
 import { resortArray } from "~/shared/lib/resortArray";
+import { useClustersStore } from "~stores/clusters";
 
 export const useClusters = () => {
   const [rows, setRows] = useState<Cluster[]>([]);
+
+  const { setCount, setLoading } = useClustersStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const {
     variables,
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle
   } = useRequestState("name");
 
   const client = useGraphqlClient();
@@ -46,6 +53,14 @@ export const useClusters = () => {
   };
 
   useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(clusters?.length ?? 0);
+  }, [clusters, setCount]);
+
+  useEffect(() => {
     setRows(clusters ?? []);
   }, [clusters]);
 
@@ -53,13 +68,15 @@ export const useClusters = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle,
+    clusters
   };
 };

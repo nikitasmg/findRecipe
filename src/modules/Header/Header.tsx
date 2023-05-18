@@ -16,11 +16,11 @@ export const Header: React.FC = () => {
 
   return (
     <Fragment>
-      <Box component='header' className='flex justify-center border bg-mainBg'>
-        <Box className='flex items-center justify-between px-2 pt-2 w-full max-w-[1280px]'>
-          <Box className='flex items-center'>
-            <Link to={HomePageRoute} className='p-2 shrink-0'>
-              <Logo size='small' />
+      <Box component='header' className='flex justify-center bg-mainBg'>
+        <Box className='flex items-center justify-between py-2 xl:py-0 px-4 xl:px-0 w-full max-w-[1280px]'>
+          <Box className='flex items-center gap-6'>
+            <Link to={HomePageRoute} className='shrink-0'>
+              <Logo />
             </Link>
 
             <HeaderTabs />

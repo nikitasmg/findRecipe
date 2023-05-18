@@ -1,22 +1,27 @@
 import React from "react";
-import { Box } from "@mui/material";
 import { StaffControlTabs } from "~/layouts/StaffControlTabs";
-import { PageTitle } from "~/shared/components/PageTitle";
-import { Text } from "~/shared/components/Text";
-import { Panel } from "~shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
+import { PageTableTitle } from "~shared/components/PageTableTitle";
+import { TableWrapper } from "~shared/components/TableWrapper";
+import { useStaffControlStore } from "~stores/staffControl";
 
 export const StaffControl: React.FC = () => {
+  const { count, isLoading } = useStaffControlStore((state) => ({
+    count: state.count,
+    isLoading: state.isLoading
+  }));
+
   return (
     <PageWrapper>
-      <PageTitle>
-        <Text>Staff control</Text>
-      </PageTitle>
-      <Panel>
-        <Box className='p-4'>
-          <StaffControlTabs />
-        </Box>
-      </Panel>
+      <PageTableTitle
+        title='Staff control'
+        sitePath='about/control'
+        count={count}
+        isLoading={isLoading}
+      />
+      <TableWrapper>
+        <StaffControlTabs />
+      </TableWrapper>
     </PageWrapper>
   );
 };

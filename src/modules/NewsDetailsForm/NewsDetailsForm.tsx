@@ -19,20 +19,26 @@ import { prepareFormData } from "./lib/prepareFormData";
 import { either, has, isEmpty } from "rambda";
 import { useAlertsStore } from "~/shared/stores/alerts";
 import { SeoForm } from "../../shared/components/SeoForm";
+import { useNewsStore } from "~stores/news";
 
 type Props = {
   lang: Languages;
   id?: number;
+  formName?: string;
 };
 
 const getTagsValue = (value?: NewsTag[] | null): number[] => value?.map((tag) => tag?.id) ?? [];
 
-export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
+export const NewsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useNewsStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const addAlert = useAlertsStore((state) => state.addAlert);
 
@@ -55,6 +61,10 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   const values = data?.newsById;
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     register,
@@ -138,6 +148,7 @@ export const NewsDetailsForm: React.FC<Props> = ({ id, lang }) => {
       backHref={NewsPageRoute}
       activeStep={step}
       isLoading={isLoading}
+      formName={formName}
       forms={[
         {
           tabTitle: "General data",

@@ -14,7 +14,6 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getCheckedHandler } from "~/shared/lib/getCheckedHandler";
@@ -26,16 +25,27 @@ import { ContentEditor } from "~/shared/components/ContentEditor";
 import { fileFromBlobUrl } from "~/shared/lib/fileFromBlobUrl";
 import { getEventValueHandler } from "~/shared/lib/events";
 import { curry } from "rambda";
+import clsx from "clsx";
+import { useVacanciesStore } from "~stores/vacancies";
 
 interface VacanciesDetailsFormProps {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, lang }) => {
+export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({
+  id,
+  lang,
+  formName
+}) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useVacanciesStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data: { settingByName } = {} } = useSettingByNameQuery(
     client,
@@ -68,6 +78,10 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, 
   );
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -123,9 +137,26 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, 
   );
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
+          <Grid item xs={12}>
+            <Controller
+              control={control}
+              name='published'
+              render={({ field: { value } }) => (
+                <FormControl>
+                  <FormControlLabel
+                    control={<Switch checked={!!value} onChange={handleChecked("published")} />}
+                    label={<Text>Published</Text>}
+                  />
+
+                  <HelperText id='published' error={getError("published")} />
+                </FormControl>
+              )}
+            />
+          </Grid>
+
           {isRusLang && (
             <Grid item xs={12}>
               <Controller
@@ -180,6 +211,13 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, 
                 name='description'
                 render={({ field: { value } }) => (
                   <FormControl fullWidth>
+                    <Text
+                      className={clsx("text-base font-medium mb-2", {
+                        "text-mainError": !!getError("content")
+                      })}
+                    >
+                      Description
+                    </Text>
                     <ContentEditor
                       apiKey={contentEditorKey}
                       value={value ?? ""}
@@ -231,26 +269,7 @@ export const VacanciesDetailsForm: React.FC<VacanciesDetailsFormProps> = ({ id, 
               )}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Controller
-              control={control}
-              name='published'
-              render={({ field: { value } }) => (
-                <FormControl>
-                  <FormControlLabel
-                    control={<Switch checked={!!value} onChange={handleChecked("published")} />}
-                    label={<Text>Published</Text>}
-                  />
-
-                  <HelperText id='published' error={getError("published")} />
-                </FormControl>
-              )}
-            />
-          </Grid>
         </Grid>
-      </Box>
-      <Box className='w-full flex'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

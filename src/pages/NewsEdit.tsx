@@ -10,6 +10,7 @@ import { PageWrapper } from "~/shared/components/PageWrapper";
 import { NewsPageRoute } from "~/shared/routes/index";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { useLang } from "~/shared/hooks/useLang";
+import { useNewsStore } from "~stores/news";
 
 export const NewsEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,10 @@ export const NewsEdit: React.FC = () => {
   const goBack = useNavigationBack();
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = useNewsStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: deleteNews } = useDeleteNewsMutation(client, { onSuccess: goBack });
 
@@ -35,16 +40,16 @@ export const NewsEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='p-4'>
-          <Box className='flex flex-col gap-6 items-center'>
-            <DetailsHead
-              title={isEdit ? "News editing" : "News creating"}
-              backHref={NewsPageRoute}
-              onRemove={isEdit ? handleDelete : undefined}
-              onLangChange={setLang}
-            />
-            <NewsDetailsForm id={Number(id)} lang={lang} />
-          </Box>
+        <Box className='flex flex-col gap-6 items-center'>
+          <DetailsHead
+            title={isEdit ? "News editing" : "News creating"}
+            backHref={NewsPageRoute}
+            onRemove={isEdit ? handleDelete : undefined}
+            onLangChange={setLang}
+            formName='newsForm'
+            isLoading={isSaveLoading}
+          />
+          <NewsDetailsForm id={Number(id)} lang={lang} formName='newsForm' />
         </Box>
       </Panel>
     </PageWrapper>

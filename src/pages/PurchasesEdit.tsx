@@ -9,6 +9,7 @@ import { DetailsHead } from "~/shared/components/DetailsHead";
 import { Panel } from "~/shared/components/Panel";
 import { PageWrapper } from "~/shared/components/PageWrapper";
 import { useLang } from "~/shared/hooks/useLang";
+import { usePurchasesStore } from "~stores/purchases";
 
 export const PurchasesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +21,10 @@ export const PurchasesEdit: React.FC = () => {
   const { lang, setLang } = useLang();
 
   const client = useGraphqlClient();
+
+  const { isSaveLoading } = usePurchasesStore((state) => ({
+    isSaveLoading: state.isSaveLoading
+  }));
 
   const { mutateAsync: deletePurchase } = useDeletePurchaseMutation(client, {
     onSuccess: handleGoBack
@@ -36,14 +41,16 @@ export const PurchasesEdit: React.FC = () => {
   return (
     <PageWrapper>
       <Panel>
-        <Box className='flex flex-col gap-6 items-center p-3'>
+        <Box className='flex flex-col gap-6 items-center'>
           <DetailsHead
             title={isEdit ? "Purchase editing" : "Purchase creating"}
             onBackClick={handleGoBack}
             onRemove={isEdit ? handleDelete : undefined}
             onLangChange={setLang}
+            isLoading={isSaveLoading}
+            formName='purchasesForm'
           />
-          <PurchasesDetailsForm id={Number(id)} lang={lang} />
+          <PurchasesDetailsForm id={Number(id)} lang={lang} formName='purchasesForm' />
         </Box>
       </Panel>
     </PageWrapper>

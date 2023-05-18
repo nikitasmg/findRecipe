@@ -5,20 +5,27 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
 import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { resortArray } from "~/shared/lib/resortArray";
+import { useBroadcastsStore } from "~stores/broadcasts";
 
 export const useBroadcasts = () => {
   const [rows, setRows] = useState<VideoBroadcast[]>([]);
+
+  const { setCount, setLoading } = useBroadcastsStore((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const {
     variables,
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle
   } = useRequestState("name", {
     filterFormats: {
       created_atLike: formatDayJsForFilters
@@ -51,6 +58,14 @@ export const useBroadcasts = () => {
   };
 
   useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(broadcasts?.length ?? 0);
+  }, [broadcasts, setCount]);
+
+  useEffect(() => {
     setRows(broadcasts as VideoBroadcast[]);
   }, [broadcasts]);
 
@@ -58,13 +73,15 @@ export const useBroadcasts = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    setTitle,
+    handleSearchTitle,
+    broadcasts
   };
 };

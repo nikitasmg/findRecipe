@@ -34,6 +34,9 @@ export const useColumns = (
           sortProps={getActiveProps("name")}
         />
       ),
+      style: {
+        width: "250px"
+      },
       render: (value, row) => {
         return (
           <Link
@@ -71,7 +74,6 @@ export const useColumns = (
           sortProps={getActiveProps("additional")}
         />
       ),
-      align: "center",
       style: {
         width: "200px"
       }

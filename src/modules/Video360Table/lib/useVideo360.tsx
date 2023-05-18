@@ -5,16 +5,23 @@ import { useGraphqlClient } from "~/app/providers/GraphqlClient";
 import { useRequestState } from "~shared/hooks/useRequestState";
 import { formatDayJsForFilters } from "~/shared/lib/formatDate";
 import { resortArray } from "~/shared/lib/resortArray";
+import { useVideo360Store } from "~stores/video360";
 
 export const useVideo360 = () => {
   const [rows, setRows] = useState<Video360[]>([]);
+
+  const { setCount, setLoading } = useVideo360Store((state) => ({
+    setLoading: state.setLoading,
+    setCount: state.setCount
+  }));
 
   const {
     variables,
     title,
     params,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
@@ -51,6 +58,14 @@ export const useVideo360 = () => {
   };
 
   useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
+  useEffect(() => {
+    setCount(video360?.length ?? 0);
+  }, [video360, setCount]);
+
+  useEffect(() => {
     setRows(video360 as Video360[]);
   }, [video360]);
 
@@ -58,13 +73,15 @@ export const useVideo360 = () => {
     title,
     params,
     activeOrder,
-    handleTitleChange,
+    setTitle,
+    handleSearchTitle,
     handleChangeOrder,
     handleFilterChange,
     resetFilters,
     isLoading,
     rows,
     onSortEnd,
-    resetTitle
+    resetTitle,
+    video360
   };
 };

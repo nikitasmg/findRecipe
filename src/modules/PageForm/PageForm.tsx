@@ -263,8 +263,14 @@ export const PageForm: React.FC<Props> = ({
   };
 
   return (
-    <Box className='flex flex-col gap-6 p-4'>
-      <DetailsHead title='Edit page' onBackClick={goBack} onLangChange={setLang} />
+    <Box className='flex flex-col gap-6'>
+      <DetailsHead
+        title='Edit page'
+        onBackClick={goBack}
+        onLangChange={setLang}
+        formName={`${slug}PageForm`}
+        isLoading={isLoading}
+      />
       <TabsForm
         handleSubmit={onSubmit}
         handleStepChange={setStep}
@@ -272,6 +278,7 @@ export const PageForm: React.FC<Props> = ({
         activeStep={step}
         isLoading={isLoading}
         forms={getForms()}
+        formName={`${slug}PageForm`}
       />
     </Box>
   );

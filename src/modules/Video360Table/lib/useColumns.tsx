@@ -24,7 +24,9 @@ export const useColumns = (
           sortProps={getActiveProps("id")}
         />
       ),
-      align: "center"
+      style: { width: 50 },
+      align: "center",
+      className: "text-grayLight"
     },
 
     {
@@ -38,7 +40,7 @@ export const useColumns = (
         />
       ),
       style: {
-        width: "30%"
+        width: 250
       },
       render: (value, row) => {
         return (
@@ -64,22 +66,9 @@ export const useColumns = (
         />
       ),
       style: {
-        width: "30%",
-        minWidth: "300px",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        wordBreak: "break-all"
+        width: "250px"
       },
-      render: (value, row) => (
-        <Link
-          className='transition-all'
-          to={`${Video360PageEdit.replace(":id", row.id as string)}`}
-        >
-          {(value as string)?.length > 100
-            ? (value as string)?.slice(0, 100).concat("...")
-            : (value as string)}
-        </Link>
-      )
+      render: (value) => (value as string)?.slice(0, 100).concat("...")
     },
 
     {
@@ -93,10 +82,7 @@ export const useColumns = (
         />
       ),
       style: {
-        width: "50%",
-        minWidth: "300px",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
+        width: "250px",
         wordBreak: "break-all"
       },
       render: (value) => (

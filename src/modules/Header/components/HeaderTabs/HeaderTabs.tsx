@@ -62,7 +62,7 @@ export const HeaderTabs: React.FC = () => {
     <Tabs
       variant='scrollable'
       scrollButtons='auto'
-      className='!hidden md:!flex sm:max-w-[500px] lg:max-w-[1000px]'
+      className='!hidden md:!flex sm:max-w-[700px] lg:max-w-[1200px]'
       value={activeTab ?? false}
       onChange={handleTabChange}
     >

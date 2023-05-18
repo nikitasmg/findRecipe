@@ -39,7 +39,7 @@ export const useColumns = (
       id: "result",
       label: <TableHeadCell title='Result' cellId='result' />,
       render: (_, row) => `${row.result} ${row.measure_unit}`,
-      style: { width: "250px" }
+      style: { width: "250px", paddingLeft: 10 }
     },
     {
       id: "created_at",

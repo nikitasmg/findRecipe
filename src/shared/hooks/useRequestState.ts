@@ -99,24 +99,20 @@ export const useRequestState = <T>(
     [resetPagination, fastSearchFieldId]
   );
 
-  const handleTitleChange = useCallback(
-    (newTitle: string) => {
-      handleSearchTitle(newTitle);
-      setTitle(newTitle);
-    },
-    [handleSearchTitle]
-  );
+  const handleTitleChange = useCallback((newTitle: string) => {
+    setTitle(newTitle);
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleFilter = useCallback(
     debounce<[Params]>((newParams: Params) => {
       setFilters({
-        [fastSearchFieldId]: filters?.[fastSearchFieldId],
+        [fastSearchFieldId]: title,
         ...newParams
       } as Params);
       resetPagination();
     }, 300),
-    [resetPagination, fastSearchFieldId]
+    [resetPagination, fastSearchFieldId, title]
   );
 
   const handleFilterChange = useCallback(
@@ -124,38 +120,43 @@ export const useRequestState = <T>(
       const newParams = { ...params, [cellId]: value } as Params;
       setParams(newParams);
 
-      const paramsForBackend = { ...params, [cellId]: value } as Params;
-
-      handleFilter(paramsForBackend);
-
       if (cellId === fastSearchFieldId) {
         setTitle(value as string);
       }
     },
-    [handleFilter, params, fastSearchFieldId]
+    [params, fastSearchFieldId]
   );
 
-  const removeFilter = useCallback((key: string) => {
-    setParams((currentParams) => {
-      const newParams = { ...currentParams };
+  const removeFilter = useCallback(
+    (key: string) => {
+      setParams((currentParams) => {
+        const newParams = { ...currentParams };
 
-      delete newParams[key];
+        delete newParams[key];
 
-      setFilters(newParams);
+        setFilters({ ...newParams, [fastSearchFieldId]: title });
 
-      return newParams;
-    });
-  }, []);
-
-  const resetFilters = useCallback(() => {
-    setParams(null);
-    setFilters(null);
-  }, []);
+        return newParams;
+      });
+    },
+    [fastSearchFieldId, title]
+  );
 
   const resetTitle = useCallback(() => {
     handleSearchTitle("");
     setTitle("");
   }, [handleSearchTitle]);
+
+  const resetFilters = useCallback(() => {
+    setParams(null);
+    setFilters(null);
+    resetTitle();
+  }, [resetTitle]);
+
+  const handleSubmit = () => {
+    handleSearchTitle(title);
+    handleFilter(params as Params);
+  };
 
   return {
     variables,
@@ -173,7 +174,9 @@ export const useRequestState = <T>(
     resetPagination,
     handleChangeOrder,
     handleTitleChange,
+    handleSearchTitle,
     handleFilterChange,
+    handleSubmit,
     removeFilter,
     resetFilters,
     resetTitle

@@ -14,9 +14,9 @@ export const Projects: React.FC = () => {
     <PageWrapper>
       <PageTableTitle
         title='Projects'
-        countTitle='count projects'
         isLoading={isLoading}
         count={count}
+        sitePath='grants/projects'
       />
       <ProjectsTable />
     </PageWrapper>

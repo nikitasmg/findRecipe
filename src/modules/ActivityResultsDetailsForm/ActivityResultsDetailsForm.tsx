@@ -11,23 +11,28 @@ import { Text } from "~/shared/components/Text";
 import { HelperText } from "~/shared/components/HelperText";
 import { NumericInput } from "~/shared/components/NumericInput";
 import { RequiredLabelWrapper } from "~/shared/components/RequiredLabelWrapper";
-import { SaveButton } from "~/shared/components/SaveButton";
 import { EnLabelWrapper } from "~/shared/components/EnLabelWrapper";
 import { baseRequired, baseRequiredTextValidation } from "~/shared/lib/validation";
 import { getErrorMessage } from "~/shared/lib/getError";
 import { initFormValues } from "~/shared/lib/initFormValues";
 import { useNavigationBack } from "~/shared/hooks/useBackClick";
 import { Languages } from "~/shared/types/Languages";
+import { useActivityResultsStore } from "~stores/activityResult";
 
 interface Props {
   lang: Languages;
   id?: number;
+  formName?: string;
 }
 
-export const ActivityResultsDetailsForm: React.FC<Props> = ({ id, lang }) => {
+export const ActivityResultsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useActivityResultsStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useActivityResultByIdQuery(
     client,
@@ -50,6 +55,10 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   );
 
   const isLoading = isCreateLoading || isUpdateLoading;
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const {
     control,
@@ -92,7 +101,7 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id, lang }) => {
   }, [values, isSuccess, setValue]);
 
   return (
-    <form onSubmit={onSubmit} className='w-full flex flex-col'>
+    <form id={formName} onSubmit={onSubmit} className='w-full flex flex-col'>
       <Box className='lg:w-[70%] mt-4'>
         <Grid container columns={12} spacing={4}>
           {isRusLang && (
@@ -238,9 +247,6 @@ export const ActivityResultsDetailsForm: React.FC<Props> = ({ id, lang }) => {
             />
           </Grid>
         </Grid>
-      </Box>
-      <Box className='w-full flex'>
-        <SaveButton className='w-fit ml-auto' disabled={isLoading} />
       </Box>
     </form>
   );

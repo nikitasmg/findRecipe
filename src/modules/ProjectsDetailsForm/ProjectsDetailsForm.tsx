@@ -16,18 +16,24 @@ import { Languages } from "~/shared/types/Languages";
 import { AdditionalProjectsForm } from "./components/AdditionalProjectsForm";
 import { GeneralProjectsForm } from "./components/GeneralProjectsForm";
 import { SeoForm } from "../../shared/components/SeoForm";
+import { useProjectsStore } from "~stores/projects";
 
 type Props = {
   lang: Languages;
   id?: number;
+  formName?: string;
 };
 
-export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang }) => {
+export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang, formName }) => {
   const [step, setStep] = useState(0);
 
   const isCreateMode = !Number.isInteger(id);
 
   const client = useGraphqlClient();
+
+  const { setIsSaveLoading } = useProjectsStore((state) => ({
+    setIsSaveLoading: state.setIsSaveLoading
+  }));
 
   const { data, isSuccess } = useProjectByIdQuery(
     client,
@@ -58,6 +64,10 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang }) => {
     setValue,
     control
   } = useForm({ mode: "all" });
+
+  useEffect(() => {
+    setIsSaveLoading(isLoading);
+  }, [isLoading, setIsSaveLoading]);
 
   const onSubmit = handleSubmit(async (newValues) => {
     const input: ProjectInput = {
@@ -131,7 +141,7 @@ export const ProjectsDetailsForm: React.FC<Props> = ({ id, lang }) => {
       handleStepChange={setStep}
       backHref={ProjectsPageRoute}
       activeStep={step}
-      isLoading={isLoading}
+      formName={formName}
       forms={[
         {
           tabTitle: "General information",
