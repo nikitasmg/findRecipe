@@ -1,0 +1,7 @@
+.sortIcon svg {
+  @apply opacity-100;
+}
+
+.sortActive svg {
+  @apply fill-primary;
+}

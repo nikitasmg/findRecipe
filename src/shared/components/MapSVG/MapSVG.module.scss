@@ -1,0 +1,15 @@
+.map {
+  g {
+    path {
+      fill: transparent;
+    }
+
+    &:hover {
+      path {
+        fill: lightgray;
+        opacity: 0.3;
+        filter: brightness(0.4) blur(100%) contrast(200%);
+      }
+    }
+  }
+}
